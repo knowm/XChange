@@ -1,0 +1,31 @@
+package org.knowm.xchange.okex.dto.marketdata;
+
+public enum OkexCandleStickInterval {
+  candle3M,
+  candle1M,
+  candle1W,
+  candle1D,
+  candle2D,
+  candle3D,
+  candle5D,
+  candle12H,
+  candle6H,
+  candle4H,
+  candle2H,
+  candle1H,
+  candle30m,
+  candle15m,
+  candle5m,
+  candle3m,
+  candle1m,
+  candle1s,
+  candle3Mutc,
+  candle1Mutc,
+  candle1Wutc,
+  candle1Dutc,
+  candle2Dutc,
+  candle3Dutc,
+  candle5Dutc,
+  candle12Hutc,
+  candle6Hutc
+}

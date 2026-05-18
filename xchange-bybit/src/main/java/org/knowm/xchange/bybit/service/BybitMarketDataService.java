@@ -1,12 +1,16 @@
 package org.knowm.xchange.bybit.service;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
@@ -14,8 +18,11 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -111,6 +118,40 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
       }
     }
     return result;
+  }
+
+  @Override
+  public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
+    Assert.notNull(instrument, "Null instrument");
+
+    BybitCategory category = BybitAdapters.getCategory(instrument);
+    int limitDepth = 100;
+    if (args != null && args.length > 0 && args[0] instanceof Integer) {
+      limitDepth = (Integer) args[0];
+    }
+
+    BybitResult<BybitOrderbook> response =
+        getOrderbook(category, BybitAdapters.convertToBybitSymbol(instrument), limitDepth);
+
+    return convertOrderBook(response.getResult(), instrument);
+  }
+
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return getOrderBook((Instrument) currencyPair, args);
+  }
+
+  public static OrderBook convertOrderBook(BybitOrderbook ob, Instrument pair) {
+    List<LimitOrder> bids =
+        ob.getBids().entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        ob.getAsks().entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    return new OrderBook(
+        Date.from(Instant.ofEpochMilli(ob.getTimestamp())), asks, bids);
   }
 
   public CandleStickData getCandleStickData(Instrument instrument, CandleStickDataParams params)

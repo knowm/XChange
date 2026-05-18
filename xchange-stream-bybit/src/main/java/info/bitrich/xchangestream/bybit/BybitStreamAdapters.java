@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.bybit.dto.trade.BybitOrderChangesResponse.Bybi
 import info.bitrich.xchangestream.bybit.dto.trade.BybitPositionChangesResponse.BybitPositionChanges;
 import info.bitrich.xchangestream.bybit.dto.trade.BybitStreamBatchAmendOrdersPayload.BybitStreamBatchAmendOrderPayload;
 import org.knowm.xchange.bybit.dto.BybitCategory;
+import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.dto.Order;
@@ -22,6 +23,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,9 +98,9 @@ public class BybitStreamAdapters {
         case LIMIT:
           builder =
               new LimitOrder.Builder(
-                      orderType,
-                      convertBybitSymbolToInstrument(
-                          bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
+                  orderType,
+                  convertBybitSymbolToInstrument(
+                      bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
                   .limitPrice(new BigDecimal(bybitOrderChange.getPrice()));
           break;
         case MARKET:
@@ -316,6 +318,22 @@ public class BybitStreamAdapters {
     return new BybitStreamBatchAmendOrdersPayload(category, ordersPayload);
   }
 
+  public static CandleStickData adaptCandles(BybitCandleStick bybitCandle, Instrument instrument) {
+    List<CandleStick> candleSticks = new ArrayList<>();
+    candleSticks.add(
+        new CandleStick.Builder()
+            .timestamp(Instant.ofEpochMilli(bybitCandle.getTimestamp()))
+            .open(new BigDecimal(bybitCandle.getOpen()))
+            .high(new BigDecimal(bybitCandle.getHigh()))
+            .low(new BigDecimal(bybitCandle.getLow()))
+            .close(new BigDecimal(bybitCandle.getClose()))
+            .volume(new BigDecimal(bybitCandle.getVolume()))
+            .quotaVolume(new BigDecimal(bybitCandle.getTurnover()))
+            .completed(bybitCandle.isConfirm())
+            .build());
+    return new CandleStickData(instrument, candleSticks);
+  }
+
   public static Ticker adaptTicker(BybitLinearInverseTicker bybitTicker) {
     Instrument instrument =
         convertBybitSymbolToInstrument(bybitTicker.getSymbol(), BybitCategory.LINEAR);
@@ -358,26 +376,21 @@ public class BybitStreamAdapters {
 
   public static FundingRateInterval adaptFundingRateInterval(int interval) {
     switch (interval) {
-      case 1:
-        {
-          return FundingRateInterval.H1;
-        }
-      case 2:
-        {
-          return FundingRateInterval.H2;
-        }
-      case 4:
-        {
-          return FundingRateInterval.H4;
-        }
-      case 6:
-        {
-          return FundingRateInterval.H6;
-        }
-      default:
-        {
-          return FundingRateInterval.H8;
-        }
+      case 1: {
+        return FundingRateInterval.H1;
+      }
+      case 2: {
+        return FundingRateInterval.H2;
+      }
+      case 4: {
+        return FundingRateInterval.H4;
+      }
+      case 6: {
+        return FundingRateInterval.H6;
+      }
+      default: {
+        return FundingRateInterval.H8;
+      }
     }
   }
 }

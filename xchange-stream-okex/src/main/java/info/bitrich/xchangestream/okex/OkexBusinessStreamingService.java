@@ -11,8 +11,8 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import lombok.Setter;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,37 +23,23 @@ import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.core.StreamingExchange.*;
 
-public class OkexStreamingService extends JsonNettyStreamingService {
-
-  private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingService.class);
+public class OkexBusinessStreamingService extends JsonNettyStreamingService {
+  private static final Logger LOG = LoggerFactory.getLogger(OkexBusinessStreamingService.class);
 
   protected static final String SUBSCRIBE = "subscribe";
   protected static final String UNSUBSCRIBE = "unsubscribe";
-
-  public static final String TRADES = "trades";
-  public static final String ORDERBOOK = "books";
-  public static final String ORDERBOOK5 = "books5";
-  public static final String ORDERBOOK_BBO_TBT = "bbo-tbt";
-  public static final String FUNDING_RATE = "funding-rate";
-  public static final String TICKERS = "tickers";
-  public static final String CANDLESTICK = "candle";
-
-  private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
-
+  @Setter
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
-
+  private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
 
-  private final ExchangeSpecification xSpec;
-
-  public OkexStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
+  public OkexBusinessStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
     super(
         apiUrl,
         65536,
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
         (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
-    this.xSpec = exchangeSpecification;
   }
 
   @Override
@@ -109,7 +95,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     if (message.has("arg")) {
       if (message.get("arg").has("channel") && message.get("arg").has("instId")) {
         channelName =
-            message.get("arg").get("channel").asText() + message.get("arg").get("instId").asText();
+            message.get("arg").get("channel").asText() + "-" + message.get("arg").get("instId").asText();
       }
     }
     return channelName;
@@ -118,7 +104,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage("", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage<>("", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
   @Override
@@ -129,29 +115,10 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   }
 
   private OkexSubscriptionTopic getTopic(String channelName) {
-    if (channelName.contains(ORDERBOOK5)) {
-      return new OkexSubscriptionTopic(ORDERBOOK5, null, null, channelName.replace(ORDERBOOK5, ""));
-    } else if (channelName.contains(ORDERBOOK_BBO_TBT)) {
-      return new OkexSubscriptionTopic(ORDERBOOK_BBO_TBT, null, null, channelName.replace(ORDERBOOK_BBO_TBT, ""));
-    } else if (channelName.contains(ORDERBOOK)) {
-      return new OkexSubscriptionTopic(ORDERBOOK, null, null, channelName.replace(ORDERBOOK, ""));
-    } else if (channelName.contains(TRADES)) {
-      return new OkexSubscriptionTopic(TRADES, null, null, channelName.replace(TRADES, ""));
-    } else if (channelName.contains(TICKERS)) {
-      return new OkexSubscriptionTopic(TICKERS, null, null, channelName.replace(TICKERS, ""));
-    } else if (channelName.contains(FUNDING_RATE)) {
-      return new OkexSubscriptionTopic(
-          FUNDING_RATE, null, null, channelName.replace(FUNDING_RATE, ""));
-    } else if (channelName.contains(CANDLESTICK)) {
-      return new OkexSubscriptionTopic(
-          channelName.split("-")[0], null, null, channelName.split("-")[1]);
-    } else {
-      throw new NotYetImplementedForExchangeException(
-          "ChannelName: "
-              + channelName
-              + " has not implemented yet on "
-              + this.getClass().getSimpleName());
-    }
+    int separatorIndex = channelName.indexOf('-');
+    String okexChannels = channelName.substring(0, separatorIndex);
+    String instrument = channelName.substring(separatorIndex + 1);
+    return new OkexSubscriptionTopic(okexChannels, null, null, instrument);
   }
 
   @Override
@@ -159,11 +126,6 @@ public class OkexStreamingService extends JsonNettyStreamingService {
       WebSocketClientHandshaker handshake, WebSocketClientHandler.WebSocketMessageHandler handler) {
     LOG.info("Registering OkxWebSocketClientHandler");
     return new OkxWebSocketClientHandler(handshake, handler);
-  }
-
-  public void setChannelInactiveHandler(
-      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
-    this.channelInactiveHandler = channelInactiveHandler;
   }
 
   /**

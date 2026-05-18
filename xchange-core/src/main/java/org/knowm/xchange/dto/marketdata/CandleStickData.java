@@ -1,11 +1,14 @@
 package org.knowm.xchange.dto.marketdata;
 
+import lombok.Getter;
+import lombok.ToString;
+import org.knowm.xchange.instrument.Instrument;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import lombok.Getter;
-import org.knowm.xchange.instrument.Instrument;
 
+@ToString
 public class CandleStickData implements Serializable {
 
   @Getter

@@ -5,6 +5,7 @@ import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.BybitKline;
 import org.knowm.xchange.bybit.dto.marketdata.BybitKlines;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
@@ -48,6 +49,20 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
   public BybitResult<BybitTickers<BybitTicker>> getTickers(BybitCategory category)
       throws IOException {
     BybitResult<BybitTickers<BybitTicker>> result = bybit.getTickers(category.getValue());
+
+    if (!result.isSuccess()) {
+      throw BybitAdapters.createBybitExceptionFromResult(result);
+    }
+    return result;
+  }
+
+  public BybitResult<BybitOrderbook> getOrderbook(
+      BybitCategory category, String symbol, int limit) throws IOException {
+    BybitResult<BybitOrderbook> result =
+        bybit.getOrderbook(
+            category.getValue(),
+            symbol,
+            limit > 0 ? String.valueOf(limit) : null);
 
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);

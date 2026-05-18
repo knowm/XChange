@@ -20,12 +20,15 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   // Production URIs
   public static final String WS_PUBLIC_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/public";
   public static final String WS_PRIVATE_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/private";
+  public static final String WS_BUSINESS_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/business";
 
   // Demo(Sandbox) URIs
   public static final String SANDBOX_WS_PUBLIC_CHANNEL_URI =
           "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
   public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI =
           "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
+  public static final String SANDBOX_WS_BUSINESS_CHANNEL_URI =
+      "wss://wspap.okx.com:8443/ws/v5/business?brokerId=9999";
 
   private OkexStreamingService streamingService;
 
@@ -34,27 +37,31 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   private OkexStreamingTradeService streamingTradeService;
 
   private OkexPrivateStreamingService privateStreamingService;
+  private OkexBusinessStreamingService businessStreamingService;
 
   public OkexStreamingExchange() {
   }
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    applyWebsocketTimeouts(this.exchangeSpecification);
-    this.streamingService = new OkexStreamingService(getPublicApiUrl(), this.exchangeSpecification);
+    applyWebsocketTimeouts(exchangeSpecification);
+    streamingService = new OkexStreamingService(getPublicApiUrl(), exchangeSpecification);
     applyStreamingSpecification(exchangeSpecification, streamingService);
     if (isApiKeyValid()) {
-      this.privateStreamingService =
-              new OkexPrivateStreamingService(getPrivateApiUrl(), this.exchangeSpecification, this);
+      privateStreamingService =
+          new OkexPrivateStreamingService(getPrivateApiUrl(), exchangeSpecification, this);
       applyStreamingSpecification(exchangeSpecification, privateStreamingService);
     }
-    this.streamingMarketDataService =
-            new OkexStreamingMarketDataService(streamingService, exchangeMetaData);
-    this.streamingTradeService =
+    businessStreamingService = new OkexBusinessStreamingService(getBusinessApiUrl(), exchangeSpecification);
+    applyStreamingSpecification(exchangeSpecification, businessStreamingService);
+    streamingMarketDataService =
+        new OkexStreamingMarketDataService(streamingService, businessStreamingService, exchangeMetaData);
+    streamingTradeService =
             new OkexStreamingTradeService(
                     privateStreamingService, exchangeMetaData, getResilienceRegistries());
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());
+    completableList.add(businessStreamingService.connect());
     if (isApiKeyValid()) {
       completableList.add(privateStreamingService.connect());
     }
@@ -88,6 +95,16 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
       apiUrl = SANDBOX_WS_PRIVATE_CHANNEL_URI;
     } else {
       apiUrl = WS_PRIVATE_CHANNEL_URI;
+    }
+    return apiUrl;
+  }
+
+  private String getBusinessApiUrl() {
+    String apiUrl;
+    if (useSandbox()) {
+      apiUrl = SANDBOX_WS_BUSINESS_CHANNEL_URI;
+    } else {
+      apiUrl = WS_BUSINESS_CHANNEL_URI;
     }
     return apiUrl;
   }
@@ -157,6 +174,10 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
   public Observable<State> connectionStateObservablePrivateChannel() {
     return privateStreamingService.subscribeConnectionState();
+  }
+
+  public Observable<State> connectionStateObservableBusinessChannel() {
+    return businessStreamingService.subscribeConnectionState();
   }
 
   @Override
