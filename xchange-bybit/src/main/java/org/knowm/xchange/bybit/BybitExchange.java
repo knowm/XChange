@@ -1,6 +1,5 @@
 package org.knowm.xchange.bybit;
 
-import java.io.IOException;
 import lombok.Getter;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
@@ -18,6 +17,8 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
 
 public class BybitExchange extends BaseExchange implements Exchange {
 
@@ -65,6 +66,41 @@ public class BybitExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
+    updateExchangeMetaData();
+  }
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    if (exchangeSpecification
+        .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
+        .equals(true)) {
+      exchangeSpecification.setSslUri(DEMO_URL);
+    }
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET) != null
+        && exchangeSpecification
+            .getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET)
+            .equals(true)) {
+      exchangeSpecification.setSslUri(TESTNET_URL);
+    }
+    super.applySpecification(exchangeSpecification);
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = BybitResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    throw new UnsupportedOperationException("Bybit uses timestamp/recv-window rather than a nonce");
+  }
+
+  @Override
+  public void updateExchangeMetaData() throws IOException {
     ((BybitMarketDataServiceRaw) marketDataService)
         .getInstrumentsInfo(BybitCategory.SPOT)
         .getResult()
@@ -116,35 +152,5 @@ public class BybitExchange extends BaseExchange implements Exchange {
                         BybitAdapters.adaptInstrumentInfo(instrumentInfo),
                         BybitAdapters.symbolToCurrencyPairMetaData(
                             (BybitOptionInstrumentInfo) instrumentInfo)));
-  }
-
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    if (exchangeSpecification
-        .getExchangeSpecificParametersItem(Exchange.USE_SANDBOX)
-        .equals(true)) {
-      exchangeSpecification.setSslUri(DEMO_URL);
-    }
-
-    if (exchangeSpecification.getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET) != null
-        && exchangeSpecification
-            .getExchangeSpecificParametersItem(SPECIFIC_PARAM_TESTNET)
-            .equals(true)) {
-      exchangeSpecification.setSslUri(TESTNET_URL);
-    }
-    super.applySpecification(exchangeSpecification);
-  }
-
-  @Override
-  public ResilienceRegistries getResilienceRegistries() {
-    if (RESILIENCE_REGISTRIES == null) {
-      RESILIENCE_REGISTRIES = BybitResilience.createRegistries();
-    }
-    return RESILIENCE_REGISTRIES;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException("Bybit uses timestamp/recv-window rather than a nonce");
   }
 }
