@@ -176,6 +176,10 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     return privateStreamingService.subscribeConnectionState();
   }
 
+  public Observable<State> connectionStateObservableBusinessChannel() {
+    return businessStreamingService.subscribeConnectionState();
+  }
+
   @Override
   public void resubscribeChannels() {
     streamingService.resubscribeChannels();
