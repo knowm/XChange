@@ -23,12 +23,16 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 import org.knowm.xchange.utils.Assert;
 
 public class BybitMarketDataService extends BybitMarketDataServiceRaw implements MarketDataService {
@@ -71,6 +75,12 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTicker((Instrument) currencyPair, args);
+  }
+
+  @Override
+  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params)
+      throws IOException {
+    return getCandleStickData((Instrument) currencyPair, params);
   }
 
   @Override
@@ -145,6 +155,47 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
             .collect(Collectors.toList());
     return new OrderBook(
         Date.from(Instant.ofEpochMilli(ob.getTimestamp())), asks, bids);
+  }
+
+  public CandleStickData getCandleStickData(Instrument instrument, CandleStickDataParams params)
+      throws IOException {
+    String interval;
+    Long start;
+    Long end;
+    Integer limit = null;
+    if (params instanceof DefaultCandleStickParamWithLimit) {
+      DefaultCandleStickParamWithLimit checkedParams = (DefaultCandleStickParamWithLimit) params;
+      start =
+          checkedParams.getStartDate() == null ? null : checkedParams.getStartDate().getTime();
+      end = checkedParams.getEndDate() == null ? null : checkedParams.getEndDate().getTime();
+      interval = String.valueOf(checkedParams.getPeriodInSecs() / 60);
+      if (checkedParams.getPeriodInSecs() == 86400) {
+        interval = "D";
+      } else if (checkedParams.getPeriodInSecs() == 604800) {
+        interval = "W";
+      } else if (checkedParams.getPeriodInSecs() == 2592000) {
+        interval = "M";
+      }
+      limit = checkedParams.getLimit();
+    } else if (params instanceof DefaultCandleStickParam) {
+      DefaultCandleStickParam checkedParams = (DefaultCandleStickParam) params;
+      start =
+          checkedParams.getStartDate() == null ? null : checkedParams.getStartDate().getTime();
+      end = checkedParams.getEndDate() == null ? null : checkedParams.getEndDate().getTime();
+      interval = String.valueOf(checkedParams.getPeriodInSecs() / 60);
+      if (checkedParams.getPeriodInSecs() == 86400) {
+        interval = "D";
+      } else if (checkedParams.getPeriodInSecs() == 604800) {
+        interval = "W";
+      } else if (checkedParams.getPeriodInSecs() == 2592000) {
+        interval = "M";
+      }
+    } else {
+      throw new IllegalArgumentException("CandleStickDataParams must be DefaultCandleStickParam or DefaultCandleStickParamWithLimit");
+    }
+    BybitCategory category = BybitAdapters.getCategory(instrument);
+    String symbol = BybitAdapters.convertToBybitSymbol(instrument);
+    return getCandleStickDataRaw(category, symbol, interval, start, end, limit);
   }
 
   public List<BybitFundingRateHistory> getFundingRateHistory(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {

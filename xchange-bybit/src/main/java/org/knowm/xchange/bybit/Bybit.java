@@ -10,6 +10,8 @@ import org.knowm.xchange.bybit.dto.BybitCategorizedPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistoryRaw;
+import org.knowm.xchange.bybit.dto.marketdata.BybitKline;
+import org.knowm.xchange.bybit.dto.marketdata.BybitKlines;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
@@ -66,6 +68,20 @@ public interface Bybit {
       @QueryParam("symbol") String symbol,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/market/kline">API</a>
+   */
+  @GET
+  @Path("/kline")
+  BybitResult<BybitKlines> getKlines(
+      @QueryParam("category") String category,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("interval") String interval,
+      @QueryParam("start") Long start,
+      @QueryParam("end") Long end,
       @QueryParam("limit") Integer limit)
       throws IOException, BybitException;
 }
