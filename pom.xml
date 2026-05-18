@@ -184,7 +184,7 @@
         <version.nimbus-jose-jwt>10.9</version.nimbus-jose-jwt>
         <version.qos.logback>1.5.32</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
-        <version.resilience4j>2.4.0</version.resilience4j>
+        <version.resilience4j>1.7.1</version.resilience4j>
         <version.slf4j>2.0.17</version.slf4j>
         <version.wiremock>3.4.2</version.wiremock>
     </properties>
