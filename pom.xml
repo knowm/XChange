@@ -181,6 +181,7 @@
         <version.maven-enforcer-plugin>3.6.2</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.18.0</version.mockito>
+        <version.nimbus-jose-jwt>10.9</version.nimbus-jose-jwt>
         <version.qos.logback>1.5.20</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
         <version.resilience4j>1.7.1</version.resilience4j>
@@ -250,6 +251,12 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>33.5.0-jre</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${version.nimbus-jose-jwt}</version>
             </dependency>
             <dependency>
                 <groupId>com.pubnub</groupId>
