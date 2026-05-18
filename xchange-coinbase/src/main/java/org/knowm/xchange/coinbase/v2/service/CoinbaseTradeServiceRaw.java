@@ -11,7 +11,7 @@ import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeFills
 import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeOrderFillsResponse;
 import org.knowm.xchange.currency.Currency;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -105,18 +106,15 @@ public final class CoinbaseAdapters {
     }
 
     FundingRecord funding =
-      new FundingRecord(
-        null,
-        Date.from(transaction.getCreatedAt().toInstant()),
-        Currency.getInstance(transaction.getAmount().getCurrency()),
-        transaction.getAmount().getAmount(),
-        transaction.getId(),
-        null,
-        type,
-        status,
-        null,
-        transaction.getFee().getAmount(),
-        null);
+        FundingRecord.builder()
+            .date(Date.from(transaction.getCreatedAt().toInstant()))
+            .currency(Currency.getInstance(transaction.getAmount().getCurrency()))
+            .amount(transaction.getAmount().getAmount())
+            .internalId(transaction.getId())
+            .type(type)
+            .status(status)
+            .fee(transaction.getFee().getAmount())
+            .build();
     return funding;
   }
 
@@ -126,7 +124,7 @@ public final class CoinbaseAdapters {
       String transactionId = transaction.getTransaction() == null ?
               null : (transaction.getTransaction().getId() == null ?
               null : transaction.getTransaction().getId());
-    return new UserTrade.Builder()
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(transaction.getAmount().getAmount())
         .instrument(

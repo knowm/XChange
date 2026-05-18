@@ -14,7 +14,7 @@ import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.DigestUtils;
 
 import javax.crypto.Mac;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
