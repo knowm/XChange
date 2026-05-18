@@ -52,7 +52,6 @@ import org.slf4j.LoggerFactory;
 public class BinanceUserTradeStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceUserTradeStreamingService.class);
-  private static final Pattern p = Pattern.compile("[a-z.]+|\\d+");
   private final String apiKey;
   private final String privateKey;
   CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -232,7 +231,8 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
       case "order.cancelReplace":
         {
           LimitOrder limitOrder = (LimitOrder) args[1];
-          BinanceCancelOrderParams params = (BinanceCancelOrderParams) args[2];
+          BinanceCancelOrderParams params =
+              new BinanceCancelOrderParams(limitOrder.getInstrument(), limitOrder.getId(), limitOrder.getUserReference());
           Long cancelOrderId = null;
           if (params.getOrderId() != null && !params.getOrderId().isEmpty()) {
             cancelOrderId = Long.valueOf(params.getOrderId());

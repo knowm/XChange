@@ -1,5 +1,6 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceResilience.FUNDING_RATE_AND_INFO_RATE_LIMITER;
 import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateHistory;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateInfo;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -121,7 +123,7 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
                             startTime,
                             endTime))
             .withRetry(retry("klines"))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), isFutures ? klinesFuturePermits(limit) : 2)
             .call();
     return raw.stream()
         .map(obj -> new BinanceKline(pair, interval, obj))
@@ -171,6 +173,7 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 
   public List<BinanceFundingRateInfo> getBinanceFundingRateInfo() throws IOException {
     return decorateApiCall(() -> binanceFutures.fundingRateInfo())
+        .withRateLimiter(rateLimiter(FUNDING_RATE_AND_INFO_RATE_LIMITER))
         .withRetry(retry("fundingRate"))
         .call();
   }
@@ -195,6 +198,13 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
         .call();
   }
 
+  public List<BinanceFundingRateHistory> fundingRateHistoryRaw(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return decorateApiCall(() -> binanceFutures.fundingRateHistory(BinanceAdapters.toSymbol(instrument), startTime, endTime, limit))
+        .withRetry(retry("fundingRateHistory"))
+        .withRateLimiter(rateLimiter(FUNDING_RATE_AND_INFO_RATE_LIMITER))
+        .call();
+  }
+
   protected int depthPermits(Integer limit) {
     if (limit == null || limit <= 100) {
       return 5;
@@ -215,6 +225,17 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
       return 10;
     }
     return 20;
+  }
+
+  protected int klinesFuturePermits(Integer limit) {
+    if (limit == null || limit < 100) {
+      return 1;
+    } else if (limit < 500) {
+      return 2;
+    } else if (limit < 1000) {
+      return 5;
+    }
+    return 10; // > 1000
   }
 
   //  protected int aggTradesPermits(Integer limit) {

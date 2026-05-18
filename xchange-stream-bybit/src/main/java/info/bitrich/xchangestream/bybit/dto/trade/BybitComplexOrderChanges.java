@@ -1,7 +1,5 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Getter;
 import lombok.ToString;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -10,6 +8,9 @@ import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @ToString(callSuper = true)

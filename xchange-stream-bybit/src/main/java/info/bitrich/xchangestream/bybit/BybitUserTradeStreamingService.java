@@ -1,21 +1,14 @@
 package info.bitrich.xchangestream.bybit;
 
-import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptBatchAmendOrder;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
-import static org.knowm.xchange.bybit.BybitAdapters.*;
-import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import dto.BybitSubscribeMessage;
-import dto.trade.BybitOrderMessage;
-import dto.trade.BybitOrderMessage.BybitHeader;
-import dto.trade.BybitStreamBatchAmendOrdersPayload;
-import dto.trade.BybitStreamBatchCancelOrdersPayload;
-import dto.trade.BybitStreamBatchCancelOrdersPayload.BybitStreamBatchCancelOrderPayload;
+import info.bitrich.xchangestream.bybit.dto.BybitSubscribeMessage;
+import info.bitrich.xchangestream.bybit.dto.trade.BybitOrderMessage;
+import info.bitrich.xchangestream.bybit.dto.trade.BybitOrderMessage.BybitHeader;
+import info.bitrich.xchangestream.bybit.dto.trade.BybitStreamBatchAmendOrdersPayload;
+import info.bitrich.xchangestream.bybit.dto.trade.BybitStreamBatchCancelOrdersPayload;
+import info.bitrich.xchangestream.bybit.dto.trade.BybitStreamBatchCancelOrdersPayload.BybitStreamBatchCancelOrderPayload;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -23,20 +16,6 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -50,6 +29,26 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptBatchAmendOrder;
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import static org.knowm.xchange.bybit.BybitAdapters.*;
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
 public class BybitUserTradeStreamingService extends JsonNettyStreamingService {
 

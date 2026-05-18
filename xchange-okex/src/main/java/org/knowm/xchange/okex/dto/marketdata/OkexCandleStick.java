@@ -1,17 +1,30 @@
 package org.knowm.xchange.okex.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Getter;
 
+@Getter
 public class OkexCandleStick {
-
+  @JsonProperty("ts")
   private final Long timestamp;
+  @JsonProperty("o")
   private final String openPrice;
+  @JsonProperty("c")
   private final String closePrice;
+  @JsonProperty("h")
   private final String highPrice;
+  @JsonProperty("l")
   private final String lowPrice;
+  @JsonProperty("vol")
   private final String volume;
+  @JsonProperty("volCcy")
   private final String volumeCcy;
+  @JsonProperty("volCcyQuote")
+  private final String volCcyQuote;
+  @JsonProperty("confirm")
+  private final String confirm;
 
   @JsonCreator
   public OkexCandleStick(JsonNode node) {
@@ -22,33 +35,8 @@ public class OkexCandleStick {
     this.lowPrice = node.get(3).asText();
     this.volume = node.get(5).asText();
     this.volumeCcy = node.get(6).asText();
+    this.volCcyQuote = node.get(7).asText();
+    this.confirm = node.get(8).asText();
   }
 
-  public Long getTimestamp() {
-    return timestamp;
-  }
-
-  public String getOpenPrice() {
-    return openPrice;
-  }
-
-  public String getClosePrice() {
-    return closePrice;
-  }
-
-  public String getHighPrice() {
-    return highPrice;
-  }
-
-  public String getLowPrice() {
-    return lowPrice;
-  }
-
-  public String getVolume() {
-    return volume;
-  }
-
-  public String getVolumeCcy() {
-    return volumeCcy;
-  }
 }

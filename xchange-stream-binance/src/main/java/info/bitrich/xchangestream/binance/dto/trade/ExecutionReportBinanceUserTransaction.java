@@ -121,7 +121,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
             getSymbol(),
             orderId,
             clientOrderId,
-            orderPrice,
+            lastExecutedPrice,
             orderQuantity,
             lastExecutedQuantity,
             // not sure 100%, but according SPOT documentation api

@@ -1,22 +1,15 @@
 package info.bitrich.xchangestream.bybit.example;
 
-import static info.bitrich.xchangestream.bybit.Utils.getMinAmount;
-import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
-
 import info.bitrich.xchangestream.bybit.BybitStreamingExchange;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.CandleStickInterval;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
@@ -25,6 +18,15 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static info.bitrich.xchangestream.bybit.Utils.getMinAmount;
+import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
 
 public class BybitStreamWebsocketExample {
 
@@ -38,6 +40,7 @@ public class BybitStreamWebsocketExample {
       while (!exchange.isAlive()) {
         TimeUnit.MILLISECONDS.sleep(100);
       }
+      websocketCandles();
       websocketFundingRate();
       // main(not demo) api only
       websocketTradeExample();
@@ -51,6 +54,14 @@ public class BybitStreamWebsocketExample {
     }
   }
 
+  private static void websocketCandles() throws InterruptedException {
+    Disposable disposable =
+            exchange.getStreamingMarketDataService().getCandleStick(instrument, CandleStickInterval.m1).subscribe(
+                    candles -> LOG.info("Candles: " + candles)
+            );
+    Thread.sleep(5000);
+    disposable.dispose();
+  }
   private static void websocketFundingRate() throws IOException, InterruptedException {
     Disposable fundingRateDisposable =
         exchange

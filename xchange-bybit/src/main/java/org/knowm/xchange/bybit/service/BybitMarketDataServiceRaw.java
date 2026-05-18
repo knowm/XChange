@@ -1,15 +1,19 @@
 package org.knowm.xchange.bybit.service;
 
 import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
+import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistoryRaw;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BybitMarketDataServiceRaw extends BybitBaseService {
 
@@ -47,5 +51,23 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
       throw BybitAdapters.createBybitExceptionFromResult(result);
     }
     return result;
+  }
+
+  public BybitResult<BybitOrderbook> getOrderbook(
+      BybitCategory category, String symbol, int limit) throws IOException {
+    BybitResult<BybitOrderbook> result =
+        bybit.getOrderbook(
+            category.getValue(),
+            symbol,
+            limit > 0 ? String.valueOf(limit) : null);
+
+    if (!result.isSuccess()) {
+      throw BybitAdapters.createBybitExceptionFromResult(result);
+    }
+    return result;
+  }
+
+  public List<BybitFundingRateHistoryRaw> getFundingRateHistoryRaw(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return bybit.getFundingHistory(BybitAdapters.getCategory(instrument).getValue(), BybitAdapters.convertToBybitSymbol(instrument), startTime, endTime, limit).getResult().getList();
   }
 }

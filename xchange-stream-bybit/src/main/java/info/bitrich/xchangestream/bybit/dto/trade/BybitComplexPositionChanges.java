@@ -1,13 +1,14 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.dto.account.OpenPosition;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @SuperBuilder

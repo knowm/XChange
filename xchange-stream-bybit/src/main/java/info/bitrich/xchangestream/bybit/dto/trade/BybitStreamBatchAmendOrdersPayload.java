@@ -1,10 +1,11 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Getter

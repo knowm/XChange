@@ -1,22 +1,23 @@
 package info.bitrich.xchangestream.okex;
 
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.marketdata.CandleStickInterval;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.ORDERBOOK_BBO_TBT;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class OkexStreamingPublicDataIntegration {
 
@@ -35,6 +36,20 @@ public class OkexStreamingPublicDataIntegration {
     exchange.connect().blockingAwait();
   }
 
+  @Test
+  public void testCandles() throws InterruptedException {
+    Disposable dis =
+        exchange
+            .getStreamingMarketDataService()
+            .getCandleStick(currencyPair, CandleStickInterval.d1)
+            .subscribe(
+                candle -> {
+                  System.out.println(candle);
+                  assertThat(candle.getInstrument()).isEqualTo(currencyPair);
+                });
+    Thread.sleep(5000);
+    dis.dispose();
+  }
   @Test
   public void testTrades() throws InterruptedException {
     Disposable dis =
@@ -104,7 +119,7 @@ public class OkexStreamingPublicDataIntegration {
     Disposable dis2 =
         exchange
             .getStreamingMarketDataService()
-            .getOrderBook(instrumentSHIB)
+            .getOrderBook(instrumentSHIB, ORDERBOOK_BBO_TBT)
             .subscribe(
                 orderBook -> {
                   //                  System.out.println(orderBook);

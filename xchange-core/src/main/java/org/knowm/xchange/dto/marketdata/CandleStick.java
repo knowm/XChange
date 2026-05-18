@@ -2,11 +2,20 @@ package org.knowm.xchange.dto.marketdata;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.math.BigDecimal;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
-/** Data object representing a CandleStick */
+import java.math.BigDecimal;
+import java.time.Instant;
+
+/**
+ * Data object representing a CandleStick
+ */
+@ToString
+@Getter
 @JsonDeserialize(builder = CandleStick.Builder.class)
+@AllArgsConstructor
 public class CandleStick {
 
   private final BigDecimal open;
@@ -21,22 +30,24 @@ public class CandleStick {
   private final BigDecimal bidSize;
   private final BigDecimal ask;
   private final BigDecimal askSize;
-  private final Date timestamp;
+  private final Instant timestamp;
+  private final boolean completed;
 
   public CandleStick(
-      Date timestamp,
-      BigDecimal open,
-      BigDecimal last,
-      BigDecimal high,
-      BigDecimal low,
-      BigDecimal close,
-      BigDecimal volume,
-      BigDecimal quotaVolume,
-      BigDecimal vwap,
-      BigDecimal bid,
-      BigDecimal bidSize,
-      BigDecimal ask,
-      BigDecimal askSize) {
+      Instant timestamp,
+          BigDecimal open,
+          BigDecimal last,
+          BigDecimal high,
+          BigDecimal low,
+          BigDecimal close,
+          BigDecimal volume,
+          BigDecimal quotaVolume,
+          BigDecimal vwap,
+          BigDecimal bid,
+          BigDecimal bidSize,
+          BigDecimal ask,
+          BigDecimal askSize,
+          boolean completed) {
     this.timestamp = timestamp;
     this.open = open;
     this.last = last;
@@ -50,63 +61,12 @@ public class CandleStick {
     this.bidSize = bidSize;
     this.ask = ask;
     this.askSize = askSize;
-  }
-
-  public Date getTimestamp() {
-    return timestamp;
-  }
-
-  public BigDecimal getOpen() {
-    return open;
-  }
-
-  public BigDecimal getLast() {
-    return last;
-  }
-
-  public BigDecimal getHigh() {
-    return high;
-  }
-
-  public BigDecimal getLow() {
-    return low;
-  }
-
-  public BigDecimal getClose() {
-    return close;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public BigDecimal getQuotaVolume() {
-    return quotaVolume;
-  }
-
-  public BigDecimal getVwap() {
-    return vwap;
-  }
-
-  public BigDecimal getBid() {
-    return bid;
-  }
-
-  public BigDecimal getBidSize() {
-    return bidSize;
-  }
-
-  public BigDecimal getAsk() {
-    return ask;
-  }
-
-  public BigDecimal getAskSize() {
-    return askSize;
+    this.completed = completed;
   }
 
   @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
-    private Date timestamp;
+    private Instant timestamp;
     private BigDecimal open;
     private BigDecimal last;
     private BigDecimal high;
@@ -119,25 +79,27 @@ public class CandleStick {
     private BigDecimal bidSize;
     private BigDecimal ask;
     private BigDecimal askSize;
+    private boolean completed;
 
     public static Builder from(CandleStick candleStick) {
       return new Builder()
-          .timestamp(candleStick.getTimestamp())
-          .open(candleStick.getOpen())
-          .last(candleStick.getLast())
-          .high(candleStick.getHigh())
-          .low(candleStick.getLow())
-          .close(candleStick.getClose())
-          .volume(candleStick.getVolume())
-          .quotaVolume(candleStick.getQuotaVolume())
-          .vwap(candleStick.getVwap())
-          .bid(candleStick.getBid())
-          .bidSize(candleStick.getBidSize())
-          .ask(candleStick.getAsk())
-          .askSize(candleStick.getAskSize());
+              .timestamp(candleStick.getTimestamp())
+              .open(candleStick.getOpen())
+              .last(candleStick.getLast())
+              .high(candleStick.getHigh())
+              .low(candleStick.getLow())
+              .close(candleStick.getClose())
+              .volume(candleStick.getVolume())
+              .quotaVolume(candleStick.getQuotaVolume())
+              .vwap(candleStick.getVwap())
+              .bid(candleStick.getBid())
+              .bidSize(candleStick.getBidSize())
+              .ask(candleStick.getAsk())
+              .askSize(candleStick.getAskSize())
+              .completed(candleStick.isCompleted());
     }
 
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(Instant timestamp) {
       this.timestamp = timestamp;
       return this;
     }
@@ -202,21 +164,27 @@ public class CandleStick {
       return this;
     }
 
+    public Builder completed(boolean completed) {
+      this.completed = completed;
+      return this;
+    }
+
     public CandleStick build() {
       return new CandleStick(
-          timestamp,
-          open,
-          last,
-          high,
-          low,
-          close,
-          volume,
-          quotaVolume,
-          vwap,
-          bid,
-          bidSize,
-          ask,
-          askSize);
+              timestamp,
+              open,
+              last,
+              high,
+              low,
+              close,
+              volume,
+              quotaVolume,
+              vwap,
+              bid,
+              bidSize,
+              ask,
+              askSize,
+              completed);
     }
   }
 }

@@ -1,9 +1,5 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.TICKER_WINDOW;
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,13 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.market.BinanceRawTrade;
-import info.bitrich.xchangestream.binance.dto.market.BookTickerBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.market.DepthBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.market.FundingRateWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.market.KlineBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.market.TickerBinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.market.TradeBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.market.*;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -30,13 +20,23 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.marketdata.*;
+import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.instrument.Instrument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -45,31 +45,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.binance.BinanceErrorAdapter;
-import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.marketdata.BinanceBookTicker;
-import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateInfo;
-import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
-import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
-import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
-import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.binance.service.BinanceMarketDataService;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.FundingRate;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.RateLimitExceededException;
-import org.knowm.xchange.instrument.Instrument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.TICKER_WINDOW;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
+
   private static final Logger LOG =
       LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
@@ -99,6 +81,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private Observable<List<BinanceTicker24h>> allRollingWindowTickerSubscriptions;
   private Map<Instrument, Integer> fundingRateInfoMap;
   private Disposable fundingRateInfoUpdate;
+  private final Map<Instrument, Observable<FundingRate>> fundingRateInfoSubscriptions;
 
   /**
    * A scheduler for initialisation of binance order book snapshots, which is delegated to a
@@ -141,6 +124,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     this.orderBookRawUpdatesSubscriptions = new ConcurrentHashMap<>();
     this.klineSubscriptions = new ConcurrentHashMap<>();
     this.fundingRateInfoMap = new ConcurrentHashMap<>();
+    this.fundingRateInfoSubscriptions = new ConcurrentHashMap<>();
   }
 
   @Override
@@ -193,26 +177,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   @Override
   public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
-    // init update info for funding rate interval
-    synchronized (this) {
-      if (fundingRateInfoUpdate == null) {
-        fundingRateInfoUpdate =
-            Observable.interval(10, 10, TimeUnit.MINUTES).subscribe(x -> updateFundingRateInfo());
-        updateFundingRateInfo();
-      }
-    }
-    return service
-        .subscribeChannel(
-            channelFromCurrency(instrument, BinanceSubscriptionType.FUNDING_RATES.getType()))
-        .map(
-            it ->
-                this.<FundingRateWebsocketTransaction>readTransaction(
-                    it, FUNDING_RATE_TYPE, "funding rate"))
-        .map(BinanceWebsocketTransaction::getData)
-        .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
-        .map(
-            transaction ->
-                transaction.toFundingRate((fundingRateInfoMap.getOrDefault(instrument, 8))));
+    return rawFundingRate(instrument);
   }
 
   private void updateFundingRateInfo() {
@@ -400,7 +365,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     productSubscription.getTicker().forEach(this::initTickerSubscription);
     productSubscription.getOrderBook().forEach(this::initRawOrderBookUpdatesSubscription);
     productSubscription.getTrades().forEach(this::initTradeSubscription);
-    productSubscription.getFundingRates().forEach(this::initTradeSubscription);
+    productSubscription.getFundingRates().forEach(this::initFundingRateSubscription);
   }
 
   private void initKlineSubscription(Instrument instrument, Set<KlineInterval> klineIntervals) {
@@ -525,6 +490,49 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         instrument, triggerObservableBody(rawOrderBookUpdates(instrument)));
   }
 
+  private void initFundingRateSubscription(Instrument instrument) {
+    fundingRateInfoSubscriptions.put(
+        instrument, triggerObservableBody(rawFundingRate(instrument)).share());
+  }
+
+  private Observable<FundingRate> rawFundingRate(Instrument instrument) {
+    if (!service.isLiveSubscriptionEnabled()
+        && !service.getProductSubscription().getFundingRates().contains(instrument)) {
+      throw new UpFrontSubscriptionRequiredException();
+    }
+    return fundingRateInfoSubscriptions.computeIfAbsent(
+        instrument, s -> triggerObservableBody(rawFundingRateStream(instrument)).share());
+  }
+
+  private Observable<FundingRate> rawFundingRateStream(Instrument instrument) {
+    try {
+      // init update info for funding rate interval
+      synchronized (this) {
+        if (fundingRateInfoUpdate == null) {
+          fundingRateInfoUpdate =
+              Observable.interval(10, 10, TimeUnit.MINUTES).subscribe(x -> updateFundingRateInfo());
+          updateFundingRateInfo();
+        }
+      }
+    } catch (Exception e) {
+      return Observable.error(e);
+    }
+    try {
+      return service
+          .subscribeChannel(
+              channelFromCurrency(instrument, BinanceSubscriptionType.FUNDING_RATES.getType()))
+          .map(
+              it ->
+                  this.<FundingRateWebsocketTransaction>readTransaction(
+                      it, FUNDING_RATE_TYPE, "funding rate"))
+          .map(BinanceWebsocketTransaction::getData)
+          .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
+          .map(transaction -> transaction.toFundingRate(fundingRateInfoMap.getOrDefault(instrument, 8)));
+    } catch (Exception e) {
+      return Observable.error(e);
+    }
+  }
+
   private Observable<BinanceTicker24h> rawTickerStream(Instrument instrument) {
     return service
         .subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.TICKER.getType()))
@@ -593,6 +601,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private final class OrderbookSubscription {
+
     final Observable<DepthBinanceWebSocketTransaction> stream;
     final AtomicLong lastUpdateId = new AtomicLong();
     final AtomicLong snapshotLastUpdateId = new AtomicLong();
@@ -607,7 +616,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     void initSnapshotIfInvalid(Instrument instrument) {
-      if (snapshotLastUpdateId.get() != 0) return;
+      if (snapshotLastUpdateId.get() != 0) {
+        return;
+      }
       try {
         LOG.info("Fetching initial orderbook snapshot for {} ", instrument);
         onApiCall.run();
@@ -867,6 +878,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    */
   @SuppressWarnings("Convert2MethodRef")
   private final class OrderBookFutureSubscription implements Disposable {
+
     private final Instrument instrument;
     private final Observable<DepthBinanceWebSocketTransaction> deltasObservable;
 

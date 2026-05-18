@@ -1,17 +1,5 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
-import static org.knowm.xchange.dto.account.FundingRecord.Type.OTHER_INFLOW;
-import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
@@ -21,12 +9,7 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.marketdata.CandleStick;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -40,18 +23,16 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexAdjustment;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
+import org.knowm.xchange.poloniex.dto.marketdata.*;
+import org.knowm.xchange.poloniex.dto.trade.*;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.*;
+
+import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 /**
  * @author Zach Holmes
@@ -419,7 +400,7 @@ public class PoloniexAdapters {
       for (PoloniexChartData chartData : poloniexChartData) {
         candleSticks.add(
             new CandleStick.Builder()
-                .timestamp(chartData.getDate())
+                .timestamp(Instant.ofEpochMilli(chartData.getDate().getTime()))
                 .open(chartData.getOpen())
                 .high(chartData.getHigh())
                 .low(chartData.getLow())

@@ -1,44 +1,28 @@
 package org.knowm.xchange.upbit;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.CandleStick;
-import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitCandleStickData;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBook;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBookData;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTicker;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrade;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
+import org.knowm.xchange.upbit.dto.marketdata.*;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class UpbitAdapters {
 
@@ -187,7 +171,7 @@ public final class UpbitAdapters {
     for (UpbitCandleStickData it : candleStickData) {
       candleSticks.add(
           new CandleStick.Builder()
-              .timestamp(DateUtils.fromISO8601DateString(it.getCandleDateTimeUtc()))
+              .timestamp(Instant.ofEpochMilli(DateUtils.fromISO8601DateString(it.getCandleDateTimeUtc()).getTime()))
               .open(it.getOpeningPrice())
               .high(it.getHighPrice())
               .low(it.getLowPrice())

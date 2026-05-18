@@ -1,9 +1,5 @@
 package info.bitrich.xchangestream.okex;
 
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.okex.dto.OkexSubscriptionTopic;
@@ -15,14 +11,17 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
 
 public class OkexStreamingService extends JsonNettyStreamingService {
 
@@ -34,8 +33,10 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   public static final String TRADES = "trades";
   public static final String ORDERBOOK = "books";
   public static final String ORDERBOOK5 = "books5";
+  public static final String ORDERBOOK_BBO_TBT = "bbo-tbt";
   public static final String FUNDING_RATE = "funding-rate";
   public static final String TICKERS = "tickers";
+  public static final String CANDLESTICK = "candle";
 
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
 
@@ -89,6 +90,9 @@ public class OkexStreamingService extends JsonNettyStreamingService {
       LOG.error("Error parsing incoming message to JSON: {}", message);
       return;
     }
+    if (jsonNode.get("event") != null && jsonNode.get("event").asText().equals("subscribe")) {
+      return;
+    }
     if (processArrayMessageSeparately() && jsonNode.isArray()) {
       // In case of array - handle every message separately.
       for (JsonNode node : jsonNode) {
@@ -127,6 +131,8 @@ public class OkexStreamingService extends JsonNettyStreamingService {
   private OkexSubscriptionTopic getTopic(String channelName) {
     if (channelName.contains(ORDERBOOK5)) {
       return new OkexSubscriptionTopic(ORDERBOOK5, null, null, channelName.replace(ORDERBOOK5, ""));
+    } else if (channelName.contains(ORDERBOOK_BBO_TBT)) {
+      return new OkexSubscriptionTopic(ORDERBOOK_BBO_TBT, null, null, channelName.replace(ORDERBOOK_BBO_TBT, ""));
     } else if (channelName.contains(ORDERBOOK)) {
       return new OkexSubscriptionTopic(ORDERBOOK, null, null, channelName.replace(ORDERBOOK, ""));
     } else if (channelName.contains(TRADES)) {
@@ -136,6 +142,9 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     } else if (channelName.contains(FUNDING_RATE)) {
       return new OkexSubscriptionTopic(
           FUNDING_RATE, null, null, channelName.replace(FUNDING_RATE, ""));
+    } else if (channelName.contains(CANDLESTICK)) {
+      return new OkexSubscriptionTopic(
+          channelName.split("-")[0], null, null, channelName.split("-")[1]);
     } else {
       throw new NotYetImplementedForExchangeException(
           "ChannelName: "

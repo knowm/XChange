@@ -1,10 +1,11 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Getter;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 public class BybitTrade {

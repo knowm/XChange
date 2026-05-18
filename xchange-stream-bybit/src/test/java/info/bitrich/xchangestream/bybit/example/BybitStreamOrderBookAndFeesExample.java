@@ -35,7 +35,6 @@ public class BybitStreamOrderBookAndFeesExample {
   }
 
   static List<Disposable> booksDisposable = new ArrayList<>();
-  static Instrument XRP_PERP = new FuturesContract("XRP/USDT/PERP");
   static StreamingExchange exchange;
 
   private static void getFeesExample() {
@@ -64,27 +63,26 @@ public class BybitStreamOrderBookAndFeesExample {
   }
 
   private static void getOrderBookExample() throws InterruptedException {
-    exchange = connectDemoApi(BybitCategory.LINEAR, false);
-    subscribeOrderBook();
-    Thread.sleep(6000L);
+    exchange = connectMainApi(BybitCategory.LINEAR, false);
+    subscribeOrderBook("200,50,1");
+    Thread.sleep(3000L);
     for (Disposable dis : booksDisposable) {
       dis.dispose();
     }
     exchange.disconnect().blockingAwait();
   }
 
-  private static void subscribeOrderBook() {
+  private static void subscribeOrderBook(String depth) {
     booksDisposable.add(
         exchange
             .getStreamingMarketDataService()
-            .getOrderBook(XRP_PERP)
+            .getOrderBook(instrument, depth)
             .doOnError(
                 error -> {
                   LOG.error(error.getMessage());
                   for (Disposable dis : booksDisposable) {
                     dis.dispose();
                   }
-                  subscribeOrderBook();
                 })
             .subscribe(
                 orderBook -> System.out.print("."),

@@ -8,23 +8,27 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
-import java.util.ArrayList;
-import java.util.List;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
 
   // Production URIs
   public static final String WS_PUBLIC_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/public";
   public static final String WS_PRIVATE_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/private";
+  public static final String WS_BUSINESS_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/business";
 
   // Demo(Sandbox) URIs
   public static final String SANDBOX_WS_PUBLIC_CHANNEL_URI =
-      "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
+          "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
   public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI =
-      "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
+          "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
+  public static final String SANDBOX_WS_BUSINESS_CHANNEL_URI =
+      "wss://wspap.okx.com:8443/ws/v5/business?brokerId=9999";
 
   private OkexStreamingService streamingService;
 
@@ -33,25 +37,31 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   private OkexStreamingTradeService streamingTradeService;
 
   private OkexPrivateStreamingService privateStreamingService;
+  private OkexBusinessStreamingService businessStreamingService;
 
-  public OkexStreamingExchange() {}
+  public OkexStreamingExchange() {
+  }
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    applyWebsocketTimeouts(this.exchangeSpecification);
-    this.streamingService = new OkexStreamingService(getPublicApiUrl(), this.exchangeSpecification);
+    applyWebsocketTimeouts(exchangeSpecification);
+    streamingService = new OkexStreamingService(getPublicApiUrl(), exchangeSpecification);
+    applyStreamingSpecification(exchangeSpecification, streamingService);
     if (isApiKeyValid()) {
-      this.privateStreamingService =
-          new OkexPrivateStreamingService(getPrivateApiUrl(), this.exchangeSpecification, this);
+      privateStreamingService =
+          new OkexPrivateStreamingService(getPrivateApiUrl(), exchangeSpecification, this);
       applyStreamingSpecification(exchangeSpecification, privateStreamingService);
     }
-    this.streamingMarketDataService =
-        new OkexStreamingMarketDataService(streamingService, exchangeMetaData);
-    this.streamingTradeService =
-        new OkexStreamingTradeService(
-            privateStreamingService, exchangeMetaData, getResilienceRegistries());
+    businessStreamingService = new OkexBusinessStreamingService(getBusinessApiUrl(), exchangeSpecification);
+    applyStreamingSpecification(exchangeSpecification, businessStreamingService);
+    streamingMarketDataService =
+        new OkexStreamingMarketDataService(streamingService, businessStreamingService, exchangeMetaData);
+    streamingTradeService =
+            new OkexStreamingTradeService(
+                    privateStreamingService, exchangeMetaData, getResilienceRegistries());
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());
+    completableList.add(businessStreamingService.connect());
     if (isApiKeyValid()) {
       completableList.add(privateStreamingService.connect());
     }
@@ -60,9 +70,9 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
   private boolean isApiKeyValid() {
     return exchangeSpecification.getApiKey() != null
-        && !exchangeSpecification.getApiKey().isEmpty()
-        && exchangeSpecification.getSecretKey() != null
-        && !exchangeSpecification.getSecretKey().isEmpty();
+            && !exchangeSpecification.getApiKey().isEmpty()
+            && exchangeSpecification.getSecretKey() != null
+            && !exchangeSpecification.getSecretKey().isEmpty();
   }
 
   private String getPublicApiUrl() {
@@ -89,6 +99,16 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     return apiUrl;
   }
 
+  private String getBusinessApiUrl() {
+    String apiUrl;
+    if (useSandbox()) {
+      apiUrl = SANDBOX_WS_BUSINESS_CHANNEL_URI;
+    } else {
+      apiUrl = WS_BUSINESS_CHANNEL_URI;
+    }
+    return apiUrl;
+  }
+
   @Override
   public Completable disconnect() {
     List<Completable> completableList = new ArrayList<>();
@@ -108,8 +128,8 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     if (streamingService != null) {
       if (privateStreamingService != null) {
         return streamingService.isSocketOpen()
-            && privateStreamingService.isSocketOpen()
-            && privateStreamingService.isLoginDone();
+                && privateStreamingService.isSocketOpen()
+                && privateStreamingService.isLoginDone();
       } else {
         return streamingService.isSocketOpen();
       }
@@ -138,7 +158,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
    * @param channelInactiveHandler a WebSocketMessageHandler instance.
    */
   public void setChannelInactiveHandler(
-      WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+          WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
 
@@ -154,6 +174,10 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
 
   public Observable<State> connectionStateObservablePrivateChannel() {
     return privateStreamingService.subscribeConnectionState();
+  }
+
+  public Observable<State> connectionStateObservableBusinessChannel() {
+    return businessStreamingService.subscribeConnectionState();
   }
 
   @Override

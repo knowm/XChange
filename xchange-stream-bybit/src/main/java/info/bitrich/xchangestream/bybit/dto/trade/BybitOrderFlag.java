@@ -1,4 +1,4 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

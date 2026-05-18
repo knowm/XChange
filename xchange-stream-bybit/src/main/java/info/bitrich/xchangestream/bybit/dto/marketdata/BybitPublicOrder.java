@@ -1,4 +1,4 @@
-package dto.marketdata;
+package info.bitrich.xchangestream.bybit.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;

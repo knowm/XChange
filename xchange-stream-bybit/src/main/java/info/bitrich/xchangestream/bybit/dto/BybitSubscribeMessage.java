@@ -1,8 +1,9 @@
-package dto;
+package info.bitrich.xchangestream.bybit.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
