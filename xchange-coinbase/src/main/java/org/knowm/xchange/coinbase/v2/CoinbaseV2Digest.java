@@ -1,12 +1,11 @@
 package org.knowm.xchange.coinbase.v2;
 
+import static org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated.CB_ACCESS_TIMESTAMP;
+
+import jakarta.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
-
-import jakarta.ws.rs.HeaderParam;
-
-import static org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated.CB_ACCESS_TIMESTAMP;
 
 public class CoinbaseV2Digest extends BaseParamsDigest {
 
@@ -23,7 +22,8 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
     String path = restInvocation.getInvocationUrl();
-    final String timestamp = restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
+    final String timestamp =
+        restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
     if (path.contains(ADVANCED_TRADING_V3)) {
       path = "/" + restInvocation.getPath();
     } else {

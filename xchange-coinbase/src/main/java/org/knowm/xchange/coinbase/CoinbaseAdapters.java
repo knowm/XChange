@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -121,9 +120,12 @@ public final class CoinbaseAdapters {
   private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
     // Bug fix - Null point exception in case of cancelled transactions
 
-      String transactionId = transaction.getTransaction() == null ?
-              null : (transaction.getTransaction().getId() == null ?
-              null : transaction.getTransaction().getId());
+    String transactionId =
+        transaction.getTransaction() == null
+            ? null
+            : (transaction.getTransaction().getId() == null
+                ? null
+                : transaction.getTransaction().getId());
     return UserTrade.builder()
         .type(orderType)
         .originalAmount(transaction.getAmount().getAmount())

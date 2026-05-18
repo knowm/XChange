@@ -1,13 +1,11 @@
 package org.knowm.xchange.okcoin.v3.dto.account;
 
-import org.knowm.xchange.okcoin.v3.dto.deserialize.StringNumeralBooleanDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
 import lombok.Data;
+import org.knowm.xchange.okcoin.v3.dto.deserialize.StringNumeralBooleanDeserializer;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

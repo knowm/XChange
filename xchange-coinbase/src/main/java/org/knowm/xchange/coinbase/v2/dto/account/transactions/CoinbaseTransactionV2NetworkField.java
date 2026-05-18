@@ -13,11 +13,10 @@ public class CoinbaseTransactionV2NetworkField {
   private final String hash;
 
   public CoinbaseTransactionV2NetworkField(
-          @JsonProperty("status") String status,
-          @JsonProperty("network_name") String networkName,
-          @JsonProperty("transaction_fee") CoinbaseAmount transactionFee,
-          @JsonProperty("hash") String hash
-  ) {
+      @JsonProperty("status") String status,
+      @JsonProperty("network_name") String networkName,
+      @JsonProperty("transaction_fee") CoinbaseAmount transactionFee,
+      @JsonProperty("hash") String hash) {
     this.status = status;
     this.networkName = networkName;
     this.transactionFee = transactionFee;

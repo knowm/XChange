@@ -6,20 +6,16 @@ import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistoryRaw;
-import org.knowm.xchange.bybit.dto.marketdata.BybitKline;
 import org.knowm.xchange.bybit.dto.marketdata.BybitKlines;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.trade.params.CandleStickDataParams;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BybitMarketDataServiceRaw extends BybitBaseService {
 
@@ -59,13 +55,10 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
     return result;
   }
 
-  public BybitResult<BybitOrderbook> getOrderbook(
-      BybitCategory category, String symbol, int limit) throws IOException {
+  public BybitResult<BybitOrderbook> getOrderbook(BybitCategory category, String symbol, int limit)
+      throws IOException {
     BybitResult<BybitOrderbook> result =
-        bybit.getOrderbook(
-            category.getValue(),
-            symbol,
-            limit > 0 ? String.valueOf(limit) : null);
+        bybit.getOrderbook(category.getValue(), symbol, limit > 0 ? String.valueOf(limit) : null);
 
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);
@@ -74,21 +67,26 @@ public class BybitMarketDataServiceRaw extends BybitBaseService {
   }
 
   public CandleStickData getCandleStickDataRaw(
-      BybitCategory category,
-      String symbol,
-      String interval,
-      Long start,
-      Long end,
-      Integer limit)
+      BybitCategory category, String symbol, String interval, Long start, Long end, Integer limit)
       throws IOException {
-    BybitResult<BybitKlines> result = bybit.getKlines(category.getValue(), symbol, interval, start, end, limit);
+    BybitResult<BybitKlines> result =
+        bybit.getKlines(category.getValue(), symbol, interval, start, end, limit);
     if (!result.isSuccess()) {
       throw BybitAdapters.createBybitExceptionFromResult(result);
     }
     return BybitAdapters.adaptCandleStickData(result.getResult(), category);
   }
 
-  public List<BybitFundingRateHistoryRaw> getFundingRateHistoryRaw(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
-    return bybit.getFundingHistory(BybitAdapters.getCategory(instrument).getValue(), BybitAdapters.convertToBybitSymbol(instrument), startTime, endTime, limit).getResult().getList();
+  public List<BybitFundingRateHistoryRaw> getFundingRateHistoryRaw(
+      Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return bybit
+        .getFundingHistory(
+            BybitAdapters.getCategory(instrument).getValue(),
+            BybitAdapters.convertToBybitSymbol(instrument),
+            startTime,
+            endTime,
+            limit)
+        .getResult()
+        .getList();
   }
 }

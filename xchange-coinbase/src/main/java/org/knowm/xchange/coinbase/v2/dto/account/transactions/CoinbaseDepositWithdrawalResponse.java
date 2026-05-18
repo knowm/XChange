@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class CoinbaseDepositWithdrawalResponse {
-    private final List<CoinbaseBuySell> data;
+  private final List<CoinbaseBuySell> data;
 
-    public CoinbaseDepositWithdrawalResponse(@JsonProperty("data") List<CoinbaseBuySell> data) {
-        this.data = data;
-    }
+  public CoinbaseDepositWithdrawalResponse(@JsonProperty("data") List<CoinbaseBuySell> data) {
+    this.data = data;
+  }
 }

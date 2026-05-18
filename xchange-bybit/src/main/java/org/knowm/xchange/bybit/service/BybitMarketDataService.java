@@ -3,17 +3,17 @@ package org.knowm.xchange.bybit.service;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
-import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistory;
 import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistoryRaw;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.BybitTickers;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
@@ -22,8 +22,8 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -153,8 +153,7 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
         ob.getAsks().entrySet().stream()
             .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
             .collect(Collectors.toList());
-    return new OrderBook(
-        Date.from(Instant.ofEpochMilli(ob.getTimestamp())), asks, bids);
+    return new OrderBook(Date.from(Instant.ofEpochMilli(ob.getTimestamp())), asks, bids);
   }
 
   public CandleStickData getCandleStickData(Instrument instrument, CandleStickDataParams params)
@@ -165,8 +164,7 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
     Integer limit = null;
     if (params instanceof DefaultCandleStickParamWithLimit) {
       DefaultCandleStickParamWithLimit checkedParams = (DefaultCandleStickParamWithLimit) params;
-      start =
-          checkedParams.getStartDate() == null ? null : checkedParams.getStartDate().getTime();
+      start = checkedParams.getStartDate() == null ? null : checkedParams.getStartDate().getTime();
       end = checkedParams.getEndDate() == null ? null : checkedParams.getEndDate().getTime();
       interval = String.valueOf(checkedParams.getPeriodInSecs() / 60);
       if (checkedParams.getPeriodInSecs() == 86400) {
@@ -179,8 +177,7 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
       limit = checkedParams.getLimit();
     } else if (params instanceof DefaultCandleStickParam) {
       DefaultCandleStickParam checkedParams = (DefaultCandleStickParam) params;
-      start =
-          checkedParams.getStartDate() == null ? null : checkedParams.getStartDate().getTime();
+      start = checkedParams.getStartDate() == null ? null : checkedParams.getStartDate().getTime();
       end = checkedParams.getEndDate() == null ? null : checkedParams.getEndDate().getTime();
       interval = String.valueOf(checkedParams.getPeriodInSecs() / 60);
       if (checkedParams.getPeriodInSecs() == 86400) {
@@ -191,20 +188,26 @@ public class BybitMarketDataService extends BybitMarketDataServiceRaw implements
         interval = "M";
       }
     } else {
-      throw new IllegalArgumentException("CandleStickDataParams must be DefaultCandleStickParam or DefaultCandleStickParamWithLimit");
+      throw new IllegalArgumentException(
+          "CandleStickDataParams must be DefaultCandleStickParam or DefaultCandleStickParamWithLimit");
     }
     BybitCategory category = BybitAdapters.getCategory(instrument);
     String symbol = BybitAdapters.convertToBybitSymbol(instrument);
     return getCandleStickDataRaw(category, symbol, interval, start, end, limit);
   }
 
-  public List<BybitFundingRateHistory> getFundingRateHistory(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+  public List<BybitFundingRateHistory> getFundingRateHistory(
+      Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
     BybitCategory category = BybitAdapters.getCategory(instrument);
-    List<BybitFundingRateHistoryRaw> raw = getFundingRateHistoryRaw(instrument, startTime, endTime, limit);
+    List<BybitFundingRateHistoryRaw> raw =
+        getFundingRateHistoryRaw(instrument, startTime, endTime, limit);
     List<BybitFundingRateHistory> result = new ArrayList<>();
     for (BybitFundingRateHistoryRaw entry : raw) {
-      Instrument converted = BybitAdapters.convertBybitSymbolToInstrument(entry.getInstrument(), category);
-      result.add(new BybitFundingRateHistory(converted, entry.getFundingRate(), entry.getFundingRateTimestamp()));
+      Instrument converted =
+          BybitAdapters.convertBybitSymbolToInstrument(entry.getInstrument(), category);
+      result.add(
+          new BybitFundingRateHistory(
+              converted, entry.getFundingRate(), entry.getFundingRateTimestamp()));
     }
     // sort, oldest first
     result.sort(Comparator.comparingLong(s -> s.getFundingRateTimestamp().toEpochMilli()));

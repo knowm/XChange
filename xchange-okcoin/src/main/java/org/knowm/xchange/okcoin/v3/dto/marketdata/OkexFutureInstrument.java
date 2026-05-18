@@ -1,11 +1,9 @@
 package org.knowm.xchange.okcoin.v3.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
+import java.math.BigDecimal;
 import lombok.Data;
 
 @Data

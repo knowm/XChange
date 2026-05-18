@@ -1,13 +1,11 @@
 package org.knowm.xchange.deribit.v2.dto.trade;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

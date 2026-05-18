@@ -2,15 +2,6 @@ package org.knowm.xchange.coinbase.cdp.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
-import org.knowm.xchange.coinbase.v2.Coinbase;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
-import org.knowm.xchange.currency.Currency;
-
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -18,6 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbase.v2.Coinbase;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
+import org.knowm.xchange.currency.Currency;
 
 public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
 
@@ -27,19 +26,14 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
 
   public CoinbaseTransactionsResponse getTransactions(String accountId) throws IOException {
 
-    return coinbase.getTransactions(
-        signatureCreator2, accountId);
+    return coinbase.getTransactions(signatureCreator2, accountId);
   }
 
-  public CoinbaseExpandTransactionsResponse getExpandTransactions(String accountId, CoinbaseTradeHistoryParams params, String orderType)
-      throws IOException {
+  public CoinbaseExpandTransactionsResponse getExpandTransactions(
+      String accountId, CoinbaseTradeHistoryParams params, String orderType) throws IOException {
 
     return coinbase.getExpandedTransactions(
-              signatureCreator2,
-              accountId,
-              params.getLimit(),
-              orderType,
-              params.getStartId());
+        signatureCreator2, accountId, params.getLimit(), orderType, params.getStartId());
   }
 
   public Map getDeposits(String accountId) throws IOException {
@@ -72,11 +66,7 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
     String lastAccount = null;
     do {
       try {
-        tmpList =
-            coinbase
-                .getAccounts(
-                        signatureCreator2, 100, lastAccount)
-                .getData();
+        tmpList = coinbase.getAccounts(signatureCreator2, 100, lastAccount).getData();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -109,11 +99,7 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
    */
   public CoinbaseAccount getCoinbaseAccount(Currency currency) throws IOException {
 
-    return coinbase
-        .getAccount(
-            signatureCreator2,
-            currency.getCurrencyCode())
-        .getData();
+    return coinbase.getAccount(signatureCreator2, currency.getCurrencyCode()).getData();
   }
 
   /**
@@ -152,9 +138,7 @@ public class CoinbaseAccountServiceRawCDP extends CoinbaseBaseServiceCDP {
    */
   public List<CoinbasePaymentMethod> getCoinbasePaymentMethods() throws IOException {
 
-    return coinbase
-        .getPaymentMethods(signatureCreator2)
-        .getData();
+    return coinbase.getPaymentMethods(signatureCreator2).getData();
   }
 
   public static class CreateCoinbaseAccountPayload {

@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.okex.dto.OkexSubscriptionTopic;
@@ -11,25 +13,21 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.Setter;
-import org.knowm.xchange.ExchangeSpecification;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-
-import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import lombok.Setter;
+import org.knowm.xchange.ExchangeSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OkexBusinessStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(OkexBusinessStreamingService.class);
 
   protected static final String SUBSCRIBE = "subscribe";
   protected static final String UNSUBSCRIBE = "unsubscribe";
-  @Setter
-  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
+  @Setter private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
 
@@ -95,7 +93,9 @@ public class OkexBusinessStreamingService extends JsonNettyStreamingService {
     if (message.has("arg")) {
       if (message.get("arg").has("channel") && message.get("arg").has("instId")) {
         channelName =
-            message.get("arg").get("channel").asText() + "-" + message.get("arg").get("instId").asText();
+            message.get("arg").get("channel").asText()
+                + "-"
+                + message.get("arg").get("instId").asText();
       }
     }
     return channelName;
@@ -104,7 +104,8 @@ public class OkexBusinessStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     return objectMapper.writeValueAsString(
-        new OkexSubscribeMessage<>("", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
+        new OkexSubscribeMessage<>(
+            "", SUBSCRIBE, Collections.singletonList(getTopic(channelName))));
   }
 
   @Override

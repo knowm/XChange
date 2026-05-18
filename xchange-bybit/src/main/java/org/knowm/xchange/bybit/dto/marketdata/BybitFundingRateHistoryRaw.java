@@ -16,7 +16,10 @@ public class BybitFundingRateHistoryRaw {
 
   private final Instant fundingRateTimestamp;
 
-  public BybitFundingRateHistoryRaw(@JsonProperty("symbol") String instrument, @JsonProperty("fundingRate") BigDecimal fundingRate, @JsonProperty("fundingRateTimestamp") long fundingRateTimestamp) {
+  public BybitFundingRateHistoryRaw(
+      @JsonProperty("symbol") String instrument,
+      @JsonProperty("fundingRate") BigDecimal fundingRate,
+      @JsonProperty("fundingRateTimestamp") long fundingRateTimestamp) {
     this.instrument = instrument;
     this.fundingRate = fundingRate;
     this.fundingRateTimestamp = Instant.ofEpochMilli(fundingRateTimestamp);

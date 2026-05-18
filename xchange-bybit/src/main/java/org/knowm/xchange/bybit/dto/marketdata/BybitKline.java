@@ -1,7 +1,6 @@
 package org.knowm.xchange.bybit.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;

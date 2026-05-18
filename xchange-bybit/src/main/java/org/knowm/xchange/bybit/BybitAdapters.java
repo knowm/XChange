@@ -1,5 +1,18 @@
 package org.knowm.xchange.bybit;
 
+import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
+import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
+import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
+import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -41,20 +54,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.*;
-
-import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
 
 public class BybitAdapters {
 
@@ -601,8 +600,7 @@ public class BybitAdapters {
 
   public static CandleStickData adaptCandleStickData(
       BybitKlines bybitKlines, BybitCategory category) {
-    Instrument instrument =
-        convertBybitSymbolToInstrument(bybitKlines.getSymbol(), category);
+    Instrument instrument = convertBybitSymbolToInstrument(bybitKlines.getSymbol(), category);
     List<CandleStick> candleSticks = new ArrayList<>();
     for (BybitKline bybitKline : bybitKlines.getList()) {
       candleSticks.add(adaptBybitKline(bybitKline));

@@ -1,10 +1,9 @@
 package info.bitrich.xchangestream.bybit.dto.trade;
 
-import lombok.Getter;
-import org.knowm.xchange.bybit.dto.BybitCategory;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import org.knowm.xchange.bybit.dto.BybitCategory;
 
 @Getter
 public class BybitPositionChangesResponse {

@@ -119,9 +119,14 @@ public class OkexPublicDataIntegration {
         ((OkexMarketDataService) exchange.getMarketDataService())
             .getHistoryCandle("BTC-USDT", null, null, null, null);
     assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
-    DefaultCandleStickParam params = new DefaultCandleStickParam(new Date(System.currentTimeMillis() - 10 * 60 * 1000), new Date(System.currentTimeMillis()), 60);
+    DefaultCandleStickParam params =
+        new DefaultCandleStickParam(
+            new Date(System.currentTimeMillis() - 10 * 60 * 1000),
+            new Date(System.currentTimeMillis()),
+            60);
     CandleStickData candleStickData =
-        exchange.getMarketDataService()
+        exchange
+            .getMarketDataService()
             .getCandleStickData(new FuturesContract("BTC/USDT/SWAP"), params);
     assertTrue(Objects.nonNull(candleStickData));
     assertTrue(!candleStickData.getCandleSticks().isEmpty());
@@ -158,12 +163,16 @@ public class OkexPublicDataIntegration {
   @Test
   public void testFundingRateHistory() {
     try {
-      List<OkxFundingRateHistory> fundingRateHistory = ((OkexMarketDataService) exchange.getMarketDataService()).getFundingRateHistory(instrument, System.currentTimeMillis() - 24 * 60 * 60 * 1000,
-          System.currentTimeMillis(), null);
+      List<OkxFundingRateHistory> fundingRateHistory =
+          ((OkexMarketDataService) exchange.getMarketDataService())
+              .getFundingRateHistory(
+                  instrument,
+                  System.currentTimeMillis() - 24 * 60 * 60 * 1000,
+                  System.currentTimeMillis(),
+                  null);
       System.out.println(fundingRateHistory);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-
   }
 }

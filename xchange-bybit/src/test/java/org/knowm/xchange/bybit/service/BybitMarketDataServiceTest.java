@@ -19,12 +19,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class BybitMarketDataServiceTest extends BaseWiremockTest {
 
   private MarketDataService marketDataService;
@@ -96,13 +90,14 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   public void testGetFundingRateHistory() throws Exception {
     initGetStub("/v5/market/funding/history", "/getFundingRateHistory.json5");
 
-    List<BybitFundingRateHistory> fundingRateHistory = ((BybitMarketDataService) marketDataService).getFundingRateHistory(new FuturesContract("ETH/USDT/PERP"),
-        null, null, null);
+    List<BybitFundingRateHistory> fundingRateHistory =
+        ((BybitMarketDataService) marketDataService)
+            .getFundingRateHistory(new FuturesContract("ETH/USDT/PERP"), null, null, null);
 
     assertThat(fundingRateHistory.get(0).getInstrument().toString()).isEqualTo("ETH/USDT/PERP");
     assertThat(fundingRateHistory.get(0).getFundingRate()).isEqualTo(new BigDecimal("0.0001"));
-    assertThat(fundingRateHistory.get(0).getFundingRateTimestamp()).isEqualTo(Instant.ofEpochMilli(1672051897447L));
-
+    assertThat(fundingRateHistory.get(0).getFundingRateTimestamp())
+        .isEqualTo(Instant.ofEpochMilli(1672051897447L));
   }
 
   @Test
@@ -110,9 +105,9 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
     initGetStub("/v5/market/kline", "/getKlines.json5");
 
     CandleStickData candleStickData =
-        marketDataService
-            .getCandleStickData(
-                CurrencyPair.BTC_USDT, new DefaultCandleStickParam(new Date(1670601600000L), new Date(1670608800000L), 60));
+        marketDataService.getCandleStickData(
+            CurrencyPair.BTC_USDT,
+            new DefaultCandleStickParam(new Date(1670601600000L), new Date(1670608800000L), 60));
 
     assertThat(candleStickData.getInstrument().toString()).isEqualTo("BTC/USDT");
     assertThat(candleStickData.getCandleSticks()).hasSize(3);

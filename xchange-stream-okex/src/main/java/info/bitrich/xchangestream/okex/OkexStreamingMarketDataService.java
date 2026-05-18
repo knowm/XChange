@@ -1,10 +1,16 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.instrument.Instrument;
@@ -12,13 +18,6 @@ import org.knowm.xchange.okex.OkexAdapters;
 import org.knowm.xchange.okex.dto.marketdata.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
 
 public class OkexStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -175,8 +174,12 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   }
 
   @Override
-  public Observable<CandleStickData> getCandleStick(Instrument instrument, CandleStickInterval interval) {
-    String channelUniqueId = OkexAdapters.adaptCandleStickInterval(interval).name() + "-" + OkexAdapters.adaptInstrument(instrument);
+  public Observable<CandleStickData> getCandleStick(
+      Instrument instrument, CandleStickInterval interval) {
+    String channelUniqueId =
+        OkexAdapters.adaptCandleStickInterval(interval).name()
+            + "-"
+            + OkexAdapters.adaptInstrument(instrument);
 
     return businessStreamingService
         .subscribeChannel(channelUniqueId)
@@ -186,7 +189,8 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
               List<OkexCandleStick> okexCandles =
                   mapper.treeToValue(
                       jsonNode.get("data"),
-                      mapper.getTypeFactory()
+                      mapper
+                          .getTypeFactory()
                           .constructCollectionType(List.class, OkexCandleStick.class));
               return Observable.just(OkexAdapters.adaptCandleStickData(okexCandles, instrument));
             });

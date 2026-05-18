@@ -91,8 +91,7 @@ public class OkexWebsocketTradeTest {
   }
 
   private void tradeTest(Instrument instrument) throws IOException, InterruptedException {
-    StreamingTradeService tradeService =
-        exchange.getStreamingTradeService();
+    StreamingTradeService tradeService = exchange.getStreamingTradeService();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();

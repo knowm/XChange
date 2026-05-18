@@ -1,18 +1,5 @@
 package org.knowm.xchange.coinbase.cdp;
 
-import org.knowm.xchange.coinbase.v2.Coinbase;
-import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
-import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
-import si.mazi.rescu.ParamsDigest;
-
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -25,6 +12,17 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
+import org.knowm.xchange.coinbase.v2.Coinbase;
+import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountsData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
+import si.mazi.rescu.ParamsDigest;
 
 @Path("/v2")
 @Produces(MediaType.APPLICATION_JSON)
@@ -49,7 +47,6 @@ public interface CoinbaseAuthenticatedCDP extends Coinbase {
    */
   String CB_ACCESS_KEY = "CB-ACCESS-KEY";
 
-
   String CB_ACCESS_SIGN = "CB-ACCESS-SIGN";
   String CB_ACCESS_TIMESTAMP = "CB-ACCESS-TIMESTAMP";
 
@@ -65,12 +62,12 @@ public interface CoinbaseAuthenticatedCDP extends Coinbase {
   @GET
   @Path("accounts/{accountId}/transactions")
   CoinbaseExpandTransactionsResponse getExpandedTransactions(
-          @HeaderParam("Authorization") ParamsDigest signature,
-          @PathParam("accountId") String accountId,
-          @QueryParam("limit") int limit,
-          @QueryParam("order") String orderType,
-          @QueryParam("starting_after") String startingFrom)
-          throws IOException, CoinbaseException;
+      @HeaderParam("Authorization") ParamsDigest signature,
+      @PathParam("accountId") String accountId,
+      @QueryParam("limit") int limit,
+      @QueryParam("order") String orderType,
+      @QueryParam("starting_after") String startingFrom)
+      throws IOException, CoinbaseException;
 
   @GET
   @Path("accounts/{accountId}/buys")
@@ -139,8 +136,7 @@ public interface CoinbaseAuthenticatedCDP extends Coinbase {
   @GET
   @Path("accounts/{currency}")
   CoinbaseAccountData getAccount(
-      @HeaderParam("Authorization") ParamsDigest signature,
-      @PathParam("currency") String currency)
+      @HeaderParam("Authorization") ParamsDigest signature, @PathParam("currency") String currency)
       throws IOException, CoinbaseException;
 
   @POST
@@ -157,8 +153,7 @@ public interface CoinbaseAuthenticatedCDP extends Coinbase {
 
   @GET
   @Path("payment-methods")
-  CoinbasePaymentMethodsData getPaymentMethods(
-      @HeaderParam("Authorization") ParamsDigest signature)
+  CoinbasePaymentMethodsData getPaymentMethods(@HeaderParam("Authorization") ParamsDigest signature)
       throws IOException, CoinbaseException;
 
   @POST

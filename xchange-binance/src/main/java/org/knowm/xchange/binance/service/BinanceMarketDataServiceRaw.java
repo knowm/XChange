@@ -123,7 +123,9 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
                             startTime,
                             endTime))
             .withRetry(retry("klines"))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), isFutures ? klinesFuturePermits(limit) : 2)
+            .withRateLimiter(
+                rateLimiter(REQUEST_WEIGHT_RATE_LIMITER),
+                isFutures ? klinesFuturePermits(limit) : 2)
             .call();
     return raw.stream()
         .map(obj -> new BinanceKline(pair, interval, obj))
@@ -198,8 +200,12 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public List<BinanceFundingRateHistory> fundingRateHistoryRaw(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
-    return decorateApiCall(() -> binanceFutures.fundingRateHistory(BinanceAdapters.toSymbol(instrument), startTime, endTime, limit))
+  public List<BinanceFundingRateHistory> fundingRateHistoryRaw(
+      Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.fundingRateHistory(
+                    BinanceAdapters.toSymbol(instrument), startTime, endTime, limit))
         .withRetry(retry("fundingRateHistory"))
         .withRateLimiter(rateLimiter(FUNDING_RATE_AND_INFO_RATE_LIMITER))
         .call();

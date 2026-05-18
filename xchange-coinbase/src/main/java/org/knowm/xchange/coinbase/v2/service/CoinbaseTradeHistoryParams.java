@@ -1,10 +1,9 @@
 package org.knowm.xchange.coinbase.v2.service;
 
+import java.time.Instant;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-
-import java.time.Instant;
 
 public class CoinbaseTradeHistoryParams
     implements TradeHistoryParamsIdSpan, TradeHistoryParamLimit {

@@ -56,7 +56,8 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   }
 
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params) {
+  public CandleStickData getCandleStickData(
+      CurrencyPair currencyPair, CandleStickDataParams params) {
     return getCandleStickData(currencyPair, params);
   }
 
@@ -107,8 +108,11 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
         .collect(Collectors.toList());
   }
 
-  public List<OkxFundingRateHistory> getFundingRateHistory(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
-    List<OkxFundingRateHistory> result = getOkxFundingRateHistoryRaw(OkexAdapters.adaptInstrument(instrument), startTime, endTime, limit);
+  public List<OkxFundingRateHistory> getFundingRateHistory(
+      Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    List<OkxFundingRateHistory> result =
+        getOkxFundingRateHistoryRaw(
+            OkexAdapters.adaptInstrument(instrument), startTime, endTime, limit);
     // sort, oldest first
     result.sort(Comparator.comparingLong(c -> c.getFundingTime().toEpochMilli()));
     return result;
