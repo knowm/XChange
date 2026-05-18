@@ -42,8 +42,9 @@ public class BinanceFutureStreamPrivateTest {
   public void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceFutureStreamingExchange.class);
     // The most convenient way. Can store all keys in .ssh folder
-    AuthUtils.setApiAndSecretKey(spec, "binance-demo-futures");
-    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
+    AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
+    spec.setExchangeSpecificParametersItem("ed25519", true);
+//    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
     binanceFutureStreamingExchange = (BinanceFutureStreamingExchange) exchange;
@@ -109,7 +110,7 @@ public class BinanceFutureStreamPrivateTest {
                   });
       Thread.sleep(3000);
       Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
-      BigDecimal amount = new BigDecimal("0.01");
+      BigDecimal amount = new BigDecimal("0.012");
       // place limit order
       String orderId =
           exchange

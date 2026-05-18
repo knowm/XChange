@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.bitfinex.config.Config;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
@@ -92,7 +93,7 @@ public class BitfinexAdapters {
       Pattern.compile(("transfer of .* from .* to exchange sa\\(.*\\).*"));
   private static final Pattern WITHDRAWAL_PATTERN = Pattern.compile((".* withdrawal .*"));
 
-  private final ObjectMapper mapper = new ObjectMapper();
+  private final ObjectMapper mapper = Config.getInstance().getObjectMapper();
 
   private final AtomicBoolean warnedStopLimit = new AtomicBoolean();
 

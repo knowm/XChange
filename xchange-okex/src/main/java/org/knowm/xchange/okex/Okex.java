@@ -27,6 +27,7 @@ public interface Okex {
   String instrumentsPath = "/public/instruments"; // Stated as 20 req/2 sec
   String tickerPath = "/market/ticker"; // Stated as 20 req/2 sec
   String tickersPath = "/market/tickers"; // Stated as 20 req/2 sec
+  String candlesHistoryPath = "/market/history-candles"; // Stated as 20 req/2 sec
 
   // To avoid 429s, actual req/second may need to be lowered!
   Map<String, List<Integer>> publicPathRateLimits =
@@ -35,6 +36,7 @@ public interface Okex {
           put(instrumentsPath, Arrays.asList(8, 1));
           put(tickerPath, Arrays.asList(8, 1));
           put(tickersPath, Arrays.asList(8, 1));
+          put(candlesHistoryPath, Arrays.asList(8, 1));
         }
       };
 
@@ -78,7 +80,7 @@ public interface Okex {
       throws IOException, OkexException;
 
   @GET
-  @Path("/market/history-candles")
+  @Path(candlesHistoryPath)
   OkexResponse<List<OkexCandleStick>> getHistoryCandles(
       @QueryParam("instId") String instrument,
       @QueryParam("after") String after,

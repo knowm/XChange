@@ -23,13 +23,17 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
       accountInfoLast.toSerialized();
 
   private volatile Disposable accountInfo;
-  private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+  private volatile BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService;
+  private volatile BinanceUserDataSpotStreamingService binanceUserDataSpotStreamingService;
+  private boolean isFuture = false;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public BinanceStreamingAccountService(
-      BinanceUserDataStreamingService binanceUserDataStreamingService) {
-    this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+      BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService, BinanceUserDataSpotStreamingService binanceUserDataSpotStreamingService, boolean isFuture) {
+    this.binanceUserDataFutureStreamingService = binanceUserDataFutureStreamingService;
+    this.binanceUserDataSpotStreamingService = binanceUserDataSpotStreamingService;
+    this.isFuture = isFuture;
   }
 
   public Observable<OutboundAccountPositionBinanceWebsocketTransaction> getRawAccountInfo() {
@@ -45,8 +49,13 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   }
 
   private void checkConnected() {
-    if (binanceUserDataStreamingService == null || !binanceUserDataStreamingService.isSocketOpen())
+    if (isFuture) {
+      if (binanceUserDataFutureStreamingService == null || !binanceUserDataFutureStreamingService.isSocketOpen()) {
+        throw new ExchangeSecurityException("Not authenticated");
+      }
+    } else if (binanceUserDataSpotStreamingService == null || !binanceUserDataSpotStreamingService.isSocketOpen()) {
       throw new ExchangeSecurityException("Not authenticated");
+    }
   }
 
   @Override
@@ -61,9 +70,23 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
    * handle these before the first messages arrive.
    */
   public void openSubscriptions() {
-    if (binanceUserDataStreamingService != null) {
+    if (isFuture) {
+      if (binanceUserDataFutureStreamingService == null) {
+        return;
+      }
       accountInfo =
-          binanceUserDataStreamingService
+          binanceUserDataFutureStreamingService
+              .subscribeChannel(
+                  BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_POSITION)
+              .map(this::accountInfo)
+              .filter(
+                  m ->
+                      accountInfoLast.getValue() == null
+                          || accountInfoLast.getValue().getEventTime().before(m.getEventTime()))
+              .subscribe(accountInfoPublisher::onNext);
+    } else if (binanceUserDataSpotStreamingService != null) {
+      accountInfo =
+          binanceUserDataSpotStreamingService
               .subscribeChannel(
                   BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_POSITION)
               .map(this::accountInfo)
@@ -76,14 +99,14 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   }
 
   /**
-   * User data subscriptions may have to persist across multiple socket connections to different
-   * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
-   * stream.
+   * User data subscriptions may have to persist across multiple socket connections to different URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted stream.
    */
-  void setUserDataStreamingService(
-      BinanceUserDataStreamingService binanceUserDataStreamingService) {
-    if (accountInfo != null && !accountInfo.isDisposed()) accountInfo.dispose();
-    this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+  void setUserDataFutureStreamingService(
+      BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService) {
+    if (accountInfo != null && !accountInfo.isDisposed()) {
+      accountInfo.dispose();
+    }
+    this.binanceUserDataFutureStreamingService = binanceUserDataFutureStreamingService;
     openSubscriptions();
   }
 

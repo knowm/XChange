@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -64,5 +65,18 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
     assertThat(ticker.getBidSize()).isEqualTo(new BigDecimal("2"));
     assertThat(ticker.getAskSize()).isEqualTo(new BigDecimal("1.862172"));
     assertThat(ticker.getPercentageChange()).isEqualTo(new BigDecimal("0.0068"));
+  }
+
+  @Test
+  public void testGetOrderBook() throws Exception {
+    initGetStub("/v5/market/orderbook", "/getOrderbookSpot.json5");
+
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+
+    assertThat(orderBook.getBids()).hasSize(2);
+    assertThat(orderBook.getAsks()).hasSize(2);
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("65485.47"));
+    assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("65557.7"));
   }
 }

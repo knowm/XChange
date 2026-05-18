@@ -1,38 +1,36 @@
 package info.bitrich.xchangestream.bybit;
 
-import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptComplexOrdersChanges;
-import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptOrderBook;
-import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptOrdersChanges;
-import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptTrades;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
-import static org.knowm.xchange.bybit.dto.trade.BybitOrderType.MARKET;
-import static org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce.IOC;
-import static org.knowm.xchange.dto.Order.OrderStatus.FILLED;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.marketdata.BybitOrderbook;
-import dto.trade.BybitComplexOrderChanges;
-import dto.trade.BybitComplexPositionChanges;
-import dto.trade.BybitOrderChangesResponse;
-import dto.trade.BybitPositionChangesResponse;
-import dto.trade.BybitTrade;
+import info.bitrich.xchangestream.bybit.dto.BybitResponse;
+import info.bitrich.xchangestream.bybit.dto.marketdata.BybitOrderbook;
+import info.bitrich.xchangestream.bybit.dto.trade.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.List;
-import java.util.Locale;
 import org.junit.Test;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.MarketOrder;
+
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.List;
+import java.util.Locale;
+
+import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
+import static org.knowm.xchange.bybit.dto.trade.BybitOrderType.MARKET;
+import static org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce.IOC;
+import static org.knowm.xchange.dto.Order.OrderStatus.FILLED;
 
 public class BybitStreamAdaptersTest {
 
@@ -231,5 +229,124 @@ public class BybitStreamAdaptersTest {
     assertThat(order.getSmpGroup()).isEqualTo(0);
     assertThat(order.getSmpOrderId()).isEmpty();
     assertThat(order.getUpdatedTime().getTime()).isEqualTo(1672364262457L);
+  }
+
+  @Test
+  public void adaptTickerSnapshotTest() throws Exception {
+    JsonNode jsonNode =
+        mapper.readTree(
+            ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("tickerSnapshotResponse.json5"));
+    BybitResponse<BybitLinearInverseTicker> bybitResponse =
+        mapper.treeToValue(jsonNode, new TypeReference<>() {});
+
+    assertThat(bybitResponse.getType()).isEqualTo("snapshot");
+    assertThat(bybitResponse.getTopic()).isEqualTo("tickers.BTCUSDT");
+
+    BybitLinearInverseTicker data = bybitResponse.getData();
+    assertThat(data.getSymbol()).isEqualTo("BTCUSDT");
+    assertThat(data.getFundingRate()).isEqualTo(new BigDecimal("0.0001"));
+    assertThat(data.getOpenInterest()).isEqualTo(new BigDecimal("50000.000"));
+    assertThat(data.getFundingIntervalHour()).isEqualTo(8);
+
+    Ticker ticker = adaptTicker(data);
+    assertThat(ticker.getInstrument()).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("70123.50"));
+    assertThat(ticker.getBid()).isEqualTo(new BigDecimal("70123.00"));
+    assertThat(ticker.getBidSize()).isEqualTo(new BigDecimal("2.300"));
+    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("70124.00"));
+    assertThat(ticker.getAskSize()).isEqualTo(new BigDecimal("1.500"));
+    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("70500.00"));
+    assertThat(ticker.getLow()).isEqualTo(new BigDecimal("69200.00"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("12345.670"));
+    assertThat(ticker.getQuoteVolume()).isEqualTo(new BigDecimal("865432100.00"));
+    // price24hPcnt 0.00896 → percentageChange 0.896 (×100)
+    assertThat(ticker.getPercentageChange()).isEqualByComparingTo(new BigDecimal("0.896"));
+    assertThat(ticker.getTimestamp()).isNotNull();
+  }
+
+  @Test
+  public void adaptTickerDeltaDeserializationTest() throws Exception {
+    // Verify delta messages deserialize correctly with partial fields
+    JsonNode jsonNode =
+        mapper.readTree(
+            ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("tickerDeltaResponse.json5"));
+    BybitResponse<BybitLinearInverseTicker> bybitResponse =
+        mapper.treeToValue(jsonNode, new TypeReference<>() {});
+
+    assertThat(bybitResponse.getType()).isEqualTo("delta");
+
+    BybitLinearInverseTicker delta = bybitResponse.getData();
+    assertThat(delta.getSymbol()).isEqualTo("BTCUSDT");
+    assertThat(delta.getLastPrice()).isEqualTo(new BigDecimal("70150.00"));
+    assertThat(delta.getBid1Price()).isEqualTo(new BigDecimal("70149.50"));
+    assertThat(delta.getBid1Size()).isEqualTo(new BigDecimal("3.100"));
+    assertThat(delta.getAsk1Price()).isEqualTo(new BigDecimal("70150.50"));
+    assertThat(delta.getAsk1Size()).isEqualTo(new BigDecimal("1.200"));
+    // Fields not in delta should be null
+    assertThat(delta.getHighPrice24h()).isNull();
+    assertThat(delta.getLowPrice24h()).isNull();
+    assertThat(delta.getVolume24h()).isNull();
+    assertThat(delta.getFundingRate()).isNull();
+    assertThat(delta.getOpenInterest()).isNull();
+  }
+
+  @Test
+  public void adaptTickerDeltaMergeTest() throws Exception {
+    // Load snapshot
+    JsonNode snapshotNode =
+        mapper.readTree(
+            ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("tickerSnapshotResponse.json5"));
+    BybitResponse<BybitLinearInverseTicker> snapshotResponse =
+        mapper.treeToValue(snapshotNode, new TypeReference<>() {});
+    BybitLinearInverseTicker snapshot = snapshotResponse.getData();
+
+    // Load delta
+    JsonNode deltaNode =
+        mapper.readTree(
+            ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("tickerDeltaResponse.json5"));
+    BybitResponse<BybitLinearInverseTicker> deltaResponse =
+        mapper.treeToValue(deltaNode, new TypeReference<>() {});
+    BybitLinearInverseTicker delta = deltaResponse.getData();
+
+    // Simulate merge: delta fields override snapshot, rest preserved
+    BybitLinearInverseTicker merged = BybitLinearInverseTicker.builder()
+        .symbol(snapshot.getSymbol())
+        .lastPrice(delta.getLastPrice() != null ? delta.getLastPrice() : snapshot.getLastPrice())
+        .bid1Price(delta.getBid1Price() != null ? delta.getBid1Price() : snapshot.getBid1Price())
+        .bid1Size(delta.getBid1Size() != null ? delta.getBid1Size() : snapshot.getBid1Size())
+        .ask1Price(delta.getAsk1Price() != null ? delta.getAsk1Price() : snapshot.getAsk1Price())
+        .ask1Size(delta.getAsk1Size() != null ? delta.getAsk1Size() : snapshot.getAsk1Size())
+        .highPrice24h(delta.getHighPrice24h() != null ? delta.getHighPrice24h() : snapshot.getHighPrice24h())
+        .lowPrice24h(delta.getLowPrice24h() != null ? delta.getLowPrice24h() : snapshot.getLowPrice24h())
+        .volume24h(delta.getVolume24h() != null ? delta.getVolume24h() : snapshot.getVolume24h())
+        .turnover24h(delta.getTurnover24h() != null ? delta.getTurnover24h() : snapshot.getTurnover24h())
+        .price24hPcnt(delta.getPrice24hPcnt() != null ? delta.getPrice24hPcnt() : snapshot.getPrice24hPcnt())
+        .indexPrice(snapshot.getIndexPrice())
+        .markPrice(snapshot.getMarkPrice())
+        .openInterest(snapshot.getOpenInterest())
+        .openInterestValue(snapshot.getOpenInterestValue())
+        .fundingRate(snapshot.getFundingRate())
+        .nextFundingTime(snapshot.getNextFundingTime())
+        .fundingIntervalHour(snapshot.getFundingIntervalHour())
+        .build();
+
+    Ticker ticker = adaptTicker(merged);
+
+    // Delta fields should be updated
+    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("70150.00"));
+    assertThat(ticker.getBid()).isEqualTo(new BigDecimal("70149.50"));
+    assertThat(ticker.getBidSize()).isEqualTo(new BigDecimal("3.100"));
+    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("70150.50"));
+    assertThat(ticker.getAskSize()).isEqualTo(new BigDecimal("1.200"));
+
+    // Snapshot fields should be preserved
+    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("70500.00"));
+    assertThat(ticker.getLow()).isEqualTo(new BigDecimal("69200.00"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("12345.670"));
+    assertThat(ticker.getQuoteVolume()).isEqualTo(new BigDecimal("865432100.00"));
   }
 }

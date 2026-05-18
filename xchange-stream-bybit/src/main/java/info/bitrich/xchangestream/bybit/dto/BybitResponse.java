@@ -1,4 +1,4 @@
-package dto;
+package info.bitrich.xchangestream.bybit.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

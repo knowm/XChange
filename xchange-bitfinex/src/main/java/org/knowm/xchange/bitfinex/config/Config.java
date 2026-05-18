@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitfinex.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.TimeUnit;
 import lombok.Data;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
@@ -8,6 +9,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Data
 public final class Config {
 
+  private ObjectMapper objectMapper;
   private SynchronizedValueFactory<Long> nonceFactory;
 
   private static Config instance = new Config();

@@ -1,11 +1,12 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Getter

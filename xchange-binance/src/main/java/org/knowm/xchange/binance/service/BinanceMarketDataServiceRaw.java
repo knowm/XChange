@@ -121,7 +121,7 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
                             startTime,
                             endTime))
             .withRetry(retry("klines"))
-            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), isFutures ? klinesFuturePermits(limit) : 2)
             .call();
     return raw.stream()
         .map(obj -> new BinanceKline(pair, interval, obj))
@@ -215,6 +215,17 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
       return 10;
     }
     return 20;
+  }
+
+  protected int klinesFuturePermits(Integer limit) {
+    if (limit == null || limit < 100) {
+      return 1;
+    } else if (limit < 500) {
+      return 2;
+    } else if (limit < 1000) {
+      return 5;
+    }
+    return 10; // > 1000
   }
 
   //  protected int aggTradesPermits(Integer limit) {

@@ -1,13 +1,14 @@
-package dto.trade;
+package info.bitrich.xchangestream.bybit.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderResponse;
+
+import java.util.List;
 
 @Getter
 @Builder

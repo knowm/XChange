@@ -69,7 +69,8 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
   private volatile Disposable positionChanges;
   private final BinanceExchange exchange;
   private final ResilienceRegistries resilienceRegistries;
-  private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+  private volatile BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService;
+  private volatile BinanceUserDataSpotStreamingService binanceUserDataSpotStreamingService;
   @Setter
   private volatile BinanceUserTradeStreamingService binanceUserTradeStreamingService;
 
@@ -77,34 +78,41 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
 
   public BinanceStreamingTradeService(
       BinanceExchange exchange,
-      BinanceUserDataStreamingService binanceUserDataStreamingService,
+      BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService,
+      BinanceUserDataSpotStreamingService binanceUserDataSpotStreamingService,
       BinanceUserTradeStreamingService binanceUserTradeStreamingService,
       ResilienceRegistries resilienceRegistries) {
     this.resilienceRegistries = resilienceRegistries;
     this.exchange = exchange;
-    this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+    this.binanceUserDataFutureStreamingService = binanceUserDataFutureStreamingService;
+    this.binanceUserDataSpotStreamingService = binanceUserDataSpotStreamingService;
     this.binanceUserTradeStreamingService = binanceUserTradeStreamingService;
   }
 
   public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
-    if (binanceUserDataStreamingService == null
-        || !binanceUserDataStreamingService.isSocketOpen()) {
+    if (exchange.isFuturesEnabled()) { // portfolio margin mode
+      if (binanceUserDataFutureStreamingService == null
+          || !binanceUserDataFutureStreamingService.isSocketOpen()) {
+        throw new ExchangeSecurityException("Not authenticated");
+      }
+    } else if (binanceUserDataSpotStreamingService == null
+        || !binanceUserDataSpotStreamingService.isSocketOpen()) {
       throw new ExchangeSecurityException("Not authenticated");
     }
     return executionReportsPublisher;
   }
 
   public Observable<OrderTradeUpdateBinanceWebSocketTransaction> getRawOrderTradeUpdate() {
-    if (binanceUserDataStreamingService == null
-        || !binanceUserDataStreamingService.isSocketOpen()) {
+    if (binanceUserDataFutureStreamingService == null
+        || !binanceUserDataFutureStreamingService.isSocketOpen()) {
       throw new ExchangeSecurityException("Not authenticated");
     }
     return orderTradeUpdatePublisher;
   }
 
   public Observable<TradeLiteBinanceWebsocketTransaction> getRawTradeLite() {
-    if (binanceUserDataStreamingService == null
-        || !binanceUserDataStreamingService.isSocketOpen()) {
+    if (binanceUserDataFutureStreamingService == null
+        || !binanceUserDataFutureStreamingService.isSocketOpen()) {
       throw new ExchangeSecurityException("Not authenticated");
     }
     return tradeLitePublisher;
@@ -112,8 +120,8 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
 
   public Observable<AccountUpdateBinanceWebSocketTransaction> getRawPositionChanges(
       boolean isFuture) {
-    if (binanceUserDataStreamingService == null
-        || !binanceUserDataStreamingService.isSocketOpen()) {
+    if (binanceUserDataFutureStreamingService == null
+        || !binanceUserDataFutureStreamingService.isSocketOpen()) {
       throw new ExchangeSecurityException("Not authenticated");
     }
     return positionChangesPublisher;
@@ -367,37 +375,42 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
    * Registers subsriptions with the streaming service for the given products.
    */
   public void openSubscriptions() {
-    if (binanceUserDataStreamingService != null) {
+    if (binanceUserDataFutureStreamingService != null) {
       executionReports =
-          binanceUserDataStreamingService
+          binanceUserDataFutureStreamingService
               .subscribeChannel(EXECUTION_REPORT)
               .map(this::executionReport)
               .subscribe(executionReportsPublisher::onNext);
       orderTradeUpdate =
-          binanceUserDataStreamingService
+          binanceUserDataFutureStreamingService
               .subscribeChannel(ORDER_TRADE_UPDATE)
               .map(this::orderTradeUpdate)
               .subscribe(orderTradeUpdatePublisher::onNext);
       tradeLite =
-          binanceUserDataStreamingService
+          binanceUserDataFutureStreamingService
               .subscribeChannel(TRADE_LITE)
               .map(this::tradeLite)
               .subscribe(tradeLitePublisher::onNext);
       positionChanges =
-          binanceUserDataStreamingService
+          binanceUserDataFutureStreamingService
               .subscribeChannel(BinanceWebSocketTypes.ACCOUNT_UPDATE)
               .map(this::positionChanges)
               .subscribe(positionChangesPublisher::onNext);
-
-      binanceUserDataStreamingService.setEnableLoggingHandler(true);
+    }
+    if (binanceUserDataSpotStreamingService != null) {
+      executionReports =
+          binanceUserDataSpotStreamingService
+              .subscribeChannel(EXECUTION_REPORT)
+              .map(this::executionReport)
+              .subscribe(executionReportsPublisher::onNext);
     }
   }
 
   /**
    * User data subscriptions may have to persist across multiple socket connections to different URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted stream.
    */
-  void setUserDataStreamingService(
-      BinanceUserDataStreamingService binanceUserDataStreamingService) {
+  void setUserDataFutureStreamingService(
+      BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService) {
     if (executionReports != null && !executionReports.isDisposed()) {
       executionReports.dispose();
     }
@@ -410,7 +423,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
     if (positionChanges != null && !positionChanges.isDisposed()) {
       positionChanges.dispose();
     }
-    this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+    this.binanceUserDataFutureStreamingService = binanceUserDataFutureStreamingService;
     openSubscriptions();
   }
 

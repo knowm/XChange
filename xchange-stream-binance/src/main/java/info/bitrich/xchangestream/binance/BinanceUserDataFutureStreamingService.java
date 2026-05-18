@@ -13,17 +13,17 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
+public class BinanceUserDataFutureStreamingService extends JsonNettyStreamingService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataStreamingService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataFutureStreamingService.class);
 
-  public static BinanceUserDataStreamingService create(
+  public static BinanceUserDataFutureStreamingService create(
       String baseUri, String listenKey, ExchangeSpecification exchangeSpecification) {
 
-    return new BinanceUserDataStreamingService(baseUri + "ws/" + listenKey, exchangeSpecification);
+    return new BinanceUserDataFutureStreamingService(baseUri + "ws/" + listenKey, exchangeSpecification);
   }
 
-  private BinanceUserDataStreamingService(String url, ExchangeSpecification exchangeSpecification) {
+  private BinanceUserDataFutureStreamingService(String url, ExchangeSpecification exchangeSpecification) {
     super(
         url,
         65536,
@@ -47,7 +47,7 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
     try {
       super.handleMessage(message);
     } catch (Exception e) {
-      LOG.error("Error handling message: " + message, e);
+      LOG.error("Error handling message: {}", message, e);
     }
   }
 

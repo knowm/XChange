@@ -1,0 +1,14 @@
+{
+  "topic": "tickers.BTCUSDT",
+  "type": "delta",
+  "cs": 400900218,
+  "ts": 1711238400223,
+  "data": {
+    "symbol": "BTCUSDT",
+    "lastPrice": "70150.00",
+    "bid1Price": "70149.50",
+    "bid1Size": "3.100",
+    "ask1Price": "70150.50",
+    "ask1Size": "1.200"
+  }
+}

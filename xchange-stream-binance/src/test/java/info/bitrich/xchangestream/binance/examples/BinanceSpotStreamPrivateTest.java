@@ -1,11 +1,11 @@
 package info.bitrich.xchangestream.binance.examples;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.knowm.xchange.Exchange.USE_SANDBOX;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import info.bitrich.xchangestream.binance.BinanceStreamingExchange;
+import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
@@ -30,18 +30,19 @@ import org.slf4j.LoggerFactory;
 public class BinanceSpotStreamPrivateTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceSpotStreamPrivateTest.class);
-  private static StreamingExchange exchange;
-  BinanceStreamingExchange binanceStreamingExchange;
   private static final Instrument instrument = new CurrencyPair("ETH/USDT");
   private static final Instrument instrument2 = new CurrencyPair("SOL/USDT");
   private static final boolean logOutput = false;
+  private static StreamingExchange exchange;
+  BinanceStreamingExchange binanceStreamingExchange;
 
   @Before
   public void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceStreamingExchange.class);
     // The most convenient way. Can store all keys in .ssh folder
-    AuthUtils.setApiAndSecretKey(spec, "binance-demo");
-    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
+    AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
+    spec.setExchangeSpecificParametersItem("ed25519", true);
+//    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, SPOT);
     exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
     binanceStreamingExchange = (BinanceStreamingExchange) exchange;
@@ -69,6 +70,8 @@ public class BinanceSpotStreamPrivateTest {
                   assertThat(orderChanges.getInstrument().equals(instrument)).isTrue();
                   assertThat(orderChanges.getType().equals(OrderType.BID)).isTrue();
                 });
+    Thread.sleep(3000);
+
     Disposable userTradeLiteDisposable =
         exchange
             .getStreamingTradeService()
@@ -76,7 +79,7 @@ public class BinanceSpotStreamPrivateTest {
             .subscribe(
                 trade -> {
                   if (logOutput) {
-                    LOG.info("trade lite subscribe: {}", trade);
+                    LOG.info("trade subscribe: {}", trade);
                   }
                   assertThat(trade.getInstrument().equals(instrument)).isTrue();
                   assertThat(trade.getType().equals(OrderType.BID)).isTrue();
@@ -93,7 +96,7 @@ public class BinanceSpotStreamPrivateTest {
                 });
     Thread.sleep(3000);
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
-    BigDecimal amount = new BigDecimal("0.01");
+    BigDecimal amount = new BigDecimal("0.005");
     // place limit order
     String orderId =
         exchange

@@ -1,12 +1,7 @@
 package info.bitrich.xchangestream.bybit;
 
-import static info.bitrich.xchangestream.bybit.BybitStreamingExchange.EXCHANGE_TYPE;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import dto.BybitSubscribeMessage;
+import info.bitrich.xchangestream.bybit.dto.BybitSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
@@ -17,15 +12,19 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 import lombok.Setter;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import static info.bitrich.xchangestream.bybit.BybitStreamingExchange.EXCHANGE_TYPE;
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
 
 public class BybitStreamingService extends JsonNettyStreamingService {
 

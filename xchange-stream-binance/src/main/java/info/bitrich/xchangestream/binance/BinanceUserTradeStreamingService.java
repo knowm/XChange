@@ -52,7 +52,6 @@ import org.slf4j.LoggerFactory;
 public class BinanceUserTradeStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceUserTradeStreamingService.class);
-  private static final Pattern p = Pattern.compile("[a-z.]+|\\d+");
   private final String apiKey;
   private final String privateKey;
   CompositeDisposable compositeDisposable = new CompositeDisposable();

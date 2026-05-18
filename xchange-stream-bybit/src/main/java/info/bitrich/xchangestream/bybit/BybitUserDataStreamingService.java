@@ -1,13 +1,8 @@
 package info.bitrich.xchangestream.bybit;
 
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
-import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import dto.BybitSubscribeMessage;
+import info.bitrich.xchangestream.bybit.dto.BybitSubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
@@ -16,6 +11,17 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import lombok.Getter;
+import lombok.Setter;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -28,16 +34,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import lombok.Getter;
-import lombok.Setter;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.BaseParamsDigest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
 public class BybitUserDataStreamingService extends JsonNettyStreamingService {
 
