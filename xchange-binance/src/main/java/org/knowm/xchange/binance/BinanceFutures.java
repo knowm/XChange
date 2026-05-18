@@ -10,6 +10,7 @@ import java.util.List;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateHistory;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateInfo;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
@@ -153,5 +154,24 @@ public interface BinanceFutures {
       @QueryParam("limit") Integer limit,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime)
+      throws IOException, BinanceException;
+
+  /**
+   * Get Funding Rate History
+   *
+   * @param symbol    optional, instrument
+   * @param limit     optional, Default 100;
+   * @param startTime optional, Timestamp in ms to get funding rate from INCLUSIVE.
+   * @param endTime   optional, Timestamp in ms to get funding rate until INCLUSIVE.
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("fapi/v1/fundingRate")
+  List<BinanceFundingRateHistory> fundingRateHistory(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit)
       throws IOException, BinanceException;
 }

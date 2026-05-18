@@ -1,0 +1,16 @@
+{
+  "retCode": 0,
+  "retMsg": "OK",
+  "result": {
+    "category": "linear",
+    "list": [
+      {
+        "symbol": "ETHUSDT",
+        "fundingRate": "0.0001",
+        "fundingRateTimestamp": "1672051897447"
+      }
+    ]
+  },
+  "retExtInfo": {},
+  "time": 1672051897447
+}

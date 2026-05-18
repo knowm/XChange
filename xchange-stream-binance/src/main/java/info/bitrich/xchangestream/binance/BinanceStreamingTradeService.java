@@ -193,12 +193,14 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
     }
   }
 
-  public Single<Integer> placeMarketOrder(MarketOrder marketOrder) {
-    return placeOrder(marketOrder);
+  @Override
+  public Single<Integer> placeMarketOrder(MarketOrder order, Object... args) {
+    return placeOrder(order);
   }
 
-  public Single<Integer> placeLimitOrder(LimitOrder limitOrder) {
-    return placeOrder(limitOrder);
+  @Override
+  public Single<Integer> placeLimitOrder(LimitOrder order, Object... args) {
+    return placeOrder(order);
   }
 
   public Single<Integer> placeOrder(Order order) {
@@ -261,7 +263,8 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
             });
   }
 
-  public Single<Integer> changeOrder(LimitOrder limitOrder, CancelOrderParams... orderParams) {
+  @Override
+  public Single<Integer> changeOrder(LimitOrder limitOrder, Object... args) {
     if (binanceUserTradeStreamingService.isAuthorized()) {
       if (exchange.isFuturesEnabled()) {
         return binanceUserTradeStreamingService
@@ -297,8 +300,7 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
             .subscribeChannel(
                 String.valueOf(System.nanoTime()),
                 "order.cancelReplace",
-                limitOrder,
-                orderParams[0])
+                limitOrder)
             .flatMap(
                 node -> {
                   TypeReference<
@@ -330,13 +332,13 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
       } else {
         throw new UnsupportedOperationException("Only spot and futures supported");
       }
-
     } else {
       throw new UnsupportedOperationException("binanceUserTradeStreamingService not authorized");
     }
   }
 
-  public Single<Integer> cancelOrder(CancelOrderParams orderParams) {
+  @Override
+  public Single<Integer> cancelOrder(CancelOrderParams orderParams, Object... args) {
     if (binanceUserTradeStreamingService.isAuthorized()) {
       if (exchange.isFuturesEnabled() || exchange.isSpotEnabled()) {
         Observable<Integer> observable =

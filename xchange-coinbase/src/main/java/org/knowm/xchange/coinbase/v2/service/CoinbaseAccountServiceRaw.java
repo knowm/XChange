@@ -2,19 +2,21 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.ws.rs.core.MediaType;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbase.v2.Coinbase;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseExpandTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
+import org.knowm.xchange.currency.Currency;
+
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinbase.v2.Coinbase;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
-import org.knowm.xchange.currency.Currency;
 
 public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
@@ -28,6 +30,21 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
     return coinbase.getTransactions(
         Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, accountId);
+  }
+
+  public CoinbaseExpandTransactionsResponse getExpandTransactions(String accountId, CoinbaseTradeHistoryParams params, String orderType)
+      throws IOException {
+
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+
+    return coinbase.getExpandedTransactions(
+              Coinbase.CB_VERSION_VALUE, apiKey,
+              signatureCreator2, timestamp,
+              accountId,
+              params.getLimit(),
+              orderType,
+              params.getStartId());
   }
 
   public Map getDeposits(String accountId) throws IOException {

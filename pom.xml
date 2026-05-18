@@ -166,7 +166,7 @@
 
         <skipIntegrationTests>true</skipIntegrationTests>
         <version.assertj>3.27.6</version.assertj>
-        <version.commons.lang3>3.19.0</version.commons.lang3>
+        <version.commons.lang3>3.20.0</version.commons.lang3>
         <version.crypto>5.0.0</version.crypto>
         <version.fasterxml>2.19.1</version.fasterxml>
         <version.github.mmazi>3.1</version.github.mmazi>
@@ -174,7 +174,7 @@
         <version.java>11</version.java>
         <version.java-jwt>4.5.0</version.java-jwt>
         <version.junit>5.12.2</version.junit>
-        <version.knowm.xchart>3.8.8</version.knowm.xchart>
+        <version.knowm.xchart>3.9.0</version.knowm.xchart>
         <version.lombok>1.18.42</version.lombok>
         <version.maven-enforcer-plugin>3.6.2</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
@@ -439,7 +439,7 @@
             <plugin>
                 <groupId>com.spotify.fmt</groupId>
                 <artifactId>fmt-maven-plugin</artifactId>
-                <version>2.27</version>
+                <version>2.29</version>
                 <configuration>
                     <filesNamePattern>.*\.java</filesNamePattern>
                     <skip>false</skip>

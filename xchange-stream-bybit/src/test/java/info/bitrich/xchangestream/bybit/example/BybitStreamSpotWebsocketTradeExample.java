@@ -4,6 +4,7 @@ import static info.bitrich.xchangestream.bybit.Utils.getMinAmount;
 import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
 
 import info.bitrich.xchangestream.bybit.BybitStreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchange;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
@@ -28,19 +29,21 @@ public class BybitStreamSpotWebsocketTradeExample {
   private static final Logger LOG =
       LoggerFactory.getLogger(BybitStreamSpotWebsocketTradeExample.class);
   static Instrument instrument = new CurrencyPair("XRP/USDT");
-  static BybitStreamingExchange exchange;
+  static BybitStreamingExchange bybitExchange;
+  static StreamingExchange exchange;
 
   public static void main(String[] args) throws IOException {
-    exchange = (BybitStreamingExchange) connectMainApi(BybitCategory.SPOT, true);
+    exchange = connectMainApi(BybitCategory.SPOT, true);
+    bybitExchange = (BybitStreamingExchange) exchange;
     try {
-      while (!exchange.isAlive()) {
+      while (!bybitExchange.isAlive()) {
         TimeUnit.MILLISECONDS.sleep(100);
       }
       // main(not demo) api only
       websocketTradeExample();
       Thread.sleep(1000);
       websocketBatchTradeExample();
-      exchange.disconnect().blockingAwait();
+      bybitExchange.disconnect().blockingAwait();
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -52,7 +55,7 @@ public class BybitStreamSpotWebsocketTradeExample {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
-    Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    Ticker ticker = bybitExchange.getMarketDataService().getTicker(instrument);
     minAmount =
         getMinAmount(
             new BigDecimal("12"),
@@ -104,7 +107,7 @@ public class BybitStreamSpotWebsocketTradeExample {
             .userReference(limitOrder2UserId)
             .build();
     compositeDisposable.add(
-        exchange
+        bybitExchange
             .getStreamingTradeService()
             .batchChangeOrder(List.of(changeOrder1, changeOrder2))
             .subscribe(
@@ -117,7 +120,7 @@ public class BybitStreamSpotWebsocketTradeExample {
     ordersToCancel.add(new BybitCancelOrderParams(instrument, "", limitOrder1UserId));
     ordersToCancel.add(new BybitCancelOrderParams(instrument, "", limitOrder2UserId));
     compositeDisposable.add(
-        exchange
+        bybitExchange
             .getStreamingTradeService()
             .batchCancelOrder(ordersToCancel)
             .subscribe(
@@ -132,7 +135,7 @@ public class BybitStreamSpotWebsocketTradeExample {
   private static void websocketTradeExample() throws IOException, InterruptedException {
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
-    Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    Ticker ticker = bybitExchange.getMarketDataService().getTicker(instrument);
     minAmount =
         getMinAmount(
             new BigDecimal("12"),
