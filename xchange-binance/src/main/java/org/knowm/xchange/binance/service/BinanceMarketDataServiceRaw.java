@@ -1,5 +1,6 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceResilience.FUNDING_RATE_AND_INFO_RATE_LIMITER;
 import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRate;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateHistory;
 import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateInfo;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -171,6 +173,7 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 
   public List<BinanceFundingRateInfo> getBinanceFundingRateInfo() throws IOException {
     return decorateApiCall(() -> binanceFutures.fundingRateInfo())
+        .withRateLimiter(rateLimiter(FUNDING_RATE_AND_INFO_RATE_LIMITER))
         .withRetry(retry("fundingRate"))
         .call();
   }
@@ -192,6 +195,13 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
     return decorateApiCall(binance::tickerAllBookTickers)
         .withRetry(retry("tickerAllBookTickers"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
+  public List<BinanceFundingRateHistory> fundingRateHistoryRaw(Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return decorateApiCall(() -> binanceFutures.fundingRateHistory(BinanceAdapters.toSymbol(instrument), startTime, endTime, limit))
+        .withRetry(retry("fundingRateHistory"))
+        .withRateLimiter(rateLimiter(FUNDING_RATE_AND_INFO_RATE_LIMITER))
         .call();
   }
 

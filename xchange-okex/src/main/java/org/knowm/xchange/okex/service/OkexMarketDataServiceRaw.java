@@ -20,9 +20,12 @@ import org.knowm.xchange.okex.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
 import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
 import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.dto.marketdata.OkxFundingRateHistory;
 import org.knowm.xchange.utils.DateUtils;
 
-/** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
+/**
+ * Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021
+ */
 public class OkexMarketDataServiceRaw extends OkexBaseService {
 
   public OkexMarketDataServiceRaw(
@@ -175,5 +178,19 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
         limit,
         (String)
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
+  }
+
+  public List<OkxFundingRateHistory> getOkxFundingRateHistoryRaw(String instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    return decorateApiCall(
+        () ->
+            okex.getFundingRateHistory(
+                instrument,
+                endTime,
+                startTime,
+                limit,
+                (String)
+                    exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED)).getData()).
+        withRateLimiter(rateLimiter(Okex.fundingRateHistoryPath))
+        .call();
   }
 }

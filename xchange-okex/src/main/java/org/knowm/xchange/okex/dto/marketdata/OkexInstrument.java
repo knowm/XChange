@@ -68,4 +68,7 @@ public class OkexInstrument {
 
   @JsonProperty("state")
   private String state;
+
+  @JsonProperty("instIdCode")
+  private String instIdCode;
 }

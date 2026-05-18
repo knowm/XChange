@@ -4,6 +4,7 @@ import static info.bitrich.xchangestream.okex.Utils.getMinAmount;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -90,8 +91,8 @@ public class OkexWebsocketTradeTest {
   }
 
   private void tradeTest(Instrument instrument) throws IOException, InterruptedException {
-    OkexStreamingTradeService tradeService =
-        (OkexStreamingTradeService) exchange.getStreamingTradeService();
+    StreamingTradeService tradeService =
+        exchange.getStreamingTradeService();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
