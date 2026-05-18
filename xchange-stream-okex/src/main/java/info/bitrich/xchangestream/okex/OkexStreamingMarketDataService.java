@@ -1,44 +1,31 @@
 package info.bitrich.xchangestream.okex;
 
-import static info.bitrich.xchangestream.okex.OkexStreamingService.FUNDING_RATE;
-import static info.bitrich.xchangestream.okex.OkexStreamingService.ORDERBOOK5;
-import static info.bitrich.xchangestream.okex.OkexStreamingService.ORDERBOOK_BBO_TBT;
-import static info.bitrich.xchangestream.okex.OkexStreamingService.TICKERS;
-import static info.bitrich.xchangestream.okex.OkexStreamingService.TRADES;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import org.knowm.xchange.dto.marketdata.FundingRate;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexAdapters;
-import org.knowm.xchange.okex.dto.marketdata.OkexFundingRate;
-import org.knowm.xchange.okex.dto.marketdata.OkexOrderbook;
-import org.knowm.xchange.okex.dto.marketdata.OkexTicker;
-import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
+import org.knowm.xchange.okex.dto.marketdata.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static info.bitrich.xchangestream.okex.OkexStreamingService.*;
 
 public class OkexStreamingMarketDataService implements StreamingMarketDataService {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexStreamingMarketDataService.class);
 
   private final OkexStreamingService service;
+  private final OkexBusinessStreamingService businessStreamingService;
   private final ExchangeMetaData exchangeMetaData;
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
@@ -46,8 +33,11 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
       orderBookUpdatesSubscriptions;
 
   public OkexStreamingMarketDataService(
-      OkexStreamingService service, ExchangeMetaData exchangeMetaData) {
+      OkexStreamingService service,
+      OkexBusinessStreamingService businessStreamingService,
+      ExchangeMetaData exchangeMetaData) {
     this.service = service;
+    this.businessStreamingService = businessStreamingService;
     this.exchangeMetaData = exchangeMetaData;
     this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
   }
@@ -182,5 +172,23 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
   private void orderBookUpdatesSubscriptions(
       Instrument instrument, List<OrderBookUpdate> orderBookUpdates) {
     orderBookUpdatesSubscriptions.get(instrument).onNext(orderBookUpdates);
+  }
+
+  @Override
+  public Observable<CandleStickData> getCandleStick(Instrument instrument, CandleStickInterval interval) {
+    String channelUniqueId = OkexAdapters.adaptCandleStickInterval(interval).name() + "-" + OkexAdapters.adaptInstrument(instrument);
+
+    return businessStreamingService
+        .subscribeChannel(channelUniqueId)
+        .filter(message -> message.has("data"))
+        .flatMap(
+            jsonNode -> {
+              List<OkexCandleStick> okexCandles =
+                  mapper.treeToValue(
+                      jsonNode.get("data"),
+                      mapper.getTypeFactory()
+                          .constructCollectionType(List.class, OkexCandleStick.class));
+              return Observable.just(OkexAdapters.adaptCandleStickData(okexCandles, instrument));
+            });
   }
 }

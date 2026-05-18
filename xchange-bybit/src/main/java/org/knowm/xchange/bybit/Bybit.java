@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import org.knowm.xchange.bybit.dto.BybitCategorizedPayload;
 import org.knowm.xchange.bybit.dto.BybitResult;
+import org.knowm.xchange.bybit.dto.marketdata.BybitOrderbook;
 import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistoryRaw;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentsInfo;
@@ -26,6 +27,17 @@ public interface Bybit {
   @Path("/tickers")
   BybitResult<BybitTickers<BybitTicker>> getTicker24h(
       @QueryParam("category") String category, @QueryParam("symbol") String symbol)
+      throws IOException, BybitException;
+
+  /**
+   * @apiSpec <a href="https://bybit-exchange.github.io/docs/v5/market/orderbook">API</a>
+   */
+  @GET
+  @Path("/orderbook")
+  BybitResult<BybitOrderbook> getOrderbook(
+      @QueryParam("category") String category,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("limit") String limit)
       throws IOException, BybitException;
 
   /**

@@ -11,6 +11,8 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import org.knowm.xchange.bybit.BybitAdapters;
+import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.*;
@@ -37,6 +39,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
   public static final String TRADE = "publicTrade.";
   public static final String ORDERBOOK = "orderbook.";
   public static final String TICKER = "tickers.";
+  public static final String CANDLE = "kline.";
 
   private final Map<String, OrderBook> orderBookMap = new HashMap<>();
   private final Map<Instrument, PublishSubject<List<OrderBookUpdate>>>
@@ -343,5 +346,23 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
       LOG.error("Failed to get fundingRate, channelUniqueId= {}", channelUniqueId);
       return new FundingRate();
     }
+  }
+
+  @Override
+  public Observable<CandleStickData> getCandleStick(Instrument instrument, CandleStickInterval interval) {
+    String channelUniqueId =
+        CANDLE
+            + BybitAdapters.toBybitCandleStickInterval(interval).getCode()
+            + "."
+            + convertToBybitSymbol(instrument);
+    return streamingService
+        .subscribeChannel(channelUniqueId)
+        .map(
+            jsonNode -> {
+              BybitResponse<List<BybitCandleStick>> bybitCandles =
+                  mapper.treeToValue(jsonNode, new TypeReference<>() {
+                  });
+              return BybitStreamAdapters.adaptCandles(bybitCandles.getData().get(0), instrument);
+            });
   }
 }
