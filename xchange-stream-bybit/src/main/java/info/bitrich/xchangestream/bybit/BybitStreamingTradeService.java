@@ -46,7 +46,8 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
     this.userTradeService = userTradeService;
   }
 
-  public Single<Integer> placeMarketOrder(MarketOrder order) {
+  @Override
+  public Single<Integer> placeMarketOrder(MarketOrder order, Object... args) {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
     Observable<Integer> observable =
         userTradeService
@@ -68,7 +69,8 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
         .toSingle();
   }
 
-  public Single<Integer> placeLimitOrder(LimitOrder order) {
+  @Override
+  public Single<Integer> placeLimitOrder(LimitOrder order, Object... args) {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
     Observable<Integer> observable =
         userTradeService
@@ -90,7 +92,8 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
         .toSingle();
   }
 
-  public Single<Integer> changeOrder(LimitOrder order) {
+  @Override
+  public Single<Integer> changeOrder(LimitOrder order, Object... args) {
     BybitCategory category = BybitAdapters.getCategory(order.getInstrument());
     Observable<Integer> observable =
         userTradeService
@@ -146,7 +149,8 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
     }
   }
 
-  public Single<Integer> cancelOrder(CancelOrderParams params) {
+  @Override
+  public Single<Integer> cancelOrder(CancelOrderParams params, Object... args) {
     BybitCancelOrderParams bybitParams = (BybitCancelOrderParams) params;
     BybitCategory category = BybitAdapters.getCategory(bybitParams.getInstrument());
     Observable<Integer> observable =
