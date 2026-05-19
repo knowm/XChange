@@ -168,7 +168,7 @@
         <version.assertj>3.27.7</version.assertj>
         <version.bouncycastle>1.84</version.bouncycastle>
         <version.commons.lang3>3.20.0</version.commons.lang3>
-        <version.crypto>5.0.2</version.crypto>
+        <version.crypto>4.14.0</version.crypto>
         <version.fasterxml>2.21.3</version.fasterxml>
         <version.fasterxml.annotations>2.21</version.fasterxml.annotations>
         <version.github.mmazi>3.1</version.github.mmazi>
