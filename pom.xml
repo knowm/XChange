@@ -65,7 +65,6 @@
         <module>xchange-coincheck</module>
         <module>xchange-coindeal</module>
         <module>xchange-coinex</module>
-        <module>xchange-coinfloor</module>
         <module>xchange-coinjar</module>
         <module>xchange-coinmarketcap</module>
         <module>xchange-coinmate</module>
