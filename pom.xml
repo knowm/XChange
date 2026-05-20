@@ -62,7 +62,6 @@
         <module>xchange-coinbase</module>
         <module>xchange-coinbasepro</module>
         <module>xchange-coincheck</module>
-        <module>xchange-coindeal</module>
         <module>xchange-coinex</module>
         <module>xchange-coinjar</module>
         <module>xchange-coinmarketcap</module>
