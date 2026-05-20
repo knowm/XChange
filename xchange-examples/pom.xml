@@ -119,12 +119,6 @@
             <artifactId>xchange-coinbase</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Coinbase Pro support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-coinbasepro</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Coincheck support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
