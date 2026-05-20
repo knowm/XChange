@@ -60,7 +60,6 @@
         <module>xchange-bybit</module>
         <module>xchange-cexio</module>
         <module>xchange-coinbase</module>
-        <module>xchange-coinbasepro</module>
         <module>xchange-coincheck</module>
         <module>xchange-coinex</module>
         <module>xchange-coinjar</module>
@@ -108,7 +107,6 @@
         <module>xchange-stream-btcmarkets</module>
         <module>xchange-stream-bybit</module>
         <module>xchange-stream-cexio</module>
-        <module>xchange-stream-coinbasepro</module>
         <module>xchange-stream-coincheck</module>
         <module>xchange-stream-coinjar</module>
         <module>xchange-stream-coinmate</module>
