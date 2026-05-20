@@ -5,9 +5,9 @@ import java.util.concurrent.Callable;
 
 import org.knowm.xchange.ExchangeSpecification;
 
+import io.github.resilience4j.core.functions.Either;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.retry.Retry;
-import io.vavr.control.Either;
 import jakarta.ws.rs.core.Response;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
