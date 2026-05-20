@@ -86,7 +86,6 @@
         <module>xchange-idex</module>
         <module>xchange-independentreserve</module>
         <module>xchange-itbit</module>
-        <module>xchange-koinim</module>
         <module>xchange-kraken</module>
         <module>xchange-krakenfutures</module>
         <module>xchange-kucoin</module>

@@ -194,11 +194,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-koinim</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Kraken support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
