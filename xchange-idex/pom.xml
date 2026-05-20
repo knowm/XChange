@@ -31,8 +31,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.web3j</groupId>
-            <artifactId>crypto</artifactId>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
 
     </dependencies>
