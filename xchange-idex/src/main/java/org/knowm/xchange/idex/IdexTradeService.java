@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.bouncycastle.util.encoders.Hex;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
@@ -32,6 +33,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
+import org.knowm.xchange.idex.IdexSignature.SignatureData;
 import org.knowm.xchange.idex.dto.IdexBuySell;
 import org.knowm.xchange.idex.dto.OpenOrdersReq;
 import org.knowm.xchange.idex.dto.OrderReq;
@@ -49,7 +51,6 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.web3j.crypto.Sign.SignatureData;
 
 public class IdexTradeService extends BaseExchangeService implements TradeService {
 
