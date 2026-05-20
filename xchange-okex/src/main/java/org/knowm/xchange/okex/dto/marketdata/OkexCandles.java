@@ -24,5 +24,5 @@ public class OkexCandles {
   @JsonProperty("confirm")
   private String
       confirm; // The state of candlesticks.0 represents that it is uncompleted, 1 represents that
-               // it is completed.
+  // it is completed.
 }
