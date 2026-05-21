@@ -30,7 +30,9 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   public BinanceStreamingAccountService(
-      BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService, BinanceUserDataSpotStreamingService binanceUserDataSpotStreamingService, boolean isFuture) {
+      BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService,
+      BinanceUserDataSpotStreamingService binanceUserDataSpotStreamingService,
+      boolean isFuture) {
     this.binanceUserDataFutureStreamingService = binanceUserDataFutureStreamingService;
     this.binanceUserDataSpotStreamingService = binanceUserDataSpotStreamingService;
     this.isFuture = isFuture;
@@ -50,10 +52,12 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
 
   private void checkConnected() {
     if (isFuture) {
-      if (binanceUserDataFutureStreamingService == null || !binanceUserDataFutureStreamingService.isSocketOpen()) {
+      if (binanceUserDataFutureStreamingService == null
+          || !binanceUserDataFutureStreamingService.isSocketOpen()) {
         throw new ExchangeSecurityException("Not authenticated");
       }
-    } else if (binanceUserDataSpotStreamingService == null || !binanceUserDataSpotStreamingService.isSocketOpen()) {
+    } else if (binanceUserDataSpotStreamingService == null
+        || !binanceUserDataSpotStreamingService.isSocketOpen()) {
       throw new ExchangeSecurityException("Not authenticated");
     }
   }
@@ -99,7 +103,9 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   }
 
   /**
-   * User data subscriptions may have to persist across multiple socket connections to different URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted stream.
+   * User data subscriptions may have to persist across multiple socket connections to different
+   * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
+   * stream.
    */
   void setUserDataFutureStreamingService(
       BinanceUserDataFutureStreamingService binanceUserDataFutureStreamingService) {

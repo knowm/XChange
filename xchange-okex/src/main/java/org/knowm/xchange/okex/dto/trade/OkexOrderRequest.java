@@ -14,6 +14,9 @@ public class OkexOrderRequest {
   @JsonProperty("instId")
   private String instrumentId;
 
+  @JsonProperty("instIdCode")
+  private String instIdCode;
+
   @JsonProperty("tdMode")
   private String tradeMode;
 

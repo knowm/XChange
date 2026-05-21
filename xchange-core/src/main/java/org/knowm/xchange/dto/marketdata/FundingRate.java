@@ -108,8 +108,11 @@ public class FundingRate {
   public enum FundingRateInterval {
     H1(1),
     H2(2),
+    H3(3),
     H4(4),
+    H5(5),
     H6(6),
+    H7(7),
     H8(8);
     private final int hours;
 

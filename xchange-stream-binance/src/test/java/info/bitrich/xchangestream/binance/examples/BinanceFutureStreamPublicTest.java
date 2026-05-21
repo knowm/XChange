@@ -1,5 +1,13 @@
 package info.bitrich.xchangestream.binance.examples;
 
+import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
+import static info.bitrich.xchangestream.binance.examples.Util.printOrderBookShortInfo;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
+import static org.knowm.xchange.binance.dto.marketdata.KlineInterval.d1;
+import static org.knowm.xchange.binance.dto.marketdata.KlineInterval.m1;
+
 import info.bitrich.xchangestream.binance.BinanceStreamingExchange;
 import info.bitrich.xchangestream.binance.KlineSubscription;
 import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
@@ -7,6 +15,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.util.*;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,16 +27,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
-import static info.bitrich.xchangestream.binance.examples.Util.printOrderBookShortInfo;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
-import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
-import static org.knowm.xchange.binance.dto.marketdata.KlineInterval.d1;
-import static org.knowm.xchange.binance.dto.marketdata.KlineInterval.m1;
 
 @Ignore
 public class BinanceFutureStreamPublicTest {
@@ -52,7 +51,7 @@ public class BinanceFutureStreamPublicTest {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceFutureStreamingExchange.class);
     // The most convenient way. Can store all keys in .ssh folder
     AuthUtils.setApiAndSecretKey(spec, "binance-demo-futures");
-//    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
+    //    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     // optional - more frequent OrderBook ticker updates
     if (useRealtimeBookTicker)
@@ -93,12 +92,9 @@ public class BinanceFutureStreamPublicTest {
     // separate connection for tickers, klines etc(market path) and
     // orderbook, bookTicker, trades
     ProductSubscription.ProductSubscriptionBuilder subscriptionBuilder1 =
-        ProductSubscription.create()
-            .addFundingRates(instrument);
+        ProductSubscription.create().addFundingRates(instrument);
     ProductSubscription.ProductSubscriptionBuilder subscriptionBuilder2 =
-        ProductSubscription.create()
-            .addOrderbook(instrument)
-            .addTrades(instrument);
+        ProductSubscription.create().addOrderbook(instrument).addTrades(instrument);
     if (useRealtimeBookTicker) subscriptionBuilder2.addTicker(instrument);
     else subscriptionBuilder1.addTicker(instrument);
     ProductSubscription subscription1 = subscriptionBuilder1.build();
@@ -125,12 +121,12 @@ public class BinanceFutureStreamPublicTest {
                   assertThat(orderBook.getBids().get(0).getLimitPrice())
                       .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
                   assertThat(
-                      orderBook
-                          .getAsks()
-                          .get(0)
-                          .getLimitPrice()
-                          .compareTo(orderBook.getBids().get(0).getLimitPrice())
-                          > 0)
+                          orderBook
+                                  .getAsks()
+                                  .get(0)
+                                  .getLimitPrice()
+                                  .compareTo(orderBook.getBids().get(0).getLimitPrice())
+                              > 0)
                       .isTrue();
                 }));
     disposables.add(

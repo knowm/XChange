@@ -1,5 +1,12 @@
 package org.knowm.xchange.upbit;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -15,14 +22,6 @@ import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.marketdata.*;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public final class UpbitAdapters {
 
@@ -171,7 +170,9 @@ public final class UpbitAdapters {
     for (UpbitCandleStickData it : candleStickData) {
       candleSticks.add(
           new CandleStick.Builder()
-              .timestamp(Instant.ofEpochMilli(DateUtils.fromISO8601DateString(it.getCandleDateTimeUtc()).getTime()))
+              .timestamp(
+                  Instant.ofEpochMilli(
+                      DateUtils.fromISO8601DateString(it.getCandleDateTimeUtc()).getTime()))
               .open(it.getOpeningPrice())
               .high(it.getHighPrice())
               .low(it.getLowPrice())

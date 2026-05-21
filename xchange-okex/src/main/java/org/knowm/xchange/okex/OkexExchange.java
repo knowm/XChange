@@ -1,5 +1,6 @@
 package org.knowm.xchange.okex;
 
+import static org.knowm.xchange.okex.OkexAdapters.adaptOkexInstrumentId;
 import static org.knowm.xchange.okex.dto.OkexInstType.SPOT;
 import static org.knowm.xchange.okex.dto.OkexInstType.SWAP;
 
@@ -91,6 +92,13 @@ public class OkexExchange extends BaseExchange {
 
     instruments.addAll(swap_instruments);
 
+    instruments.forEach(
+        instrument -> {
+          if (instrument.getInstIdCode() != null)
+            OkexAdapters.instrumentToInstrumentIdMap.put(
+                adaptOkexInstrumentId(instrument.getInstrumentId()),
+                Long.parseLong(instrument.getInstIdCode()));
+        });
     // Currency data is only retrievable through a private endpoint
     List<OkexCurrency> currencies = null;
     if (exchangeSpecification.getApiKey() != null

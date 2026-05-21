@@ -9,6 +9,8 @@ import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseV2Digest extends BaseParamsDigest {
 
+  public static final String ADVANCED_TRADING_V3 = "api/v3/brokerage/";
+
   private CoinbaseV2Digest(String secretKey) {
     super(secretKey, HMAC_SHA_256);
   }
@@ -19,12 +21,15 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    final String pathWithQueryString =
-        restInvocation.getInvocationUrl().replace(restInvocation.getBaseUrl(), "");
+    String path = restInvocation.getInvocationUrl();
     final String timestamp =
         restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
-    final String message = timestamp + restInvocation.getHttpMethod() + pathWithQueryString;
-
+    if (path.contains(ADVANCED_TRADING_V3)) {
+      path = "/" + restInvocation.getPath();
+    } else {
+      path = path.replace(restInvocation.getBaseUrl(), "");
+    }
+    String message = timestamp + restInvocation.getHttpMethod() + path;
     return DigestUtils.bytesToHex(getMac().doFinal(message.getBytes()));
   }
 }

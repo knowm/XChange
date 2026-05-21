@@ -22,7 +22,9 @@ public class BookTickerBinanceWebSocketTransaction extends BaseBinanceWebSocketT
       @JsonProperty("E") long eventTime,
       @JsonProperty("T") long transactionTime) {
     super(BinanceWebSocketTypes.BOOK_TICKER, new Date());
-    ticker = new BinanceBookTicker(bidPrice, bidQty, askPrice, askQty, symbol, eventTime, transactionTime);
+    ticker =
+        new BinanceBookTicker(
+            bidPrice, bidQty, askPrice, askQty, symbol, eventTime, transactionTime);
     ticker.setUpdateId(updateId);
   }
 }

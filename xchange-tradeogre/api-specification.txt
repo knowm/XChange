@@ -1,6 +1,0 @@
-TradeOgre Exchange API specification
-================================
-
-Documentation
--------------
-https://tradeogre.com/help/api

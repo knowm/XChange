@@ -27,6 +27,7 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
+import org.knowm.xchange.okex.dto.marketdata.OkxFundingRateHistory;
 import org.knowm.xchange.okex.service.OkexMarketDataService;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 
@@ -118,9 +119,14 @@ public class OkexPublicDataIntegration {
         ((OkexMarketDataService) exchange.getMarketDataService())
             .getHistoryCandle("BTC-USDT", null, null, null, null);
     assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.getData().isEmpty());
-    DefaultCandleStickParam params = new DefaultCandleStickParam(new Date(System.currentTimeMillis() - 10 * 60 * 1000), new Date(System.currentTimeMillis()), 60);
+    DefaultCandleStickParam params =
+        new DefaultCandleStickParam(
+            new Date(System.currentTimeMillis() - 10 * 60 * 1000),
+            new Date(System.currentTimeMillis()),
+            60);
     CandleStickData candleStickData =
-        exchange.getMarketDataService()
+        exchange
+            .getMarketDataService()
             .getCandleStickData(new FuturesContract("BTC/USDT/SWAP"), params);
     assertTrue(Objects.nonNull(candleStickData));
     assertTrue(!candleStickData.getCandleSticks().isEmpty());
@@ -152,5 +158,21 @@ public class OkexPublicDataIntegration {
         .isEqualTo(new CurrencyPair("BTC/USDT"));
     assertThat(OkexAdapters.adaptInstrument(new CurrencyPair("BTC/USDT"))).isEqualTo("BTC-USDT");
     assertThat(OkexAdapters.adaptInstrument(new CurrencyPair("BTC/USDC"))).isEqualTo("BTC-USD");
+  }
+
+  @Test
+  public void testFundingRateHistory() {
+    try {
+      List<OkxFundingRateHistory> fundingRateHistory =
+          ((OkexMarketDataService) exchange.getMarketDataService())
+              .getFundingRateHistory(
+                  instrument,
+                  System.currentTimeMillis() - 24 * 60 * 60 * 1000,
+                  System.currentTimeMillis(),
+                  null);
+      System.out.println(fundingRateHistory);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

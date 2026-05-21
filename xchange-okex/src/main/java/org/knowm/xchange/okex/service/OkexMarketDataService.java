@@ -2,6 +2,7 @@ package org.knowm.xchange.okex.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -18,6 +19,7 @@ import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.marketdata.OkexCandleStick;
+import org.knowm.xchange.okex.dto.marketdata.OkxFundingRateHistory;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
@@ -54,7 +56,8 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   }
 
   @Override
-  public CandleStickData getCandleStickData(CurrencyPair currencyPair, CandleStickDataParams params) {
+  public CandleStickData getCandleStickData(
+      CurrencyPair currencyPair, CandleStickDataParams params) {
     return getCandleStickData(currencyPair, params);
   }
 
@@ -103,5 +106,15 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
     return getOkexTickers(instType).getData().stream()
         .map(OkexAdapters::adaptTicker)
         .collect(Collectors.toList());
+  }
+
+  public List<OkxFundingRateHistory> getFundingRateHistory(
+      Instrument instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+    List<OkxFundingRateHistory> result =
+        getOkxFundingRateHistoryRaw(
+            OkexAdapters.adaptInstrument(instrument), startTime, endTime, limit);
+    // sort, oldest first
+    result.sort(Comparator.comparingLong(c -> c.getFundingTime().toEpochMilli()));
+    return result;
   }
 }
