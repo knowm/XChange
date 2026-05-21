@@ -12,8 +12,7 @@ public enum OkexCandleStickPeriodType {
   CANDLE_STICK_2H(2 * 60, "2H"),
   CANDLE_STICK_4H(4 * 60, "4H");
   private final long periodInSecs;
-  @Getter
-  private final String fieldValue;
+  @Getter private final String fieldValue;
 
   OkexCandleStickPeriodType(long periodInMinutes, String fieldValue) {
     this.periodInSecs = periodInMinutes * 60;
@@ -39,5 +38,4 @@ public enum OkexCandleStickPeriodType {
     }
     return result;
   }
-
 }

@@ -2,6 +2,10 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData.CoinbaseBuy;
@@ -10,11 +14,6 @@ import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeAccou
 import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeFills;
 import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeOrderFillsResponse;
 import org.knowm.xchange.currency.Currency;
-
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
 
@@ -71,48 +70,65 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
   }
 
   /**
-   *
    * @param params
    * @return
    * @throws IOException
    */
-  public List<CoinbaseAdvancedTradeFills> getAdvancedTradeOrderFills(CoinbaseTradeHistoryParams params)
-          throws IOException {
+  public List<CoinbaseAdvancedTradeFills> getAdvancedTradeOrderFills(
+      CoinbaseTradeHistoryParams params) throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String start = params.getStartDatetime().toString();
     String end = params.getEndDateTime().toString();
-    final CoinbaseAdvancedTradeOrderFillsResponse fills = coinbaseV3.getFills(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, null
-            , null, start, end, params.getLimit(), params.getCursor());
+    final CoinbaseAdvancedTradeOrderFillsResponse fills =
+        coinbaseV3.getFills(
+            Coinbase.CB_VERSION_VALUE,
+            apiKey,
+            signatureCreator2,
+            timestamp,
+            null,
+            null,
+            start,
+            end,
+            params.getLimit(),
+            params.getCursor());
     return fills.getFills();
   }
 
   /**
-   *
    * @param params
    * @return
    * @throws IOException
    */
-  public CoinbaseAdvancedTradeOrderFillsResponse getAdvancedTradeOrderFillsRow(CoinbaseTradeHistoryParams params)
-          throws IOException {
+  public CoinbaseAdvancedTradeOrderFillsResponse getAdvancedTradeOrderFillsRow(
+      CoinbaseTradeHistoryParams params) throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String start = params.getStartDatetime().toString();
     String end = params.getEndDateTime().toString();
-    return coinbaseV3.getFills(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2,
-            timestamp, null, null, start, end, params.getLimit(), params.getCursor());
+    return coinbaseV3.getFills(
+        Coinbase.CB_VERSION_VALUE,
+        apiKey,
+        signatureCreator2,
+        timestamp,
+        null,
+        null,
+        start,
+        end,
+        params.getLimit(),
+        params.getCursor());
   }
 
   /**
-   *
    * @return
    * @throws IOException
    */
   public CoinbaseAdvancedTradeAccountsResponse getAdvancedTradeAccounts() throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-    final CoinbaseAdvancedTradeAccountsResponse accounts = coinbaseV3.getAccounts(Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2,
-            timestamp, null, null);
+    final CoinbaseAdvancedTradeAccountsResponse accounts =
+        coinbaseV3.getAccounts(
+            Coinbase.CB_VERSION_VALUE, apiKey, signatureCreator2, timestamp, null, null);
     return accounts;
   }
 

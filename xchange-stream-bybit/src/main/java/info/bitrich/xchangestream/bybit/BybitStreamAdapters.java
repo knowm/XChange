@@ -1,11 +1,20 @@
 package info.bitrich.xchangestream.bybit;
 
+import static org.knowm.xchange.bybit.BybitAdapters.*;
+
 import info.bitrich.xchangestream.bybit.dto.marketdata.BybitOrderbook;
 import info.bitrich.xchangestream.bybit.dto.marketdata.BybitPublicOrder;
 import info.bitrich.xchangestream.bybit.dto.trade.*;
 import info.bitrich.xchangestream.bybit.dto.trade.BybitOrderChangesResponse.BybitOrderChanges;
 import info.bitrich.xchangestream.bybit.dto.trade.BybitPositionChangesResponse.BybitPositionChanges;
 import info.bitrich.xchangestream.bybit.dto.trade.BybitStreamBatchAmendOrdersPayload.BybitStreamBatchAmendOrderPayload;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
@@ -20,16 +29,6 @@ import org.knowm.xchange.dto.marketdata.FundingRate.FundingRateInterval;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static org.knowm.xchange.bybit.BybitAdapters.*;
 
 public class BybitStreamAdapters {
 
@@ -98,9 +97,9 @@ public class BybitStreamAdapters {
         case LIMIT:
           builder =
               new LimitOrder.Builder(
-                  orderType,
-                  convertBybitSymbolToInstrument(
-                      bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
+                      orderType,
+                      convertBybitSymbolToInstrument(
+                          bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
                   .limitPrice(new BigDecimal(bybitOrderChange.getPrice()));
           break;
         case MARKET:
@@ -348,9 +347,10 @@ public class BybitStreamAdapters {
         .low(bybitTicker.getLowPrice24h())
         .volume(bybitTicker.getVolume24h())
         .quoteVolume(bybitTicker.getTurnover24h())
-        .percentageChange(bybitTicker.getPrice24hPcnt() != null
-            ? bybitTicker.getPrice24hPcnt().multiply(BigDecimal.valueOf(100))
-            : null)
+        .percentageChange(
+            bybitTicker.getPrice24hPcnt() != null
+                ? bybitTicker.getPrice24hPcnt().multiply(BigDecimal.valueOf(100))
+                : null)
         .timestamp(new Date())
         .build();
   }
@@ -376,21 +376,26 @@ public class BybitStreamAdapters {
 
   public static FundingRateInterval adaptFundingRateInterval(int interval) {
     switch (interval) {
-      case 1: {
-        return FundingRateInterval.H1;
-      }
-      case 2: {
-        return FundingRateInterval.H2;
-      }
-      case 4: {
-        return FundingRateInterval.H4;
-      }
-      case 6: {
-        return FundingRateInterval.H6;
-      }
-      default: {
-        return FundingRateInterval.H8;
-      }
+      case 1:
+        {
+          return FundingRateInterval.H1;
+        }
+      case 2:
+        {
+          return FundingRateInterval.H2;
+        }
+      case 4:
+        {
+          return FundingRateInterval.H4;
+        }
+      case 6:
+        {
+          return FundingRateInterval.H6;
+        }
+      default:
+        {
+          return FundingRateInterval.H8;
+        }
     }
   }
 }

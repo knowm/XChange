@@ -159,10 +159,10 @@ public interface BinanceFutures {
   /**
    * Get Funding Rate History
    *
-   * @param symbol    optional, instrument
-   * @param limit     optional, Default 100;
+   * @param symbol optional, instrument
+   * @param limit optional, Default 100;
    * @param startTime optional, Timestamp in ms to get funding rate from INCLUSIVE.
-   * @param endTime   optional, Timestamp in ms to get funding rate until INCLUSIVE.
+   * @param endTime optional, Timestamp in ms to get funding rate until INCLUSIVE.
    * @throws IOException
    * @throws BinanceException
    */

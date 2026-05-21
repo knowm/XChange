@@ -9,20 +9,28 @@ import lombok.Getter;
 public class OkexCandleStick {
   @JsonProperty("ts")
   private final Long timestamp;
+
   @JsonProperty("o")
   private final String openPrice;
+
   @JsonProperty("c")
   private final String closePrice;
+
   @JsonProperty("h")
   private final String highPrice;
+
   @JsonProperty("l")
   private final String lowPrice;
+
   @JsonProperty("vol")
   private final String volume;
+
   @JsonProperty("volCcy")
   private final String volumeCcy;
+
   @JsonProperty("volCcyQuote")
   private final String volCcyQuote;
+
   @JsonProperty("confirm")
   private final String confirm;
 
@@ -38,5 +46,4 @@ public class OkexCandleStick {
     this.volCcyQuote = node.get(7).asText();
     this.confirm = node.get(8).asText();
   }
-
 }

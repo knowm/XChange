@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.bybit;
 
+import static info.bitrich.xchangestream.bybit.BybitUserTradeStreamingService.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bybit.dto.trade.*;
@@ -8,6 +10,8 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.github.resilience4j.rxjava3.ratelimiter.operator.RateLimiterOperator;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -23,11 +27,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static info.bitrich.xchangestream.bybit.BybitUserTradeStreamingService.*;
 
 public class BybitStreamingTradeService extends BybitBaseService implements StreamingTradeService {
 

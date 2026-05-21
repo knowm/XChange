@@ -1,12 +1,11 @@
 package info.bitrich.xchangestream.core;
 
 import io.reactivex.rxjava3.core.Observable;
+import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.util.List;
 
 public interface StreamingMarketDataService {
   /**
@@ -111,10 +110,11 @@ public interface StreamingMarketDataService {
    * Get candlestick data.
    *
    * @param instrument Instrument to get the candlestick data for
-   * @param interval   Candlestick interval
+   * @param interval Candlestick interval
    * @return {@link Observable} that emits {@link CandleStickData} when exchange sends the update.
    */
-  default Observable<CandleStickData> getCandleStick(Instrument instrument, CandleStickInterval interval) {
+  default Observable<CandleStickData> getCandleStick(
+      Instrument instrument, CandleStickInterval interval) {
     throw new NotYetImplementedForExchangeException("getCandleStick");
   }
 }

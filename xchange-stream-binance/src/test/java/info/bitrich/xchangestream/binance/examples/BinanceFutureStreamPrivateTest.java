@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.binance.examples;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.knowm.xchange.Exchange.USE_SANDBOX;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
@@ -44,7 +43,7 @@ public class BinanceFutureStreamPrivateTest {
     // The most convenient way. Can store all keys in .ssh folder
     AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
     spec.setExchangeSpecificParametersItem("ed25519", true);
-//    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
+    //    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
     binanceFutureStreamingExchange = (BinanceFutureStreamingExchange) exchange;

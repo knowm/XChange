@@ -14,7 +14,8 @@ public class BybitFundingRateHistory {
 
   private final Instant fundingRateTimestamp;
 
-  public BybitFundingRateHistory(Instrument instrument, BigDecimal fundingRate, Instant fundingRateTimestamp) {
+  public BybitFundingRateHistory(
+      Instrument instrument, BigDecimal fundingRate, Instant fundingRateTimestamp) {
     this.instrument = instrument;
     this.fundingRate = fundingRate;
     this.fundingRateTimestamp = fundingRateTimestamp;

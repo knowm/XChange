@@ -5,7 +5,6 @@ import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import info.bitrich.xchangestream.binance.BinanceStreamingExchange;
-import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
@@ -82,7 +81,8 @@ public class BinanceSpotStreamWebsocketTradeTest {
             .userReference(limitOrderUserId)
             .build();
     Disposable limitOrderDisposable =
-        exchange.getStreamingTradeService()
+        exchange
+            .getStreamingTradeService()
             .placeLimitOrder(limitOrder)
             .subscribe(
                 result -> {
@@ -101,7 +101,8 @@ public class BinanceSpotStreamWebsocketTradeTest {
             .userReference(limitOrderUserId)
             .build();
     Disposable changeOrderDisposable =
-        exchange.getStreamingTradeService()
+        exchange
+            .getStreamingTradeService()
             .changeOrder(changeOrder)
             .subscribe(
                 result -> {
@@ -114,7 +115,8 @@ public class BinanceSpotStreamWebsocketTradeTest {
     LOG.info("changeOrder disposed: {}", changeOrderDisposable.isDisposed());
 
     Disposable cancelOrderDisposable =
-        exchange.getStreamingTradeService()
+        exchange
+            .getStreamingTradeService()
             .cancelOrder(cancelOrderParams)
             .subscribe(
                 result -> {
@@ -132,7 +134,8 @@ public class BinanceSpotStreamWebsocketTradeTest {
             .userReference(marketOrderUserId)
             .build();
     Disposable marketOrderDisposable =
-        exchange.getStreamingTradeService()
+        exchange
+            .getStreamingTradeService()
             .placeMarketOrder(marketOrder)
             .doOnError(error -> LOG.error("placeMarketOrder error", error))
             .subscribe(

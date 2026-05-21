@@ -168,10 +168,16 @@ public class BinanceUsStreamingExchange extends BinanceUsExchange implements Str
             orderBookUpdateFrequencyParameter,
             realtimeOrderBookTicker,
             oderBookFetchLimitParameter);
-    streamingAccountService = new BinanceStreamingAccountService(userDataFutureStreamingService, userDataSpotStreamingService, isFuturesEnabled());
+    streamingAccountService =
+        new BinanceStreamingAccountService(
+            userDataFutureStreamingService, userDataSpotStreamingService, isFuturesEnabled());
     streamingTradeService =
         new BinanceStreamingTradeService(
-            this, userDataFutureStreamingService, userDataSpotStreamingService, userTradeStreamingService, getResilienceRegistries());
+            this,
+            userDataFutureStreamingService,
+            userDataSpotStreamingService,
+            userTradeStreamingService,
+            getResilienceRegistries());
 
     return Completable.concat(completables)
         .doOnComplete(
@@ -199,8 +205,9 @@ public class BinanceUsStreamingExchange extends BinanceUsExchange implements Str
                                   createAndConnectUserDataFutureService(newListenKey)
                                       .doOnComplete(
                                           () -> {
-                                            streamingAccountService.setUserDataFutureStreamingService(
-                                                userDataFutureStreamingService);
+                                            streamingAccountService
+                                                .setUserDataFutureStreamingService(
+                                                    userDataFutureStreamingService);
                                             streamingTradeService.setUserDataFutureStreamingService(
                                                 userDataFutureStreamingService);
                                           })));
@@ -228,6 +235,7 @@ public class BinanceUsStreamingExchange extends BinanceUsExchange implements Str
     applyStreamingSpecification(getExchangeSpecification(), userDataSpotStreamingService);
     return userDataSpotStreamingService.connect();
   }
+
   @Override
   public Completable disconnect() {
     List<Completable> completables = new ArrayList<>();

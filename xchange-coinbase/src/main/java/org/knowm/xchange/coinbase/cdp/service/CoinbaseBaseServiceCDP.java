@@ -1,24 +1,23 @@
 package org.knowm.xchange.coinbase.cdp.service;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.coinbase.service.CoinbaseDigest;
-import org.knowm.xchange.coinbase.v3.CoinbaseAuthenticatedV3CDP;
-import org.knowm.xchange.coinbase.v2.Coinbase;
-import org.knowm.xchange.coinbase.cdp.CoinbaseAuthenticatedCDP;
-import org.knowm.xchange.coinbase.cdp.CoinbaseV2DigestCDP;
-import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
-import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
-import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.BaseService;
-import org.knowm.xchange.utils.DigestUtils;
-
-import javax.crypto.Mac;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import javax.crypto.Mac;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.coinbase.cdp.CoinbaseAuthenticatedCDP;
+import org.knowm.xchange.coinbase.cdp.CoinbaseV2DigestCDP;
+import org.knowm.xchange.coinbase.service.CoinbaseDigest;
+import org.knowm.xchange.coinbase.v2.Coinbase;
+import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
+import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
+import org.knowm.xchange.coinbase.v3.CoinbaseAuthenticatedV3CDP;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.utils.DigestUtils;
 
 public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseService {
 
@@ -36,11 +35,13 @@ public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseS
 
     coinbaseV3 =
         ExchangeRestProxyBuilder.forInterface(
-                        CoinbaseAuthenticatedV3CDP.class, exchange.getExchangeSpecification())
+                CoinbaseAuthenticatedV3CDP.class, exchange.getExchangeSpecification())
             .build();
 
     signatureCreator2 =
-        CoinbaseV2DigestCDP.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
+        CoinbaseV2DigestCDP.createInstance(
+            exchange.getExchangeSpecification().getSecretKey(),
+            exchange.getExchangeSpecification().getApiKey());
   }
 
   /**

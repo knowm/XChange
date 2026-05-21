@@ -11,7 +11,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Map;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
@@ -65,15 +64,15 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/transactions")
   CoinbaseExpandTransactionsResponse getExpandedTransactions(
-          @HeaderParam(CB_VERSION) String apiVersion,
-          @HeaderParam(CB_ACCESS_KEY) String apiKey,
-          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
-          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
-          @PathParam("accountId") String accountId,
-          @QueryParam("limit") int limit,
-          @QueryParam("order") String orderType,
-          @QueryParam("starting_after") String startingFrom)
-          throws IOException, CoinbaseException;
+      @HeaderParam(CB_VERSION) String apiVersion,
+      @HeaderParam(CB_ACCESS_KEY) String apiKey,
+      @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+      @PathParam("accountId") String accountId,
+      @QueryParam("limit") int limit,
+      @QueryParam("order") String orderType,
+      @QueryParam("starting_after") String startingFrom)
+      throws IOException, CoinbaseException;
 
   @GET
   @Path("accounts/{accountId}/buys")

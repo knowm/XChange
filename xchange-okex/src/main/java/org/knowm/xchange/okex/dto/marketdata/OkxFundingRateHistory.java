@@ -19,7 +19,8 @@ public class OkxFundingRateHistory {
   private final Instant fundingTime;
   private final String method;
 
-  public OkxFundingRateHistory(@JsonProperty("instType") String instType,
+  public OkxFundingRateHistory(
+      @JsonProperty("instType") String instType,
       @JsonProperty("instId") String instrument,
       @JsonProperty("fundingRate") BigDecimal predictedFundingRate,
       @JsonProperty("realizedRate") BigDecimal fundingRate,
@@ -32,5 +33,4 @@ public class OkxFundingRateHistory {
     this.fundingTime = Instant.ofEpochMilli(fundingTime);
     this.method = method;
   }
-
 }

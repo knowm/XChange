@@ -1,21 +1,20 @@
 package org.knowm.xchange.coinbase.v3;
 
+import static org.knowm.xchange.coinbase.v2.CoinbaseV2Digest.ADVANCED_TRADING_V3;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeAccountsResponse;
 import org.knowm.xchange.coinbase.v3.dto.transactions.CoinbaseAdvancedTradeOrderFillsResponse;
 import si.mazi.rescu.ParamsDigest;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import static org.knowm.xchange.coinbase.v2.CoinbaseV2Digest.ADVANCED_TRADING_V3;
 
 @Path(ADVANCED_TRADING_V3)
 @Produces(MediaType.APPLICATION_JSON)
@@ -67,8 +66,6 @@ public interface CoinbaseAuthenticatedV3 extends Coinbase {
       @QueryParam("start_sequence_timestamp") String start,
       @QueryParam("end_sequence_timestamp") String end,
       @QueryParam("limit") int limit,
-      @QueryParam("cursor") String cursor
-  )
+      @QueryParam("cursor") String cursor)
       throws IOException, CoinbaseException;
-
 }

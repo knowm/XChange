@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinbase.cdp.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
@@ -18,9 +19,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-import java.io.IOException;
-
-public final class CoinbaseTradeServiceCDP extends CoinbaseTradeServiceRawCDP implements TradeService {
+public final class CoinbaseTradeServiceCDP extends CoinbaseTradeServiceRawCDP
+    implements TradeService {
 
   public CoinbaseTradeServiceCDP(Exchange exchange) {
     super(exchange);
@@ -36,8 +36,10 @@ public final class CoinbaseTradeServiceCDP extends CoinbaseTradeServiceRawCDP im
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -60,8 +62,10 @@ public final class CoinbaseTradeServiceCDP extends CoinbaseTradeServiceRawCDP im
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException,
+          NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException,
+          IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -82,11 +86,7 @@ public final class CoinbaseTradeServiceCDP extends CoinbaseTradeServiceRawCDP im
   public UserTrades getBuyTradeHistory(CoinbaseTradeHistoryParams params, String accountId)
       throws IOException {
     final CoinbaseBuySellResponse buys =
-        coinbase.getBuys(
-            signatureCreator2,
-            accountId,
-            params.getLimit(),
-            params.getStartId());
+        coinbase.getBuys(signatureCreator2, accountId, params.getLimit(), params.getStartId());
     return CoinbaseAdapters.adaptTrades(buys.getData(), Order.OrderType.BID);
   }
 
@@ -97,11 +97,7 @@ public final class CoinbaseTradeServiceCDP extends CoinbaseTradeServiceRawCDP im
   public UserTrades getSellTradeHistory(CoinbaseTradeHistoryParams params, String accountId)
       throws IOException {
     final CoinbaseBuySellResponse sells =
-        coinbase.getSells(
-            signatureCreator2,
-            accountId,
-            params.getLimit(),
-            params.getStartId());
+        coinbase.getSells(signatureCreator2, accountId, params.getLimit(), params.getStartId());
     return CoinbaseAdapters.adaptTrades(sells.getData(), Order.OrderType.ASK);
   }
 }

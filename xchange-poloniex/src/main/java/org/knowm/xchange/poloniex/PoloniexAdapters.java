@@ -1,5 +1,12 @@
 package org.knowm.xchange.poloniex;
 
+import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
@@ -25,14 +32,6 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.marketdata.*;
 import org.knowm.xchange.poloniex.dto.trade.*;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.util.*;
-
-import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 /**
  * @author Zach Holmes

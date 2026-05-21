@@ -3,9 +3,9 @@ package org.knowm.xchange.coinbase.cdp;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coinbase.v2.service.CoinbaseMarketDataService;
 import org.knowm.xchange.coinbase.cdp.service.CoinbaseAccountServiceCDP;
 import org.knowm.xchange.coinbase.cdp.service.CoinbaseTradeServiceCDP;
+import org.knowm.xchange.coinbase.v2.service.CoinbaseMarketDataService;
 
 public class CoinbaseExchangeCDP extends BaseExchange implements Exchange {
 

@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.binance;
 
+import static java.util.Collections.emptyMap;
+
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -8,6 +10,13 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -17,16 +26,6 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.util.Collections.emptyMap;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
@@ -87,9 +86,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   /**
-   * Binance streaming API expects connections to multiple channels to be defined at connection time. To define the channels for this connection pass a `ProductSubscription` in at connection time.
+   * Binance streaming API expects connections to multiple channels to be defined at connection
+   * time. To define the channels for this connection pass a `ProductSubscription` in at connection
+   * time.
    *
-   * @param args A single `ProductSubscription` to define the subscriptions required to be available during this connection.
+   * @param args A single `ProductSubscription` to define the subscriptions required to be available
+   *     during this connection.
    * @return A completable which fulfils once connection is complete.
    */
   @Override
@@ -155,10 +157,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             orderBookUpdateFrequencyParameter,
             realtimeOrderBookTicker,
             oderBookFetchLimitParameter);
-    streamingAccountService = new BinanceStreamingAccountService(userDataFutureStreamingService, userDataSpotStreamingService, isFuturesEnabled());
+    streamingAccountService =
+        new BinanceStreamingAccountService(
+            userDataFutureStreamingService, userDataSpotStreamingService, isFuturesEnabled());
     streamingTradeService =
         new BinanceStreamingTradeService(
-            this, userDataFutureStreamingService, userDataSpotStreamingService, userTradeStreamingService, getResilienceRegistries());
+            this,
+            userDataFutureStreamingService,
+            userDataSpotStreamingService,
+            userTradeStreamingService,
+            getResilienceRegistries());
 
     return Completable.concat(completables)
         .doOnComplete(
@@ -186,8 +194,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                                   createAndConnectUserDataFutureService(newListenKey)
                                       .doOnComplete(
                                           () -> {
-                                            streamingAccountService.setUserDataFutureStreamingService(
-                                                userDataFutureStreamingService);
+                                            streamingAccountService
+                                                .setUserDataFutureStreamingService(
+                                                    userDataFutureStreamingService);
                                             streamingTradeService.setUserDataFutureStreamingService(
                                                 userDataFutureStreamingService);
                                           })));
@@ -303,16 +312,19 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     if (isFuturesEnabled()) {
       routedPath = "public/";
       // market path
-      if (subscription.getOrderBook().isEmpty() && (subscription.getTicker().isEmpty() | !realtimeOrderBookTicker) && subscription.getTrades().isEmpty()) {
+      if (subscription.getOrderBook().isEmpty()
+          && (subscription.getTicker().isEmpty() | !realtimeOrderBookTicker)
+          && subscription.getTrades().isEmpty()) {
         routedPath = "market/";
       }
     }
     // new chinese pair, like 币安人生usdt, need urlEncode
     String path =
-        getStreamingBaseUri() + routedPath
+        getStreamingBaseUri()
+            + routedPath
             + "stream?streams="
             + URLEncoder.encode(
-            buildSubscriptionStreams(subscription, klineSubscription), StandardCharsets.UTF_8);
+                buildSubscriptionStreams(subscription, klineSubscription), StandardCharsets.UTF_8);
 
     BinanceStreamingService streamingService =
         new BinanceStreamingService(

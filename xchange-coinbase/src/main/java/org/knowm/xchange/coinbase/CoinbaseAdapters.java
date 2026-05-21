@@ -105,28 +105,28 @@ public final class CoinbaseAdapters {
     }
 
     FundingRecord funding =
-      new FundingRecord(
-        null,
-        Date.from(transaction.getCreatedAt().toInstant()),
-        Currency.getInstance(transaction.getAmount().getCurrency()),
-        transaction.getAmount().getAmount(),
-        transaction.getId(),
-        null,
-        type,
-        status,
-        null,
-        transaction.getFee().getAmount(),
-        null);
+        FundingRecord.builder()
+            .date(Date.from(transaction.getCreatedAt().toInstant()))
+            .currency(Currency.getInstance(transaction.getAmount().getCurrency()))
+            .amount(transaction.getAmount().getAmount())
+            .internalId(transaction.getId())
+            .type(type)
+            .status(status)
+            .fee(transaction.getFee().getAmount())
+            .build();
     return funding;
   }
 
   private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
     // Bug fix - Null point exception in case of cancelled transactions
 
-      String transactionId = transaction.getTransaction() == null ?
-              null : (transaction.getTransaction().getId() == null ?
-              null : transaction.getTransaction().getId());
-    return new UserTrade.Builder()
+    String transactionId =
+        transaction.getTransaction() == null
+            ? null
+            : (transaction.getTransaction().getId() == null
+                ? null
+                : transaction.getTransaction().getId());
+    return UserTrade.builder()
         .type(orderType)
         .originalAmount(transaction.getAmount().getAmount())
         .instrument(

@@ -15,15 +15,18 @@ import org.slf4j.LoggerFactory;
 
 public class BinanceUserDataFutureStreamingService extends JsonNettyStreamingService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataFutureStreamingService.class);
+  private static final Logger LOG =
+      LoggerFactory.getLogger(BinanceUserDataFutureStreamingService.class);
 
   public static BinanceUserDataFutureStreamingService create(
       String baseUri, String listenKey, ExchangeSpecification exchangeSpecification) {
 
-    return new BinanceUserDataFutureStreamingService(baseUri + "ws/" + listenKey, exchangeSpecification);
+    return new BinanceUserDataFutureStreamingService(
+        baseUri + "ws/" + listenKey, exchangeSpecification);
   }
 
-  private BinanceUserDataFutureStreamingService(String url, ExchangeSpecification exchangeSpecification) {
+  private BinanceUserDataFutureStreamingService(
+      String url, ExchangeSpecification exchangeSpecification) {
     super(
         url,
         65536,

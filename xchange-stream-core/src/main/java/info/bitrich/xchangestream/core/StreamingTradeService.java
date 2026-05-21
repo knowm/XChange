@@ -87,11 +87,13 @@ public interface StreamingTradeService {
   }
 
   /**
-   * Places a market order on the exchange. A market order is an order to buy or sell a financial instrument immediately at the best available current price. Specific exchanges may require additional
-   * optional parameters to process the market order.
+   * Places a market order on the exchange. A market order is an order to buy or sell a financial
+   * instrument immediately at the best available current price. Specific exchanges may require
+   * additional optional parameters to process the market order.
    *
-   * @param marketOrder The details of the market order, including the instrument, amount, and side (buy/sell).
-   * @param args        Optional additional arguments that may be required by specific exchanges.
+   * @param marketOrder The details of the market order, including the instrument, amount, and side
+   *     (buy/sell).
+   * @param args Optional additional arguments that may be required by specific exchanges.
    * @return A {@link Single} that emits the operation result code, typically 0 for success.
    */
   default Single<Integer> placeMarketOrder(MarketOrder marketOrder, Object... args) {
@@ -99,10 +101,12 @@ public interface StreamingTradeService {
   }
 
   /**
-   * Places a limit order on the exchange. A limit order specifies the price at which the user wants to buy or sell a financial instrument, potentially with additional optional parameters.
+   * Places a limit order on the exchange. A limit order specifies the price at which the user wants
+   * to buy or sell a financial instrument, potentially with additional optional parameters.
    *
-   * @param limitOrder The details of the limit order, including instrument, price, volume, and side (buy/sell).
-   * @param args       Optional additional arguments that may be required by specific exchanges.
+   * @param limitOrder The details of the limit order, including instrument, price, volume, and side
+   *     (buy/sell).
+   * @param args Optional additional arguments that may be required by specific exchanges.
    * @return A {@link Single} that emits the operation result code, typically 0 for success.
    */
   default Single<Integer> placeLimitOrder(LimitOrder limitOrder, Object... args) {
@@ -110,11 +114,13 @@ public interface StreamingTradeService {
   }
 
   /**
-   * Modifies an existing limit order on the exchange. This can include changes to the price, volume, or other adjustable parameters of the order, depending on the exchange's specific functionality
-   * and constraints.
+   * Modifies an existing limit order on the exchange. This can include changes to the price,
+   * volume, or other adjustable parameters of the order, depending on the exchange's specific
+   * functionality and constraints.
    *
-   * @param order The limit order to be modified, including the updated details such as price or/and volume.
-   * @param args  Optional additional arguments that may be required by specific exchanges.
+   * @param order The limit order to be modified, including the updated details such as price or/and
+   *     volume.
+   * @param args Optional additional arguments that may be required by specific exchanges.
    * @return A {@link Single} that emits the operation result code, typically 0 for success.
    */
   default Single<Integer> changeOrder(LimitOrder order, Object... args) {
@@ -122,10 +128,12 @@ public interface StreamingTradeService {
   }
 
   /**
-   * Cancels an existing order on the exchange. The operation requires specific parameters describing the order to be canceled, such as order ID or user reference ID.
+   * Cancels an existing order on the exchange. The operation requires specific parameters
+   * describing the order to be canceled, such as order ID or user reference ID.
    *
-   * @param params An object implementing {@link CancelOrderParams} that contains order ID or user reference ID.
-   * @param args   Optional additional arguments that may be required by specific exchanges.
+   * @param params An object implementing {@link CancelOrderParams} that contains order ID or user
+   *     reference ID.
+   * @param args Optional additional arguments that may be required by specific exchanges.
    * @return A {@link Single} that emits the operation result code, typically 0 for success.
    */
   default Single<Integer> cancelOrder(CancelOrderParams params, Object... args) {

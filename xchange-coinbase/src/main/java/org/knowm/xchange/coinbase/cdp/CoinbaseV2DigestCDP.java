@@ -6,12 +6,6 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openssl.PEMParser;
-import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
-
 import java.io.StringReader;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
@@ -21,6 +15,11 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseV2DigestCDP extends BaseParamsDigest {
 
@@ -28,18 +27,24 @@ public class CoinbaseV2DigestCDP extends BaseParamsDigest {
   private final String cdpName;
 
   private CoinbaseV2DigestCDP(String cdpPrivateKey, String cdpName) {
-    super("nothing","HmacSHA256");
+    super("nothing", "HmacSHA256");
     this.cdpPrivateKey = cdpPrivateKey;
     this.cdpName = cdpName;
   }
 
   public static CoinbaseV2DigestCDP createInstance(String cdpPrivateKey, String cdpName) {
-    return (cdpPrivateKey == null || cdpName == null) ? null : new CoinbaseV2DigestCDP(cdpPrivateKey, cdpName);
+    return (cdpPrivateKey == null || cdpName == null)
+        ? null
+        : new CoinbaseV2DigestCDP(cdpPrivateKey, cdpName);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    String path = restInvocation.getInvocationUrl().replaceFirst("https://", "").replaceAll("\\?" + restInvocation.getQueryString(), "");
+    String path =
+        restInvocation
+            .getInvocationUrl()
+            .replaceFirst("https://", "")
+            .replaceAll("\\?" + restInvocation.getQueryString(), "");
     String requestMethod = restInvocation.getHttpMethod();
     try {
       return generateJwt(path, cdpPrivateKey, cdpName, requestMethod);
@@ -48,7 +53,8 @@ public class CoinbaseV2DigestCDP extends BaseParamsDigest {
     }
   }
 
-  public String generateJwt(String urlString, String cdpPrivateKey, String cdpName, String httpMethod) throws Exception {
+  public String generateJwt(
+      String urlString, String cdpPrivateKey, String cdpName, String httpMethod) throws Exception {
     // Register BouncyCastle as a security provider
     Security.addProvider(new BouncyCastleProvider());
 
@@ -85,7 +91,9 @@ public class CoinbaseV2DigestCDP extends BaseParamsDigest {
     if (object instanceof PrivateKey) {
       privateKey = (PrivateKey) object;
     } else if (object instanceof org.bouncycastle.openssl.PEMKeyPair) {
-      privateKey = converter.getPrivateKey(((org.bouncycastle.openssl.PEMKeyPair) object).getPrivateKeyInfo());
+      privateKey =
+          converter.getPrivateKey(
+              ((org.bouncycastle.openssl.PEMKeyPair) object).getPrivateKeyInfo());
     } else {
       throw new Exception("Unexpected private key format");
     }

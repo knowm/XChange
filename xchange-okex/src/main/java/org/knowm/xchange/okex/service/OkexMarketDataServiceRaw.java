@@ -23,9 +23,7 @@ import org.knowm.xchange.okex.dto.marketdata.OkexTrade;
 import org.knowm.xchange.okex.dto.marketdata.OkxFundingRateHistory;
 import org.knowm.xchange.utils.DateUtils;
 
-/**
- * Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021
- */
+/** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataServiceRaw extends OkexBaseService {
 
   public OkexMarketDataServiceRaw(
@@ -38,15 +36,15 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       throws OkexException, IOException {
     try {
       return decorateApiCall(
-          () ->
-              okex.getInstruments(
-                  instrumentType,
-                  underlying,
-                  instrumentId,
-                  (String)
-                      exchange
-                          .getExchangeSpecification()
-                          .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+              () ->
+                  okex.getInstruments(
+                      instrumentType,
+                      underlying,
+                      instrumentId,
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(Okex.instrumentsPath))
           .call();
     } catch (OkexException e) {
@@ -58,13 +56,13 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       throws OkexException, IOException {
     try {
       return decorateApiCall(
-          () ->
-              okex.getTicker(
-                  instrumentId,
-                  (String)
-                      exchange
-                          .getExchangeSpecification()
-                          .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+              () ->
+                  okex.getTicker(
+                      instrumentId,
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(Okex.tickerPath))
           .call();
     } catch (OkexException e) {
@@ -76,13 +74,13 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       throws OkexException, IOException {
     try {
       return decorateApiCall(
-          () ->
-              okex.getTickers(
-                  instType.toString(),
-                  (String)
-                      exchange
-                          .getExchangeSpecification()
-                          .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+              () ->
+                  okex.getTickers(
+                      instType.toString(),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(Okex.tickersPath))
           .call();
     } catch (OkexException e) {
@@ -94,13 +92,13 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       throws OkexException, IOException {
     try {
       return decorateApiCall(
-          () ->
-              okex.getFundingRate(
-                  instrumentId,
-                  (String)
-                      exchange
-                          .getExchangeSpecification()
-                          .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+              () ->
+                  okex.getFundingRate(
+                      instrumentId,
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(Okex.instrumentsPath))
           .call();
     } catch (OkexException e) {
@@ -111,19 +109,19 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
   public OkexResponse<List<OkexCurrency>> getOkexCurrencies() throws OkexException, IOException {
     try {
       return decorateApiCall(
-          () ->
-              okexAuthenticated.getCurrencies(
-                  exchange.getExchangeSpecification().getApiKey(),
-                  signatureCreator,
-                  DateUtils.toUTCISODateString(new Date()),
-                  (String)
-                      exchange
-                          .getExchangeSpecification()
-                          .getExchangeSpecificParametersItem(PARAM_PASSPHRASE),
-                  (String)
-                      exchange
-                          .getExchangeSpecification()
-                          .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+              () ->
+                  okexAuthenticated.getCurrencies(
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_PASSPHRASE),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
           .withRateLimiter(rateLimiter(OkexAuthenticated.currenciesPath))
           .call();
     } catch (OkexException e) {
@@ -154,15 +152,17 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
       String instrument, String after, String before, String bar, String limit)
       throws OkexException, IOException {
     return decorateApiCall(
-        () ->
-            okex.getHistoryCandles(
-                instrument,
-                after,
-                before,
-                bar,
-                limit,
-                (String)
-                    exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED)))
+            () ->
+                okex.getHistoryCandles(
+                    instrument,
+                    after,
+                    before,
+                    bar,
+                    limit,
+                    (String)
+                        exchange
+                            .getExchangeSpecification()
+                            .getExchangeSpecificParametersItem(PARAM_SIMULATED)))
         .withRateLimiter(rateLimiter(Okex.candlesHistoryPath))
         .call();
   }
@@ -180,17 +180,21 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED));
   }
 
-  public List<OkxFundingRateHistory> getOkxFundingRateHistoryRaw(String instrument, Long startTime, Long endTime, Integer limit) throws IOException {
+  public List<OkxFundingRateHistory> getOkxFundingRateHistoryRaw(
+      String instrument, Long startTime, Long endTime, Integer limit) throws IOException {
     return decorateApiCall(
-        () ->
-            okex.getFundingRateHistory(
-                instrument,
-                endTime,
-                startTime,
-                limit,
-                (String)
-                    exchange.getExchangeSpecification().getExchangeSpecificParametersItem(PARAM_SIMULATED)).getData()).
-        withRateLimiter(rateLimiter(Okex.fundingRateHistoryPath))
+            () ->
+                okex.getFundingRateHistory(
+                        instrument,
+                        endTime,
+                        startTime,
+                        limit,
+                        (String)
+                            exchange
+                                .getExchangeSpecification()
+                                .getExchangeSpecificParametersItem(PARAM_SIMULATED))
+                    .getData())
+        .withRateLimiter(rateLimiter(Okex.fundingRateHistoryPath))
         .call();
   }
 }
