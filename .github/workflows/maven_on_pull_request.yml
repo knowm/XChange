@@ -12,12 +12,24 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17']
+        include:
+          - java: '21'
+            experimental: true
+          - java: '25'
+            experimental: true
+
+    continue-on-error: ${{ matrix.experimental || false }}
+
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 17
+    - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: ${{ matrix.java }}
         distribution: 'temurin'
     - name: Build with Maven
       run: mvn clean verify --no-transfer-progress --batch-mode --settings etc/settings.xml -Dmaven.javadoc.skip=true -Dfmt.skip=true;
