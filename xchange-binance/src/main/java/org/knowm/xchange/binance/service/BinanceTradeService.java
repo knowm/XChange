@@ -295,22 +295,19 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
     try {
-      if (!(params instanceof CancelOrderByInstrument)
-          && !(params instanceof CancelOrderByIdParams
-              && params instanceof CancelOrderByUserReferenceParams)) {
+      boolean hasInstrument = params instanceof CancelOrderByInstrument;
+      boolean hasId = params instanceof CancelOrderByIdParams;
+      boolean hasUserReference = params instanceof CancelOrderByUserReferenceParams;
+      if (!hasInstrument || !(hasId || hasUserReference)) {
         throw new ExchangeException(
             "You need to provide the currency pair and the 'order id/user id' to cancel an order.");
       }
-      assert params instanceof CancelOrderByInstrument;
-      CancelOrderByInstrument paramInstrument = (CancelOrderByInstrument) params;
-      CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
-      CancelOrderByUserReferenceParams paramUserReference =
-          (CancelOrderByUserReferenceParams) params;
-      cancelOrderAllProducts(
-          paramInstrument.getInstrument(),
-          BinanceAdapters.id(paramId.getOrderId()),
-          paramUserReference.getUserReference(),
-          null);
+      Instrument instrument = ((CancelOrderByInstrument) params).getInstrument();
+      Long orderId =
+          hasId ? BinanceAdapters.id(((CancelOrderByIdParams) params).getOrderId()) : null;
+      String userReference =
+          hasUserReference ? ((CancelOrderByUserReferenceParams) params).getUserReference() : null;
+      cancelOrderAllProducts(instrument, orderId, userReference, null);
 
       return true;
     } catch (BinanceException e) {
