@@ -2,7 +2,9 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gateio.GateioExchange;
 
@@ -27,14 +29,15 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public Completable connect(ProductSubscription... args) {
+    applyWebsocketTimeouts(exchangeSpecification);
     streamingService =
         new GateioStreamingService(
             exchangeSpecification.getSslUri(),
             exchangeSpecification.getApiKey(),
-            exchangeSpecification.getSecretKey());
+            exchangeSpecification.getSecretKey(), exchangeSpecification);
     applyStreamingSpecification(exchangeSpecification, streamingService);
-    streamingMarketDataService = new GateioStreamingMarketDataService(streamingService);
-    streamingTradeService = new GateioStreamingTradeService(streamingService);
+    streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData);
+    streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData);
     streamingAccountService = new GateioStreamingAccountService(streamingService);
 
     return streamingService.connect();
@@ -78,8 +81,23 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification specification = super.getDefaultExchangeSpecification();
-    specification.setShouldLoadRemoteMetaData(false);
+    specification.setShouldLoadRemoteMetaData(true);
 
     return specification;
+  }
+
+  @Override
+  public Observable<Throwable> reconnectFailure() {
+    return streamingService.subscribeReconnectFailure();
+  }
+
+  @Override
+  public Observable<ConnectionStateModel.State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
+  }
+
+  @Override
+  public Observable<Object> connectionIdle() {
+    return streamingService.subscribeIdle();
   }
 }

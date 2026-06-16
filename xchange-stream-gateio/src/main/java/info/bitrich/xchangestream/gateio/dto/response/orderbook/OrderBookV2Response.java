@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.config.converter.StringToInstrumentConverter;
+import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class OrderBookV2FuturesResponse {
+public class OrderBookV2Response {
 
   @JsonProperty("t")
   private Instant timestamp;
@@ -39,6 +42,10 @@ public class OrderBookV2FuturesResponse {
   @JsonProperty("bids")
   @JsonAlias("b")
   private List<PriceSizeEntry> bids = new ArrayList<>();
+
+  @JsonProperty("contract")
+  @JsonDeserialize(converter = StringToInstrumentConverter.class)
+  Instrument contract;
 
   @JsonIgnore
   public CurrencyPair getCurrencyPair() {

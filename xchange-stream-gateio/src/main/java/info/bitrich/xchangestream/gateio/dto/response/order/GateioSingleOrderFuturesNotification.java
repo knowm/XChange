@@ -8,21 +8,20 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderResponse;
 
-import java.util.List;
-
 @Data
 @SuperBuilder
 @Jacksonized
 public class GateioSingleOrderFuturesNotification extends GateioWsNotification {
   @JsonProperty("result")
-  private List<GateioFuturesOrderResponse> result;
+  private GateioFuturesOrderResponse result;
 
   @Override
   public String getUniqueChannelName() {
     String suffix =
-        result.get(0).getContract() != null
-            ? Config.CHANNEL_NAME_DELIMITER + result.get(0).getContract()
+        result.getContract() != null
+            ? Config.CHANNEL_NAME_DELIMITER + result.getContract()
             : "";
     return super.getUniqueChannelName() + suffix;
   }
+
 }

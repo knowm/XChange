@@ -48,11 +48,21 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     return new OpenOrders(limitOrders);
   }
 
+  /**
+   *
+   * @param marketOrder amount
+   *                    When type is market, the meaning depends on the side:
+   *                    - side: buy refers to the quote currency, e.g. USDT in BTC_USDT
+   *                    - side: sell refers to the base currency, e.g. BTC in BTC_USDT
+   * @return
+   * @throws IOException
+   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
       if (marketOrder.getInstrument() instanceof FuturesContract) {
-        GateioFuturesOrderResponse order = createFuturesOrder(GateioAdapters.toGateioFuturesOrder(marketOrder, exchange.getExchangeMetaData().getInstruments().get(marketOrder.getInstrument()).getContractValue()));
+        GateioFuturesOrderResponse order = createFuturesOrder(GateioAdapters.toGateioFuturesOrder(marketOrder,
+            exchange.getExchangeMetaData().getInstruments().get(marketOrder.getInstrument()).getContractValue()));
         return String.valueOf(order.getId());
       } else {
         GateioSpotOrderResponse order = createOrder(GateioAdapters.toGateioSpotOrderRequest(marketOrder));
@@ -90,7 +100,8 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     try {
       if (params.getInstrument() instanceof FuturesContract) {
         GateioFuturesOrderResponse gateioOrder = getFuturesOrder(params.getOrderId(), params.getInstrument());
-        return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
+        return Collections.singletonList(GateioAdapters.toOrder(gateioOrder, exchange.getExchangeMetaData()
+            .getInstruments().get(params.getInstrument()).getContractValue()));
       } else {
         GateioSpotOrderResponse gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
         return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
@@ -107,7 +118,7 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     try {
       if (instrument instanceof FuturesContract) {
         GateioFuturesOrderResponse gateioOrder = cancelFuturesOrderRaw(orderId, instrument);
-        return GateioAdapters.toOrder(gateioOrder);
+        return GateioAdapters.toOrder(gateioOrder, exchange.getExchangeMetaData().getInstruments().get(instrument).getContractValue());
       } else {
         GateioSpotOrderResponse gateioOrder = cancelOrderRaw(orderId, instrument);
         return GateioAdapters.toOrder(gateioOrder);

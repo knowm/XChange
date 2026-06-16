@@ -1,11 +1,8 @@
 package org.knowm.xchange.gateio.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -16,6 +13,9 @@ import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 import org.knowm.xchange.gateio.config.converter.StringToOrderTypeConverter;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -40,6 +40,7 @@ public class GateioSpotOrderResponse {
   private Instant updatedAt;
 
   @JsonProperty("status")
+  @JsonAlias("event")
   private String status;
 
   @JsonProperty("currency_pair")

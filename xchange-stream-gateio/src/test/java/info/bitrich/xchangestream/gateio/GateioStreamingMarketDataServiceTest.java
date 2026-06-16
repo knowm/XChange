@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,13 +34,15 @@ import static org.mockito.Mockito.when;
 class GateioStreamingMarketDataServiceTest {
 
   @Mock GateioStreamingService gateioStreamingService;
+  @Mock
+  ExchangeMetaData exchangeMetaData;
   GateioStreamingMarketDataService gateioStreamingMarketDataService;
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @BeforeEach
   public void setup() {
-    gateioStreamingMarketDataService = new GateioStreamingMarketDataService(gateioStreamingService);
+    gateioStreamingMarketDataService = new GateioStreamingMarketDataService(gateioStreamingService, exchangeMetaData);
   }
 
   @Test

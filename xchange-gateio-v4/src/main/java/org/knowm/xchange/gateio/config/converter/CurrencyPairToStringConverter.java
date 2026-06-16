@@ -8,6 +8,7 @@ public class CurrencyPairToStringConverter extends StdConverter<Instrument, Stri
 
   @Override
   public String convert(Instrument value) {
+
     return value.getBase() + "_" + value.getCounter();
   }
 }

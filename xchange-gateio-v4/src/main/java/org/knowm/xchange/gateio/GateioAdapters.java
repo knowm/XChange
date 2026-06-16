@@ -132,8 +132,12 @@ public class GateioAdapters {
   }
 
   public OrderStatus toOrderStatus(GateioSpotOrderResponse gateioSpotOrderResponse) {
+    if (gateioSpotOrderResponse.getStatus() == null) {
+      return null;
+    }
     switch (gateioSpotOrderResponse.getStatus()) {
       case "open":
+      case "put":
         return OrderStatus.OPEN;
 
       case "closed":
@@ -147,6 +151,7 @@ public class GateioAdapters {
           return OrderStatus.FILLED;
         }
       case "filled":
+      case "finish":
         return OrderStatus.FILLED;
 
       case "cancelled":
@@ -184,7 +189,7 @@ public class GateioAdapters {
         .clientOrderId(marketOrder.getUserReference() != null ? marketOrder.getUserReference() : null)
         .type("market")
         .timeInForce("ioc")
-        .amount(marketOrder.getOriginalAmount());
+        .amount(marketOrder.getOriginalAmount().toPlainString());
     builder.account("spot");
     return builder.build();
   }
@@ -197,7 +202,7 @@ public class GateioAdapters {
         .type("limit")
         .timeInForce("gtc")
         .price(limitOrder.getLimitPrice())
-        .amount(limitOrder.getOriginalAmount());
+        .amount(limitOrder.getOriginalAmount().toPlainString());
     builder.account("spot");
     return builder.build();
   }
@@ -231,19 +236,33 @@ public class GateioAdapters {
   }
 
 
-  public Order toOrder(GateioFuturesOrderResponse gateioFutureOrderResponse) {
+  public Order toOrder(GateioFuturesOrderResponse gateioFutureOrderResponse, BigDecimal contractValue) {
+    Order.Builder builder;
+    Instrument instrument = gateioFutureOrderResponse.getContract();
     OrderType orderType = gateioFutureOrderResponse.getSize().signum() > 0 ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = gateioFutureOrderResponse.getSize().abs();
-
-    return new LimitOrder.Builder(orderType, fromGateioInstrument(gateioFutureOrderResponse.getContract(), true))
+    BigDecimal amount = convertContractSizeToVolume(gateioFutureOrderResponse.getSize().abs(), contractValue);
+    //  a price of 0 with tif as ioc represents a market order.
+    if (gateioFutureOrderResponse.getPrice().compareTo(BigDecimal.ZERO) == 0 && gateioFutureOrderResponse.getTimeInForce().equals("ioc"))
+      builder = new MarketOrder.Builder(orderType, instrument);
+    else
+      builder = new LimitOrder.Builder(orderType, instrument).limitPrice(gateioFutureOrderResponse.getPrice());
+    OrderStatus status = toOrderStatusFutures(gateioFutureOrderResponse);
+    Date timestamp;
+    if (gateioFutureOrderResponse.getFinishTime() != null)
+      timestamp = Date.from(gateioFutureOrderResponse.getFinishTime());
+    else if (gateioFutureOrderResponse.getUpdatedTime() != null) {
+      timestamp = Date.from(gateioFutureOrderResponse.getUpdatedTime());
+    } else
+      timestamp = Date.from(gateioFutureOrderResponse.getCreateTime());
+    return builder
         .id(String.valueOf(gateioFutureOrderResponse.getId()))
         .userReference(gateioFutureOrderResponse.getText())
         .originalAmount(amount)
-        .limitPrice(gateioFutureOrderResponse.getPrice())
-        .cumulativeAmount(amount.subtract(gateioFutureOrderResponse.getLeft()))
-        .orderStatus(toOrderStatusFutures(gateioFutureOrderResponse))
-        .timestamp(gateioFutureOrderResponse.getCreateTime() != null ? Date.from(gateioFutureOrderResponse.getCreateTime()) : null)
-        .averagePrice(gateioFutureOrderResponse.getAvgDealPrice())
+        .cumulativeAmount(amount.subtract(convertContractSizeToVolume(gateioFutureOrderResponse.getLeft(), contractValue)))
+        .orderStatus(status)
+        .timestamp(timestamp)
+        .averagePrice(gateioFutureOrderResponse.getFillPrice())
+        .fee(gateioFutureOrderResponse.getFee())
         .build();
   }
 
@@ -279,7 +298,7 @@ public class GateioAdapters {
       } else {
         throw new IllegalArgumentException("Can't map " + orderType);
       }
-    }
+    } else builder.cumulativeAmount(BigDecimal.ZERO);
 
     return builder
         .id(gateioOrder.getId())
@@ -409,7 +428,7 @@ public class GateioAdapters {
     return -(int) Math.round(Math.log10(d));
   }
 
-  private static BigDecimal convertContractSizeToVolume(
+  public static BigDecimal convertContractSizeToVolume(
       BigDecimal size, BigDecimal contractValue) {
     return size.multiply(contractValue).stripTrailingZeros();
   }

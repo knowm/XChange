@@ -1,10 +1,8 @@
 package org.knowm.xchange.gateio.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import java.math.BigDecimal;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -13,9 +11,12 @@ import org.knowm.xchange.gateio.config.converter.CurrencyPairToStringConverter;
 import org.knowm.xchange.gateio.config.converter.OrderTypeToStringConverter;
 import org.knowm.xchange.instrument.Instrument;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @Jacksonized
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GateioSpotOrderRequest {
 
   @JsonProperty("text")
@@ -36,7 +37,7 @@ public class GateioSpotOrderRequest {
   private OrderType side;
 
   @JsonProperty("amount")
-  private BigDecimal amount;
+  private String amount;
 
   @JsonProperty("price")
   private BigDecimal price;

@@ -1,5 +1,6 @@
 package org.knowm.xchange.gateio.service;
 
+import jakarta.ws.rs.HeaderParam;
 import lombok.SneakyThrows;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
@@ -22,13 +23,15 @@ public class GateioBaseService extends BaseResilientExchangeService<GateioExchan
   @SneakyThrows
   public GateioBaseService(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
-
     gateio =
         ExchangeRestProxyBuilder.forInterface(Gateio.class, exchange.getExchangeSpecification())
             .clientConfigCustomizer(
-                clientConfig ->
-                    clientConfig.setJacksonObjectMapperFactory(
-                        new GateioJacksonObjectMapperFactory()))
+                clientConfig -> {
+                  clientConfig.setJacksonObjectMapperFactory(
+                      new GateioJacksonObjectMapperFactory());
+                  clientConfig.addDefaultParam(HeaderParam.class, "X-Gate-Size-Decimal", "1");
+                }
+            )
             .restProxyFactory(
                 Config.getInstance()
                     .getRestProxyFactoryClass()
@@ -41,9 +44,11 @@ public class GateioBaseService extends BaseResilientExchangeService<GateioExchan
         ExchangeRestProxyBuilder.forInterface(
                 GateioV4Authenticated.class, exchange.getExchangeSpecification())
             .clientConfigCustomizer(
-                clientConfig ->
+                clientConfig -> {
                     clientConfig.setJacksonObjectMapperFactory(
-                        new GateioJacksonObjectMapperFactory()))
+                        new GateioJacksonObjectMapperFactory());
+                  clientConfig.addDefaultParam(HeaderParam.class, "X-Gate-Size-Decimal", "1");
+                })
             .restProxyFactory(
                 Config.getInstance()
                     .getRestProxyFactoryClass()

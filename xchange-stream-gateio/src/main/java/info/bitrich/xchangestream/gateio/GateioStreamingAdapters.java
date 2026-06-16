@@ -2,11 +2,12 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.gateio.dto.response.balance.BalancePayload;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2Notification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookPayload;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookV2FuturesResponse;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookV2Response;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.TickerPayload;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
@@ -19,14 +20,21 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.instrument.Instrument;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
+
+import static org.knowm.xchange.gateio.GateioAdapters.convertContractSizeToVolume;
 
 @UtilityClass
 public class GateioStreamingAdapters {
@@ -94,6 +102,10 @@ public class GateioStreamingAdapters {
     return GateioAdapters.toOrder(notification.getResult());
   }
 
+  public Order toOrder(GateioSingleOrderFuturesNotification notification, BigDecimal contractValue) {
+    return GateioAdapters.toOrder(notification.getResult(), contractValue);
+  }
+
   public Balance toBalance(GateioSingleSpotBalanceNotification notification) {
     BalancePayload balancePayload = notification.getResult();
 
@@ -136,9 +148,40 @@ public class GateioStreamingAdapters {
     return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);
   }
 
-  public OrderBook toOrderBookFutures(GateioOrderBookFuturesNotification notification) {
-    OrderBookV2FuturesResponse orderBookPayload = notification.getResult();
+  public OrderBook toOrderBookV2Futures(GateioOrderBookV2Notification notification,
+                                        BigDecimal contractValue) {
+    OrderBookV2Response orderBookPayload = notification.getResult();
+    Date timestamp = Date.from(orderBookPayload.getTimestamp());
+    Stream<LimitOrder> asks =
+        orderBookPayload.getAsks().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.ASK,
+                        convertContractSizeToVolume(priceSizeEntry.getSize(), contractValue),
+                        orderBookPayload.getCurrencyPair(),
+                        null,
+                        timestamp,
+                        priceSizeEntry.getPrice()));
 
+    Stream<LimitOrder> bids =
+        orderBookPayload.getBids().stream()
+            .map(
+                priceSizeEntry ->
+                    new LimitOrder(
+                        OrderType.BID,
+                        convertContractSizeToVolume(priceSizeEntry.getSize(), contractValue),
+                        orderBookPayload.getCurrencyPair(),
+                        null,
+                        timestamp,
+                        priceSizeEntry.getPrice()));
+
+    return new OrderBook(timestamp, asks, bids);
+  }
+
+  public OrderBook toOrderBookV2(GateioOrderBookV2Notification notification) {
+    OrderBookV2Response orderBookPayload = notification.getResult();
+    Date timestamp = Date.from(orderBookPayload.getTimestamp());
     Stream<LimitOrder> asks =
         orderBookPayload.getAsks().stream()
             .map(
@@ -148,7 +191,7 @@ public class GateioStreamingAdapters {
                         priceSizeEntry.getSize(),
                         orderBookPayload.getCurrencyPair(),
                         null,
-                        null,
+                        timestamp,
                         priceSizeEntry.getPrice()));
 
     Stream<LimitOrder> bids =
@@ -160,11 +203,45 @@ public class GateioStreamingAdapters {
                         priceSizeEntry.getSize(),
                         orderBookPayload.getCurrencyPair(),
                         null,
-                        null,
+                        timestamp,
                         priceSizeEntry.getPrice()));
 
-    return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);
+    return new OrderBook(timestamp, asks, bids);
   }
 
+  public static List<OrderBookUpdate> adaptOrderBookFuturesUpdates(Instrument instrument, OrderBookV2Response response,
+                                                                   BigDecimal contractValue) {
+    List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
+    Date timestamp = Date.from(response.getTimestamp());
+    for (OrderBookV2Response.PriceSizeEntry ask : response.getAsks()) {
+      BigDecimal volume = convertContractSizeToVolume(ask.getSize(), contractValue);
+      OrderBookUpdate o =
+          new OrderBookUpdate(OrderType.ASK, volume, instrument, ask.getPrice(), timestamp, volume);
+      orderBookUpdates.add(o);
+    }
+    for (OrderBookV2Response.PriceSizeEntry bid : response.getBids()) {
+      BigDecimal volume = convertContractSizeToVolume(bid.getSize(), contractValue);
+      OrderBookUpdate o =
+          new OrderBookUpdate(OrderType.BID, volume, instrument, bid.getPrice(), timestamp, volume);
+      orderBookUpdates.add(o);
+    }
+    return orderBookUpdates;
+  }
+
+  public static List<OrderBookUpdate> adaptOrderBookUpdates(Instrument instrument, OrderBookV2Response response) {
+    List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
+    Date timestamp = Date.from(response.getTimestamp());
+    for (OrderBookV2Response.PriceSizeEntry ask : response.getAsks()) {
+      OrderBookUpdate o =
+          new OrderBookUpdate(OrderType.ASK, ask.getSize(), instrument, ask.getPrice(), timestamp, ask.getSize());
+      orderBookUpdates.add(o);
+    }
+    for (OrderBookV2Response.PriceSizeEntry bid : response.getBids()) {
+      OrderBookUpdate o =
+          new OrderBookUpdate(OrderType.BID, bid.getSize(), instrument, bid.getPrice(), timestamp, bid.getSize());
+      orderBookUpdates.add(o);
+    }
+    return orderBookUpdates;
+  }
 
 }

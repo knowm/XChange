@@ -14,10 +14,10 @@ import lombok.extern.jackson.Jacksonized;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Jacksonized
-public class GateioOrderBookFuturesNotification extends GateioWsNotification {
+public class GateioOrderBookV2FuturesNotification extends GateioWsNotification {
 
   @JsonProperty("result")
-  private OrderBookV2FuturesResponse result;
+  private OrderBookV2Response result;
 
   @Override
   public String getUniqueChannelName() {

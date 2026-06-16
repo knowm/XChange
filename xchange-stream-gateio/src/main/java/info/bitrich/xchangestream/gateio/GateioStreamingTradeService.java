@@ -9,22 +9,25 @@ import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.instrument.Instrument;
 
 public class GateioStreamingTradeService implements StreamingTradeService {
 
   private final GateioStreamingService service;
+  private final ExchangeMetaData exchangeMetaData;
 
-  public GateioStreamingTradeService(GateioStreamingService service) {
+  public GateioStreamingTradeService(GateioStreamingService service, ExchangeMetaData exchangeMetaData) {
     this.service = service;
+    this.exchangeMetaData = exchangeMetaData;
   }
 
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return service
         .subscribeChannel(Config.SPOT_USER_TRADES_CHANNEL, currencyPair)
+//        .filter(GateioSingleUserTradeNotification.class::isInstance)
         .map(GateioSingleUserTradeNotification.class::cast)
         .map(GateioStreamingAdapters::toUserTrade);
   }
@@ -41,10 +44,11 @@ public class GateioStreamingTradeService implements StreamingTradeService {
     }
     if (instrument instanceof FuturesContract) {
       return service
-          .subscribeChannel(Config.FUTURES_USER_ORDERS_CHANNEL, ((FuturesContract) instrument).getCurrencyPair())
+          .subscribeChannel(Config.FUTURES_USER_ORDERS_CHANNEL, instrument)
+//          .filter(GateioSingleOrderFuturesNotification.class::isInstance)
           .map(GateioSingleOrderFuturesNotification.class::cast)
-          .flatMapIterable(GateioSingleOrderFuturesNotification::getResult)
-          .map(GateioAdapters::toOrder);
+          .map(m -> GateioStreamingAdapters.toOrder
+              (m, exchangeMetaData.getInstruments().get(instrument).getContractValue()));
     }
     throw new IllegalArgumentException("Instrument type not supported: " + instrument.getClass());
   }
@@ -53,6 +57,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     return service
         .subscribeChannel(Config.SPOT_USER_ORDERS_CHANNEL, currencyPair)
+//        .filter(GateioSingleOrderNotification.class::isInstance)
         .map(GateioSingleOrderNotification.class::cast)
         .map(GateioStreamingAdapters::toOrder);
   }

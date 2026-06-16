@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
-import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.converter.InstrumentToStringConverter;
+import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -19,13 +20,17 @@ public class GateioFuturesOrderResponse {
   @JsonProperty("id")
   Long id;
 
-  @JsonProperty("create_time")
+  @JsonProperty("create_time_ms")
   @JsonDeserialize(converter = DoubleToInstantConverter.class)
   Instant createTime;
 
-  @JsonProperty("finish_time")
+  @JsonProperty("finish_time_ms")
   @JsonDeserialize(converter = DoubleToInstantConverter.class)
   Instant finishTime;
+
+  @JsonProperty("updated_time")
+  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  Instant updatedTime;
 
   @JsonProperty("finish_as")
   String finishAs;
@@ -34,8 +39,8 @@ public class GateioFuturesOrderResponse {
   String status;
 
   @JsonProperty("contract")
-  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
-  String contract;
+  @JsonDeserialize(converter = InstrumentToStringConverter.class)
+  Instrument contract;
 
   @JsonProperty("size")
   BigDecimal size;
@@ -70,8 +75,8 @@ public class GateioFuturesOrderResponse {
   @JsonProperty("filled_total")
   BigDecimal filledTotal;
 
-  @JsonProperty("avg_deal_price")
-  BigDecimal avgDealPrice;
+  @JsonProperty("entry_price")
+  BigDecimal entryPrice;
 
   @JsonProperty("fill_price")
   BigDecimal fillPrice;
@@ -87,6 +92,9 @@ public class GateioFuturesOrderResponse {
 
   @JsonProperty("mkfr")
   BigDecimal makerFeeRate;
+
+  @JsonProperty("fee")
+  BigDecimal fee;
 
   @JsonProperty("refu")
   BigDecimal referralRebate;

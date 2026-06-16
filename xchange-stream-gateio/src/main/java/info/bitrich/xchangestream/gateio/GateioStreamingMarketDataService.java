@@ -1,62 +1,122 @@
 package info.bitrich.xchangestream.gateio;
 
+import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookV2FuturesResponse;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2Notification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import io.reactivex.rxjava3.core.Observable;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
+@Slf4j
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
 
   public static final int MAX_DEPTH_DEFAULT = 5;
   public static final Duration UPDATE_INTERVAL_DEFAULT = Duration.ofMillis(100);
   private final GateioStreamingService service;
+  private final Map<String, OrderBook> orderBookMap = new HashMap<>();
+  private final ExchangeMetaData exchangeMetaData;
 
-  public GateioStreamingMarketDataService(GateioStreamingService service) {
+  public GateioStreamingMarketDataService(GateioStreamingService service, ExchangeMetaData exchangeMetaData) {
     this.service = service;
+    this.exchangeMetaData = exchangeMetaData;
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
     Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
-
     String channelName =
         (instrument instanceof FuturesContract)
-            ? Config.FUTURES_ORDERBOOK_CHANNEL
-            : Config.SPOT_ORDERBOOK_CHANNEL;
-
-//    String currencyPair = instrument.getCounter()+"/"+instrument.getBase();
+            ? Config.FUTURES_ORDERBOOKV2_CHANNEL
+            : Config.SPOT_ORDERBOOKV2_CHANNEL;
     Observable<GateioWsNotification> updates =
         service.subscribeChannel(channelName, instrument, orderBookLevel);
+    AtomicLong orderBookUpdateIdPrev = new AtomicLong();
 
-//    if (instrument instanceof FuturesContract) {
-//      return updates
-//          .map(GateioOrderBookFuturesNotification.class::cast)
-//          .scan(new FuturesOrderBookState((FuturesContract) instrument), FuturesOrderBookState::apply)
-//          .skip(1)
-//          .map(FuturesOrderBookState::toOrderBook);
-
+    BigDecimal contractValue;
+    if (instrument instanceof FuturesContract)
+      contractValue = exchangeMetaData.getInstruments()
+          .get(instrument).getContractValue();
+    else {
+      contractValue = BigDecimal.ONE;
+    }
     return updates
-        .map(GateioOrderBookFuturesNotification.class::cast)
-        .map(GateioStreamingAdapters::toOrderBookFutures);
+        .map(GateioOrderBookV2Notification.class::cast)
+        .flatMap(ob -> {
+          OrderBook orderBook;
+          if (ob.getResult().isFull()) {
+            if (instrument instanceof FuturesContract)
+              orderBook = GateioStreamingAdapters.toOrderBookV2Futures(ob, contractValue);
+            else
+              orderBook = GateioStreamingAdapters.toOrderBookV2(ob);
+            orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
+            orderBookMap.put(instrument.toString(), orderBook);
+          } else {
+            log.debug(
+                "orderBookUpdate U {}, u {}, orderBookUpdateIdPrev {} ",
+                ob.getResult().getFirstUpdateId(),
+                ob.getResult().getLastUpdateId(), orderBookUpdateIdPrev.get());
+            if (orderBookUpdateIdPrev.incrementAndGet() == ob.getResult().getFirstUpdateId()) {
+              orderBook = orderBookMap.getOrDefault(instrument.toString(), null);
+              if (orderBook == null) {
+                log.error("Failed to get orderBook, instId={}.", instrument);
+                return Observable.fromIterable(new LinkedList<>());
+              }
+              List<OrderBookUpdate> orderBookUpdates;
+              if (instrument instanceof FuturesContract)
+                orderBookUpdates = GateioStreamingAdapters.adaptOrderBookFuturesUpdates(
+                    instrument,
+                    ob.getResult(),
+                    contractValue);
+              else
+                orderBookUpdates =
+                    GateioStreamingAdapters.adaptOrderBookUpdates(
+                        instrument,
+                        ob.getResult());
+              orderBookUpdates.forEach(orderBook::update);
+              orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
+              return Observable.just(orderBook);
+            } else {
+              log.error(
+                  "orderBookUpdate id sequence failed, expected {}, in fact {}",
+                  orderBookUpdateIdPrev.get(),
+                  ob.getResult().getFirstUpdateId());
+              log.warn(
+                  "Resubscribing {} channel after error",
+                  instrument);
+              // Resubscribe to the channel, triggering a new snapshot
+              if (orderBookMap.containsKey(instrument.toString())) {
+                orderBookMap.remove(instrument.toString());
+                if (service.isSocketOpen()) {
+                  service.sendMessage(service.getUnsubscribeMessage(channelName, instrument, orderBookLevel));
+                  service.resubscribeChannels();
+                }
+              }
+            }
+          }
+          return Observable.just(new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false));
+        });
   }
 
   @Override
@@ -69,14 +129,14 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
    * https://www.gate.io/docs/apiv4/ws/index.html#limited-level-full-order-book-snapshot
    *
    * @param currencyPair Currency pair of the order book
-   * @param args Order book level: {@link Integer}, update speed: {@link Duration}
+   * @param args         Order book level: {@link Integer}, update speed: {@link Duration}
    */
   public Observable<OrderBook> getOrderBookLegacy(CurrencyPair currencyPair, Object... args) {
     Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
     Duration updateSpeed = (Duration) ArrayUtils.get(args, 1, UPDATE_INTERVAL_DEFAULT);
     return service
         .subscribeChannel(
-            Config.SPOT_ORDERBOOK_CHANNEL, new Object[] {currencyPair, orderBookLevel, updateSpeed})
+            Config.SPOT_ORDERBOOK_CHANNEL, new Object[]{currencyPair, orderBookLevel, updateSpeed})
         .map(GateioOrderBookNotification.class::cast)
         .map(GateioStreamingAdapters::toOrderBook);
   }
@@ -123,71 +183,4 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
         .map(GateioStreamingAdapters::toTrade);
   }
 
-  private static final class FuturesOrderBookState {
-
-    private final FuturesContract instrument;
-    private final TreeMap<BigDecimal, BigDecimal> asks;
-    private final TreeMap<BigDecimal, BigDecimal> bids;
-    private Date timestamp;
-
-    private FuturesOrderBookState(FuturesContract instrument) {
-      this(instrument, new TreeMap<>(), new TreeMap<>(Comparator.reverseOrder()), null);
-    }
-
-    private FuturesOrderBookState(
-        FuturesContract instrument,
-        TreeMap<BigDecimal, BigDecimal> asks,
-        TreeMap<BigDecimal, BigDecimal> bids,
-        Date timestamp) {
-      this.instrument = instrument;
-      this.asks = asks;
-      this.bids = bids;
-      this.timestamp = timestamp;
-    }
-
-    private FuturesOrderBookState apply(GateioOrderBookFuturesNotification notification) {
-      OrderBookV2FuturesResponse payload = notification.getResult();
-
-      if (payload.isFull()) {
-        asks.clear();
-        bids.clear();
-      }
-
-      applySide(asks, payload.getAsks());
-      applySide(bids, payload.getBids());
-      timestamp = Date.from(payload.getTimestamp());
-      return this;
-    }
-
-    private void applySide(
-        Map<BigDecimal, BigDecimal> book, List<OrderBookV2FuturesResponse.PriceSizeEntry> entries) {
-      if (entries == null) {
-        return;
-      }
-
-      for (OrderBookV2FuturesResponse.PriceSizeEntry entry : entries) {
-        if (entry.getSize() == null || entry.getPrice() == null) {
-          continue;
-        }
-        if (entry.getSize().compareTo(BigDecimal.ZERO) == 0) {
-          book.remove(entry.getPrice());
-        } else {
-          book.put(entry.getPrice(), entry.getSize());
-        }
-      }
-    }
-
-    private OrderBook toOrderBook() {
-      return new OrderBook(timestamp, toOrders(asks, OrderType.ASK), toOrders(bids, OrderType.BID));
-    }
-
-    private List<LimitOrder> toOrders(Map<BigDecimal, BigDecimal> levels, OrderType type) {
-      List<LimitOrder> orders = new ArrayList<>(levels.size());
-      for (Map.Entry<BigDecimal, BigDecimal> entry : levels.entrySet()) {
-        orders.add(
-            new LimitOrder(type, entry.getValue(), instrument, null, null, entry.getKey()));
-      }
-      return orders;
-    }
-  }
 }
