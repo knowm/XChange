@@ -1,8 +1,6 @@
 package info.bitrich.xchangestream.okex;
 
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_CONNECTION_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_IDLE_TIMEOUT;
-import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATION;
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
 import static info.bitrich.xchangestream.okex.OkexStreamingService.SUBSCRIBE;
 import static info.bitrich.xchangestream.okex.OkexStreamingService.UNSUBSCRIBE;
 
@@ -246,7 +244,7 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
             OkexCancelOrderParams params = (OkexCancelOrderParams) args[1];
             OkexCancelOrderRequest orderChangePayload =
                 OkexCancelOrderRequest.builder()
-                    .instrumentId(OkexAdapters.adaptInstrument(params.instrument))
+                    .instIdCode(OkexAdapters.instrumentToInstrumentCode(params.instrument))
                     .orderId(params.orderId)
                     .clientOrderId(params.getUserReference())
                     .build();

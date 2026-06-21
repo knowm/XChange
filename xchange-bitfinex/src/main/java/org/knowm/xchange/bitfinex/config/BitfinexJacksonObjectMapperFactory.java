@@ -22,6 +22,5 @@ public class BitfinexJacksonObjectMapperFactory extends DefaultJacksonObjectMapp
 
     // store object mapper for using in module
     Config.getInstance().setObjectMapper(objectMapper);
-
   }
 }

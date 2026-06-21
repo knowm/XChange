@@ -1,12 +1,11 @@
 package info.bitrich.xchangestream.bybit.dto.trade;
 
+import java.util.List;
 import lombok.Getter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
-
-import java.util.List;
 
 @Getter
 public class BybitOrderChangesResponse {

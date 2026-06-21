@@ -4,7 +4,6 @@ import static info.bitrich.xchangestream.binance.examples.Util.getMinAmount;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
-import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
 import info.bitrich.xchangestream.binancefuture.BinanceFutureStreamingExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -64,8 +63,6 @@ public class BinanceFutureStreamWebsocketTradeTest {
     while (!exchange.isAlive()) {
       Thread.sleep(100L);
     }
-    BinanceStreamingTradeService binanceStreamingTradeService =
-        ((BinanceStreamingTradeService) exchange.getStreamingTradeService());
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument2).getMinimumAmount();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument2);
@@ -84,7 +81,8 @@ public class BinanceFutureStreamWebsocketTradeTest {
             .userReference(limitOrderUserId)
             .build();
     Disposable limitOrderDisposable =
-        binanceStreamingTradeService
+        exchange
+            .getStreamingTradeService()
             .placeLimitOrder(limitOrder)
             .subscribe(
                 result -> {
@@ -102,7 +100,8 @@ public class BinanceFutureStreamWebsocketTradeTest {
             .userReference(limitOrderUserId)
             .build();
     Disposable changeOrderDisposable =
-        binanceStreamingTradeService
+        exchange
+            .getStreamingTradeService()
             .changeOrder(changeOrder)
             .subscribe(
                 result -> {
@@ -115,7 +114,8 @@ public class BinanceFutureStreamWebsocketTradeTest {
     LOG.info("changeOrder disposed: {}", changeOrderDisposable.isDisposed());
 
     Disposable cancelOrderDisposable =
-        binanceStreamingTradeService
+        exchange
+            .getStreamingTradeService()
             .cancelOrder(new BinanceCancelOrderParams(instrument2, null, limitOrderUserId))
             .subscribe(
                 result -> {
@@ -133,7 +133,8 @@ public class BinanceFutureStreamWebsocketTradeTest {
             .userReference(marketOrderUserId)
             .build();
     Disposable marketOrderDisposable =
-        binanceStreamingTradeService
+        exchange
+            .getStreamingTradeService()
             .placeMarketOrder(marketOrder)
             .doOnError(error -> LOG.error("placeMarketOrder error", error))
             .subscribe(

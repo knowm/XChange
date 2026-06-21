@@ -108,7 +108,8 @@ public class OkexStreamingTradeService implements StreamingTradeService {
             });
   }
 
-  public Single<Integer> placeLimitOrder(LimitOrder order) {
+  @Override
+  public Single<Integer> placeLimitOrder(LimitOrder order, Object... args) {
     if (privateStreamingService.isLoginDone()) {
       Observable<Integer> observable =
           privateStreamingService
@@ -137,7 +138,8 @@ public class OkexStreamingTradeService implements StreamingTradeService {
     }
   }
 
-  public Single<Integer> placeMarketOrder(MarketOrder order) {
+  @Override
+  public Single<Integer> placeMarketOrder(MarketOrder order, Object... args) {
     if (privateStreamingService.isLoginDone()) {
       Observable<Integer> observable =
           privateStreamingService
@@ -166,7 +168,8 @@ public class OkexStreamingTradeService implements StreamingTradeService {
     }
   }
 
-  public Single<Integer> changeOrder(LimitOrder order) {
+  @Override
+  public Single<Integer> changeOrder(LimitOrder order, Object... args) {
     if (privateStreamingService.isLoginDone()) {
       Observable<Integer> observable =
           privateStreamingService
@@ -195,7 +198,8 @@ public class OkexStreamingTradeService implements StreamingTradeService {
     }
   }
 
-  public Single<Integer> cancelOrder(CancelOrderParams params) {
+  @Override
+  public Single<Integer> cancelOrder(CancelOrderParams params, Object... args) {
     if (privateStreamingService.isLoginDone()) {
       Observable<Integer> observable =
           privateStreamingService

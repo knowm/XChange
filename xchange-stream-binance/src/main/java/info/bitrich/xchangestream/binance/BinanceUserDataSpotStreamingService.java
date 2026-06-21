@@ -38,20 +38,22 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataSpotStreamingService.class);
+  private static final Logger LOG =
+      LoggerFactory.getLogger(BinanceUserDataSpotStreamingService.class);
   private final String apiKey;
   private final String privateKey;
   CompositeDisposable compositeDisposable = new CompositeDisposable();
   Charset charSet = StandardCharsets.UTF_8;
-  @Getter
-  private boolean authorized = false;
+  @Getter private boolean authorized = false;
   private String signature = "";
   private Disposable loginDisposable;
 
-  public BinanceUserDataSpotStreamingService(String apiUrl, String apiKey, String privateKey,
+  public BinanceUserDataSpotStreamingService(
+      String apiUrl,
+      String apiKey,
+      String privateKey,
       ExchangeSpecification exchangeSpecification) {
     super(
         apiUrl,
@@ -89,8 +91,7 @@ public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingServi
             .flatMap(
                 node -> {
                   TypeReference<BinanceWebsocketOrderResponse<BinanceWebsocketLoginResponse>>
-                      typeReference = new TypeReference<>() {
-                  };
+                      typeReference = new TypeReference<>() {};
                   BinanceWebsocketOrderResponse<BinanceWebsocketLoginResponse> response =
                       mapper.treeToValue(node, typeReference);
                   if (response.getStatus() == 200) {
@@ -114,9 +115,11 @@ public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingServi
   }
 
   private void subscribeToUserDataChannel() {
-    subscribeChannel(String.valueOf(System.currentTimeMillis()), "userDataStream.subscribe").subscribe(node -> {
-      LOG.info("Received user data stream subscription response: {}", node);
-    });
+    subscribeChannel(String.valueOf(System.currentTimeMillis()), "userDataStream.subscribe")
+        .subscribe(
+            node -> {
+              LOG.info("Received user data stream subscription response: {}", node);
+            });
   }
 
   @Override
@@ -129,31 +132,32 @@ public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingServi
     if (args != null && args.length > 0) {
       String method = args[0].toString();
       switch (method) {
-        case "session.logon": {// login
-          long timestamp = System.currentTimeMillis();
-          try {
-            String loginPayload = "apiKey=" + apiKey + "&timestamp=" + timestamp;
-            signature = signPayload(loginPayload);
-            BinanceWebsocketLoginPayloadWithSignature loginPayloadWithSignature =
-                new BinanceWebsocketLoginPayloadWithSignature(apiKey, signature, timestamp);
-            BinanceWebsocketPayload<BinanceWebsocketLoginPayloadWithSignature> payload =
-                new BinanceWebsocketPayload<>(
-                    channelName, "session.logon", loginPayloadWithSignature);
-            return objectMapper.writeValueAsString(payload);
-          } catch (Exception e) {
-            throw new RuntimeException(e);
+        case "session.logon":
+          { // login
+            long timestamp = System.currentTimeMillis();
+            try {
+              String loginPayload = "apiKey=" + apiKey + "&timestamp=" + timestamp;
+              signature = signPayload(loginPayload);
+              BinanceWebsocketLoginPayloadWithSignature loginPayloadWithSignature =
+                  new BinanceWebsocketLoginPayloadWithSignature(apiKey, signature, timestamp);
+              BinanceWebsocketPayload<BinanceWebsocketLoginPayloadWithSignature> payload =
+                  new BinanceWebsocketPayload<>(
+                      channelName, "session.logon", loginPayloadWithSignature);
+              return objectMapper.writeValueAsString(payload);
+            } catch (Exception e) {
+              throw new RuntimeException(e);
+            }
           }
-        }
-        case "userDataStream.subscribe": {
-          try {
-            BinanceWebsocketPayload<Object> payload =
-                new BinanceWebsocketPayload<>(
-                    channelName, "userDataStream.subscribe", null);
-            return objectMapper.writeValueAsString(payload);
-          } catch (Exception e) {
-            throw new RuntimeException(e);
+        case "userDataStream.subscribe":
+          {
+            try {
+              BinanceWebsocketPayload<Object> payload =
+                  new BinanceWebsocketPayload<>(channelName, "userDataStream.subscribe", null);
+              return objectMapper.writeValueAsString(payload);
+            } catch (Exception e) {
+              throw new RuntimeException(e);
+            }
           }
-        }
       }
     }
     return null;
@@ -203,7 +207,6 @@ public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingServi
     return super.subscribeChannel(eventType.getSerializedValue());
   }
 
-
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
     if (message.get("e") != null) {
@@ -219,5 +222,4 @@ public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingServi
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
   }
-
 }

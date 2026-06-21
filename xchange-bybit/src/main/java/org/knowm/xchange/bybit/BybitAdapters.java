@@ -1,10 +1,25 @@
 package org.knowm.xchange.bybit;
 
+import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
+import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
+import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
+import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinsBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
+import org.knowm.xchange.bybit.dto.marketdata.BybitKline;
+import org.knowm.xchange.bybit.dto.marketdata.BybitKlines;
 import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStickInterval;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.BybitInstrumentInfo;
 import org.knowm.xchange.bybit.dto.marketdata.instruments.linear.BybitLinearInverseInstrumentInfo;
@@ -29,6 +44,8 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.CandleStick;
+import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.CandleStickInterval;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Ticker.Builder;
@@ -37,19 +54,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.*;
-
-import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
 
 public class BybitAdapters {
 
@@ -592,5 +596,27 @@ public class BybitAdapters {
         null,
         null,
         null);
+  }
+
+  public static CandleStickData adaptCandleStickData(
+      BybitKlines bybitKlines, BybitCategory category) {
+    Instrument instrument = convertBybitSymbolToInstrument(bybitKlines.getSymbol(), category);
+    List<CandleStick> candleSticks = new ArrayList<>();
+    for (BybitKline bybitKline : bybitKlines.getList()) {
+      candleSticks.add(adaptBybitKline(bybitKline));
+    }
+    return new CandleStickData(instrument, candleSticks);
+  }
+
+  private static CandleStick adaptBybitKline(BybitKline bybitKline) {
+    return new CandleStick.Builder()
+        .timestamp(Instant.ofEpochMilli(Long.parseLong(bybitKline.getStartTime())))
+        .open(new BigDecimal(bybitKline.getOpenPrice()))
+        .high(new BigDecimal(bybitKline.getHighPrice()))
+        .low(new BigDecimal(bybitKline.getLowPrice()))
+        .close(new BigDecimal(bybitKline.getClosePrice()))
+        .volume(new BigDecimal(bybitKline.getVolume()))
+        .quotaVolume(new BigDecimal(bybitKline.getTurnover()))
+        .build();
   }
 }

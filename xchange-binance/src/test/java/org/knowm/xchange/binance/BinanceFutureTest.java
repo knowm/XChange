@@ -19,10 +19,12 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.binance.dto.marketdata.BinanceFundingRateHistory;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelOrderParams;
 import org.knowm.xchange.binance.dto.trade.BinanceQueryOrderParams;
 import org.knowm.xchange.binance.dto.trade.BinanceTradeHistoryParams;
 import org.knowm.xchange.binance.service.BinanceAccountService;
+import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -87,6 +89,14 @@ public class BinanceFutureTest {
     fundingRates
         .getFundingRates()
         .forEach(fundingRate -> System.out.println(fundingRate.toString()));
+    List<BinanceFundingRateHistory> fundingRateHistory =
+        ((BinanceMarketDataService) binanceExchange.getMarketDataService())
+            .getFundingRateHistory(
+                instrument,
+                System.currentTimeMillis() - 24 * 60 * 60 * 1000,
+                System.currentTimeMillis(),
+                null);
+    fundingRateHistory.forEach(fundingRate -> System.out.println(fundingRate.toString()));
   }
 
   @Test

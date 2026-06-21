@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexSubscribeMessage;
 import info.bitrich.xchangestream.okex.dto.OkexSubscriptionTopic;
@@ -11,17 +13,14 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-
-import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OkexStreamingService extends JsonNettyStreamingService {
 
@@ -132,7 +131,8 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     if (channelName.contains(ORDERBOOK5)) {
       return new OkexSubscriptionTopic(ORDERBOOK5, null, null, channelName.replace(ORDERBOOK5, ""));
     } else if (channelName.contains(ORDERBOOK_BBO_TBT)) {
-      return new OkexSubscriptionTopic(ORDERBOOK_BBO_TBT, null, null, channelName.replace(ORDERBOOK_BBO_TBT, ""));
+      return new OkexSubscriptionTopic(
+          ORDERBOOK_BBO_TBT, null, null, channelName.replace(ORDERBOOK_BBO_TBT, ""));
     } else if (channelName.contains(ORDERBOOK)) {
       return new OkexSubscriptionTopic(ORDERBOOK, null, null, channelName.replace(ORDERBOOK, ""));
     } else if (channelName.contains(TRADES)) {

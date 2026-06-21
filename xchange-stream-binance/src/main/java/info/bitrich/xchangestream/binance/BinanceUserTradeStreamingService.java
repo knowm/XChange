@@ -30,7 +30,6 @@ import java.security.Security;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Duration;
 import java.util.Base64;
-import java.util.regex.Pattern;
 import lombok.Getter;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.crypto.Signer;
@@ -231,7 +230,9 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
       case "order.cancelReplace":
         {
           LimitOrder limitOrder = (LimitOrder) args[1];
-          BinanceCancelOrderParams params = (BinanceCancelOrderParams) args[2];
+          BinanceCancelOrderParams params =
+              new BinanceCancelOrderParams(
+                  limitOrder.getInstrument(), limitOrder.getId(), limitOrder.getUserReference());
           Long cancelOrderId = null;
           if (params.getOrderId() != null && !params.getOrderId().isEmpty()) {
             cancelOrderId = Long.valueOf(params.getOrderId());

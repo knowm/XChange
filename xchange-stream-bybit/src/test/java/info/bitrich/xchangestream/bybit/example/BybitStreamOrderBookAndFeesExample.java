@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bybit.example;
 
-import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectDemoApi;
 import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
 
 import info.bitrich.xchangestream.core.StreamingExchange;

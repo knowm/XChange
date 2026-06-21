@@ -1,6 +1,6 @@
 package org.knowm.xchange.okcoin.v3.dto.account;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@JsonNaming(SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class FuturesBillsResponse {
 
   /** ID of the bill record */
@@ -42,7 +42,7 @@ public class FuturesBillsResponse {
   private Details details;
 
   @Data
-  @JsonNaming(SnakeCaseStrategy.class)
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class Details {
     private String orderId;
     private String instrumentId;

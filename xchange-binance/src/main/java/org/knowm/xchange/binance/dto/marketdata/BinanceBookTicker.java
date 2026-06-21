@@ -11,8 +11,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 @Getter
 public final class BinanceBookTicker {
 
-  @Setter
-  public long updateId;
+  @Setter public long updateId;
   private final BigDecimal bidPrice;
   private final BigDecimal bidQty;
   private final BigDecimal askPrice;

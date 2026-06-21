@@ -5,7 +5,6 @@ import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import info.bitrich.xchangestream.binance.BinanceStreamingExchange;
-import info.bitrich.xchangestream.binance.BinanceStreamingTradeService;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
@@ -42,7 +41,7 @@ public class BinanceSpotStreamPrivateTest {
     // The most convenient way. Can store all keys in .ssh folder
     AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
     spec.setExchangeSpecificParametersItem("ed25519", true);
-//    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
+    //    spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, SPOT);
     exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
     binanceStreamingExchange = (BinanceStreamingExchange) exchange;

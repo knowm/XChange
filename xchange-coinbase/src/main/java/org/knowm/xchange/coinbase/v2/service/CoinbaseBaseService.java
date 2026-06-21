@@ -14,6 +14,7 @@ import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
 import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
+import org.knowm.xchange.coinbase.v3.CoinbaseAuthenticatedV3;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.DigestUtils;
@@ -21,6 +22,7 @@ import org.knowm.xchange.utils.DigestUtils;
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
   protected final CoinbaseAuthenticated coinbase;
+  protected final CoinbaseAuthenticatedV3 coinbaseV3;
   protected final CoinbaseV2Digest signatureCreator2;
 
   protected CoinbaseBaseService(Exchange exchange) {
@@ -29,6 +31,11 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
     coinbase =
         ExchangeRestProxyBuilder.forInterface(
                 CoinbaseAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
+
+    coinbaseV3 =
+        ExchangeRestProxyBuilder.forInterface(
+                CoinbaseAuthenticatedV3.class, exchange.getExchangeSpecification())
             .build();
 
     signatureCreator2 =
