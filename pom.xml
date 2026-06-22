@@ -167,7 +167,7 @@
         <version.java>17</version.java>
         <version.java-jwt>4.5.2</version.java-jwt>
         <version.junit>5.12.2</version.junit>
-        <version.knowm.xchart>3.9.0</version.knowm.xchart>
+        <version.knowm.xchart>4.0.0</version.knowm.xchart>
         <version.lombok>1.18.46</version.lombok>
         <version.maven-enforcer-plugin>3.6.3</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
@@ -270,7 +270,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.2.13.Final</version>
+                <version>4.2.14.Final</version>
             </dependency>
 
             <!-- for streaming-->
@@ -467,6 +467,13 @@
                     <release>${version.java}</release>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${version.lombok}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 

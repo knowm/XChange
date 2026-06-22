@@ -1,8 +1,5 @@
 package org.knowm.xchange.deribit.v2;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -15,6 +12,10 @@ import org.knowm.xchange.deribit.v2.service.DeribitTradeService;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class DeribitExchange extends BaseExchange {
 
@@ -57,6 +58,7 @@ public class DeribitExchange extends BaseExchange {
     updateExchangeMetaData();
   }
 
+  @Override
   public void updateExchangeMetaData() throws IOException {
 
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
