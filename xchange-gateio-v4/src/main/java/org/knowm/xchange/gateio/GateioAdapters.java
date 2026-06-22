@@ -201,7 +201,7 @@ public class GateioAdapters {
         .clientOrderId(limitOrder.getUserReference() != null ? limitOrder.getUserReference() : null)
         .type("limit")
         .timeInForce("gtc")
-        .price(limitOrder.getLimitPrice())
+        .price(limitOrder.getLimitPrice().toPlainString())
         .amount(limitOrder.getOriginalAmount().toPlainString());
     builder.account("spot");
     return builder.build();
@@ -209,11 +209,17 @@ public class GateioAdapters {
 
   public GateioFuturesOrderRequest toGateioFuturesOrder(MarketOrder marketOrder, BigDecimal contractValue) {
     BigDecimal size = convertVolumeToContractSize(marketOrder.getOriginalAmount(), contractValue);
+    String userReference;
+    if (marketOrder.getUserReference() != null)
+      if (marketOrder.getUserReference().startsWith("t-"))
+        userReference = marketOrder.getUserReference();
+      else userReference = "t-" + marketOrder.getUserReference();
+    else userReference = "t-" + System.currentTimeMillis();
     return GateioFuturesOrderRequest.builder()
         .contract(toGateioInstrument(marketOrder.getInstrument()))
-        .size(marketOrder.getType() == OrderType.BID ? size : size.negate())
-        .price(BigDecimal.ZERO)
-        .text(marketOrder.getUserReference() != null ? marketOrder.getUserReference() : null)
+        .size(marketOrder.getType() == OrderType.BID ? size.toPlainString() : size.negate().toPlainString())
+        .price(BigDecimal.ZERO.toPlainString())
+        .text(userReference)
         .timeInForce("ioc") // a price of 0 with tif as ioc represents a market order.
         .build();
   }
@@ -229,8 +235,8 @@ public class GateioAdapters {
     }
     BigDecimal size = convertVolumeToContractSize(limitOrder.getOriginalAmount(), contractValue);
     return builder.contract(toGateioInstrument(limitOrder.getInstrument())).
-        size(limitOrder.getType() == OrderType.BID ? size : size.negate()).
-        price(limitOrder.getLimitPrice()).
+        size(limitOrder.getType() == OrderType.BID ? size.toPlainString() : size.negate().toPlainString()).
+        price(limitOrder.getLimitPrice().toPlainString()).
         text(limitOrder.getUserReference() != null ? limitOrder.getUserReference() : null).
         build();
   }
@@ -248,12 +254,20 @@ public class GateioAdapters {
       builder = new LimitOrder.Builder(orderType, instrument).limitPrice(gateioFutureOrderResponse.getPrice());
     OrderStatus status = toOrderStatusFutures(gateioFutureOrderResponse);
     Date timestamp;
-    if (gateioFutureOrderResponse.getFinishTime() != null)
-      timestamp = Date.from(gateioFutureOrderResponse.getFinishTime());
-    else if (gateioFutureOrderResponse.getUpdatedTime() != null) {
-      timestamp = Date.from(gateioFutureOrderResponse.getUpdatedTime());
-    } else
-      timestamp = Date.from(gateioFutureOrderResponse.getCreateTime());
+    if (gateioFutureOrderResponse.getFinishTimeMs() != null)
+      timestamp = Date.from(gateioFutureOrderResponse.getFinishTimeMs());
+    else if (gateioFutureOrderResponse.getUpdatedTimeMs() != null)
+      timestamp = Date.from(gateioFutureOrderResponse.getUpdatedTimeMs());
+    else {
+      if (gateioFutureOrderResponse.getCreateTimeMs() != null)
+        timestamp = Date.from(gateioFutureOrderResponse.getCreateTimeMs());
+      else if (gateioFutureOrderResponse.getFinishTime() != null)
+        timestamp = Date.from(gateioFutureOrderResponse.getFinishTime());
+      else if (gateioFutureOrderResponse.getUpdatedTime() != null)
+        timestamp = Date.from(gateioFutureOrderResponse.getUpdatedTime());
+      else
+        timestamp = Date.from(gateioFutureOrderResponse.getCreateTime());
+    }
     return builder
         .id(String.valueOf(gateioFutureOrderResponse.getId()))
         .userReference(gateioFutureOrderResponse.getText())
@@ -272,16 +286,11 @@ public class GateioAdapters {
     Instrument instrument = gateioOrder.getCurrencyPair();
     OrderType orderType = gateioOrder.getSide();
 
-    switch (gateioOrder.getType()) {
-      case "market":
-        builder = new MarketOrder.Builder(orderType, instrument);
-        break;
-      case "limit":
-        builder = new LimitOrder.Builder(orderType, instrument).limitPrice(gateioOrder.getPrice());
-        break;
-      default:
-        throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
-    }
+    builder = switch (gateioOrder.getType()) {
+      case "market" -> new MarketOrder.Builder(orderType, instrument);
+      case "limit" -> new LimitOrder.Builder(orderType, instrument).limitPrice(gateioOrder.getPrice());
+      default -> throw new IllegalArgumentException("Can't map " + gateioOrder.getType());
+    };
 
     // if filled then calculate amounts
     OrderStatus status = toOrderStatus(gateioOrder);

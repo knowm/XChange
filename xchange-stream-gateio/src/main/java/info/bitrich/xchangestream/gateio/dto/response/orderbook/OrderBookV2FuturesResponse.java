@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.gateio.config.converter.StringToInstrumentConverter;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class OrderBookV2Response {
+public class OrderBookV2FuturesResponse {
 
   @JsonProperty("t")
   private Instant timestamp;
@@ -37,11 +38,11 @@ public class OrderBookV2Response {
 
   @JsonProperty("asks")
   @JsonAlias("a")
-  private List<PriceSizeEntry> asks = new ArrayList<>();
+  private List<OrderBookV2Response.PriceSizeEntry> asks = new ArrayList<>();
 
   @JsonProperty("bids")
   @JsonAlias("b")
-  private List<PriceSizeEntry> bids = new ArrayList<>();
+  private List<OrderBookV2Response.PriceSizeEntry> bids = new ArrayList<>();
 
   @JsonProperty("contract")
   @JsonDeserialize(converter = StringToInstrumentConverter.class)
@@ -51,7 +52,7 @@ public class OrderBookV2Response {
   public Instrument getInstrument() {
     String[] parts = streamName.substring(3).split("\\.");
     String[] currencies = parts[0].split("_");
-    return new CurrencyPair(currencies[0], currencies[1]);
+    return new FuturesContract(new CurrencyPair(currencies[0], currencies[1]), "PERP");
   }
 
   @Data

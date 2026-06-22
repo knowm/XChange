@@ -46,17 +46,17 @@ public class GateioFuturesTest {
   @Test
   @Ignore
   public void order() throws IOException {
-    MarketOrder marketOrder = new MarketOrder(Order.OrderType.ASK, new BigDecimal("0.001"), instrument);
+    String userReference = "t-" + System.currentTimeMillis();
+    MarketOrder marketOrder = new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(new BigDecimal("0.001")).build();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
-    String userReference = "t-" + String.valueOf(System.currentTimeMillis());
     LimitOrder limitOrder = new LimitOrder.Builder(Order.OrderType.BID, instrument).limitPrice(ticker.getLow()).originalAmount(new BigDecimal("0.001"))
         .userReference(userReference).build();
     limitOrder.addOrderFlag(new GateioOrderFlags(GateioTimeInForce.POC));
-    String marketOrderId = exchange.getTradeService().placeMarketOrder(marketOrder);
+//    String marketOrderId = exchange.getTradeService().placeMarketOrder(marketOrder);
     String limitOrderId = exchange.getTradeService().placeLimitOrder(limitOrder);
     LimitOrder limitOrder1 = new LimitOrder.Builder(Order.OrderType.BID, instrument).limitPrice(ticker.getLow().add(BigDecimal.ONE)).originalAmount(new BigDecimal("0.001"))
         .userReference(userReference).build();
-    exchange.getTradeService().changeOrder(limitOrder1);
+//    exchange.getTradeService().changeOrder(limitOrder1);
 //    DefaultCancelOrderByInstrumentAndIdParams params = new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderId);
     GateioCancelOrderParams params = new GateioCancelOrderParams(null, instrument, userReference);
     exchange.getTradeService().cancelOrder(params);

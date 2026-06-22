@@ -23,6 +23,6 @@ public class GateioStreamingAccountService implements StreamingAccountService {
         .filter(
             notification ->
                 (currency == null) || (notification.getResult().getCurrency().equals(currency)))
-        .map(GateioStreamingAdapters::toBalance);
+        .map(d -> GateioStreamingAdapters.toBalance(d));
   }
 }

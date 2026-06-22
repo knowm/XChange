@@ -40,7 +40,7 @@ public class GateioSpotOrderRequest {
   private String amount;
 
   @JsonProperty("price")
-  private BigDecimal price;
+  private String price;
 
   @JsonProperty("time_in_force")
   private String timeInForce;

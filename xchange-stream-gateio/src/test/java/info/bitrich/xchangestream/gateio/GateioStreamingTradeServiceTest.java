@@ -85,7 +85,7 @@ class GateioStreamingTradeServiceTest {
             .feeAmount(new BigDecimal("0.00000006"))
             .feeCurrency(Currency.BTC)
             .price(new BigDecimal("29441.1"))
-            .timestamp(Date.from(Instant.ofEpochMilli(1691692159330L)))
+            .timestamp(Date.from(Instant.ofEpochMilli(1605176741123L)))
             .type(OrderType.BID)
             .build();
 

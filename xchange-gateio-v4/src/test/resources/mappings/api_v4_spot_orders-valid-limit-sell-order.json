@@ -5,7 +5,7 @@
     "url" : "/api/v4/spot/orders",
     "method" : "POST",
     "bodyPatterns" : [ {
-      "equalToJson": "{\"text\":\"t-valid-limit-sell-order\",\"currency_pair\":\"BTC_USDT\",\"type\":\"limit\",\"account\":\"spot\",\"side\":\"sell\",\"amount\":0.00068,\"price\":29240.7,\"time_in_force\":\"gtc\"}",
+      "equalToJson": "{\"text\":\"t-valid-limit-sell-order\",\"currency_pair\":\"BTC_USDT\",\"type\":\"limit\",\"account\":\"spot\",\"side\":\"sell\",\"amount\":\"0.00068\",\"price\":\"29240.7\",\"time_in_force\":\"gtc\"} ",
       "ignoreArrayOrder" : true,
       "ignoreExtraElements" : true
     } ]

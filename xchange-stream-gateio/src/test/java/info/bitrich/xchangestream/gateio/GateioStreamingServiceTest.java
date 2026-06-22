@@ -44,7 +44,7 @@ public class GateioStreamingServiceTest {
   void channel_name_from_trade_update() throws Exception {
     GateioWsNotification notification = readNotification("spot.trades.update.json");
     String actual = gateioStreamingService.getChannelNameFromMessage(notification);
-    assertThat(actual).isEqualTo("spot.trades-BTC/USDT");
+    assertThat(actual).isEqualTo("spot.trades-GT/USDT");
   }
 
   @Test

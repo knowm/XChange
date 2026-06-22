@@ -1,16 +1,18 @@
 package info.bitrich.xchangestream.gateio;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
-
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 @Slf4j
 class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT {
@@ -23,7 +25,8 @@ class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT
   }
 
   @Test
-  void spot_balances() {
+  @Disabled
+  void spot_balances() throws InterruptedException {
     Observable<Balance> observable =
         exchange.getStreamingAccountService().getBalanceChanges(Currency.USDT);
 

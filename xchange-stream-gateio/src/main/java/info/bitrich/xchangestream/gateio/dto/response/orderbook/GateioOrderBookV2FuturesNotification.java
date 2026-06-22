@@ -17,13 +17,13 @@ import lombok.extern.jackson.Jacksonized;
 public class GateioOrderBookV2FuturesNotification extends GateioWsNotification {
 
   @JsonProperty("result")
-  private OrderBookV2Response result;
+  private OrderBookV2FuturesResponse result;
 
   @Override
   public String getUniqueChannelName() {
     String suffix =
-        result.getCurrencyPair() != null
-            ? Config.CHANNEL_NAME_DELIMITER + result.getCurrencyPair()
+        result.getInstrument() != null
+            ? Config.CHANNEL_NAME_DELIMITER + result.getInstrument()
             : "";
     return super.getUniqueChannelName() + suffix;
   }

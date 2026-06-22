@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
@@ -32,9 +33,28 @@ public class GateioSpotManualExample {
     init();
   }
 
+
   @Test
   @Ignore
-  public void geOrderBook() throws InterruptedException {
+  public void getBalance() throws InterruptedException {
+    Disposable disposable = exchange.getStreamingAccountService().getBalanceChanges(Currency.USDT).
+        subscribe(
+            balance -> {
+              if (logOutput) {
+                log.info("balance {}", balance);
+              }
+            }, throwable -> {
+              log.error("throwable encountered error while subscribing to pair {}", instrument);
+              log.error("", throwable);
+            });
+    Thread.sleep(20000000);
+    disposable.dispose();
+    Thread.sleep(1000);
+  }
+
+  @Test
+  @Ignore
+  public void getOrderBook() throws InterruptedException {
     Disposable disposable = exchange.getStreamingMarketDataService().getOrderBook(instrument, 400).
         subscribe(
             orderBook -> {
@@ -51,6 +71,7 @@ public class GateioSpotManualExample {
   }
 
   @Test
+  @Ignore
   public void getOrderChanges() throws InterruptedException, IOException {
     Disposable disposable = exchange.getStreamingTradeService().getOrderChanges(instrument).subscribe(
         order -> {

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -64,7 +64,7 @@ public class GateioInstrumentDetails {
   Integer fundingInterval;
 
   @JsonProperty("funding_next_apply")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = LongToInstantConverter.class)
   Instant fundingNextApply;
 
   @JsonProperty("risk_limit_base")
@@ -110,7 +110,7 @@ public class GateioInstrumentDetails {
   BigDecimal positionSize;
 
   @JsonProperty("config_change_time")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = LongToInstantConverter.class)
   Instant configChangeTime;
 
   @JsonProperty("in_delisting")
@@ -126,7 +126,7 @@ public class GateioInstrumentDetails {
   Boolean enableCredit;
 
   @JsonProperty("create_time")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = LongToInstantConverter.class)
   Instant createTime;
 
   @JsonProperty("funding_cap_ratio")
@@ -136,15 +136,15 @@ public class GateioInstrumentDetails {
   String status;
 
   @JsonProperty("launch_time")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = LongToInstantConverter.class)
   Instant launchTime;
 
   @JsonProperty("delisting_time")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = LongToInstantConverter.class)
   Instant delistingTime;
 
   @JsonProperty("delisted_time")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = LongToInstantConverter.class)
   Instant delistedTime;
 
   @JsonProperty("market_order_slip_ratio")

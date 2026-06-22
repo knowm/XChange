@@ -25,6 +25,7 @@ public class GateioExchange extends BaseExchange {
   private final SynchronizedValueFactory<Long> nonceFactory =
       new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
+
   @Override
   protected void initServices() {
     marketDataService = new GateioMarketDataService(this, getResilienceRegistries());

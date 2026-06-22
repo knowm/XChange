@@ -1,10 +1,5 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,6 +7,12 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class GateioTradeServiceRawTest extends GateioExchangeWiremock {
 
@@ -58,7 +59,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
             .account("spot")
             .side(OrderType.BID)
             .timeInForce("ioc")
-            .amount(BigDecimal.valueOf(20))
+            .amount(BigDecimal.valueOf(20).toPlainString())
             .build();
 
     GateioSpotOrderResponse actualResponse = gateioTradeServiceRaw.createOrder(gateioOrder);
@@ -75,7 +76,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
             .account("spot")
             .side(OrderType.ASK)
             .timeInForce("ioc")
-            .amount(new BigDecimal("0.0007"))
+            .amount(new BigDecimal("0.0007").toPlainString())
             .build();
 
     GateioSpotOrderResponse actualResponse = gateioTradeServiceRaw.createOrder(gateioOrder);

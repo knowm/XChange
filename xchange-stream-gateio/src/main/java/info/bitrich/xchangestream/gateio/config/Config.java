@@ -26,6 +26,7 @@ public final class Config {
   public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
   public static final String SPOT_USER_ORDERS_CHANNEL = "spot.orders";
   public static final String FUTURES_USER_ORDERS_CHANNEL = "futures.orders";
+  public static final String FUTURES_TICKET_AND_FUNDING_CHANNEL = "futures.tickers";
   public static final List<String> PRIVATE_CHANNELS =
       Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL, SPOT_USER_ORDERS_CHANNEL, FUTURES_USER_ORDERS_CHANNEL);
 

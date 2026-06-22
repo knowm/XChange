@@ -2,12 +2,10 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.gateio.dto.response.balance.BalancePayload;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2Notification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookPayload;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.OrderBookV2Response;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.TickerPayload;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
@@ -19,10 +17,7 @@ import lombok.experimental.UtilityClass;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.GateioAdapters;
@@ -63,9 +58,9 @@ public class GateioStreamingAdapters {
   public Trade toTrade(TradePayload tradePayload) {
     return Trade.builder()
         .type(tradePayload.getSide())
-        .originalAmount(tradePayload.getAmount())
+        .originalAmount(tradePayload.getAmount().stripTrailingZeros())
         .instrument(tradePayload.getCurrencyPair())
-        .price(tradePayload.getPrice())
+        .price(tradePayload.getPrice().stripTrailingZeros())
         .timestamp(Date.from(tradePayload.getTimeMs()))
         .id(String.valueOf(tradePayload.getId()))
         .build();
@@ -73,8 +68,8 @@ public class GateioStreamingAdapters {
 
   public static Trade toTradeFutures(TradeFuturesPayload payload) {
     return Trade.builder()
-        .originalAmount(payload.getSize().abs())
-        .price(payload.getPrice())
+        .originalAmount(payload.getSize().abs().stripTrailingZeros())
+        .price(payload.getPrice().stripTrailingZeros())
         .timestamp(Date.from(payload.getTimeMs()))
         .id(String.valueOf(payload.getId()))
         .type(payload.getSize().signum() < 0 ? OrderType.ASK : OrderType.BID)
@@ -148,9 +143,9 @@ public class GateioStreamingAdapters {
     return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);
   }
 
-  public OrderBook toOrderBookV2Futures(GateioOrderBookV2Notification notification,
+  public OrderBook toOrderBookV2Futures(GateioOrderBookV2FuturesNotification notification,
                                         BigDecimal contractValue) {
-    OrderBookV2Response orderBookPayload = notification.getResult();
+    OrderBookV2FuturesResponse orderBookPayload = notification.getResult();
     Date timestamp = Date.from(orderBookPayload.getTimestamp());
     Stream<LimitOrder> asks =
         orderBookPayload.getAsks().stream()
@@ -159,7 +154,7 @@ public class GateioStreamingAdapters {
                     new LimitOrder(
                         OrderType.ASK,
                         convertContractSizeToVolume(priceSizeEntry.getSize(), contractValue),
-                        orderBookPayload.getCurrencyPair(),
+                        orderBookPayload.getInstrument(),
                         null,
                         timestamp,
                         priceSizeEntry.getPrice()));
@@ -171,7 +166,7 @@ public class GateioStreamingAdapters {
                     new LimitOrder(
                         OrderType.BID,
                         convertContractSizeToVolume(priceSizeEntry.getSize(), contractValue),
-                        orderBookPayload.getCurrencyPair(),
+                        orderBookPayload.getInstrument(),
                         null,
                         timestamp,
                         priceSizeEntry.getPrice()));
@@ -189,7 +184,7 @@ public class GateioStreamingAdapters {
                     new LimitOrder(
                         OrderType.ASK,
                         priceSizeEntry.getSize(),
-                        orderBookPayload.getCurrencyPair(),
+                        orderBookPayload.getInstrument(),
                         null,
                         timestamp,
                         priceSizeEntry.getPrice()));
@@ -201,7 +196,7 @@ public class GateioStreamingAdapters {
                     new LimitOrder(
                         OrderType.BID,
                         priceSizeEntry.getSize(),
-                        orderBookPayload.getCurrencyPair(),
+                        orderBookPayload.getInstrument(),
                         null,
                         timestamp,
                         priceSizeEntry.getPrice()));
@@ -209,7 +204,7 @@ public class GateioStreamingAdapters {
     return new OrderBook(timestamp, asks, bids);
   }
 
-  public static List<OrderBookUpdate> adaptOrderBookFuturesUpdates(Instrument instrument, OrderBookV2Response response,
+  public static List<OrderBookUpdate> adaptOrderBookFuturesUpdates(Instrument instrument, OrderBookV2FuturesResponse response,
                                                                    BigDecimal contractValue) {
     List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
     Date timestamp = Date.from(response.getTimestamp());
@@ -244,4 +239,11 @@ public class GateioStreamingAdapters {
     return orderBookUpdates;
   }
 
+  public static FundingRate toFunding(GateioTickerAndFundingNotification gateioTickerAndFundingNotification) {
+    FundingRate fundingRate = new FundingRate();
+    fundingRate.setInstrument(gateioTickerAndFundingNotification.getResult().getContract());
+    fundingRate.setFundingRate(gateioTickerAndFundingNotification.getResult().getFundingRate());
+    fundingRate.setTimestamp(gateioTickerAndFundingNotification.getTimeMs());
+    return fundingRate;
+  }
 }

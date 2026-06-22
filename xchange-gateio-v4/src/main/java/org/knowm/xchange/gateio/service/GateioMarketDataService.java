@@ -1,5 +1,6 @@
 package org.knowm.xchange.gateio.service;
 
+import lombok.Getter;
 import org.apache.commons.lang3.Validate;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
@@ -26,6 +27,7 @@ import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -33,6 +35,8 @@ import java.util.stream.Collectors;
 
 public class GateioMarketDataService extends GateioMarketDataServiceRaw
     implements MarketDataService {
+  @Getter
+  private Map<Instrument, GateioFundingInfo> fundingRateInfoMap = new HashMap<>();
 
   public GateioMarketDataService(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
@@ -149,6 +153,14 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     try {
       if (exchange.isFuturesEnabled()) {
         List<GateioInstrumentDetails> metadata = getInstrumentDetails();
+        //for get funding stream need this data
+        metadata.stream().filter(f -> f.getType().equals("direct") &&
+                f.getStatus().equals("trading"))
+
+            .forEach(entry -> fundingRateInfoMap.put(new FuturesContract(
+                new CurrencyPair(entry.getName().replace("_", "/")),
+                "PERP"), new GateioFundingInfo(entry.getFundingInterval(), entry.getFundingNextApply())));
+
         return metadata.stream().filter(f -> f.getType().equals("direct") &&
                 f.getStatus().equals("trading"))
             .collect(

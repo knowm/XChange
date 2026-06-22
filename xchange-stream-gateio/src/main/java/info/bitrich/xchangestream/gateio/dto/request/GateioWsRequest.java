@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.gateio.dto.Event;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
 
 import java.time.Instant;
 
@@ -17,12 +17,9 @@ import java.time.Instant;
 @SuperBuilder
 @Jacksonized
 public class GateioWsRequest {
-//
-//  @JsonProperty("X-Gate-Size-Decimal")
-//  String X_Gate_Size_Decimal;
 
   @JsonProperty("time")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
   @JsonSerialize(converter = InstantToTimestampSecondsConverter.class)
   private Instant time;
 

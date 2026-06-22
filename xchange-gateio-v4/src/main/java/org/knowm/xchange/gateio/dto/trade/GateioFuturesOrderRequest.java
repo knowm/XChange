@@ -1,30 +1,28 @@
 package org.knowm.xchange.gateio.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigDecimal;
-
 import lombok.Builder;
 import lombok.Data;
-import lombok.extern.jackson.Jacksonized;
+
+import java.math.BigDecimal;
 
 
 @Data
 @Builder
-@Jacksonized
+//@Jacksonized
 public class GateioFuturesOrderRequest {
 
   @JsonProperty("contract")
   String contract;
 
   @JsonProperty("size")
-  BigDecimal size;
+  String size;
 
   @JsonProperty("iceberg")
   BigDecimal iceberg;
 
   @JsonProperty("price")
-  BigDecimal price;
+  String price;
 
   @JsonProperty("close")
   Boolean close;
