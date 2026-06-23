@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.gateio.dto.response.funding;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
-import org.knowm.xchange.gateio.config.converter.StringToInstrumentConverter;
+import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class TicketAndFundingPayload {
 
   @JsonProperty("contract")
-  @JsonDeserialize(converter = StringToInstrumentConverter.class)
+  @JsonDeserialize(converter = StringToFutureContractConverter.class)
   private Instrument contract;
 
   @JsonProperty("last")

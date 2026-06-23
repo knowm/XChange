@@ -10,8 +10,7 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @SuperBuilder
 @Jacksonized
-public class GateioTickerAndFundingNotification extends GateioWsNotification {
-
+public class GateioSingleTickerAndFundingNotification extends GateioWsNotification {
   @JsonProperty("result")
   private TicketAndFundingPayload result;
 

@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
-import org.knowm.xchange.gateio.config.converter.InstrumentToStringConverter;
 import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
@@ -52,7 +52,7 @@ public class GateioFuturesOrderResponse {
   String status;
 
   @JsonProperty("contract")
-  @JsonDeserialize(converter = InstrumentToStringConverter.class)
+  @JsonDeserialize(converter = StringToFutureContractConverter.class)
   Instrument contract;
 
   @JsonProperty("size")

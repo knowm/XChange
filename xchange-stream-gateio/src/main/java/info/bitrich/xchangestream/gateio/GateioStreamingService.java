@@ -10,6 +10,7 @@ import info.bitrich.xchangestream.gateio.dto.request.GateioWsRequest.AuthInfo;
 import info.bitrich.xchangestream.gateio.dto.request.payload.*;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
@@ -70,10 +71,6 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     final Instrument instrument =
         (args.length > 0 && args[0] instanceof Instrument) ? ((Instrument) args[0]) : null;
-//    if (instrument instanceof FuturesContract) {
-//      CurrencyPair currencyPair = new CurrencyPair(instrument.getBase(), instrument.getCounter());
-//      return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, currencyPair);
-//    } else
     return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, instrument);
   }
 
@@ -132,6 +129,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         break;
       }
       case Config.FUTURES_USER_ORDERS_CHANNEL:
+      case Config.FUTURES_TICKET_AND_FUNDING_CHANNEL:
       case Config.FUTURES_TRADES_CHANNEL: {
           Instrument instrument = (Instrument) ArrayUtils.get(args, 0);
           Objects.requireNonNull(instrument);
@@ -240,7 +238,6 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         return;
       }
 
-
       GateioWsNotification notification =
           objectMapper.treeToValue(jsonNode, GateioWsNotification.class);
 
@@ -252,6 +249,8 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
       } else if (notification instanceof GateioMultipleOrderNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       } else if (notification instanceof GateioMultipleOrderFuturesNotification multipleNotification) {
+        multipleNotification.toSingleNotifications().forEach(this::handleMessage);
+      } else if (notification instanceof GateioMultipleTickerAndFundingNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       } else
         handleMessage(notification);

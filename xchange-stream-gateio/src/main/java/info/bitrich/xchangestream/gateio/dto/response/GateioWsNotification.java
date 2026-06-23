@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
-import info.bitrich.xchangestream.gateio.dto.response.funding.GateioTickerAndFundingNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
@@ -39,7 +39,7 @@ import java.time.Instant;
     @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL),
     @Type(value = GateioMultipleOrderNotification.class, name = Config.SPOT_USER_ORDERS_CHANNEL),
     @Type(value = GateioMultipleOrderFuturesNotification.class, name = Config.FUTURES_USER_ORDERS_CHANNEL),
-    @Type(value = GateioTickerAndFundingNotification.class, name = Config.FUTURES_TICKET_AND_FUNDING_CHANNEL)
+    @Type(value = GateioMultipleTickerAndFundingNotification.class, name = Config.FUTURES_TICKET_AND_FUNDING_CHANNEL)
 })
 @Data
 @NoArgsConstructor

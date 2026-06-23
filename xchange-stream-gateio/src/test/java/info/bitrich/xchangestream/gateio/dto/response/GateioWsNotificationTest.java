@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.gateio.dto.response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2FuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.derivative.FuturesContract;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,6 +75,17 @@ public class GateioWsNotificationTest {
     assertThat(((GateioMultipleSpotBalanceNotification) notification).getResult().get(0).getTime()).isEqualTo(Instant.parse("2023-08-10T22:41:13Z"));
     assertThat(((GateioMultipleSpotBalanceNotification) notification).getResult().get(0).getTimeMs()).isEqualTo(Instant.parse("2023-08-10T22:41:13.890Z"));
   }
+
+  @Test
+  void deserialize_funding() throws Exception {
+    GateioWsNotification notification = readNotification("futures.funding.update.json");
+    assertThat(notification).isInstanceOf(GateioMultipleTickerAndFundingNotification.class);
+    assertThat(notification.getTime()).isEqualTo(Instant.parse("2018-11-08T06:38:06Z"));
+    assertThat(notification.getTimeMs()).isEqualTo(Instant.parse("2018-11-08T06:38:06.123Z"));
+    assertThat(((GateioMultipleTickerAndFundingNotification) notification).getResult().get(0).getFundingRate().equals(new BigDecimal("-0.000114"))).isTrue();
+  }
+
+
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(

@@ -156,7 +156,6 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
         //for get funding stream need this data
         metadata.stream().filter(f -> f.getType().equals("direct") &&
                 f.getStatus().equals("trading"))
-
             .forEach(entry -> fundingRateInfoMap.put(new FuturesContract(
                 new CurrencyPair(entry.getName().replace("_", "/")),
                 "PERP"), new GateioFundingInfo(entry.getFundingInterval(), entry.getFundingNextApply())));

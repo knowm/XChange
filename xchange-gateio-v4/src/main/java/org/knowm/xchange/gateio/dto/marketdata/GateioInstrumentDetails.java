@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.StringSecondsToInstantConverter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -64,7 +65,7 @@ public class GateioInstrumentDetails {
   Integer fundingInterval;
 
   @JsonProperty("funding_next_apply")
-  @JsonDeserialize(converter = LongToInstantConverter.class)
+  @JsonDeserialize(converter = StringSecondsToInstantConverter.class)
   Instant fundingNextApply;
 
   @JsonProperty("risk_limit_base")

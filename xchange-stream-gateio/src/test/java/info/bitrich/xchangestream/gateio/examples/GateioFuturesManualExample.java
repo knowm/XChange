@@ -26,13 +26,31 @@ import static org.knowm.xchange.gateio.dto.trade.GateioTimeInForce.POC;
 
 @Slf4j
 public class GateioFuturesManualExample {
-  private final Instrument instrument = new FuturesContract("COHR/USDT/PERP");
+  private final Instrument instrument = new FuturesContract("COS/USDT/PERP");
   public GateioStreamingExchange exchange;
   private final boolean logOutput = true;
 
   @Before
   public void before() {
     init();
+  }
+
+
+  @Test
+  @Ignore
+  public void getFunding() throws InterruptedException {
+    Disposable disposable = exchange.getStreamingMarketDataService().getFundingRate(instrument).subscribe(
+        funding -> {
+          if (logOutput) {
+            log.info("funding changes {}", funding);
+          }
+        }, throwable -> {
+          log.error("Future throwable encountered error while subscribing to pair {}", instrument);
+          log.error("", throwable);
+        });
+    Thread.sleep(620000);
+    disposable.dispose();
+    Thread.sleep(1000);
   }
 
   @Test
@@ -98,17 +116,12 @@ public class GateioFuturesManualExample {
             log.info("{}", trade);
           }
         });
-    Thread.sleep(3000);
+    Thread.sleep(30000);
     disposable.dispose();
   }
 
   private void init() {
-//    ExchangeSpecification spec =
-//        StreamingExchangeFactory.INSTANCE
-//            .createExchangeWithoutSpecification(GateioStreamingExchange.class)
-//            .getDefaultExchangeSpecification();
     ExchangeSpecification spec = new GateioStreamingExchange().getDefaultExchangeSpecification();
-//    exchange = StreamingExchangeFactory.INSTANCE.createExchange(spec);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     AuthUtils.setApiAndSecretKey(spec, "gateio-main");
     exchange = (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);

@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.service.GateioMarketDataService;
 
 public class GateioStreamingExchange extends GateioExchange implements StreamingExchange {
 
@@ -36,7 +37,8 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
             exchangeSpecification.getApiKey(),
             exchangeSpecification.getSecretKey(), exchangeSpecification);
     applyStreamingSpecification(exchangeSpecification, streamingService);
-    streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData);
+    streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
+        (GateioMarketDataService) marketDataService, this);
     streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData);
     streamingAccountService = new GateioStreamingAccountService(streamingService);
 

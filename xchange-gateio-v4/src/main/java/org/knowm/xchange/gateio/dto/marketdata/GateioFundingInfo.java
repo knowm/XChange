@@ -14,7 +14,7 @@ public class GateioFundingInfo {
   private Instant funding_next_apply;
 
   public GateioFundingInfo(Integer interval, Instant next_apply) {
-    interval = interval / 60;
+    interval = interval / 3600;
     switch (interval) {
       case 1: {
         funding_interval = FundingRate.FundingRateInterval.H1;

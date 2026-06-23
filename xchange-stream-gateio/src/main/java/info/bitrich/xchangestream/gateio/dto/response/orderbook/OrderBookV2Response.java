@@ -2,14 +2,12 @@ package info.bitrich.xchangestream.gateio.dto.response.orderbook;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.gateio.config.converter.StringToInstrumentConverter;
+import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
@@ -44,15 +42,15 @@ public class OrderBookV2Response {
   private List<PriceSizeEntry> bids = new ArrayList<>();
 
   @JsonProperty("contract")
-  @JsonDeserialize(converter = StringToInstrumentConverter.class)
+  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
   Instrument contract;
-
-  @JsonIgnore
-  public Instrument getInstrument() {
-    String[] parts = streamName.substring(3).split("\\.");
-    String[] currencies = parts[0].split("_");
-    return new CurrencyPair(currencies[0], currencies[1]);
-  }
+//
+//  @JsonIgnore
+//  public Instrument getInstrument() {
+//    String[] parts = streamName.substring(3).split("\\.");
+//    String[] currencies = parts[0].split("_");
+//    return new CurrencyPair(currencies[0], currencies[1]);
+//  }
 
   @Data
   @Builder

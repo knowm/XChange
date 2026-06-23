@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
-import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
+import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ import java.time.Instant;
 @Data
 public class TradeFuturesPayload {
   @JsonProperty("contract")
-  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  @JsonDeserialize(converter = StringToFutureContractConverter.class)
   Instrument contract;
   @JsonProperty("size")
   BigDecimal size;

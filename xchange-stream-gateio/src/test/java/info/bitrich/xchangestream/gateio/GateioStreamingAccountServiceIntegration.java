@@ -10,6 +10,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -34,7 +35,7 @@ class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT
 
     List<Balance> balances =
         testObserver
-            //        .awaitDone(10, TimeUnit.MINUTES)
+            .awaitDone(30, TimeUnit.SECONDS)
             .awaitCount(1)
             .values();
 

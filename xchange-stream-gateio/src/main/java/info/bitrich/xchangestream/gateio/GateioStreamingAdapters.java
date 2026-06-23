@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.gateio.dto.response.balance.BalancePayload;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
-import info.bitrich.xchangestream.gateio.dto.response.funding.GateioTickerAndFundingNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioSingleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
@@ -21,9 +21,11 @@ import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFundingInfo;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -184,7 +186,7 @@ public class GateioStreamingAdapters {
                     new LimitOrder(
                         OrderType.ASK,
                         priceSizeEntry.getSize(),
-                        orderBookPayload.getInstrument(),
+                        orderBookPayload.getContract(),
                         null,
                         timestamp,
                         priceSizeEntry.getPrice()));
@@ -196,7 +198,7 @@ public class GateioStreamingAdapters {
                     new LimitOrder(
                         OrderType.BID,
                         priceSizeEntry.getSize(),
-                        orderBookPayload.getInstrument(),
+                        orderBookPayload.getContract(),
                         null,
                         timestamp,
                         priceSizeEntry.getPrice()));
@@ -239,11 +241,14 @@ public class GateioStreamingAdapters {
     return orderBookUpdates;
   }
 
-  public static FundingRate toFunding(GateioTickerAndFundingNotification gateioTickerAndFundingNotification) {
-    FundingRate fundingRate = new FundingRate();
-    fundingRate.setInstrument(gateioTickerAndFundingNotification.getResult().getContract());
-    fundingRate.setFundingRate(gateioTickerAndFundingNotification.getResult().getFundingRate());
-    fundingRate.setTimestamp(gateioTickerAndFundingNotification.getTimeMs());
-    return fundingRate;
+  public static FundingRate toFunding(GateioSingleTickerAndFundingNotification gateioSingleTickerAndFundingNotification, GateioFundingInfo gateioFundingInfo) {
+    BigDecimal fundingRate = gateioSingleTickerAndFundingNotification.getResult().getFundingRate();
+
+    return new FundingRate.Builder().instrument(gateioSingleTickerAndFundingNotification.getResult().getContract())
+        .fundingRate1h(fundingRate.divide(
+            BigDecimal.valueOf(gateioFundingInfo.getFunding_interval().getHours()), fundingRate.scale(), RoundingMode.HALF_EVEN))
+        .fundingRate(fundingRate)
+        .fundingRateDate(Date.from(gateioFundingInfo.getFunding_next_apply()))
+        .fundingRateInterval(gateioFundingInfo.getFunding_interval()).build();
   }
 }

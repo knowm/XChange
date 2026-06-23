@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
-import info.bitrich.xchangestream.gateio.dto.response.funding.GateioTickerAndFundingNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioSingleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2FuturesNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2Notification;
@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
@@ -44,12 +43,15 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
   private final ExchangeMetaData exchangeMetaData;
   private Disposable fundingRateInfoUpdate;
   private GateioMarketDataService gateioMarketDataService;
+  private GateioStreamingExchange streamingExchange;
 
 
-  public GateioStreamingMarketDataService(GateioStreamingService service, ExchangeMetaData exchangeMetaData, GateioMarketDataService marketDataService) {
+  public GateioStreamingMarketDataService(GateioStreamingService service, ExchangeMetaData exchangeMetaData, GateioMarketDataService marketDataService,
+                                          GateioStreamingExchange streamingExchange) {
     this.service = service;
     this.exchangeMetaData = exchangeMetaData;
     this.gateioMarketDataService = marketDataService;
+    this.streamingExchange = streamingExchange;
   }
 
   @Override
@@ -67,8 +69,7 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
       contractValue = exchangeMetaData.getInstruments()
           .get(instrument).getContractValue();
       return getOrderBookObservableFutures(instrument, updates, contractValue, orderBookUpdateIdPrev, channelName, orderBookLevel);
-    }
-    else {
+    } else {
       return getOrderBookObservable(instrument, updates, orderBookUpdateIdPrev, channelName, orderBookLevel);
     }
   }
@@ -231,33 +232,33 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
     try {
-      // init update info for funding rate interval
+      // init update info for funding rate interval, run every hour at 00 minutes
       synchronized (this) {
         if (fundingRateInfoUpdate == null) {
+          long millisToNextHour = 3600000 - (System.currentTimeMillis() % 3600000);
+          long secondsLeft = millisToNextHour / 1000;
           fundingRateInfoUpdate =
-              Observable.interval(10, 10, TimeUnit.MINUTES).subscribe(x -> updateFundingRateInfo());
+              Observable.interval(secondsLeft, 3600, TimeUnit.SECONDS).subscribe(x -> updateFundingRateInfo());
         }
       }
     } catch (Exception e) {
       return Observable.error(e);
     }
+
     return service
         .subscribeChannel(Config.FUTURES_TICKET_AND_FUNDING_CHANNEL, instrument)
-        .map(GateioTickerAndFundingNotification.class::cast)
-        .map(data -> GateioStreamingAdapters.toFunding(data.getResult()));
-
+        .map(GateioSingleTickerAndFundingNotification.class::cast)
+        .map(data -> GateioStreamingAdapters.toFunding(data, gateioMarketDataService.getFundingRateInfoMap().get(instrument)));
   }
 
   private void updateFundingRateInfo() {
     try {
-      gateioMarketDataService.u
-          fundingRateInfoMap =
-          marketDataService.getBinanceFundingRateInfo().stream()
-              .collect(
-                  Collectors.toMap(
-                      BinanceFundingRateInfo::getInstrument,
-                      BinanceFundingRateInfo::getFundingIntervalHours));
-    } catch (IOException e) {
+      // run every second, 10 times
+      for (int i = 0; i < 10; i++) {
+        streamingExchange.updateExchangeMetaData();
+        Thread.sleep(1000);
+      }
+    } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }

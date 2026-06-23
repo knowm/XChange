@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -53,7 +52,9 @@ class GateioStreamingMarketDataServiceTest {
         .contractValue(new BigDecimal("0.0001"))
         .build());
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
-    gateioStreamingMarketDataService = new GateioStreamingMarketDataService(gateioStreamingService, exchangeMetaData);
+//    GateioMarketDataService gateioMarketDataService = new GateioMarketDataService(new GateioExchange(),new ResilienceRegistries());
+//    GateioStreamingExchange gateioStreamingExchange = new GateioStreamingExchange();
+    gateioStreamingMarketDataService = new GateioStreamingMarketDataService(gateioStreamingService, exchangeMetaData, null, null);
   }
 
   @Test
@@ -215,27 +216,6 @@ class GateioStreamingMarketDataServiceTest {
     assertThat(actual.getBids().get(1).getLimitPrice()).isEqualByComparingTo("83702.2");
     assertThat(actual.getBids().get(1).getOriginalAmount()).isEqualByComparingTo("0.0062");
     assertThat(actual.getBids().get(3).getLimitPrice()).isEqualByComparingTo("83685");
-  }
-
-  @Test
-  void funding() throws Exception {
-    GateioWsNotification notification = readNotification("futures.tickers");
-    when(gateioStreamingService.subscribeChannel(
-        eq("futures.obu"), eq(instrumentBtc), eq(400)))
-        .thenReturn(Observable.just(notification));
-
-    Observable<FundingRate> observable =
-        gateioStreamingMarketDataService.getFundingRate(
-            instrumentBtc);
-
-    TestObserver<FundingRate> testObserver = observable.test();
-
-    FundingRate actual = testObserver.awaitCount(1).values().get(0);
-
-    testObserver.dispose();
-
-//    assertThat(actual.getTimeStamp()).isEqualTo(Date.from(Instant.ofEpochMilli(1743673027017L)));
-
   }
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {

@@ -22,8 +22,8 @@ public class GateioOrderBookV2Notification extends GateioWsNotification {
   @Override
   public String getUniqueChannelName() {
     String suffix =
-        result.getInstrument() != null
-            ? Config.CHANNEL_NAME_DELIMITER + result.getInstrument()
+        result.getContract() != null
+            ? Config.CHANNEL_NAME_DELIMITER + result.getContract()
             : "";
     return super.getUniqueChannelName() + suffix;
   }

@@ -52,10 +52,7 @@ public class GateioExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-    Map<Instrument, InstrumentMetaData> instruments =
-        ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
-
-    exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
+    updateExchangeMetaData();
   }
 
   public boolean isFuturesEnabled() {
@@ -69,5 +66,13 @@ public class GateioExchange extends BaseExchange {
       RESILIENCE_REGISTRIES = GateioResilience.createRegistries(isFuturesEnabled());
     }
     return RESILIENCE_REGISTRIES;
+  }
+
+  @Override
+  public void updateExchangeMetaData() throws IOException {
+    Map<Instrument, InstrumentMetaData> instruments =
+        ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
+
+    exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
   }
 }
