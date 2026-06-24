@@ -363,9 +363,9 @@ public class GateioAdapters {
         .build();
   }
 
-  public Ticker toTickerFutures(GateioFuturesTicker gateioTicker, BigDecimal contractValue) {
+  public Ticker toTickerFutures(GateioFuturesTickerAndFunding gateioTicker, BigDecimal contractValue) {
     return new Ticker.Builder()
-        .instrument(fromGateioInstrument(gateioTicker.getContract(), true))
+        .instrument(gateioTicker.getContract())
         .last(gateioTicker.getLastPrice())
         .bid(gateioTicker.getHighestBid())
         .bidSize(gateioTicker.getHighestBidSize())

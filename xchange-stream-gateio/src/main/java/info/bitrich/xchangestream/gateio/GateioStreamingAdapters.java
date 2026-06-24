@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFundingInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTickerAndFunding;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
@@ -250,5 +251,22 @@ public class GateioStreamingAdapters {
         .fundingRate(fundingRate)
         .fundingRateDate(Date.from(gateioFundingInfo.getFunding_next_apply()))
         .fundingRateInterval(gateioFundingInfo.getFunding_interval()).build();
+  }
+
+  public static Ticker toTickerFutures(GateioSingleTickerAndFundingNotification notification) {
+    GateioFuturesTickerAndFunding payload = notification.getResult();
+
+    return new Ticker.Builder()
+        .timestamp(Date.from(notification.getTimeMs()))
+        .instrument(payload.getContract())
+        .last(payload.getLastPrice())
+//        .ask(payload.getLowestAsk())
+//        .bid(payload.getHighestBid())
+        .percentageChange(payload.getChangePercentage24h())
+        .volume(payload.getVolume24hBase())
+        .quoteVolume(payload.getVolume24hQuote())
+        .high(payload.getHigh24h())
+        .low(payload.getLow24h())
+        .build();
   }
 }

@@ -35,11 +35,19 @@ public class GateioFuturesManualExample {
     init();
   }
 
-
   @Test
   @Ignore
-  public void getFunding() throws InterruptedException {
-    Disposable disposable = exchange.getStreamingMarketDataService().getFundingRate(instrument).subscribe(
+  public void getTickerAndFunding() throws InterruptedException {
+    Disposable disposable = exchange.getStreamingMarketDataService().getTicker(instrument).subscribe(
+        ticker -> {
+          if (logOutput) {
+            log.info("ticker {}", ticker);
+          }
+        }, throwable -> {
+          log.error("Future throwable encountered error while subscribing to pair {}", instrument);
+          log.error("", throwable);
+        });
+    Disposable disposable1 = exchange.getStreamingMarketDataService().getFundingRate(instrument).subscribe(
         funding -> {
           if (logOutput) {
             log.info("funding changes {}", funding);
@@ -48,7 +56,9 @@ public class GateioFuturesManualExample {
           log.error("Future throwable encountered error while subscribing to pair {}", instrument);
           log.error("", throwable);
         });
-    Thread.sleep(620000);
+    Thread.sleep(40000);
+    disposable1.dispose();
+    Thread.sleep(20000);
     disposable.dispose();
     Thread.sleep(1000);
   }

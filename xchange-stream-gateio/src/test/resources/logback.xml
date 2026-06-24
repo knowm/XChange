@@ -17,9 +17,9 @@
 
 
     <!-- Define logging for organization applications only -->
-    <!--    <logger name="org.knowm.xchange.gateio" level="DEBUG"/>-->
-    <!--    <logger name="info.bitrich.xchangestream.gateio" level="DEBUG"/>-->
-    <!--    <logger name="si.mazi.rescu" level="DEBUG"/>-->
+    <logger name="org.knowm.xchange.gateio" level="DEBUG"/>
+    <logger name="info.bitrich.xchangestream.gateio" level="DEBUG"/>
+    <logger name="si.mazi.rescu" level="DEBUG"/>
     <!--    <Logger name="info.bitrich.xchangestream.service.netty.JsonNettyStreamingService" level="TRACE"/>-->
     <!--    <Logger name="info.bitrich.xchangestream.service.netty.WebSocketClientHandler" level="TRACE"/>-->
     <!--    <Logger name="info.bitrich.xchangestream.service.netty.NettyStreamingService" level="TRACE"/>-->

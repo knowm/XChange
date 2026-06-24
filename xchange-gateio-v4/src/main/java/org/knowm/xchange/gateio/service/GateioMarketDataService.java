@@ -69,7 +69,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     Objects.requireNonNull(instrument);
     try {
       if (exchange.isFuturesEnabled()) {
-        List<GateioFuturesTicker> tickers = getGateioFuturesTickers(instrument);
+        List<GateioFuturesTickerAndFunding> tickers = getGateioFuturesTickers(instrument);
         Validate.validState(tickers.size() == 1);
         return GateioAdapters.toTickerFutures(
             tickers.get(0), exchange.getExchangeMetaData().getInstruments().get(instrument).getContractValue());
@@ -87,14 +87,14 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
       if (exchange.isFuturesEnabled()) {
-        List<GateioFuturesTicker> tickers = getGateioFuturesTickers(null);
+        List<GateioFuturesTickerAndFunding> tickers = getGateioFuturesTickers(null);
         return tickers.stream()
             .map(
                 d ->
                     GateioAdapters.toTickerFutures(
                         d,
                         exchange.getExchangeMetaData().getInstruments()
-                            .get(GateioAdapters.fromGateioInstrument(d.getContract(), true))
+                            .get(d.getContract())
                             .getContractValue()))
             .collect(Collectors.toList());
       } else {

@@ -29,7 +29,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
         .call();
   }
 
-  public List<GateioFuturesTicker> getGateioFuturesTickers(Instrument instrument)
+  public List<GateioFuturesTickerAndFunding> getGateioFuturesTickers(Instrument instrument)
       throws IOException {
     String settle = "usdt";
     return decorateApiCall(

@@ -1,20 +1,23 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
+import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
 
 @Data
 @Builder
 @Jacksonized
-public class GateioFuturesTicker {
+public class GateioFuturesTickerAndFunding {
 
   @JsonProperty("contract")
-  String contract;
+  @JsonDeserialize(converter = StringToFutureContractConverter.class)
+  private Instrument contract;
 
   @JsonProperty("last")
   BigDecimal lastPrice;

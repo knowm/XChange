@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTickerAndFunding;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class GateioMultipleTickerAndFundingNotification extends GateioWsNotification {
 
   @JsonProperty("result")
-  private List<TicketAndFundingPayload> result;
+  private List<GateioFuturesTickerAndFunding> result;
 
   public List<GateioSingleTickerAndFundingNotification> toSingleNotifications() {
     return result.stream()

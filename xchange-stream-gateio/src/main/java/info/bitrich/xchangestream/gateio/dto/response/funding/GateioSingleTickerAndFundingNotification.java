@@ -6,13 +6,14 @@ import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTickerAndFunding;
 
 @Data
 @SuperBuilder
 @Jacksonized
 public class GateioSingleTickerAndFundingNotification extends GateioWsNotification {
   @JsonProperty("result")
-  private TicketAndFundingPayload result;
+  private GateioFuturesTickerAndFunding result;
 
   @Override
   public String getUniqueChannelName() {
