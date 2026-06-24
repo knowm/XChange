@@ -260,8 +260,6 @@ public class GateioStreamingAdapters {
         .timestamp(Date.from(notification.getTimeMs()))
         .instrument(payload.getContract())
         .last(payload.getLastPrice())
-//        .ask(payload.getLowestAsk())
-//        .bid(payload.getHighestBid())
         .percentageChange(payload.getChangePercentage24h())
         .volume(payload.getVolume24hBase())
         .quoteVolume(payload.getVolume24hQuote())
