@@ -1,5 +1,6 @@
 package org.knowm.xchange.gateio.examples;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,9 +15,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.dto.marketdata.GateioFundingRateHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderFlags;
 import org.knowm.xchange.gateio.dto.trade.GateioTimeInForce;
+import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
@@ -32,10 +35,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.gateio.GateioExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.gateio.dto.GateioExchangeType.FUTURES;
 
+@Slf4j
 public class GateioFuturesTest {
   private final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
   public Exchange exchange;
-  private final boolean logOutput = false;
+  private final boolean logOutput = true;
 
   @Before
   public void before() {
@@ -112,6 +116,16 @@ public class GateioFuturesTest {
       if (logOutput)
         System.out.println("Instrument: " + instrument + ", Maker Fee: " + fee.getMakerFee() + ", Taker Fee: " + fee.getTakerFee());
     });
+  }
+
+  @Test
+  @Ignore
+  public void getFundingRateHistory() throws IOException {
+    Long from =
+        (System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 30) / 1000;
+    List<GateioFundingRateHistory> fundingRateHistory = ((GateioMarketDataService) exchange.getMarketDataService()).getFundingRateHistory(instrument, from, (System.currentTimeMillis()) / 1000, 100);
+    if (logOutput)
+      log.info("Instrument: {}, fundingRateHistory size {}, fundingRateHistory  {}", instrument, fundingRateHistory.size(), fundingRateHistory);
   }
 
   private void init() {
