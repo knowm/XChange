@@ -212,7 +212,7 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
     if (instrument instanceof FuturesContract) {
       return service
           .subscribeChannel(
-              Config.FUTURES_TRADES_CHANNEL, ((FuturesContract) instrument).getCurrencyPair())
+              Config.FUTURES_TRADES_CHANNEL, instrument)
           .map(GateioFuturesTradeNotification.class::cast)
           .flatMapIterable(GateioFuturesTradeNotification::getResult)
           .map(payload -> {

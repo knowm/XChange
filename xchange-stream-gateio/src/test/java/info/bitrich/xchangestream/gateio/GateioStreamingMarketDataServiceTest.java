@@ -169,7 +169,7 @@ class GateioStreamingMarketDataServiceTest {
   @Test
   void futuresTrades() throws Exception {
     GateioWsNotification notification = readNotification("futures.trades.update.json");
-    when(gateioStreamingService.subscribeChannel(eq("futures.trades"), eq(CurrencyPair.BTC_USDT)))
+    when(gateioStreamingService.subscribeChannel(eq("futures.trades"), eq(new FuturesContract(CurrencyPair.BTC_USDT, "PERP"))))
         .thenReturn(Observable.just(notification));
 
     Observable<Trade> observable =
@@ -182,7 +182,7 @@ class GateioStreamingMarketDataServiceTest {
     testObserver.dispose();
 
     assertThat(actual.getInstrument()).isEqualTo(instrumentBtc);
-    assertThat(actual.getOriginalAmount().equals(new BigDecimal("108"))).isTrue();
+    assertThat(actual.getOriginalAmount().equals(new BigDecimal("108.5"))).isTrue();
     assertThat(actual.getPrice().equals(new BigDecimal("96.4"))).isTrue();
     assertThat(actual.getId()).isEqualTo("27753479");
     assertThat(actual.getTimestamp().getTime()).isEqualTo(1545136464123L);

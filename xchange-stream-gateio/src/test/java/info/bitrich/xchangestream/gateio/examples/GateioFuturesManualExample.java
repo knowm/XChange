@@ -106,19 +106,6 @@ public class GateioFuturesManualExample {
 
   @Test
   @Ignore
-  public void getUserOrders() throws InterruptedException {
-    Disposable disposable = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(
-        trade -> {
-          if (logOutput) {
-            log.info("{}", trade);
-          }
-        });
-    Thread.sleep(3000);
-    disposable.dispose();
-  }
-
-  @Test
-  @Ignore
   public void getTrades() throws InterruptedException {
     Disposable disposable = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(
         trade -> {
