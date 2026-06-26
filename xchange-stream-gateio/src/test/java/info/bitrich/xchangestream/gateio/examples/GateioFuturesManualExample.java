@@ -26,7 +26,7 @@ import static org.knowm.xchange.gateio.dto.trade.GateioTimeInForce.POC;
 
 @Slf4j
 public class GateioFuturesManualExample {
-  private final Instrument instrument = new FuturesContract("COS/USDT/PERP");
+  private final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
   public GateioStreamingExchange exchange;
   private final boolean logOutput = true;
 
@@ -99,7 +99,7 @@ public class GateioFuturesManualExample {
           log.error("Future throwable encountered error while subscribing to pair {}", instrument);
           log.error("", throwable);
         });
-    Thread.sleep(2000);
+    Thread.sleep(20000);
     disposable.dispose();
     Thread.sleep(1000);
   }

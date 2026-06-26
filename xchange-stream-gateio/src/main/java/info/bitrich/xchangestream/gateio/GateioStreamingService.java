@@ -19,7 +19,10 @@ import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
@@ -33,6 +36,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.core.StreamingExchange.*;
 import static info.bitrich.xchangestream.gateio.dto.Event.SUBSCRIBE;
@@ -51,14 +55,37 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
   private final String apiKey;
 
   private final GateioStreamingAuthHelper gateioStreamingAuthHelper;
+  private Disposable pingPongSubscription;
+  private final Observable<Long> pingPongSrc = Observable.interval(5, 15, TimeUnit.SECONDS);
+  private boolean isFuturesEnabled;
 
-  public GateioStreamingService(String apiUri, String apiKey, String apiSecret, ExchangeSpecification exchangeSpecification) {
+  @Override
+  public Completable connect() {
+    Completable conn = super.connect();
+    return conn.andThen(
+        (CompletableSource)
+            (completable) -> {
+              pingPongDisconnectIfConnected();
+              pingPongSubscription =
+                  pingPongSrc.subscribe(o -> {
+                    if (isFuturesEnabled)
+                      sendMessage(("{\"time\" : " + System.currentTimeMillis() + ", \"channel\" : \"futures.ping\"}"));
+                    else {
+                      sendMessage(("{\"time\" : " + System.currentTimeMillis() + ", \"channel\" : \"spot.ping\"}"));
+                    }
+                  });
+              completable.onComplete();
+            });
+  }
+
+  public GateioStreamingService(String apiUri, String apiKey, String apiSecret, ExchangeSpecification exchangeSpecification, boolean isFuturesEnabled) {
     super(apiUri, Integer.MAX_VALUE,
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
         (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
     this.apiKey = apiKey;
     this.gateioStreamingAuthHelper = new GateioStreamingAuthHelper(apiSecret);
+    this.isFuturesEnabled = isFuturesEnabled;
   }
 
   @Override
@@ -71,7 +98,10 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     final Instrument instrument =
         (args.length > 0 && args[0] instanceof Instrument) ? ((Instrument) args[0]) : null;
-    return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, instrument);
+    if (instrument != null)
+      return String.format("%s%s%s", channelName, Config.CHANNEL_NAME_DELIMITER, instrument);
+    else
+      return channelName;
   }
 
   @Override
@@ -131,11 +161,11 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
       case Config.FUTURES_USER_ORDERS_CHANNEL:
       case Config.FUTURES_TICKET_AND_FUNDING_CHANNEL:
       case Config.FUTURES_TRADES_CHANNEL: {
-          Instrument instrument = (Instrument) ArrayUtils.get(args, 0);
-          Objects.requireNonNull(instrument);
-          payload = InstrumentPayload.builder().instrument(instrument).build();
-          break;
-        }
+        Instrument instrument = (Instrument) ArrayUtils.get(args, 0);
+        Objects.requireNonNull(instrument);
+        payload = InstrumentPayload.builder().instrument(instrument).build();
+        break;
+      }
       // channel requires currency pair, level, interval in payload
       case Config.SPOT_ORDERBOOK_CHANNEL: {
         CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
@@ -169,19 +199,19 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
             .instrument(currencyPair)
             .orderBookLevel(orderBookLevel)
             .build();
-          break;
-        }
+        break;
+      }
       // channel requires currency pair or default value for all
       case Config.SPOT_USER_ORDERS_CHANNEL:
       case Config.SPOT_USER_TRADES_CHANNEL: {
-          CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
-          if (currencyPair == null) {
-            payload = StringPayload.builder().data("!all").build();
-          } else {
-            payload = CurrencyPairPayload.builder().currencyPair(currencyPair).build();
-          }
-          break;
+        CurrencyPair currencyPair = (CurrencyPair) ArrayUtils.get(args, 0);
+        if (currencyPair == null) {
+          payload = StringPayload.builder().data("!all").build();
+        } else {
+          payload = CurrencyPairPayload.builder().currencyPair(currencyPair).build();
         }
+        break;
+      }
 
       default:
         payload = EmptyPayload.builder().build();
@@ -293,5 +323,11 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
     DefaultHttpHeaders customHeaders = super.getCustomHeaders();
     customHeaders.add("X-Gate-Size-Decimal", "1");
     return customHeaders;
+  }
+
+  private void pingPongDisconnectIfConnected() {
+    if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+      pingPongSubscription.dispose();
+    }
   }
 }

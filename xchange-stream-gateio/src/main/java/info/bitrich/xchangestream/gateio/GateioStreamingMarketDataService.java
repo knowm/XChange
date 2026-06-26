@@ -116,6 +116,7 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
             orderBook = GateioStreamingAdapters.toOrderBookV2Futures(ob, contractValue);
             orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
             orderBookMap.put(instrument.toString(), orderBook);
+            return Observable.just(orderBook);
           } else {
             debugLog(orderBookUpdateIdPrev, ob.getResult().getFirstUpdateId(), ob.getResult().getLastUpdateId());
             if (orderBookUpdateIdPrev.incrementAndGet() == ob.getResult().getFirstUpdateId()) {

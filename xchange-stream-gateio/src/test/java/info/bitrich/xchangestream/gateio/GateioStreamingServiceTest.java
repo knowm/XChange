@@ -23,7 +23,7 @@ public class GateioStreamingServiceTest {
     exchangeSpecification.setExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
     exchangeSpecification.setExchangeSpecificParametersItem(WS_RETRY_DURATION, DEFAULT_RETRY_DURATION);
     exchangeSpecification.setExchangeSpecificParametersItem(WS_IDLE_TIMEOUT, DEFAULT_IDLE_TIMEOUT);
-    gateioStreamingService = new GateioStreamingService("", null, null, exchangeSpecification);
+    gateioStreamingService = new GateioStreamingService("", null, null, exchangeSpecification, false);
   }
 
   @Test
