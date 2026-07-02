@@ -1,15 +1,5 @@
 package org.knowm.xchange.binance;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
@@ -43,6 +33,17 @@ import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -184,8 +185,12 @@ public class BinanceAdapters {
   }
 
   public static Instrument adaptSymbol(String symbol, boolean isFuture) {
+    if (symbol.endsWith("_PERP")) {
+      //COIN-Margin instrument
+      String pair = symbol.substring(0, symbol.indexOf("_"));
+      return new FuturesContract(pair.substring(0, pair.indexOf("USD")) + "/USD/PERP");
+    }
     CurrencyPair currencyPair = toCurrencyPair(symbol);
-
     return (isFuture) ? new FuturesContract(currencyPair, "PERP") : currencyPair;
   }
 
