@@ -68,8 +68,8 @@ public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
 
     assertThat(actual).hasSize(2);
     assertThat(actual.get(0).getRate()).isEqualTo("0.0001");
-    assertThat(actual.get(0).getTimestamp()).isEqualTo(1684100000L);
+    assertThat(actual.get(0).getTimestamp().getEpochSecond()).isEqualTo(1684100000L);
     assertThat(actual.get(1).getRate()).isEqualTo("0.0002");
-    assertThat(actual.get(1).getTimestamp()).isEqualTo(1684103600L);
+    assertThat(actual.get(1).getTimestamp().getEpochSecond()).isEqualTo(1684103600L);
   }
 }

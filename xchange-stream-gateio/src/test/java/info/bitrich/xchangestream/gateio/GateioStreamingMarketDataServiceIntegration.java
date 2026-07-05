@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,7 +51,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
 
     Trade trade =
         testObserver
-            //        .awaitDone(1, TimeUnit.MINUTES)
+            .awaitDone(3, TimeUnit.SECONDS)
             .awaitCount(1)
             .values()
             .get(0);
@@ -71,7 +72,7 @@ public class GateioStreamingMarketDataServiceIntegration extends GateioStreaming
     Ticker ticker =
         testObserver
             .awaitCount(1)
-            //        .awaitDone(1, TimeUnit.MINUTES)
+            .awaitDone(3, TimeUnit.SECONDS)
             .values()
             .get(0);
 
