@@ -37,7 +37,7 @@ import static org.knowm.xchange.gateio.dto.GateioExchangeType.FUTURES;
 
 @Slf4j
 public class GateioFuturesTest {
-  private final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
+  private final Instrument instrument = new FuturesContract("T/USDT/PERP");
   public Exchange exchange;
   private final boolean logOutput = true;
 
@@ -101,6 +101,7 @@ public class GateioFuturesTest {
   @Ignore
   public void setLeverage() throws IOException {
     exchange.getAccountService().setLeverage(instrument, 1);
+    exchange.getAccountService().setLeverage(instrument, 1, 1);
   }
 
   @Test

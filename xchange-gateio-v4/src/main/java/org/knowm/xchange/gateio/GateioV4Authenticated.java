@@ -4,11 +4,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.account.*;
-import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderResponse;
-import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
-import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
-import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
-import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
+import org.knowm.xchange.gateio.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -255,12 +251,13 @@ public interface GateioV4Authenticated {
   @POST
   @Path("futures/{settle}/positions/{contract}/leverage")
   @Consumes(MediaType.APPLICATION_JSON)
-  GateioPositionLeverageUpdate updatePositionLeverage(
+  List<GateioPositionLeverageUpdate> updatePositionLeverage(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @PathParam("settle") String settle,
       @PathParam("contract") String contract,
-      @QueryParam("leverage") String leverage)
+      @QueryParam("leverage") String leverage,
+      @QueryParam("cross_leverage") String cross_leverage)
       throws IOException, GateioException;
 }

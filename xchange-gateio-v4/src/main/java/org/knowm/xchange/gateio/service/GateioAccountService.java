@@ -86,19 +86,28 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
 
   /**
    * set leverage for futures contract
-   * Isolated margin only
+   * leverage ≠ 0:
+   * Isolated Margin Mode (Regardless of whether cross_leverage_limit is filled, this parameter will be ignored)
+   * leverage = 0:
+   * Cross Margin Mode (Use cross_leverage_limit to set the leverage multiple)
    *
    * @param instrument symbol to change leverage
    * @param leverage   leverage
+   * @param args cross_leverage
    * @return is successful
-   * @throws IOException
    */
   @Override
-  public boolean setLeverage(Instrument instrument, int leverage) throws IOException {
+  public boolean setLeverage(Instrument instrument, int leverage, Object... args) throws IOException {
     if (instrument instanceof FuturesContract) {
       String settle = instrument.getCounter().getCurrencyCode().toLowerCase();
       String contract = GateioAdapters.toGateioInstrument(instrument);
-      setLeverage(settle, contract, String.valueOf(leverage));
+      Integer cross_leverage;
+      if (args != null && args.length > 0) {
+        cross_leverage = (Integer) args[0];
+        setLeverage(settle, contract, "0", String.valueOf(cross_leverage));
+      } else {
+        setLeverage(settle, contract, String.valueOf(leverage), null);
+      }
       return true;
     } else throw new UnsupportedOperationException("Leverage is not supported for spot instruments");
   }
