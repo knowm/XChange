@@ -18,6 +18,7 @@ import si.mazi.rescu.CustomRestProxyFactoryImpl;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioFuturesAccountServiceTest {
@@ -58,8 +59,17 @@ public class GateioFuturesAccountServiceTest {
 
   @Test
   void set_leverage() throws IOException {
+    wireMockServer.stubFor(post(urlPathMatching("/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage.json")));
+
     GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
     boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
     assertThat(success).isTrue();
+
+    wireMockServer.verify(postRequestedFor(urlPathMatching("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .withQueryParam("leverage", equalTo("10"))
+        .withoutQueryParam("cross_leverage_limit"));
   }
 }

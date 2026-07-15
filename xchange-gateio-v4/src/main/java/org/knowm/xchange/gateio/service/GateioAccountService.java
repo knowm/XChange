@@ -93,7 +93,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
    *
    * @param instrument symbol to change leverage
    * @param leverage   leverage
-   * @param args cross_leverage
+   * @param args       cross_leverage
    * @return is successful
    */
   @Override
@@ -104,11 +104,13 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       Integer cross_leverage;
       if (args != null && args.length > 0) {
         cross_leverage = (Integer) args[0];
-        setLeverage(settle, contract, "0", String.valueOf(cross_leverage));
+        if (setLeverage(settle, contract, "0", String.valueOf(cross_leverage)).getCrossLeverageLimit().intValue() == cross_leverage)
+          return true;
       } else {
-        setLeverage(settle, contract, String.valueOf(leverage), null);
+        if (setLeverage(settle, contract, String.valueOf(leverage), null).getLeverage().intValue() == leverage)
+          return true;
       }
-      return true;
+      return false;
     } else throw new UnsupportedOperationException("Leverage is not supported for spot instruments");
   }
 

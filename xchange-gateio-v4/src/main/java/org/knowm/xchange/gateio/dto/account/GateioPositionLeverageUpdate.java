@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 @Getter
 public class GateioPositionLeverageUpdate {
-
   @JsonProperty("leverage")
   private final BigDecimal leverage;
 
@@ -20,5 +19,4 @@ public class GateioPositionLeverageUpdate {
     this.leverage = leverage;
     this.crossLeverageLimit = crossLeverageLimit;
   }
-
 }

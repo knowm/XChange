@@ -177,22 +177,17 @@ public class GateioAccountServiceRaw extends GateioBaseService {
         params.getZeroBasedPageNumber());
   }
 
-  public void setLeverage(String settle, String contract, String leverage, String cross_leverage) throws IOException {
+  public GateioPositionLeverageUpdate setLeverage(String settle, String contract, String leverage, String cross_leverage) throws IOException {
     try {
-      decorateApiCall(
-          () -> {
-            GateioPositionLeverageUpdate positionLeverageUpdate =
-                gateioV4Authenticated.updatePositionLeverage(
-                    apiKey,
-                    exchange.getNonceFactory(),
-                    gateioV4ParamsDigest,
-                    settle,
-                    contract,
-                    leverage,
-                    cross_leverage).get(0);
-            Objects.requireNonNull(positionLeverageUpdate);
-            return null;
-          }).withRateLimiter(rateLimiter(LEVERAGE_RATE_LIMITER))
+      return decorateApiCall(
+          () -> gateioV4Authenticated.updatePositionLeverage(
+              apiKey,
+              exchange.getNonceFactory(),
+              gateioV4ParamsDigest,
+              settle,
+              contract,
+              leverage,
+              cross_leverage)).withRateLimiter(rateLimiter(LEVERAGE_RATE_LIMITER))
           .call();
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);

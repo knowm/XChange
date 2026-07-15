@@ -251,13 +251,13 @@ public interface GateioV4Authenticated {
   @POST
   @Path("futures/{settle}/positions/{contract}/leverage")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<GateioPositionLeverageUpdate> updatePositionLeverage(
+  GateioPositionLeverageUpdate updatePositionLeverage(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam("SIGN") ParamsDigest signer,
       @PathParam("settle") String settle,
       @PathParam("contract") String contract,
       @QueryParam("leverage") String leverage,
-      @QueryParam("cross_leverage") String cross_leverage)
+      @QueryParam("cross_leverage_limit") String cross_leverage)
       throws IOException, GateioException;
 }

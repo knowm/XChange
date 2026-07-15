@@ -46,7 +46,6 @@ public class GateioFuturesTest {
     init();
   }
 
-
   @Test
   @Ignore
   public void order() throws IOException {
@@ -100,8 +99,8 @@ public class GateioFuturesTest {
   @Test
   @Ignore
   public void setLeverage() throws IOException {
-    exchange.getAccountService().setLeverage(instrument, 1);
-    exchange.getAccountService().setLeverage(instrument, 1, 1);
+    assertThat(exchange.getAccountService().setLeverage(instrument, 10)).isTrue();
+    assertThat(exchange.getAccountService().setLeverage(instrument, 0, 20)).isTrue();
   }
 
   @Test
@@ -134,6 +133,10 @@ public class GateioFuturesTest {
         new ExchangeSpecification(GateioExchange.class);
     exchangeSpecification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
     AuthUtils.setApiAndSecretKey(exchangeSpecification, "gateio-main");
+    if (exchangeSpecification.getApiKey() == null) {
+      exchangeSpecification.setApiKey("a");
+      exchangeSpecification.setSecretKey("b");
+    }
     exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
   }
 }
