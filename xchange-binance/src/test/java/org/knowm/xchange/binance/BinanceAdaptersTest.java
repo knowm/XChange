@@ -38,6 +38,24 @@ public class BinanceAdaptersTest {
   }
 
   @Test
+  public void testFilledFuturesMarketOrderWithoutCumulativeQuoteQty() throws IOException {
+
+    // USDT-M futures order responses carry no "cummulativeQuoteQty" field; adapting such an
+    // order must not throw (regression test for #5074)
+    BinanceOrder binanceOrder =
+        ObjectMapperHelper.readValue(
+            BinanceAdaptersTest.class.getResource(
+                "/org/knowm/xchange/binance/filled-futures-market-order.json"),
+            BinanceOrder.class);
+    Order order = BinanceAdapters.adaptOrder(binanceOrder, true);
+    assertThat(order).isInstanceOf(MarketOrder.class);
+    assertThat(order.getStatus()).isEqualByComparingTo(Order.OrderStatus.FILLED);
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo("0.5");
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo("0.5");
+    assertThat(order.getAveragePrice()).isNull();
+  }
+
+  @Test
   public void testAssetDividendList() throws Exception {
 
     AssetDividendResponse assetDividendList =

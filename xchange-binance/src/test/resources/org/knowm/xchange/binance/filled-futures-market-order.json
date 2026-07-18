@@ -1,0 +1,15 @@
+{
+    "symbol": "BTCUSDT",
+    "orderId": 283194212,
+    "clientOrderId": "testFuturesOrder",
+    "price": "0",
+    "origQty": "0.5",
+    "executedQty": "0.5",
+    "status": "FILLED",
+    "timeInForce": "GTC",
+    "type": "MARKET",
+    "side": "BUY",
+    "stopPrice": "0",
+    "time": 1566249504234,
+    "updateTime": 1566249504234
+}
