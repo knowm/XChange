@@ -273,7 +273,7 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
     }
   }
 
-  public Observable<OrderBookTicker> getOrderBookTicker(Instrument instrument) throws IOException {
+  public Observable<OrderBookTicker> getOrderBookTicker(Instrument instrument) {
     String channelName =
         (instrument instanceof FuturesContract)
             ? Config.FUTURES_ORDERBOOK_TICKER_CHANNEL
