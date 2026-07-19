@@ -160,6 +160,8 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
       }
       case Config.FUTURES_USER_ORDERS_CHANNEL:
       case Config.FUTURES_TICKET_AND_FUNDING_CHANNEL:
+      case Config.FUTURES_ORDERBOOK_TICKER_CHANNEL:
+      case Config.SPOT_ORDERBOOK_TICKER_CHANNEL:
       case Config.FUTURES_TRADES_CHANNEL: {
         Instrument instrument = (Instrument) ArrayUtils.get(args, 0);
         Objects.requireNonNull(instrument);

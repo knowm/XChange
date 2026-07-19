@@ -5,9 +5,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.funding.GateioSingleTickerAndFundingNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2FuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV2Notification;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
@@ -272,6 +270,24 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
       }
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  public Observable<OrderBookTicker> getOrderBookTicker(Instrument instrument) throws IOException {
+    String channelName =
+        (instrument instanceof FuturesContract)
+            ? Config.FUTURES_ORDERBOOK_TICKER_CHANNEL
+            : Config.SPOT_ORDERBOOK_TICKER_CHANNEL;
+    Observable<GateioWsNotification> updates =
+        service.subscribeChannel(channelName, instrument);
+    if (instrument instanceof FuturesContract)
+      return updates
+          .map(GateioOrderBookFuturesTickerNotification.class::cast)
+          .map(obTicker -> GateioStreamingAdapters.toOrderBookTicker(obTicker.getResult()));
+    else {
+      return updates
+          .map(GateioOrderBookSpotTickerNotification.class::cast)
+          .map(obTicker -> GateioStreamingAdapters.toOrderBookTicker(obTicker.getResult()));
     }
   }
 }

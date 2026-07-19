@@ -72,6 +72,25 @@ public class GateioSpotManualExample {
 
   @Test
   @Ignore
+  public void geOrderBookTicker() throws InterruptedException, IOException {
+    Disposable disposable = ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService())
+        .getOrderBookTicker(instrument).subscribe(
+            orderBookTicker -> {
+              if (logOutput) {
+                log.info("OB ticker bid: {}:{}, ask: {}:{}", orderBookTicker.getBidPrice(), orderBookTicker.getBidSize(),
+                    orderBookTicker.getAskPrice(), orderBookTicker.getAskSize());
+              }
+            }, throwable -> {
+              log.error("Future throwable encountered error while subscribing to pair {}", instrument);
+              log.error("", throwable);
+            });
+    Thread.sleep(20000);
+    disposable.dispose();
+    Thread.sleep(1000);
+  }
+
+  @Test
+  @Ignore
   public void getOrderChanges() throws InterruptedException, IOException {
     Disposable disposable = exchange.getStreamingTradeService().getOrderChanges(instrument).subscribe(
         order -> {

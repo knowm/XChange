@@ -267,4 +267,14 @@ public class GateioStreamingAdapters {
         .low(payload.getLow24h())
         .build();
   }
+
+  public static OrderBookTicker toOrderBookTicker(GateioOrderBookTickerResponse response) {
+    return OrderBookTicker.builder()
+        .timestamp(response.getTimestamp())
+        .bidPrice(response.getBidPrice())
+        .bidSize(response.getBidSize())
+        .askPrice(response.getAskPrice())
+        .askSize(response.getAskSize())
+        .build();
+  }
 }

@@ -18,6 +18,8 @@ public final class Config {
   public static final String V4_FUTURES_URL = "wss://fx-ws.gateio.ws/v4/ws/usdt";
   public static final String SPOT_ORDERBOOK_CHANNEL = "spot.order_book";
   public static final String SPOT_ORDERBOOKV2_CHANNEL = "spot.obu";
+  public static final String SPOT_ORDERBOOK_TICKER_CHANNEL = "spot.book_ticker";
+  public static final String FUTURES_ORDERBOOK_TICKER_CHANNEL = "futures.book_ticker";
   public static final String FUTURES_ORDERBOOKV2_CHANNEL = "futures.obu";
   public static final String SPOT_TRADES_CHANNEL = "spot.trades";
   public static final String FUTURES_TRADES_CHANNEL = "futures.trades";

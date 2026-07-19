@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.gateio.examples;
 
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.gateio.GateioStreamingExchange;
+import info.bitrich.xchangestream.gateio.GateioStreamingMarketDataService;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -94,6 +95,24 @@ public class GateioFuturesManualExample {
         orderBook -> {
           if (logOutput) {
             log.info("OB ask.size: {}, bid.size: {}", orderBook.getAsks().size(), orderBook.getBids().size());
+          }
+        }, throwable -> {
+          log.error("Future throwable encountered error while subscribing to pair {}", instrument);
+          log.error("", throwable);
+        });
+    Thread.sleep(20000);
+    disposable.dispose();
+    Thread.sleep(1000);
+  }
+
+  @Test
+  @Ignore
+  public void geOrderBookTicker() throws InterruptedException, IOException {
+    Disposable disposable = ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService()).getOrderBookTicker(instrument).subscribe(
+        orderBookTicker -> {
+          if (logOutput) {
+            log.info("OB ticker bid: {}:{}, ask: {}:{}", orderBookTicker.getBidPrice(), orderBookTicker.getBidSize(),
+                orderBookTicker.getAskPrice(), orderBookTicker.getAskSize());
           }
         }, throwable -> {
           log.error("Future throwable encountered error while subscribing to pair {}", instrument);
