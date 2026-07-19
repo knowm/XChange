@@ -1,17 +1,17 @@
 package org.knowm.xchange.dto.marketdata;
 
 import lombok.Builder;
-import lombok.Setter;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
-@Setter
+@Getter
 @Builder
 public class OrderBookTicker {
-  private long timestamp;
-  private BigDecimal bidPrice;
-  private BigDecimal askPrice;
-  private BigDecimal bidSize;
-  private BigDecimal askSize;
+  final private long timestamp;
+  final private BigDecimal bidPrice;
+  final private BigDecimal askPrice;
+  final private BigDecimal bidSize;
+  final private BigDecimal askSize;
 
 }
