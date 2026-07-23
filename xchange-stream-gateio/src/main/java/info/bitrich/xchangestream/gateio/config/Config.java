@@ -28,6 +28,8 @@ public final class Config {
   public static final String SPOT_BALANCES_CHANNEL = "spot.balances";
   public static final String SPOT_USER_TRADES_CHANNEL = "spot.usertrades";
   public static final String SPOT_USER_ORDERS_CHANNEL = "spot.orders";
+  public static final String SPOT_ORDER_PLACE_CHANNEL = "spot.order_place";
+  public static final String FUTURES_ORDER_PLACE_CHANNEL = "futures.order_place";
   public static final String FUTURES_USER_ORDERS_CHANNEL = "futures.orders";
   public static final String FUTURES_TICKET_AND_FUNDING_CHANNEL = "futures.tickers";
   public static final List<String> PRIVATE_CHANNELS =

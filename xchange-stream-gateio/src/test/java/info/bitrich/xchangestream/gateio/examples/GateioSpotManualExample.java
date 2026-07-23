@@ -73,6 +73,7 @@ public class GateioSpotManualExample {
   @Test
   @Ignore
   public void geOrderBookTicker() throws InterruptedException, IOException {
+    Thread.sleep(2000000);
     Disposable disposable = ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService())
         .getOrderBookTicker(instrument).subscribe(
             orderBookTicker -> {

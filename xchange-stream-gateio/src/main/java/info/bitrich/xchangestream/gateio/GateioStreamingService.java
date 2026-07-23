@@ -135,6 +135,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
     return objectMapper.writeValueAsString(request);
   }
 
+
   private GateioWsRequest getWsRequest(String channelName, Event event, Object... args) {
     // create request common part
 

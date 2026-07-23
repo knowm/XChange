@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.dto.GateioUserTradeStreamingService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
@@ -9,12 +10,16 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GateioStreamingExchange extends GateioExchange implements StreamingExchange {
 
   private GateioStreamingService streamingService;
   private StreamingMarketDataService streamingMarketDataService;
   private StreamingTradeService streamingTradeService;
   private StreamingAccountService streamingAccountService;
+  private GateioUserTradeStreamingService userTradeStreamingService;
 
   public GateioStreamingExchange() {
   }
@@ -37,12 +42,29 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
             exchangeSpecification.getApiKey(),
             exchangeSpecification.getSecretKey(), exchangeSpecification, isFuturesEnabled());
     applyStreamingSpecification(exchangeSpecification, streamingService);
+    if (isApiKeyValid()) {
+      userTradeStreamingService =
+          new GateioUserTradeStreamingService(exchangeSpecification.getSslUri(), exchangeSpecification.getApiKey(),
+              exchangeSpecification.getSecretKey(), exchangeSpecification);
+      applyStreamingSpecification(exchangeSpecification, userTradeStreamingService);
+    }
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
         (GateioMarketDataService) marketDataService, this);
     streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData);
     streamingAccountService = new GateioStreamingAccountService(streamingService);
+    List<Completable> completableList = new ArrayList<>();
+    completableList.add(streamingService.connect());
+    if (isApiKeyValid()) {
+      completableList.add(userTradeStreamingService.connect());
+    }
+    return Completable.concat(completableList);
+  }
 
-    return streamingService.connect();
+  private boolean isApiKeyValid() {
+    return exchangeSpecification.getApiKey() != null
+        && !exchangeSpecification.getApiKey().isEmpty()
+        && exchangeSpecification.getSecretKey() != null
+        && !exchangeSpecification.getSecretKey().isEmpty();
   }
 
   @Override
