@@ -2,7 +2,6 @@ package org.knowm.xchange.cryptocom;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -23,16 +22,15 @@ public class CryptoComExchange extends BaseExchange implements Exchange {
   private static final String SANDBOX_URL = "https://uat-api.3ona.co";
 
   protected CryptoCom cryptoCom;
-  private final AtomicLong requestIdCounter = new AtomicLong(System.currentTimeMillis());
+  private final CryptoComRequestIdGenerator requestIdGenerator = new CryptoComRequestIdGenerator();
   private final ResilienceRegistries resilienceRegistries = new ResilienceRegistries();
 
   public CryptoCom getCryptoCom() {
     return cryptoCom;
   }
 
-  /** Crypto.com requires a strictly increasing request id on every signed call. */
   public long nextRequestId() {
-    return requestIdCounter.incrementAndGet();
+    return requestIdGenerator.next();
   }
 
   @Override
@@ -74,11 +72,22 @@ public class CryptoComExchange extends BaseExchange implements Exchange {
   }
 
   protected void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))) {
-      exchangeSpecification.setSslUri(SANDBOX_URL);
-    } else {
-      exchangeSpecification.setSslUri(PRODUCTION_URL);
-    }
+    exchangeSpecification.setSslUri(
+        isSandbox(exchangeSpecification) ? SANDBOX_URL : PRODUCTION_URL);
+  }
+
+  /**
+   * Whether the given specification requests the sandbox environment. Use this overload while
+   * {@link #applySpecification} is still running, before {@code this.exchangeSpecification} is set;
+   * use {@link #usingSandbox()} afterwards (e.g. from a streaming subclass).
+   */
+  private static boolean isSandbox(ExchangeSpecification exchangeSpecification) {
+    return Boolean.TRUE.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
+  }
+
+  public boolean usingSandbox() {
+    return isSandbox(getExchangeSpecification());
   }
 
   @Override

@@ -96,7 +96,7 @@ public final class CryptoComAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  private static BigDecimal toBigDecimal(String value) {
+  public static BigDecimal toBigDecimal(String value) {
     return value == null ? null : new BigDecimal(value);
   }
 
@@ -181,12 +181,19 @@ public final class CryptoComAdapters {
   }
 
   public static OrderStatus adaptOrderStatus(CryptoComOrder order) {
-    if (order.getStatus() == null) {
+    return adaptOrderStatus(order.getStatus(), toBigDecimal(order.getCumulativeQuantity()));
+  }
+
+  /**
+   * Split out from {@link #adaptOrderStatus(CryptoComOrder)} so status can be computed once the raw
+   * fields (not necessarily wrapped in a {@link CryptoComOrder}) are known.
+   */
+  public static OrderStatus adaptOrderStatus(String status, BigDecimal cumulativeQuantity) {
+    if (status == null) {
       return OrderStatus.UNKNOWN;
     }
-    switch (order.getStatus().toUpperCase()) {
+    switch (status.toUpperCase()) {
       case "ACTIVE":
-        BigDecimal cumulativeQuantity = toBigDecimal(order.getCumulativeQuantity());
         if (cumulativeQuantity != null && cumulativeQuantity.compareTo(BigDecimal.ZERO) > 0) {
           return OrderStatus.PARTIALLY_FILLED;
         }

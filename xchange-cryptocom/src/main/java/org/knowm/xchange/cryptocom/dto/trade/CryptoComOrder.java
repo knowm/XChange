@@ -67,6 +67,8 @@ public class CryptoComOrder {
   @JsonProperty("update_time")
   private Long updateTime;
 
+  // String, not Integer: the user.order WebSocket channel (which reuses this DTO) can send a
+  // non-numeric reject reason; the field is unused by any adapter, so String is safe either way.
   @JsonProperty("reason")
-  private Integer reason;
+  private String reason;
 }

@@ -29,9 +29,22 @@ public final class CryptoComDigest {
       String apiKey,
       String apiSecret,
       Map<String, Object> params) {
-    String payload = signaturePayload(method, id, apiKey, nonce, params);
-    String signature = hmacSha256Hex(payload, apiSecret);
+    String signature = signature(method, id, apiKey, nonce, params, apiSecret);
     return new CryptoComRequest(id, method, apiKey, signature, nonce, params);
+  }
+
+  /**
+   * Computes just the HMAC signature, for callers that build their own envelope (e.g. the WebSocket
+   * {@code public/auth} message, which has no {@code params} field at all).
+   */
+  public static String signature(
+      String method,
+      long id,
+      String apiKey,
+      long nonce,
+      Map<String, Object> params,
+      String apiSecret) {
+    return hmacSha256Hex(signaturePayload(method, id, apiKey, nonce, params), apiSecret);
   }
 
   private static String signaturePayload(
