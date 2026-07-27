@@ -4,19 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.cryptocom.CryptoComStreamingAdapters;
 import info.bitrich.xchangestream.cryptocom.CryptoComStreamingService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.cryptocom.dto.account.CryptoComBalance;
-import org.knowm.xchange.dto.account.Balance;
 
 /**
  * The {@code user.balance} WebSocket channel pushes the same shape as the REST {@code
  * private/user-balance} result, so the streaming module reuses {@link CryptoComBalance} directly
- * instead of a separate WS-only DTO.
+ * instead of a separate WS-only DTO. Adapter behavior itself is covered by {@code
+ * CryptoComStreamingAdaptersTest}.
  */
 public class CryptoComBalanceChannelTest {
 
@@ -49,23 +48,5 @@ public class CryptoComBalanceChannelTest {
     assertThat(btc.getInstrumentName()).isEqualTo("BTC");
     assertThat(new BigDecimal(btc.getQuantity()))
         .isEqualByComparingTo(new BigDecimal("0.01500000"));
-  }
-
-  @Test
-  public void testAdaptBalance() throws IOException {
-    // given
-    String resource = "/info/bitrich/xchangestream/cryptocom/dto/user-balance-update.json";
-    JsonNode envelope =
-        CryptoComStreamingTestSupport.readEnvelope(
-            CryptoComBalanceChannelTest.class, resource, objectMapper);
-    CryptoComBalance.PositionBalance position =
-        service.extractData(envelope, CryptoComBalance.class).get(0).getPositionBalances().get(1);
-
-    // when
-    Balance balance = CryptoComStreamingAdapters.adaptBalance(position);
-
-    // then
-    assertThat(balance.getCurrency().getCurrencyCode()).isEqualTo("BTC");
-    assertThat(balance.getTotal()).isEqualByComparingTo(new BigDecimal("0.01500000"));
   }
 }
