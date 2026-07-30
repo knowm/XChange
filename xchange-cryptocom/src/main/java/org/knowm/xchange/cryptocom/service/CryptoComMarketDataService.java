@@ -10,6 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
@@ -35,6 +36,9 @@ public class CryptoComMarketDataService extends CryptoComMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
+    if (!(instrument instanceof CurrencyPair)) {
+      throw new NotYetImplementedForExchangeException("getOrderBook");
+    }
     Integer depth =
         args != null && args.length > 0 && args[0] instanceof Integer ? (Integer) args[0] : null;
     return CryptoComAdapters.adaptOrderBook(
@@ -44,6 +48,9 @@ public class CryptoComMarketDataService extends CryptoComMarketDataServiceRaw
 
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
+    if (!(instrument instanceof CurrencyPair)) {
+      throw new NotYetImplementedForExchangeException("getTrades");
+    }
     Integer count =
         args != null && args.length > 0 && args[0] instanceof Integer ? (Integer) args[0] : null;
     return CryptoComAdapters.adaptTrades(

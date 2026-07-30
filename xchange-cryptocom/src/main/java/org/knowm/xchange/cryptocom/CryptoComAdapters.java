@@ -121,11 +121,22 @@ public final class CryptoComAdapters {
         .build();
   }
 
+  /**
+   * Adapts every spot-pair ticker in the list. Perpetual/derivative instrument names (e.g. {@code
+   * 1INCHUSD-PERP}) don't parse into a {@link CurrencyPair} via {@link #toCurrencyPair}; since
+   * {@link Ticker.Builder} rejects a null instrument, those entries are skipped up front instead of
+   * failing the whole batch (e.g. all of {@code public/get-tickers}, which returns spot and
+   * perpetual instruments together).
+   */
   public static List<Ticker> adaptTickers(List<CryptoComTicker> tickers) {
     if (tickers == null) {
       return Collections.emptyList();
     }
-    return tickers.stream().map(CryptoComAdapters::adaptTicker).collect(Collectors.toList());
+    return tickers.stream()
+        .filter(
+            ticker -> ticker != null && toCurrencyPair(ticker.getInstrumentName()) != null)
+        .map(CryptoComAdapters::adaptTicker)
+        .collect(Collectors.toList());
   }
 
   public static OrderBook adaptOrderBook(

@@ -151,6 +151,20 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
+  public void testAdaptTickers_excludesPerpetualSwaps() {
+    CryptoComTicker spot = new CryptoComTicker();
+    spot.setInstrumentName("BTC_USDT");
+
+    CryptoComTicker perpetual = new CryptoComTicker();
+    perpetual.setInstrumentName("1INCHUSD-PERP");
+
+    List<Ticker> adapted = CryptoComAdapters.adaptTickers(Arrays.asList(spot, perpetual));
+
+    assertThat(adapted).hasSize(1);
+    assertThat(adapted.get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
+  }
+
+  @Test
   public void testAdaptOrderBook() {
     CryptoComOrderBookData data = new CryptoComOrderBookData();
     data.setBids(Arrays.asList(Arrays.asList("100", "1", "1")));
