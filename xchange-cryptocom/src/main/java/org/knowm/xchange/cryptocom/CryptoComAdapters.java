@@ -70,7 +70,7 @@ public final class CryptoComAdapters {
 
     if (instruments != null) {
       for (CryptoComInstrument instrument : instruments) {
-        if (!"CCY_PAIR".equals(instrument.getInstType()) && instrument.getBaseCurrency() == null) {
+        if (!"CCY_PAIR".equals(instrument.getInstType()) || instrument.getBaseCurrency() == null) {
           continue;
         }
         CurrencyPair pair =

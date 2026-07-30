@@ -90,6 +90,28 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
+  public void testAdaptExchangeMetaData_excludesPerpetualSwaps() {
+    CryptoComInstrument spot = new CryptoComInstrument();
+    spot.setSymbol("BTC_USDT");
+    spot.setInstType("CCY_PAIR");
+    spot.setBaseCurrency("BTC");
+    spot.setQuoteCurrency("USDT");
+
+    CryptoComInstrument perpetual = new CryptoComInstrument();
+    perpetual.setSymbol("1INCHUSD-PERP");
+    perpetual.setInstType("PERPETUAL_SWAP");
+    perpetual.setBaseCurrency("1INCH");
+    perpetual.setQuoteCurrency("USD");
+
+    ExchangeMetaData metaData =
+        CryptoComAdapters.adaptExchangeMetaData(Arrays.asList(spot, perpetual));
+
+    assertThat(metaData.getInstruments()).containsKey(CurrencyPair.BTC_USDT);
+    assertThat(metaData.getInstruments()).doesNotContainKey(new CurrencyPair("1INCH", "USD"));
+    assertThat(metaData.getInstruments()).hasSize(1);
+  }
+
+  @Test
   public void testAdaptTicker() {
     CryptoComTicker ticker = new CryptoComTicker();
     ticker.setInstrumentName("BTC_USDT");
