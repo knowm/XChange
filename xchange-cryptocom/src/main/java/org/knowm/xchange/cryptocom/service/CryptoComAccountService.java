@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.DepositAddressAmbiguousException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.NetworkWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -35,18 +36,25 @@ public class CryptoComAccountService extends CryptoComAccountServiceRaw implemen
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if (!(params instanceof NetworkWithdrawFundsParams)) {
+    if (!(params instanceof DefaultWithdrawFundsParams)) {
       throw new NotAvailableFromExchangeException(
-          "Crypto.com requires a network id: use NetworkWithdrawFundsParams");
+          "Crypto.com requires currency, amount and address: use DefaultWithdrawFundsParams"
+              + " (or NetworkWithdrawFundsParams to specify a network)");
     }
-    NetworkWithdrawFundsParams networkParams = (NetworkWithdrawFundsParams) params;
+    DefaultWithdrawFundsParams withdrawParams = (DefaultWithdrawFundsParams) params;
+    // network_id is optional in the raw API call, so a plain DefaultWithdrawFundsParams (no
+    // network) is accepted too; only NetworkWithdrawFundsParams carries a network to send.
+    String network =
+        params instanceof NetworkWithdrawFundsParams
+            ? ((NetworkWithdrawFundsParams) params).getNetwork()
+            : null;
     CryptoComWithdrawalRecord record =
         createCryptoComWithdrawal(
-            networkParams.getCurrency().getCurrencyCode(),
-            networkParams.getAmount().toPlainString(),
-            networkParams.getAddress(),
-            networkParams.getNetwork(),
-            networkParams.getAddressTag(),
+            withdrawParams.getCurrency().getCurrencyCode(),
+            withdrawParams.getAmount().toPlainString(),
+            withdrawParams.getAddress(),
+            network,
+            withdrawParams.getAddressTag(),
             null);
     return record.getId();
   }
