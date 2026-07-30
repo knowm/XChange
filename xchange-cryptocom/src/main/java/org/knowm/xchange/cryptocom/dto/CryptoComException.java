@@ -1,5 +1,6 @@
 package org.knowm.xchange.cryptocom.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
@@ -8,7 +9,7 @@ public class CryptoComException extends HttpStatusExceptionSupport {
 
   private final int code;
 
-  public CryptoComException(int code, String message) {
+  public CryptoComException(@JsonProperty("code") int code, @JsonProperty("message") String message) {
     super(message);
     this.code = code;
   }
