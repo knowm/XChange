@@ -13,6 +13,7 @@ import org.knowm.xchange.cryptocom.CryptoComDigest;
 import org.knowm.xchange.cryptocom.CryptoComExchange;
 import org.knowm.xchange.cryptocom.dto.CryptoComRequest;
 import org.knowm.xchange.cryptocom.dto.CryptoComResponse;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.BaseResilientExchangeService;
 
 public class CryptoComBaseService extends BaseResilientExchangeService<CryptoComExchange> {
@@ -34,8 +35,18 @@ public class CryptoComBaseService extends BaseResilientExchangeService<CryptoCom
     long nonce = System.currentTimeMillis();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiSecret = exchange.getExchangeSpecification().getSecretKey();
+    if (isBlank(apiKey) || isBlank(apiSecret)) {
+      throw new ExchangeSecurityException(
+          "Crypto.com API key/secret must be configured to call private endpoint '"
+              + method
+              + "'");
+    }
     return CryptoComDigest.sign(
         method, id, nonce, apiKey, apiSecret, params == null ? Collections.emptyMap() : params);
+  }
+
+  private static boolean isBlank(String value) {
+    return value == null || value.trim().isEmpty();
   }
 
   protected <T> List<T> toList(JsonNode node, Class<T> elementType) {

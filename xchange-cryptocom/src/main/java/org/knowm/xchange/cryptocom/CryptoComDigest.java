@@ -63,7 +63,9 @@ public final class CryptoComDigest {
   @SuppressWarnings("unchecked")
   private static String formatValue(Object value) {
     if (value == null) {
-      return "";
+      // Crypto.com's reference signing algorithm renders a null param value as the literal
+      // string "null" rather than omitting it - see the vendor's params_to_str pseudocode.
+      return "null";
     }
     if (value instanceof Map) {
       StringBuilder sb = new StringBuilder();
