@@ -3,6 +3,7 @@ package org.knowm.xchange.cryptocom.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.cryptocom.CryptoComAdapters;
 import org.knowm.xchange.cryptocom.CryptoComExchange;
@@ -11,6 +12,7 @@ import org.knowm.xchange.cryptocom.dto.account.CryptoComWithdrawalRecord;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.DepositAddressAmbiguousException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.NetworkWithdrawFundsParams;
@@ -56,7 +58,25 @@ public class CryptoComAccountService extends CryptoComAccountServiceRaw implemen
     if (addresses.isEmpty()) {
       throw new NotAvailableFromExchangeException("No deposit address found for " + currency);
     }
-    return addresses.get(0).getAddress();
+    if (addresses.size() == 1) {
+      return addresses.get(0).getAddress();
+    }
+    String network = args.length > 0 ? args[0] : null;
+    if (network == null) {
+      throw new DepositAddressAmbiguousException(
+          addresses.stream().map(CryptoComDepositAddress::getNetworkId).collect(Collectors.toList()),
+          "Crypto.com has multiple deposit addresses for "
+              + currency
+              + "; specify the network id as the first argument");
+    }
+    return addresses.stream()
+        .filter(a -> network.equals(a.getNetworkId()))
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new NotAvailableFromExchangeException(
+                    "No deposit address found for " + currency + " on network " + network))
+        .getAddress();
   }
 
   @Override
