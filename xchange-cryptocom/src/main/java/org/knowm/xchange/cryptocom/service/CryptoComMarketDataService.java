@@ -5,7 +5,6 @@ import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.cryptocom.CryptoComAdapters;
 import org.knowm.xchange.cryptocom.CryptoComExchange;
-import org.knowm.xchange.cryptocom.dto.CryptoComException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -29,7 +28,7 @@ public class CryptoComMarketDataService extends CryptoComMarketDataServiceRaw
   }
 
   @Override
-  public List<Ticker> getTickers(Params params) throws IOException, CryptoComException {
+  public List<Ticker> getTickers(Params params) throws IOException {
     return CryptoComAdapters.adaptTickers(getCryptoComTickers());
   }
 
