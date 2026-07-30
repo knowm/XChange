@@ -39,7 +39,13 @@ public class CryptoComTradeServiceRaw extends CryptoComBaseService {
     if (price != null) {
       params.put("price", price);
     }
-    params.put("quantity", quantity);
+    // Crypto.com requires the spend amount for MARKET BUY orders under "notional" (quote
+    // currency) rather than "quantity" (base currency); every other combination uses "quantity".
+    if (type == CryptoComOrderType.MARKET && side == CryptoComOrderSide.BUY) {
+      params.put("notional", quantity);
+    } else {
+      params.put("quantity", quantity);
+    }
     if (timeInForce != null) {
       params.put("time_in_force", timeInForce.name());
     }
