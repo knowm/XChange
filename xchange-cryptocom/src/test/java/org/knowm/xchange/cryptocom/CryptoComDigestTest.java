@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.utils.DigestUtils;
 
 public class CryptoComDigestTest {
 
@@ -44,11 +45,6 @@ public class CryptoComDigestTest {
       throws NoSuchAlgorithmException, InvalidKeyException {
     Mac mac = Mac.getInstance("HmacSHA256");
     mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-    byte[] bytes = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
-    StringBuilder sb = new StringBuilder();
-    for (byte b : bytes) {
-      sb.append(String.format("%02x", b));
-    }
-    return sb.toString();
+    return DigestUtils.bytesToHex(mac.doFinal(data.getBytes(StandardCharsets.UTF_8)));
   }
 }

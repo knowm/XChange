@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.cryptocom.CryptoCom;
 import org.knowm.xchange.cryptocom.CryptoComDigest;
@@ -35,7 +36,7 @@ public class CryptoComBaseService extends BaseResilientExchangeService<CryptoCom
     long nonce = System.currentTimeMillis();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiSecret = exchange.getExchangeSpecification().getSecretKey();
-    if (isBlank(apiKey) || isBlank(apiSecret)) {
+    if (StringUtils.isBlank(apiKey) || StringUtils.isBlank(apiSecret)) {
       throw new ExchangeSecurityException(
           "Crypto.com API key/secret must be configured to call private endpoint '"
               + method
@@ -43,10 +44,6 @@ public class CryptoComBaseService extends BaseResilientExchangeService<CryptoCom
     }
     return CryptoComDigest.sign(
         method, id, nonce, apiKey, apiSecret, params == null ? Collections.emptyMap() : params);
-  }
-
-  private static boolean isBlank(String value) {
-    return value == null || value.trim().isEmpty();
   }
 
   protected <T> List<T> toList(JsonNode node, Class<T> elementType) {

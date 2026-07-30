@@ -3,6 +3,7 @@ package org.knowm.xchange.cryptocom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.cryptocom.dto.CryptoComException;
 import org.knowm.xchange.cryptocom.dto.CryptoComResponse;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
@@ -40,6 +41,25 @@ public class CryptoComErrorAdapterTest {
     ExchangeException adapted = adaptError(999999);
     assertThat(adapted).isExactlyInstanceOf(ExchangeException.class);
     assertThat(adapted.getMessage()).contains("999999").contains("boom");
+  }
+
+  @Test
+  public void testHttpStatusException_insufficientBalance_isAlsoMapped() {
+    ExchangeException adapted =
+        CryptoComErrorAdapter.adaptError(
+            new CryptoComException(CryptoComErrorAdapter.INSUFFICIENT_AVAILABLE_BALANCE, "boom"));
+    assertThat(adapted).isInstanceOf(FundsExceededException.class);
+  }
+
+  @Test
+  public void testHttpStatusException_unmappedCode_wrapsCauseWithoutDoublePrefixing() {
+    CryptoComException exception = new CryptoComException(999999, "boom");
+
+    ExchangeException adapted = CryptoComErrorAdapter.adaptError(exception);
+
+    assertThat(adapted).isExactlyInstanceOf(ExchangeException.class);
+    assertThat(adapted).hasCause(exception);
+    assertThat(adapted.getMessage()).isEqualTo(exception.getMessage());
   }
 
   private static ExchangeException adaptError(int code) {

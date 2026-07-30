@@ -120,15 +120,7 @@ public class CryptoComAccountServiceTest {
               return response;
             });
 
-    CryptoComExchange exchange = mock(CryptoComExchange.class);
-    ExchangeSpecification spec = new ExchangeSpecification(CryptoComExchange.class);
-    spec.setApiKey("key");
-    spec.setSecretKey("secret");
-    when(exchange.getExchangeSpecification()).thenReturn(spec);
-    when(exchange.getCryptoCom()).thenReturn(cryptoCom);
-    when(exchange.nextRequestId()).thenReturn(1L);
-
-    return new CryptoComAccountService(exchange, new ResilienceRegistries());
+    return new CryptoComAccountService(mockExchange(cryptoCom), new ResilienceRegistries());
   }
 
   private ObjectNode address(String networkId, String addr) {
@@ -155,6 +147,10 @@ public class CryptoComAccountServiceTest {
               return response;
             });
 
+    return new CryptoComAccountService(mockExchange(cryptoCom), new ResilienceRegistries());
+  }
+
+  private CryptoComExchange mockExchange(CryptoCom cryptoCom) {
     CryptoComExchange exchange = mock(CryptoComExchange.class);
     ExchangeSpecification spec = new ExchangeSpecification(CryptoComExchange.class);
     spec.setApiKey("key");
@@ -162,7 +158,6 @@ public class CryptoComAccountServiceTest {
     when(exchange.getExchangeSpecification()).thenReturn(spec);
     when(exchange.getCryptoCom()).thenReturn(cryptoCom);
     when(exchange.nextRequestId()).thenReturn(1L);
-
-    return new CryptoComAccountService(exchange, new ResilienceRegistries());
+    return exchange;
   }
 }

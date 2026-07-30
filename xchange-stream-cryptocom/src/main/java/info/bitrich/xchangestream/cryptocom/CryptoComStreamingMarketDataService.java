@@ -10,7 +10,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
 public class CryptoComStreamingMarketDataService implements StreamingMarketDataService {
@@ -44,10 +43,7 @@ public class CryptoComStreamingMarketDataService implements StreamingMarketDataS
 
   @Override
   public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
-    if (!(instrument instanceof CurrencyPair)) {
-      throw new NotYetImplementedForExchangeException("getOrderBook");
-    }
-    CurrencyPair pair = (CurrencyPair) instrument;
+    CurrencyPair pair = CryptoComAdapters.requireCurrencyPair(instrument, "getOrderBook");
     int depth =
         args != null && args.length > 0 && args[0] instanceof Integer
             ? (Integer) args[0]
@@ -66,10 +62,7 @@ public class CryptoComStreamingMarketDataService implements StreamingMarketDataS
 
   @Override
   public Observable<Trade> getTrades(Instrument instrument, Object... args) {
-    if (!(instrument instanceof CurrencyPair)) {
-      throw new NotYetImplementedForExchangeException("getTrades");
-    }
-    CurrencyPair pair = (CurrencyPair) instrument;
+    CurrencyPair pair = CryptoComAdapters.requireCurrencyPair(instrument, "getTrades");
     String channel = "trade." + CryptoComAdapters.toInstrumentName(instrument);
     return service
         .subscribeChannel(channel)

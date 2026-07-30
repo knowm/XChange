@@ -36,6 +36,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
 public final class CryptoComAdapters {
@@ -62,6 +63,18 @@ public final class CryptoComAdapters {
       return null;
     }
     return new CurrencyPair(parts[0], parts[1]);
+  }
+
+  /**
+   * Crypto.com only supports spot pairs; derivative {@link Instrument}s (e.g. perpetual swaps)
+   * aren't implemented. Casts safely, throwing the standard "not implemented" exception instead of
+   * an opaque {@link ClassCastException}.
+   */
+  public static CurrencyPair requireCurrencyPair(Instrument instrument, String operationName) {
+    if (!(instrument instanceof CurrencyPair)) {
+      throw new NotYetImplementedForExchangeException(operationName);
+    }
+    return (CurrencyPair) instrument;
   }
 
   public static ExchangeMetaData adaptExchangeMetaData(List<CryptoComInstrument> instruments) {
