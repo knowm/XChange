@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Collections;
 import org.knowm.xchange.cryptocom.CryptoComDigest;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +58,13 @@ public class CryptoComPrivateStreamingService extends CryptoComStreamingService 
         LOG.info("Crypto.com user WebSocket authenticated");
         super.resubscribeChannels();
       } else {
-        LOG.error("Crypto.com user WebSocket authentication failed: {}", message);
+        ExchangeSecurityException authFailure =
+            new ExchangeSecurityException(
+                "Crypto.com user WebSocket authentication failed: " + message);
+        LOG.error(authFailure.getMessage());
+        // Surface the failure to any already-subscribed user.* channels instead of leaving
+        // their observables silently waiting forever for data that will never arrive.
+        channels.keySet().forEach(channel -> handleChannelError(channel, authFailure));
       }
       return;
     }
