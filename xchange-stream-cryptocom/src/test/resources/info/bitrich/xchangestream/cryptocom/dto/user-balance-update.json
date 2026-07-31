@@ -1,0 +1,42 @@
+{
+  "id": 3,
+  "method": "subscribe",
+  "code": 0,
+  "result": {
+    "subscription": "user.balance",
+    "channel": "user.balance",
+    "data": [
+      {
+        "total_available_balance": "5000.12345678",
+        "total_margin_balance": "5200.00000000",
+        "total_initial_margin": "100.00000000",
+        "total_maintenance_margin": "50.00000000",
+        "total_position_cost": "5000.00000000",
+        "total_cash_balance": "5100.00000000",
+        "total_collateral_value": "5200.00000000",
+        "total_session_unrealized_pnl": "12.34000000",
+        "total_session_realized_pnl": "0.00000000",
+        "is_liquidating": false,
+        "total_effective_leverage": "0.5",
+        "position_limit": "3000000.00000000",
+        "used_position_limit": "5000.00000000",
+        "position_balances": [
+          {
+            "instrument_name": "USDT",
+            "quantity": "5000.12345678",
+            "market_value": "5000.12345678",
+            "collateral_weight": "1.0",
+            "max_withdrawal_balance": "4900.00000000"
+          },
+          {
+            "instrument_name": "BTC",
+            "quantity": "0.01500000",
+            "market_value": "750.00000000",
+            "collateral_weight": "0.9",
+            "max_withdrawal_balance": "0.01000000"
+          }
+        ]
+      }
+    ]
+  }
+}
