@@ -122,7 +122,7 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
         String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();
         Order.OrderType type = ((CancelOrderByOrderTypeParams) orderParams).getOrderType();
 
-        engine.cancelOrder(orderId, getApiKey(), type);
+        engine.cancelOrder(getApiKey(), orderId, type);
 
         return true;
       }

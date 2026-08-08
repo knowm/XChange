@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -29,6 +30,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
@@ -358,6 +362,59 @@ public class TestSimulatedExchange {
     assertThat(baseBalance.getTotal()).isEqualTo(INITIAL_BALANCE);
     assertThat(baseBalance.getFrozen()).isEqualTo(ZERO);
     assertThat(baseBalance.getAvailable()).isEqualTo(INITIAL_BALANCE);
+  }
+
+  @Test
+  public void testCancelByCurrencyPairIdAndOrderType() throws IOException {
+    // When
+    String orderId =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(BID, BTC_USD)
+                    .limitPrice(new BigDecimal(10))
+                    .originalAmount(new BigDecimal("0.7"))
+                    .build());
+    exchange
+        .getTradeService()
+        .cancelOrder(new CancelByCurrencyPairIdAndType(BTC_USD, orderId, BID));
+    Balance counterBalance =
+        exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
+
+    // Then
+    assertThat(getOpenOrders().getOpenOrders()).isEmpty();
+    assertThat(counterBalance.getFrozen()).isEqualByComparingTo(ZERO);
+    assertThat(counterBalance.getAvailable()).isEqualByComparingTo(INITIAL_BALANCE);
+  }
+
+  private static final class CancelByCurrencyPairIdAndType
+      implements CancelOrderByCurrencyPair, CancelOrderByIdParams, CancelOrderByOrderTypeParams {
+
+    private final CurrencyPair currencyPair;
+    private final String orderId;
+    private final Order.OrderType orderType;
+
+    private CancelByCurrencyPairIdAndType(
+        CurrencyPair currencyPair, String orderId, Order.OrderType orderType) {
+      this.currencyPair = currencyPair;
+      this.orderId = orderId;
+      this.orderType = orderType;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public Order.OrderType getOrderType() {
+      return orderType;
+    }
   }
 
   private OpenOrders getOpenOrders() throws IOException {
