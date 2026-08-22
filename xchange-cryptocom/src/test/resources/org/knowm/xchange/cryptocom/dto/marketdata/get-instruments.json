@@ -1,0 +1,83 @@
+{
+  "id": 1,
+  "method": "public/get-instruments",
+  "code": 0,
+  "result": {
+    "data": [
+      {
+        "symbol": "BTC_USD",
+        "inst_type": "CCY_PAIR",
+        "display_name": "BTC/USD",
+        "base_ccy": "BTC",
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "quantity_decimals": 5,
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.00001",
+        "max_leverage": "50",
+        "tradable": true,
+        "expiry_timestamp_ms": 0,
+        "beta_product": false,
+        "product_type": "DIGITAL_CURRENCIES",
+        "margin_buy_enabled": true,
+        "margin_sell_enabled": true
+      },
+      {
+        "symbol": "BTC_USDT",
+        "inst_type": "CCY_PAIR",
+        "display_name": "BTC/USDT",
+        "base_ccy": "BTC",
+        "quote_ccy": "USDT",
+        "quote_decimals": 2,
+        "quantity_decimals": 5,
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.00001",
+        "max_leverage": "50",
+        "tradable": true,
+        "expiry_timestamp_ms": 0,
+        "beta_product": false,
+        "product_type": "DIGITAL_CURRENCIES",
+        "margin_buy_enabled": true,
+        "margin_sell_enabled": true
+      },
+      {
+        "symbol": "ETH_USDT",
+        "inst_type": "CCY_PAIR",
+        "display_name": "ETH/USDT",
+        "base_ccy": "ETH",
+        "quote_ccy": "USDT",
+        "quote_decimals": 2,
+        "quantity_decimals": 4,
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.0001",
+        "max_leverage": "50",
+        "tradable": true,
+        "expiry_timestamp_ms": 0,
+        "beta_product": false,
+        "product_type": "DIGITAL_CURRENCIES",
+        "margin_buy_enabled": true,
+        "margin_sell_enabled": true
+      },
+      {
+        "symbol": "1INCHUSD-PERP",
+        "inst_type": "PERPETUAL_SWAP",
+        "display_name": "1INCHUSD Perpetual",
+        "base_ccy": "1INCH",
+        "quote_ccy": "USD",
+        "quote_decimals": 5,
+        "quantity_decimals": 0,
+        "price_tick_size": "0.00001",
+        "qty_tick_size": "1",
+        "max_leverage": "50",
+        "tradable": true,
+        "expiry_timestamp_ms": 0,
+        "beta_product": false,
+        "underlying_symbol": "1INCHUSD-INDEX",
+        "contract_size": "1",
+        "product_type": "DIGITAL_CURRENCIES",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false
+      }
+    ]
+  }
+}
