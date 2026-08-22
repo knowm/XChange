@@ -1,9 +1,5 @@
 package info.bitrich.xchangestream.binance;
 
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.TICKER_WINDOW;
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,16 +20,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -48,6 +34,21 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.TICKER_WINDOW;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -508,8 +509,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       // init update info for funding rate interval
       synchronized (this) {
         if (fundingRateInfoUpdate == null) {
+          long currentTimeMillis = System.currentTimeMillis();
+          long millisInHour = TimeUnit.HOURS.toMillis(1);
+          long nextHourMillis = ((currentTimeMillis / millisInHour) + 1) * millisInHour;
+          long delayToNextHour = nextHourMillis - currentTimeMillis;
+          // run every hour, 1 second after new hour, and 5 seconds after new hour for backup
           fundingRateInfoUpdate =
-              Observable.interval(10, 10, TimeUnit.MINUTES).subscribe(x -> updateFundingRateInfo());
+              Observable.interval(delayToNextHour + 1000, millisInHour, TimeUnit.MILLISECONDS)
+                  .flatMap(tick -> Observable.just(tick, tick).delay(i -> Objects.equals(i, tick) ?
+                      Observable.timer(0, TimeUnit.MILLISECONDS) : Observable.timer(4000, TimeUnit.MILLISECONDS)))
+                  .subscribe(x -> updateFundingRateInfo());
           updateFundingRateInfo();
         }
       }
