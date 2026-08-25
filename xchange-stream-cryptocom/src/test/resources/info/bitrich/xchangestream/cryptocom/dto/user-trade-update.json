@@ -1,0 +1,26 @@
+{
+  "id": 2,
+  "method": "subscribe",
+  "code": 0,
+  "result": {
+    "instrument_name": "BTC_USDT",
+    "subscription": "user.trade.BTC_USDT",
+    "channel": "user.trade",
+    "data": [
+      {
+        "trade_id": "38246881",
+        "order_id": "18342311",
+        "client_oid": "my-order-0001",
+        "instrument_name": "BTC_USDT",
+        "side": "BUY",
+        "price": "50000.0",
+        "quantity": "0.005000",
+        "fee": "0.000005",
+        "fee_currency": "BTC",
+        "traded_notional": "250.0",
+        "create_time": 1785085695512,
+        "create_time_ns": "1785085695512987654"
+      }
+    ]
+  }
+}
