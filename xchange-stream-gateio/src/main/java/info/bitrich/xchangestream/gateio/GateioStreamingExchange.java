@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.gateio;
 
 import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.GateioUserTradeStreamingService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;

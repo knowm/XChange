@@ -57,4 +57,9 @@ public class GateioSpotOrderRequest {
   @JsonProperty("stp_act")
   private String stpAction;
 
+  @JsonProperty("action_mode")
+  private String actionMode;
+
+  @JsonProperty("slippage")
+  private String slippage;
 }

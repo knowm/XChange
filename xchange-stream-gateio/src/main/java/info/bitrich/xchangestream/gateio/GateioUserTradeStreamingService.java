@@ -1,11 +1,14 @@
-package info.bitrich.xchangestream.gateio.dto;
+package info.bitrich.xchangestream.gateio;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.gateio.GateioStreamingAuthHelper;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.config.IdGenerator;
+import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWsUserTradeRequest;
+import info.bitrich.xchangestream.gateio.dto.request.payload.EmptyPayload;
 import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioLoginRequest;
+import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioWsPlaceOrderPayload;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.handler.logging.LogLevel;
 import io.reactivex.rxjava3.core.Completable;
@@ -13,7 +16,11 @@ import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.Getter;
+import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +59,34 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
     this.gateioStreamingAuthHelper = new GateioStreamingAuthHelper(apiSecret);
   }
 
+  private GateioWsUserTradeRequest getWsRequest(String channelName, Object... args) {
+    // create request common part
+
+    GateioWsUserTradeRequest request =
+        GateioWsUserTradeRequest.builder()
+            .id(IdGenerator.getInstance().requestId())
+            .channel(channelName)
+            .event(Event.API.getValue())
+            .time(Instant.now(Config.getInstance().getClock()))
+            .build();
+
+    // create channel specific payload
+    Object payload;
+    switch (channelName) {
+      case Config.SPOT_ORDER_PLACE_CHANNEL: {
+        GateioSpotOrderRequest reqParam = GateioAdapters.toGateioSpotOrderRequest((MarketOrder) ArrayUtils.get(args, 0));
+        payload = GateioWsPlaceOrderPayload.builder().reqParam(reqParam).build();
+        break;
+      }
+      default:
+        payload = EmptyPayload.builder().build();
+    }
+
+    request.setPayload(payload);
+
+    return request;
+  }
+
   @Override
   public Completable connect() {
     Completable conn = super.connect();
@@ -87,7 +122,7 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
         GateioWsUserTradeRequest.builder()
             .channel(CHANNEL_LOGIN)
             .event(Event.API.getValue())
-            .time(time.getEpochSecond())
+            .time(Instant.now(Config.getInstance().getClock()))
             .payload(payload)
             .build();
     String message = objectMapper.writeValueAsString(request);
@@ -101,7 +136,10 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
 //    String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
-    return objectMapper.writeValueAsString("");
+    String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
+    GateioWsUserTradeRequest request = getWsRequest(generalChannelName, args);
+    return objectMapper.writeValueAsString(request);
+//    return objectMapper.writeValueAsString("");
   }
 
   public void pingPongDisconnectIfConnected() {

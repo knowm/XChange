@@ -40,7 +40,7 @@ public class GateioStreamingAuthHelper {
   public String signUserTrade(String channel, String event, String timestamp, String req_param) {
     Mac mac = gateioV4Digest.getMac();
 
-    String payloadToSign = String.format("<%s>\n<%s>\n<%s>\n<%s>", event, channel, req_param, timestamp);
+    String payloadToSign = String.format("%s\n%s\n%s\n%s", event, channel, req_param, timestamp);
     mac.update(payloadToSign.getBytes(StandardCharsets.UTF_8));
 
     return DigestUtils.bytesToHex(mac.doFinal());
