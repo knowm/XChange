@@ -43,4 +43,60 @@ public class IndependentReserveAdaptersTest {
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.PARTIALLY_FILLED);
     assertThat(order.getCurrencyPair()).isEqualTo(new CurrencyPair("Xbt", "Usd"));
   }
+
+  @Test
+  public void adaptOrderDetailsWithFailedStatus() throws InvalidFormatException {
+    // A market order Independent Reserve accepted (200 + GUID) and then failed internally:
+    // GetOrderDetails returns Status "Failed" with zero fill. See OrderStatus.cs in the official
+    // dotNetApiClient: Failed(7) = "Order failed to execute".
+    Order order =
+        IndependentReserveAdapters.adaptOrderDetails(
+            orderDetailsResponseWithStatus("Failed", new BigDecimal(0)));
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.REJECTED);
+  }
+
+  @Test
+  public void adaptOrderDetailsWithPartiallyFilledAndFailedStatus() throws InvalidFormatException {
+    // PartiallyFilledAndFailed(8) = "Order was partially executed but later failed and will not
+    // execute further" — terminal with a partial fill, like PartiallyFilledAndCancelled.
+    Order order =
+        IndependentReserveAdapters.adaptOrderDetails(
+            orderDetailsResponseWithStatus("PartiallyFilledAndFailed", new BigDecimal(2)));
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.PARTIALLY_CANCELED);
+  }
+
+  @Test
+  public void adaptOrderDetailsWithPartiallyFilledAndExpiredStatus() throws InvalidFormatException {
+    // PartiallyFilledAndExpired(6) is terminal with a partial fill as well; mapping it to EXPIRED
+    // would hide the partial execution, so all three PartiallyFilledAnd* statuses adapt to
+    // PARTIALLY_CANCELED while a plain Expired stays EXPIRED.
+    Order order =
+        IndependentReserveAdapters.adaptOrderDetails(
+            orderDetailsResponseWithStatus("PartiallyFilledAndExpired", new BigDecimal(2)));
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.PARTIALLY_CANCELED);
+  }
+
+  @Test
+  public void adaptOrderDetailsWithExpiredStatus() throws InvalidFormatException {
+    Order order =
+        IndependentReserveAdapters.adaptOrderDetails(
+            orderDetailsResponseWithStatus("Expired", new BigDecimal(0)));
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.EXPIRED);
+  }
+
+  private IndependentReserveOrderDetailsResponse orderDetailsResponseWithStatus(
+      String status, BigDecimal volumeFilled) throws InvalidFormatException {
+    return new IndependentReserveOrderDetailsResponse(
+        "abcf-123",
+        "2014-09-23T12:39:34.3817763Z",
+        "MarketBid",
+        new BigDecimal(5.0),
+        volumeFilled,
+        new BigDecimal(100),
+        new BigDecimal(95),
+        new BigDecimal(0),
+        status,
+        "Xbt",
+        "Usd");
+  }
 }

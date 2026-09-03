@@ -62,13 +62,17 @@ public class IndependentReserveAdapters {
       case "Filled":
         return Order.OrderStatus.FILLED;
       case "PartiallyFilledAndCancelled":
+      case "PartiallyFilledAndExpired":
+      case "PartiallyFilledAndFailed":
+        // Terminal with a partial execution; PARTIALLY_CANCELED is the only OrderStatus carrying
+        // both facts ("Cancelled, partially-executed order is final status" — see isFinal()).
         return Order.OrderStatus.PARTIALLY_CANCELED;
       case "Cancelled":
         return Order.OrderStatus.CANCELED;
-      case "PartiallyFilledAndExpired":
-        return Order.OrderStatus.EXPIRED;
       case "Expired":
         return Order.OrderStatus.EXPIRED;
+      case "Failed":
+        return Order.OrderStatus.REJECTED;
       default:
         throw new IllegalStateException(
             "Unknown status found in Independent Reserve : " + orderStatus);
