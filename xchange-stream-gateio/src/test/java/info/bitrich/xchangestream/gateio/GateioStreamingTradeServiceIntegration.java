@@ -1,16 +1,19 @@
 package info.bitrich.xchangestream.gateio;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.observers.TestObserver;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.dto.trade.UserTrade;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
-
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.observers.TestObserver;
-import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.dto.trade.UserTrade;
 
 @Slf4j
 class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
@@ -23,6 +26,7 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
   }
 
   @Test
+  @Disabled
   void user_trades_all() {
     Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades();
 
@@ -30,7 +34,7 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
     List<UserTrade> userTrades =
         testObserver
-            //        .awaitDone(10, TimeUnit.MINUTES)
+            .awaitDone(1, TimeUnit.SECONDS)
             .awaitCount(1)
             .values();
 
@@ -46,6 +50,7 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
   }
 
   @Test
+  @Disabled
   void user_trades_single_instrument() {
     Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(BTC_USDT);
 

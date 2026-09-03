@@ -1,34 +1,29 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.Validate;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioExchange;
-import org.knowm.xchange.gateio.dto.account.GateioOrder;
-import org.knowm.xchange.gateio.dto.trade.GateioUserTradeRaw;
+import org.knowm.xchange.gateio.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.service.trade.params.CurrencyPairParam;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.util.*;
+
+import static org.knowm.xchange.gateio.GateioResilience.ORDERS_RATE_LIMITER;
 
 public class GateioTradeServiceRaw extends GateioBaseService {
 
-  public GateioTradeServiceRaw(GateioExchange exchange) {
-    super(exchange);
+  public GateioTradeServiceRaw(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
-  public List<GateioOrder> listOrders(Instrument instrument, OrderStatus orderStatus)
+  public List<GateioSpotOrderResponse> listOrders(Instrument instrument, OrderStatus orderStatus)
       throws IOException {
     // validate arguments
     Objects.requireNonNull(orderStatus);
@@ -43,8 +38,8 @@ public class GateioTradeServiceRaw extends GateioBaseService {
         apiKey,
         exchange.getNonceFactory(),
         gateioV4ParamsDigest,
-        GateioAdapters.toString(instrument),
-        GateioAdapters.toString(orderStatus));
+        GateioAdapters.toGateioInstrument(instrument),
+        GateioAdapters.toGateioInstrument(orderStatus));
   }
 
   public List<GateioUserTradeRaw> getGateioUserTrades(TradeHistoryParams params)
@@ -90,7 +85,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
                 apiKey,
                 exchange.getNonceFactory(),
                 gateioV4ParamsDigest,
-                GateioAdapters.toString(currencyPair),
+                GateioAdapters.toGateioInstrument(currencyPair),
                 1000,
                 currentPageNumber,
                 orderId,
@@ -108,7 +103,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
         apiKey,
         exchange.getNonceFactory(),
         gateioV4ParamsDigest,
-        GateioAdapters.toString(currencyPair),
+        GateioAdapters.toGateioInstrument(currencyPair),
         pageLength,
         pageNumber,
         orderId,
@@ -117,26 +112,92 @@ public class GateioTradeServiceRaw extends GateioBaseService {
         to);
   }
 
-  public GateioOrder createOrder(GateioOrder gateioOrder) throws IOException {
-    return gateioV4Authenticated.createOrder(
-        apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioOrder);
+  public GateioSpotOrderResponse createOrder(GateioSpotOrderRequest gateioOrder) throws IOException {
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.createOrder(
+                apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioOrder))
+        .withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .call();
   }
 
-  public GateioOrder getOrder(String orderId, Instrument instrument) throws IOException {
+  public GateioFuturesOrderResponse createFuturesOrder(GateioFuturesOrderRequest gateioFuturesOrder) throws IOException {
+    Instrument instrument = GateioAdapters.fromGateioInstrument(gateioFuturesOrder.getContract(), true);
+    String settle = (instrument instanceof FuturesContract) ? instrument.getCounter().getCurrencyCode().toLowerCase() : "usdt";
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.createFuturesOrder(
+                apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, null, settle, gateioFuturesOrder))
+        .withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .call();
+  }
+
+  public GateioSpotOrderResponse getOrder(String orderId, Instrument instrument) throws IOException {
     return gateioV4Authenticated.getOrder(
         apiKey,
         exchange.getNonceFactory(),
         gateioV4ParamsDigest,
         orderId,
-        GateioAdapters.toString(instrument));
+        GateioAdapters.toGateioInstrument(instrument));
   }
 
-  public GateioOrder cancelOrderRaw(String orderId, Instrument instrument) throws IOException {
+  public GateioFuturesOrderResponse getFuturesOrder(String orderId, Instrument instrument) throws IOException {
+    String settle = (instrument instanceof FuturesContract) ? instrument.getCounter().getCurrencyCode().toLowerCase() : "usdt";
+    return gateioV4Authenticated.getFuturesOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        null,
+        settle,
+        orderId);
+  }
+
+  public GateioSpotOrderResponse cancelOrderRaw(String orderId, Instrument instrument) throws IOException {
     return gateioV4Authenticated.cancelOrder(
         apiKey,
         exchange.getNonceFactory(),
         gateioV4ParamsDigest,
         orderId,
-        GateioAdapters.toString(instrument));
+        GateioAdapters.toGateioInstrument(instrument));
+  }
+
+  public GateioFuturesOrderResponse cancelFuturesOrderRaw(String orderId, Instrument instrument) throws IOException {
+    String settle = (instrument instanceof FuturesContract) ? instrument.getCounter().getCurrencyCode().toLowerCase() : "usdt";
+    return gateioV4Authenticated.cancelFuturesOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        gateioV4ParamsDigest,
+        null,
+        settle,
+        orderId);
+  }
+
+  public GateioSpotOrderResponse amendSpotOrder(String orderId, Instrument instrument, Map<String, Object> request) throws IOException {
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.amendOrder(
+                apiKey,
+                exchange.getNonceFactory(),
+                gateioV4ParamsDigest,
+                orderId,
+                GateioAdapters.toGateioInstrument(instrument),
+                request))
+        .withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .call();
+  }
+
+  public GateioFuturesOrderResponse amendFuturesOrder(String orderId, Instrument instrument, Map<String, Object> request) throws IOException {
+    String settle = instrument.getCounter().getCurrencyCode().toLowerCase();
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.amendFuturesOrder(
+                apiKey,
+                exchange.getNonceFactory(),
+                gateioV4ParamsDigest,
+                null,
+                settle,
+                orderId,
+                request)).withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .call();
   }
 }

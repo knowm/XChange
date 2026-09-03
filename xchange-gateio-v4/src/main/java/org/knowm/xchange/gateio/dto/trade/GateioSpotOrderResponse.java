@@ -1,123 +1,119 @@
-package org.knowm.xchange.gateio.dto.account;
+package org.knowm.xchange.gateio.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.math.BigDecimal;
-import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.gateio.config.converter.CurrencyPairToStringConverter;
-import org.knowm.xchange.gateio.config.converter.OrderTypeToStringConverter;
+import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 import org.knowm.xchange.gateio.config.converter.StringToOrderTypeConverter;
+import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
 @Jacksonized
-public class GateioOrder {
+public class GateioSpotOrderResponse {
 
   @JsonProperty("id")
-  String id;
+  private String id;
 
   @JsonProperty("text")
-  String clientOrderId;
+  private String clientOrderId;
 
   @JsonProperty("amend_text")
-  String amendText;
+  private String amendText;
 
   @JsonProperty("create_time_ms")
-  Instant createdAt;
+  @JsonDeserialize(converter = LongToInstantConverter.class)
+  private Instant createdAt;
 
   @JsonProperty("update_time_ms")
-  Instant updatedAt;
+  @JsonDeserialize(converter = LongToInstantConverter.class)
+  private Instant updatedAt;
 
   @JsonProperty("status")
-  String status;
+  @JsonAlias("event")
+  private String status;
 
   @JsonProperty("currency_pair")
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
-  @JsonSerialize(converter = CurrencyPairToStringConverter.class)
-  CurrencyPair currencyPair;
+  private Instrument currencyPair;
 
   @JsonProperty("type")
-  String type;
+  private String type;
 
   @JsonProperty("account")
-  String account;
+  private String account;
 
   @JsonProperty("side")
   @JsonDeserialize(converter = StringToOrderTypeConverter.class)
-  @JsonSerialize(converter = OrderTypeToStringConverter.class)
-  OrderType side;
+  private OrderType side;
 
   @JsonProperty("amount")
-  BigDecimal amount;
+  private BigDecimal amount;
 
   @JsonProperty("price")
-  BigDecimal price;
+  private BigDecimal price;
 
   @JsonProperty("time_in_force")
-  String timeInForce;
+  private String timeInForce;
 
   @JsonProperty("iceberg")
-  BigDecimal icebergAmount;
-
-  @JsonProperty("auto_borrow")
-  Boolean autoBorrow;
-
-  @JsonProperty("auto_repay")
-  Boolean autoRepay;
+  private BigDecimal icebergAmount;
 
   @JsonProperty("left")
-  BigDecimal amountLeftToFill;
+  private BigDecimal amountLeftToFill;
 
   @JsonProperty("filled_total")
-  BigDecimal filledTotalQuote;
+  private BigDecimal filledTotalQuote;
 
   @JsonProperty("avg_deal_price")
-  BigDecimal avgDealPrice;
+  private BigDecimal avgDealPrice;
 
   @JsonProperty("fee")
-  BigDecimal fee;
+  private BigDecimal fee;
 
   @JsonProperty("fee_currency")
   @JsonDeserialize(converter = StringToCurrencyConverter.class)
-  Currency feeCurrency;
+  private Currency feeCurrency;
 
   @JsonProperty("point_fee")
-  BigDecimal pointFee;
+  private BigDecimal pointFee;
 
   @JsonProperty("gt_fee")
-  BigDecimal gtFee;
+  private BigDecimal gtFee;
 
   @JsonProperty("gt_maker_fee")
-  BigDecimal gtMakerFee;
+  private BigDecimal gtMakerFee;
 
   @JsonProperty("gt_taker_fee")
-  BigDecimal gtTakerFee;
+  private BigDecimal gtTakerFee;
 
   @JsonProperty("gt_discount")
-  Boolean gtDiscount;
+  private Boolean gtDiscount;
 
   @JsonProperty("rebated_fee")
-  BigDecimal rebatedFee;
+  private BigDecimal rebatedFee;
 
   @JsonProperty("rebated_fee_currency")
   @JsonDeserialize(converter = StringToCurrencyConverter.class)
-  Currency rebatedFeeCurrency;
+  private Currency rebatedFeeCurrency;
 
   @JsonProperty("stp_id")
-  Integer stpId;
+  private Integer stpId;
 
   @JsonProperty("stp_act")
-  String stpAction;
+  private String stpAction;
 
   @JsonProperty("finish_as")
-  String finishAs;
+  private String finishAs;
+
 }

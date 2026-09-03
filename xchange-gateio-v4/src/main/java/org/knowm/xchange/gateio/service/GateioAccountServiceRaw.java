@@ -1,21 +1,11 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
-import org.knowm.xchange.gateio.dto.account.GateioAddressRecord;
-import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
-import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
-import org.knowm.xchange.gateio.dto.account.GateioDepositRecord;
-import org.knowm.xchange.gateio.dto.account.GateioSubAccountTransfer;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawStatus;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+import org.knowm.xchange.gateio.dto.account.*;
 import org.knowm.xchange.gateio.dto.account.params.GateioSubAccountTransfersParams;
 import org.knowm.xchange.gateio.service.params.GateioDepositsParams;
 import org.knowm.xchange.gateio.service.params.GateioFundingHistoryParams;
@@ -24,10 +14,18 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import static org.knowm.xchange.gateio.GateioResilience.DYNAMIC_TRADING_FEE_RATE_LIMITER;
+import static org.knowm.xchange.gateio.GateioResilience.LEVERAGE_RATE_LIMITER;
+
 public class GateioAccountServiceRaw extends GateioBaseService {
 
-  public GateioAccountServiceRaw(GateioExchange exchange) {
-    super(exchange);
+  public GateioAccountServiceRaw(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   public GateioDepositAddress getDepositAddress(Currency currency) throws IOException {
@@ -56,6 +54,24 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     String currencyCode = currency == null ? null : currency.getCurrencyCode();
     return gateioV4Authenticated.getSpotAccounts(
         apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyCode);
+  }
+
+  public GateioSpotFee getSpotFee(String currencyPair) throws IOException {
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.getSpotFee(
+                apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, currencyPair))
+        .withRateLimiter(rateLimiter(DYNAMIC_TRADING_FEE_RATE_LIMITER))
+        .call();
+  }
+
+  public Map<String, GateioFuturesFee> getFuturesFee(String settle, String contract) throws IOException {
+    return decorateApiCall(
+        () ->
+            gateioV4Authenticated.getFuturesFee(
+                apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, settle, contract))
+        .withRateLimiter(rateLimiter(DYNAMIC_TRADING_FEE_RATE_LIMITER))
+        .call();
   }
 
   public List<GateioWithdrawalRecord> getWithdrawals(GateioWithdrawalsParams params)
@@ -159,5 +175,22 @@ public class GateioAccountServiceRaw extends GateioBaseService {
         to,
         params.getPageLength(),
         params.getZeroBasedPageNumber());
+  }
+
+  public GateioPositionLeverageUpdate setLeverage(String settle, String contract, String leverage, String cross_leverage) throws IOException {
+    try {
+      return decorateApiCall(
+          () -> gateioV4Authenticated.updatePositionLeverage(
+              apiKey,
+              exchange.getNonceFactory(),
+              gateioV4ParamsDigest,
+              settle,
+              contract,
+              leverage,
+              cross_leverage)).withRateLimiter(rateLimiter(LEVERAGE_RATE_LIMITER))
+          .call();
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
   }
 }

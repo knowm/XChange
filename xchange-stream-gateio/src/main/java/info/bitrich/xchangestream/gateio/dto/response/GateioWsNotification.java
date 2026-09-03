@@ -8,31 +8,48 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
+import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
-import java.time.Instant;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+
+import java.time.Instant;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "channel", visible = true)
 @JsonSubTypes({
-  @Type(value = GateioTradeNotification.class, name = Config.SPOT_TRADES_CHANNEL),
-  @Type(value = GateioTickerNotification.class, name = Config.SPOT_TICKERS_CHANNEL),
-  @Type(value = GateioOrderBookNotification.class, name = Config.SPOT_ORDERBOOK_CHANNEL),
-  @Type(value = GateioMultipleSpotBalanceNotification.class, name = Config.SPOT_BALANCES_CHANNEL),
-  @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL)
+    @Type(value = GateioTradeNotification.class, name = Config.SPOT_TRADES_CHANNEL),
+    @Type(value = GateioFuturesTradeNotification.class, name = Config.FUTURES_TRADES_CHANNEL),
+    @Type(value = GateioTickerNotification.class, name = Config.SPOT_TICKERS_CHANNEL),
+    @Type(value = GateioOrderBookNotification.class, name = Config.SPOT_ORDERBOOK_CHANNEL),
+    @Type(value = GateioOrderBookSpotTickerNotification.class, name = Config.SPOT_ORDERBOOK_TICKER_CHANNEL),
+    @Type(value = GateioOrderBookFuturesTickerNotification.class, name = Config.FUTURES_ORDERBOOK_TICKER_CHANNEL),
+    @Type(value = GateioOrderBookV2Notification.class, name = Config.SPOT_ORDERBOOKV2_CHANNEL),
+    @Type(value = GateioOrderBookV2FuturesNotification.class, name = Config.FUTURES_ORDERBOOKV2_CHANNEL),
+    @Type(value = GateioMultipleSpotBalanceNotification.class, name = Config.SPOT_BALANCES_CHANNEL),
+    @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL),
+    @Type(value = GateioMultipleOrderNotification.class, name = Config.SPOT_USER_ORDERS_CHANNEL),
+    @Type(value = GateioMultipleOrderFuturesNotification.class, name = Config.FUTURES_USER_ORDERS_CHANNEL),
+    @Type(value = GateioMultipleTickerAndFundingNotification.class, name = Config.FUTURES_TICKET_AND_FUNDING_CHANNEL)
 })
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Jacksonized
 public class GateioWsNotification {
 
   @JsonProperty("time")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
   private Instant time;
 
   @JsonProperty("time_ms")

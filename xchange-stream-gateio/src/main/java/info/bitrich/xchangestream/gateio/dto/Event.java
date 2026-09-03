@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum Event {
   SUBSCRIBE("subscribe"),
   UNSUBSCRIBE("unsubscribe"),
+  API("api"),
   UPDATE("update");
 
   @JsonValue private final String value;

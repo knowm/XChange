@@ -1,17 +1,30 @@
 package info.bitrich.xchangestream.gateio;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
-import java.io.IOException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.ExchangeSpecification;
+
+import java.io.IOException;
+
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import static info.bitrich.xchangestream.service.netty.NettyStreamingService.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioStreamingServiceTest {
-
-  GateioStreamingService gateioStreamingService = new GateioStreamingService("", null, null);
+  static ExchangeSpecification exchangeSpecification = new ExchangeSpecification(GateioStreamingExchange.class);
+  static GateioStreamingService gateioStreamingService;
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
+
+  @BeforeAll
+  public static void init() {
+    exchangeSpecification.setExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+    exchangeSpecification.setExchangeSpecificParametersItem(WS_RETRY_DURATION, DEFAULT_RETRY_DURATION);
+    exchangeSpecification.setExchangeSpecificParametersItem(WS_IDLE_TIMEOUT, DEFAULT_IDLE_TIMEOUT);
+    gateioStreamingService = new GateioStreamingService("", null, null, exchangeSpecification, false);
+  }
 
   @Test
   void channel_name_from_orderbook_update() throws Exception {
@@ -31,7 +44,7 @@ public class GateioStreamingServiceTest {
   void channel_name_from_trade_update() throws Exception {
     GateioWsNotification notification = readNotification("spot.trades.update.json");
     String actual = gateioStreamingService.getChannelNameFromMessage(notification);
-    assertThat(actual).isEqualTo("spot.trades-BTC/USDT");
+    assertThat(actual).isEqualTo("spot.trades-GT/USDT");
   }
 
   @Test
