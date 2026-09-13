@@ -8,9 +8,10 @@ import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.request.GateioWsUserTradeRequest;
 import info.bitrich.xchangestream.gateio.dto.request.payload.EmptyPayload;
 import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioLoginRequest;
-import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioWsPlaceOrderPayload;
+import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioWsOrderPayload;
+import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioWsAmendOrderFuture;
+import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioWsCancelOrder;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import io.netty.handler.logging.LogLevel;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
@@ -18,72 +19,119 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.core.StreamingExchange.*;
 
+
 public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(GateioUserTradeStreamingService.class);
-  private static final String CHANNEL_LOGIN = "spot.login";
-
+  private static final String CHANNEL_SPOT_LOGIN = "spot.login";
+  private static final String CHANNEL_FUTURES_LOGIN = "futures.login";
   private final GateioStreamingAuthHelper gateioStreamingAuthHelper;
-  private final String apiKey;
   @Getter
   private volatile boolean loginDone = false;
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification exchangeSpecification;
+  private final boolean isFuturesEnabled;
 
 
-  public GateioUserTradeStreamingService(String privateApiUrl, String apiKey, String apiSecret, ExchangeSpecification exchangeSpecification) {
+  public GateioUserTradeStreamingService(String privateApiUrl, String apiSecret,
+                                         ExchangeSpecification exchangeSpecification, boolean isFuturesEnabled) {
     super(
         privateApiUrl,
         65536,
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT),
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
         (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
-    this.setLoggingHandlerLevel(LogLevel.TRACE);
-    this.setEnableLoggingHandler(true);
-
-    this.apiKey = apiKey;
     this.exchangeSpecification = exchangeSpecification;
     this.gateioStreamingAuthHelper = new GateioStreamingAuthHelper(apiSecret);
+    this.isFuturesEnabled = isFuturesEnabled;
+  }
+
+  @Override
+  public String getSubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
+    GateioWsUserTradeRequest request = getWsRequest(uniqueChannelName, args);
+    return objectMapper.writeValueAsString(request);
+  }
+
+  @Override
+  public String getSubscriptionUniqueId(String channelName, Object... args) {
+    return args[0].toString();
   }
 
   private GateioWsUserTradeRequest getWsRequest(String channelName, Object... args) {
     // create request common part
-
+    String reqId = args[0].toString();
     GateioWsUserTradeRequest request =
         GateioWsUserTradeRequest.builder()
             .id(IdGenerator.getInstance().requestId())
+            .reqId(reqId)
             .channel(channelName)
             .event(Event.API.getValue())
-            .time(Instant.now(Config.getInstance().getClock()))
+            .time(Config.getInstance().getClock().millis())
             .build();
-
     // create channel specific payload
     Object payload;
     switch (channelName) {
       case Config.SPOT_ORDER_PLACE_CHANNEL: {
-        GateioSpotOrderRequest reqParam = GateioAdapters.toGateioSpotOrderRequest((MarketOrder) ArrayUtils.get(args, 0));
-        payload = GateioWsPlaceOrderPayload.builder().reqParam(reqParam).build();
+        GateioSpotOrderRequest reqParam = GateioAdapters.toGateioSpotOrderRequest((MarketOrder) ArrayUtils.get(args, 1));
+        payload = GateioWsOrderPayload.<GateioSpotOrderRequest>builder().reqId(reqId).reqParam(reqParam).build();
+        break;
+      }
+      case Config.FUTURES_ORDER_CANCEL_CHANNEL: {
+        GateioWsCancelOrder reqParam = new GateioWsCancelOrder(ArrayUtils.get(args, 2).toString(), ArrayUtils.get(args, 1).toString(), null);
+        payload = GateioWsOrderPayload.<GateioWsCancelOrder>builder().reqId(reqId).reqParam(reqParam).build();
+        break;
+      }
+      case Config.FUTURES_ORDER_AMEND_CHANNEL: {
+        LimitOrder limitOrder = (LimitOrder) ArrayUtils.get(args, 1);
+        String id = "";
+        if (limitOrder.getUserReference() != null) {
+          id = limitOrder.getUserReference();
+        } else if (limitOrder.getId() != null) {
+          id = limitOrder.getId();
+        }
+        String size = null;
+        if (limitOrder.getOriginalAmount() != null) {
+          size = limitOrder.getType() == Order.OrderType.BID | limitOrder.getType() == Order.OrderType.EXIT_ASK
+              ? limitOrder.getOriginalAmount().toPlainString() : limitOrder.getOriginalAmount().negate().toPlainString();
+        }
+        String price = limitOrder.getLimitPrice() != null ? limitOrder.getLimitPrice().toString() : null;
+        GateioWsAmendOrderFuture reqParam = GateioWsAmendOrderFuture.builder().order_id(id).size(size)
+            .price(price).build();
+        payload = GateioWsOrderPayload.<GateioWsAmendOrderFuture>builder().reqId(reqId).reqParam(reqParam).build();
+        break;
+      }
+      case Config.FUTURES_ORDER_PLACE_CHANNEL: {
+        GateioFuturesOrderRequest reqParam;
+        if (ArrayUtils.get(args, 1) instanceof MarketOrder)
+          reqParam = GateioAdapters.toGateioFuturesOrder((MarketOrder) ArrayUtils.get(args, 1),
+              (BigDecimal) ArrayUtils.get(args, 2));
+        else
+          reqParam = GateioAdapters.toGateioFuturesOrder((LimitOrder) ArrayUtils.get(args, 1),
+              (BigDecimal) ArrayUtils.get(args, 2));
+        payload = GateioWsOrderPayload.<GateioFuturesOrderRequest>builder().reqId(reqId).reqParam(reqParam).build();
         break;
       }
       default:
         payload = EmptyPayload.builder().build();
     }
-
     request.setPayload(payload);
-
     return request;
   }
 
@@ -98,7 +146,7 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
                 if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
                   pingPongSubscription.dispose();
                 }
-//                pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
+                pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
@@ -115,42 +163,49 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
         .reqId(String.valueOf(Instant.now().getEpochSecond()))
         .timestamp(String.valueOf(time.getEpochSecond()))
         .apiKey(exchangeSpecification.getApiKey())
-        .signature(gateioStreamingAuthHelper.signUserTrade(CHANNEL_LOGIN, Event.API.getValue(),
+        .signature(gateioStreamingAuthHelper.signUserTrade(isFuturesEnabled ? CHANNEL_FUTURES_LOGIN : CHANNEL_SPOT_LOGIN, Event.API.getValue(),
             String.valueOf(time.getEpochSecond()), ""))
         .build();
     GateioWsUserTradeRequest request =
         GateioWsUserTradeRequest.builder()
-            .channel(CHANNEL_LOGIN)
+            .channel(isFuturesEnabled ? CHANNEL_FUTURES_LOGIN : CHANNEL_SPOT_LOGIN)
             .event(Event.API.getValue())
-            .time(Instant.now(Config.getInstance().getClock()))
+            .time(Config.getInstance().getClock().millis())
             .payload(payload)
             .build();
     String message = objectMapper.writeValueAsString(request);
     this.sendMessage(message);
   }
 
-  public void messageHandler(String message) {
-    LOG.debug("messageHandler: {}", message);
+  @Override
+  protected String getChannelNameFromMessage(JsonNode message) {
+    return message.get("request_id").asText();
   }
 
-  @Override
-  public String getSubscribeMessage(String uniqueChannelName, Object... args) throws IOException {
-//    String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
-    String generalChannelName = uniqueChannelName.split(Config.CHANNEL_NAME_DELIMITER)[0];
-    GateioWsUserTradeRequest request = getWsRequest(generalChannelName, args);
-    return objectMapper.writeValueAsString(request);
-//    return objectMapper.writeValueAsString("");
+  public void messageHandler(String message) {
+    LOG.debug("messageHandler: {}", message);
+    try {
+      JsonNode jsonNode = objectMapper.readTree(message);
+      if (jsonNode.get("header") != null) {
+        var header = jsonNode.get("header");
+        String channel = header.path("channel") != null ? header.path("channel").asText() : "";
+        if (channel.equals(isFuturesEnabled ? CHANNEL_FUTURES_LOGIN : CHANNEL_SPOT_LOGIN)) {
+          String status = header.path("status") != null ? header.path("status").asText() : "";
+          if (status.equals("200"))
+            loginDone = true;
+          return;
+        }
+      }
+      handleMessage(jsonNode);
+    } catch (IOException e) {
+      LOG.error("Error parsing incoming message to JSON: {}", message);
+    }
   }
 
   public void pingPongDisconnectIfConnected() {
     if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
       pingPongSubscription.dispose();
     }
-  }
-
-  @Override
-  protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-    return "";
   }
 
 

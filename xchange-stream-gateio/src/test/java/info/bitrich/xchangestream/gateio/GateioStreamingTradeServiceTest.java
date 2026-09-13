@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.gateio.GateioResilience;
 import org.knowm.xchange.instrument.Instrument;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,6 +44,7 @@ class GateioStreamingTradeServiceTest {
 
   @Mock GateioStreamingService gateioStreamingService;
   GateioStreamingTradeService gateioStreamingTradeService;
+  GateioUserTradeStreamingService gateioUserTradeStreamingService;
   Map<Instrument, InstrumentMetaData> instrumentsMetaData = new HashMap<>();
   ExchangeMetaData exchangeMetaData;
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
@@ -53,7 +55,8 @@ class GateioStreamingTradeServiceTest {
     InstrumentMetaData instrumentMetaData = InstrumentMetaData.builder().contractValue(new BigDecimal("0.01")).build();
     instrumentsMetaData.put(instrumentFuture, instrumentMetaData);
     exchangeMetaData = new ExchangeMetaData(instrumentsMetaData, null, null, null, null);
-    gateioStreamingTradeService = new GateioStreamingTradeService(gateioStreamingService, exchangeMetaData);
+    gateioStreamingTradeService = new GateioStreamingTradeService(gateioStreamingService, exchangeMetaData
+        , gateioUserTradeStreamingService, GateioResilience.createRegistries(true));
   }
 
   @Test
