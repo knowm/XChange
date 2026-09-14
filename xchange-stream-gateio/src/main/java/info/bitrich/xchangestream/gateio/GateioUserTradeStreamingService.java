@@ -179,7 +179,12 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
-    return message.get("request_id").asText();
+    if (message.get("request_id") != null)
+      return message.get("request_id").asText();
+    else {
+      LOG.info("request_id empty: {}", message);
+      return "";
+    }
   }
 
   public void messageHandler(String message) {
