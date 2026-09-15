@@ -48,6 +48,8 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
   private Disposable pingPongSubscription;
   private final ExchangeSpecification exchangeSpecification;
   private final boolean isFuturesEnabled;
+  private final String pingChannelName;
+  private final String pongChannelName;
 
 
   public GateioUserTradeStreamingService(String privateApiUrl, String apiSecret,
@@ -61,6 +63,8 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
     this.exchangeSpecification = exchangeSpecification;
     this.gateioStreamingAuthHelper = new GateioStreamingAuthHelper(apiSecret);
     this.isFuturesEnabled = isFuturesEnabled;
+    this.pingChannelName = isFuturesEnabled ? "futures.ping" : "spot.ping";
+    this.pongChannelName = isFuturesEnabled ? "futures.pong" : "spot.pong";
   }
 
   @Override
@@ -143,10 +147,11 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
             (completable) -> {
               try {
                 login();
-                if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
-                  pingPongSubscription.dispose();
-                }
-                pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
+                pingPongDisconnectIfConnected();
+                pingPongSubscription =
+                    pingPongSrc.subscribe(o -> {
+                      sendMessage(("{\"time\":" + System.currentTimeMillis() + ",\"channel\":\"" + pingChannelName + "\"}"));
+                    });
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
@@ -199,6 +204,11 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
           if (status.equals("200"))
             loginDone = true;
           return;
+        }
+      } else {
+        if (jsonNode.get("channel") != null) {
+          if (jsonNode.get("channel").asText().equals(pongChannelName))
+            return;
         }
       }
       handleMessage(jsonNode);
