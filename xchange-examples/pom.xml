@@ -71,12 +71,6 @@
             <artifactId>xchange-bithumb</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Bitfmex support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bitmex</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Bitso exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
