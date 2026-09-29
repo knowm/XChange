@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/v4/futures/usdt/orders",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.contract == 'BTC_USDT')]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.price == 0)]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.tif == 'ioc')]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.text == 't-futures-market-order')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "bodyFileName": "api_v4_futures_order_market.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

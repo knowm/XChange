@@ -16,7 +16,7 @@ import org.knowm.xchange.dase.dto.trade.DaseOrdersListResponse;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.mockito.Mockito;
 
-public class DaseTradeServiceOpenOrdersTest {
+class DaseTradeServiceOpenOrdersTest {
 
   private DaseTradeService createSpyService() {
     Exchange exchange = Mockito.mock(Exchange.class);
@@ -26,7 +26,7 @@ public class DaseTradeServiceOpenOrdersTest {
   }
 
   @Test
-  public void getOpenOrders_filtersToLimitOrders() throws Exception {
+  void getOpenOrders_filtersToLimitOrders() throws Exception {
     DaseTradeService svc = createSpyService();
 
     DaseOrder limit =

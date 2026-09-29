@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/v4/futures/usdt/positions/BTC_USDT/leverage\\?leverage=10"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_set_leverage.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

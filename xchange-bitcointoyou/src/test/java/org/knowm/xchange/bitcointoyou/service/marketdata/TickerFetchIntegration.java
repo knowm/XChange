@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitcointoyou.service.marketdata;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitcointoyou.BitcointoyouExchange;
@@ -17,12 +17,12 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  * @author Danilo Guimaraes
  * @author Jonathas Carrijo
  */
-public class TickerFetchIntegration {
+class TickerFetchIntegration {
 
   private static Ticker ticker;
 
-  @BeforeClass
-  public static void setUp() throws Exception {
+  @BeforeAll
+  static void setUp() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class);
     exchange.remoteInit();
@@ -31,7 +31,7 @@ public class TickerFetchIntegration {
   }
 
   @Test
-  public void tickerTest() throws Exception {
+  void tickerTest() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 

@@ -3,16 +3,15 @@ package org.knowm.xchange.poloniex.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PoloniexAccountBalanceTest {
+class PoloniexAccountBalanceTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         PoloniexAccountBalanceTest.class.getResourceAsStream(

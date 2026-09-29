@@ -2,6 +2,7 @@ package org.knowm.xchange.simulated;
 
 import static java.math.BigDecimal.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
@@ -14,8 +15,8 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -32,7 +33,7 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
-public class TestSimulatedExchange {
+class TestSimulatedExchange {
 
   private static final BigDecimal INITIAL_BALANCE = new BigDecimal(1000);
 
@@ -40,8 +41,8 @@ public class TestSimulatedExchange {
   private MatchingEngineFactory matchingEngineFactory;
   private AccountFactory accountFactory;
 
-  @Before
-  public void setup() throws IOException {
+  @BeforeEach
+  void setup() throws IOException {
 
     // By default, the matching engines are scoped to each instance of the Exchange. This ensures
     // that all instances share the same engine within the scope of each test.
@@ -66,7 +67,7 @@ public class TestSimulatedExchange {
   }
 
   @Test
-  public void testStartPosition() throws IOException {
+  void startPosition() throws Exception {
     // When
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
@@ -93,42 +94,60 @@ public class TestSimulatedExchange {
     assertThat(counterBalance.getFrozen()).isEqualTo(ZERO);
   }
 
-  @Test(expected = ExchangeException.class)
-  public void testInsufficientLiquidityBid() throws IOException {
-    exchange
-        .getTradeService()
-        .placeMarketOrder(
-            new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal("250")).build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testInsufficientLiquidityAsk() throws IOException {
-    exchange
-        .getTradeService()
-        .placeMarketOrder(
-            new MarketOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal("1002.1")).build());
-  }
-
-  @Test(expected = FundsExceededException.class)
-  public void testInsufficientFundsBid() throws IOException {
-    exchange
-        .getTradeService()
-        .placeMarketOrder(
-            new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal("150")).build());
-  }
-
-  @Test(expected = FundsExceededException.class)
-  public void testInsufficientFundsAsk() throws IOException {
-    exchange
-        .getTradeService()
-        .placeMarketOrder(
-            new MarketOrder.Builder(ASK, BTC_USD)
-                .originalAmount(new BigDecimal("1000.01"))
-                .build());
+  @Test
+  void insufficientLiquidityBid() throws Exception {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                exchange
+                    .getTradeService()
+                    .placeMarketOrder(
+                        new MarketOrder.Builder(BID, BTC_USD)
+                            .originalAmount(new BigDecimal("250"))
+                            .build()));
   }
 
   @Test
-  public void testTradeHistoryIsolation() throws IOException {
+  void insufficientLiquidityAsk() throws Exception {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                exchange
+                    .getTradeService()
+                    .placeMarketOrder(
+                        new MarketOrder.Builder(ASK, BTC_USD)
+                            .originalAmount(new BigDecimal("1002.1"))
+                            .build()));
+  }
+
+  @Test
+  void insufficientFundsBid() throws Exception {
+    assertThatExceptionOfType(FundsExceededException.class)
+        .isThrownBy(
+            () ->
+                exchange
+                    .getTradeService()
+                    .placeMarketOrder(
+                        new MarketOrder.Builder(BID, BTC_USD)
+                            .originalAmount(new BigDecimal("150"))
+                            .build()));
+  }
+
+  @Test
+  void insufficientFundsAsk() throws Exception {
+    assertThatExceptionOfType(FundsExceededException.class)
+        .isThrownBy(
+            () ->
+                exchange
+                    .getTradeService()
+                    .placeMarketOrder(
+                        new MarketOrder.Builder(ASK, BTC_USD)
+                            .originalAmount(new BigDecimal("1000.01"))
+                            .build()));
+  }
+
+  @Test
+  void tradeHistoryIsolation() throws Exception {
 
     // Given
     ExchangeSpecification exchangeSpecification =
@@ -153,7 +172,7 @@ public class TestSimulatedExchange {
   }
 
   @Test
-  public void testTradingMarketAsk() throws IOException {
+  void tradingMarketAsk() throws Exception {
 
     // When
     exchange
@@ -188,7 +207,7 @@ public class TestSimulatedExchange {
   }
 
   @Test
-  public void testTradingLimitAsk() throws IOException {
+  void tradingLimitAsk() throws Exception {
 
     // When
     String orderId =
@@ -234,7 +253,7 @@ public class TestSimulatedExchange {
   }
 
   @Test
-  public void testTradingMarketBid() throws IOException {
+  void tradingMarketBid() throws Exception {
 
     // When
     exchange
@@ -268,7 +287,7 @@ public class TestSimulatedExchange {
   }
 
   @Test
-  public void testTradingLimitBid() throws IOException {
+  void tradingLimitBid() throws Exception {
 
     // When
     String orderId1 =
@@ -341,7 +360,7 @@ public class TestSimulatedExchange {
   }
 
   @Test
-  public void testBalanceIsReleasedOnCancel() throws IOException {
+  void balanceIsReleasedOnCancel() throws Exception {
     // When
     String orderId =
         exchange

@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.deribit.v2.dto.Kind;
 
-public class DeribitInstrumentTest {
+class DeribitInstrumentTest {
 
   @Test
-  public void deserializeInstrumentTest() throws Exception {
+  void deserializeInstrumentTest() throws Exception {
 
     // given
     InputStream is =

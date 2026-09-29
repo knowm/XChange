@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -28,15 +28,15 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class OkexWebsocketTradeTest {
+@Disabled
+class OkexWebsocketTradeTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexWebsocketTradeTest.class);
   StreamingExchange exchange;
   private final boolean logOutput = false;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     Properties properties = new Properties();
 
     try {
@@ -81,12 +81,12 @@ public class OkexWebsocketTradeTest {
   }
 
   @Test
-  public void websocketFuturesTradeTest() throws IOException, InterruptedException {
+  void websocketFuturesTradeTest() throws Exception {
     tradeTest(new FuturesContract("SOL/USDT/SWAP"));
   }
 
   @Test
-  public void websocketSpotTradeTest() throws IOException, InterruptedException {
+  void websocketSpotTradeTest() throws Exception {
     tradeTest(new CurrencyPair("SOL/USDT"));
   }
 

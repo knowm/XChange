@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author ujjwal on 08/02/18.
  */
-public class DepositAddressJSONTest {
+class DepositAddressJSONTest {
 
   private BitstampDepositAddress unmarshall(String file) throws IOException {
     InputStream is = getClass().getResourceAsStream(file);
@@ -19,7 +19,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testError() throws IOException {
+  void error() throws Exception {
     BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-deposit-error.json");
     assertThat(address.getError()).isNotBlank();
@@ -27,7 +27,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testV1DepositResponse() throws IOException {
+  void v1DepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -35,7 +35,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testV2DepositResponse() throws IOException {
+  void v2DepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-v2-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -43,7 +43,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testUsdtDepositResponse() throws IOException {
+  void usdtDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-usdt-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -51,7 +51,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testXlmDepositResponse() throws IOException {
+  void xlmDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-xlm-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -59,7 +59,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testDogeDepositResponse() throws IOException {
+  void dogeDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-doge-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -67,7 +67,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testUsdcDepositResponse() throws IOException {
+  void usdcDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-usdc-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -75,7 +75,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testLinkDepositResponse() throws IOException {
+  void linkDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-link-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -83,7 +83,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testShibDepositResponse() throws IOException {
+  void shibDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-shib-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -91,7 +91,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testEtcDepositResponse() throws IOException {
+  void etcDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-etc-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -99,7 +99,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testSuiDepositResponse() throws IOException {
+  void suiDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-sui-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
@@ -107,7 +107,7 @@ public class DepositAddressJSONTest {
   }
 
   @Test
-  public void testMultiChainDepositResponse() throws IOException {
+  void multiChainDepositResponse() throws Exception {
     final BitstampDepositAddress address =
         unmarshall(
             "/org/knowm/xchange/bitstamp/dto/account/example-multichain-deposit-response.json");

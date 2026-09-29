@@ -1,23 +1,19 @@
 package org.knowm.xchange.bitcoinde.dto.marketdata;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author matthewdowney
  */
-public class BitcoindeOrderBookTest {
+class BitcoindeOrderBookTest {
 
   @Test
-  public void testBitcoindeOrderBook()
-      throws JsonParseException, JsonMappingException, IOException {
+  void bitcoindeOrderBook() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -30,16 +26,15 @@ public class BitcoindeOrderBookTest {
         mapper.readValue(is, BitcoindeOrderbookWrapper.class);
 
     // Make sure asks are correct
-    assertEquals(
-        bitcoindeOrderBook.getBitcoindeOrders().getAsks()[0].getPrice(), new BigDecimal("2461.61"));
-    assertEquals(
-        bitcoindeOrderBook.getBitcoindeOrders().getAsks()[0].getAmount(),
-        new BigDecimal("0.0406218"));
+    assertThat(new BigDecimal("2461.61"))
+        .isEqualTo(bitcoindeOrderBook.getBitcoindeOrders().getAsks()[0].getPrice());
+    assertThat(new BigDecimal("0.0406218"))
+        .isEqualTo(bitcoindeOrderBook.getBitcoindeOrders().getAsks()[0].getAmount());
 
     // Make sure bids are correct
-    assertEquals(
-        bitcoindeOrderBook.getBitcoindeOrders().getBids()[0].getPrice(), new BigDecimal("1200"));
-    assertEquals(
-        bitcoindeOrderBook.getBitcoindeOrders().getBids()[0].getAmount(), new BigDecimal("8.333"));
+    assertThat(new BigDecimal("1200"))
+        .isEqualTo(bitcoindeOrderBook.getBitcoindeOrders().getBids()[0].getPrice());
+    assertThat(new BigDecimal("8.333"))
+        .isEqualTo(bitcoindeOrderBook.getBitcoindeOrders().getBids()[0].getAmount());
   }
 }

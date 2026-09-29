@@ -2,17 +2,16 @@ package org.knowm.xchange.ripple.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.service.RippleAccountServiceRaw;
 
-public class RippleAccountIntegration {
+class RippleAccountIntegration {
 
   @Test
-  public void accountSettingsTest() throws IOException {
+  void accountSettingsTest() throws Exception {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final RippleAccountServiceRaw accountService =
         (RippleAccountServiceRaw) exchange.getAccountService();

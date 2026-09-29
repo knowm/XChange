@@ -2,15 +2,12 @@ package org.knowm.xchange.ripple;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -38,7 +35,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 public class RippleAdaptersTest implements ITransferFeeSource {
 
   @Test
-  public void adaptAccountInfoTest() throws IOException {
+  void adaptAccountInfoTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()
@@ -76,7 +73,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptOrderBookTest() throws IOException {
+  void adaptOrderBookTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()
@@ -120,7 +117,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptOpenOrdersTest() throws JsonParseException, JsonMappingException, IOException {
+  void adaptOpenOrdersTest() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 
@@ -173,8 +170,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptTrade_BuyXRP_SellBTC()
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
+  void adaptTrade_BuyXRP_SellBTC() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 
@@ -223,8 +219,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptTrade_SellBTC_BuyXRP()
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
+  void adaptTrade_SellBTC_BuyXRP() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 
@@ -273,8 +268,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptTrade_SellXRP_BuyBTC()
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
+  void adaptTrade_SellXRP_BuyBTC() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 
@@ -333,8 +327,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptTrade_BuyBTC_SellXRP()
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
+  void adaptTrade_BuyBTC_SellXRP() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 
@@ -382,8 +375,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptTrade_BuyBTC_SellBTC()
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
+  void adaptTrade_BuyBTC_SellBTC() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 
@@ -432,8 +424,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   }
 
   @Test
-  public void adaptTrade_PaymentPassthrough()
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
+  void adaptTrade_PaymentPassthrough() throws Exception {
     final RippleExchange exchange = new RippleExchange();
     final int roundingScale = exchange.getRoundingScale();
 

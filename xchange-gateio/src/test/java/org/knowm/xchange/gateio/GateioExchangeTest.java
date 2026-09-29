@@ -3,14 +3,14 @@ package org.knowm.xchange.gateio;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
-public class GateioExchangeTest extends GateioExchangeWiremock {
+class GateioExchangeTest extends GateioExchangeWiremock {
 
   @Test
-  public void metadata_present() {
+  void metadata_present() {
     InstrumentMetaData expected =
         InstrumentMetaData.builder()
             .tradingFee(new BigDecimal("0.2"))

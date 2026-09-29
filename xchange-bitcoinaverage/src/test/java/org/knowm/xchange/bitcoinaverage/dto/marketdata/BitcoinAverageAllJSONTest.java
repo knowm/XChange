@@ -1,18 +1,16 @@
 package org.knowm.xchange.bitcoinaverage.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Test BitcoinAverageTicker JSON parsing */
-public class BitcoinAverageAllJSONTest {
+class BitcoinAverageAllJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -24,7 +22,7 @@ public class BitcoinAverageAllJSONTest {
     BitcoinAverageTickers bitcoinAverageTicker = mapper.readValue(is, BitcoinAverageTickers.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(bitcoinAverageTicker.getTickers().containsKey("USD"));
+    assertThat(bitcoinAverageTicker.getTickers().containsKey("USD")).isTrue();
     assertThat(bitcoinAverageTicker.getTickers().get("USD").getLast()).isEqualTo("526.54");
     assertThat(bitcoinAverageTicker.getTickers().get("USD").getAsk()).isEqualTo("527.55");
     assertThat(bitcoinAverageTicker.getTickers().get("USD").getBid()).isEqualTo("525.62");

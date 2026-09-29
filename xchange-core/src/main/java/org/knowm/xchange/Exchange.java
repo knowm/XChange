@@ -1,7 +1,5 @@
 package org.knowm.xchange;
 
-import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -11,6 +9,9 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Interface to provide the following to applications:
@@ -115,4 +116,12 @@ public interface Exchange {
    * their services.
    */
   void remoteInit() throws IOException, ExchangeException;
+
+  /**
+   * Update the exchange meta data from the exchange. This method is intended to be called periodically
+   * by the exchange implementation to keep the meta data up to date.
+   */
+  default void updateExchangeMetaData() throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 }

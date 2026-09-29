@@ -1,13 +1,12 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
@@ -18,10 +17,10 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonResponseReader;
 
-public class PoloniexOrderTest {
+class PoloniexOrderTest {
 
   @Test
-  public void orderEntryResponseTest() throws IOException {
+  void orderEntryResponseTest() throws Exception {
     final InputStream is =
         getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-entry.json");
     final ObjectMapper mapper = new ObjectMapper();
@@ -40,7 +39,7 @@ public class PoloniexOrderTest {
   }
 
   @Test
-  public void responseImmediateOrCancelTest() throws IOException {
+  void responseImmediateOrCancelTest() throws Exception {
     final InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-entry-ioc.json");
@@ -52,12 +51,10 @@ public class PoloniexOrderTest {
     assertThat(response.getAmountUnfilled()).isEqualTo("1.00000000");
   }
 
-  @Test(expected = PoloniexException.class)
-  public void buyRejectTest() throws Exception {
-
+  @Test
+  void buyRejectTest() throws Exception {
     InvocationResult invocationResult =
         new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
-
     Method apiMethod =
         PoloniexAuthenticated.class.getDeclaredMethod(
             "buy",
@@ -71,18 +68,22 @@ public class PoloniexOrderTest {
             Integer.class,
             Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
-
-    try {
-      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
-          .read(invocationResult, data);
-    } catch (PoloniexException e) {
-      Assert.assertTrue(e.getMessage().startsWith("Not enough LTC."));
-      throw e;
-    }
+    assertThatExceptionOfType(PoloniexException.class)
+        .isThrownBy(
+            () -> {
+              try {
+                new JacksonResponseReader(
+                        new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
+                    .read(invocationResult, data);
+              } catch (PoloniexException e) {
+                assertThat(e.getMessage().startsWith("Not enough LTC.")).isTrue();
+                throw e;
+              }
+            });
   }
 
   @Test
-  public void moveOrderTest() throws IOException {
+  void moveOrderTest() throws Exception {
     final InputStream is =
         getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-move.json");
     final ObjectMapper mapper = new ObjectMapper();
@@ -100,12 +101,10 @@ public class PoloniexOrderTest {
     assertThat(trade.getType()).isEqualTo("buy");
   }
 
-  @Test(expected = PoloniexException.class)
-  public void sellRejectTest() throws Exception {
-
+  @Test
+  void sellRejectTest() throws Exception {
     InvocationResult invocationResult =
         new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
-
     Method apiMethod =
         PoloniexAuthenticated.class.getDeclaredMethod(
             "sell",
@@ -119,22 +118,24 @@ public class PoloniexOrderTest {
             Integer.class,
             Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
-
-    try {
-      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
-          .read(invocationResult, data);
-    } catch (PoloniexException e) {
-      Assert.assertTrue(e.getMessage().startsWith("Not enough LTC."));
-      throw e;
-    }
+    assertThatExceptionOfType(PoloniexException.class)
+        .isThrownBy(
+            () -> {
+              try {
+                new JacksonResponseReader(
+                        new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
+                    .read(invocationResult, data);
+              } catch (PoloniexException e) {
+                assertThat(e.getMessage().startsWith("Not enough LTC.")).isTrue();
+                throw e;
+              }
+            });
   }
 
-  @Test(expected = PoloniexException.class)
-  public void moveOrderRejectTest() throws Exception {
-
+  @Test
+  void moveOrderRejectTest() throws Exception {
     InvocationResult invocationResult =
         new InvocationResult("{\"success\":0,\"error\":\"Not enough LTC.\"}", 200);
-
     Method apiMethod =
         PoloniexAuthenticated.class.getDeclaredMethod(
             "moveOrder",
@@ -147,13 +148,17 @@ public class PoloniexOrderTest {
             Integer.class,
             Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
-
-    try {
-      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
-          .read(invocationResult, data);
-    } catch (PoloniexException e) {
-      Assert.assertTrue(e.getMessage().startsWith("Not enough LTC."));
-      throw e;
-    }
+    assertThatExceptionOfType(PoloniexException.class)
+        .isThrownBy(
+            () -> {
+              try {
+                new JacksonResponseReader(
+                        new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
+                    .read(invocationResult, data);
+              } catch (PoloniexException e) {
+                assertThat(e.getMessage().startsWith("Not enough LTC.")).isTrue();
+                throw e;
+              }
+            });
   }
 }

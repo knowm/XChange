@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
 
 /**
@@ -14,12 +14,12 @@ import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
  *
  * @author Danilo Guimaraes
  */
-public class BitcointoyouMarketDataTest {
+class BitcointoyouMarketDataTest {
 
   private static BitcointoyouMarketData marketData;
 
-  @BeforeClass
-  public static void setUp() throws Exception {
+  @BeforeAll
+  static void setUp() throws Exception {
     marketData = loadBitcointoyouTickerFromExampleData();
   }
 
@@ -34,7 +34,7 @@ public class BitcointoyouMarketDataTest {
   }
 
   @Test
-  public void testMarketData() throws Exception {
+  void marketData() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 

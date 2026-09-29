@@ -2,15 +2,14 @@ package org.knowm.xchange.btcmarkets.dto.v3;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
 
-public class BTCMarketsDtoTestV3 extends BTCMarketsTestSupport {
+class BTCMarketsDtoTestV3 extends BTCMarketsTestSupport {
 
   @Test
-  public void shouldParsePlaceOrderResponse() throws IOException {
+  void shouldParsePlaceOrderResponse() throws Exception {
     // when
     final BTCMarketsPlaceOrderResponse response = parse(BTCMarketsPlaceOrderResponse.class, "v3");
 

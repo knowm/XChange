@@ -1,9 +1,9 @@
 package org.knowm.xchange.dase.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -16,13 +16,13 @@ import org.knowm.xchange.dase.dto.user.DaseUserProfile;
  * DASE_API_KEY/DASE_API_SECRET are not present in the environment. Run with: mvn clean verify
  * -DskipIntegrationTests=false
  */
-public class DaseAccountServiceIntegration {
+class DaseAccountServiceIntegration {
 
   private Exchange authenticatedExchangeOrSkip() {
     String apiKey = System.getenv("DASE_API_KEY");
     String secret = System.getenv("DASE_API_SECRET");
     boolean hasCreds = apiKey != null && !apiKey.isEmpty() && secret != null && !secret.isEmpty();
-    assumeTrue("DASE_API_KEY/DASE_API_SECRET must be set for authenticated tests", hasCreds);
+    assumeTrue(hasCreds, "DASE_API_KEY/DASE_API_SECRET must be set for authenticated tests");
 
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(DaseExchange.class);
     ExchangeSpecification spec = ex.getDefaultExchangeSpecification();
@@ -33,22 +33,22 @@ public class DaseAccountServiceIntegration {
   }
 
   @Test
-  public void user_profile_live() throws Exception {
+  void user_profile_live() throws Exception {
     Exchange ex = authenticatedExchangeOrSkip();
     DaseAccountServiceRaw raw = new DaseAccountServiceRaw(ex);
 
     DaseUserProfile profile = raw.getUserProfile();
-    assertNotNull(profile);
-    assertNotNull(profile.getPortfolioId());
+    assertThat(profile).isNotNull();
+    assertThat(profile.getPortfolioId()).isNotNull();
   }
 
   @Test
-  public void balances_live() throws Exception {
+  void balances_live() throws Exception {
     Exchange ex = authenticatedExchangeOrSkip();
     DaseAccountServiceRaw raw = new DaseAccountServiceRaw(ex);
 
     DaseBalancesResponse balances = raw.getDaseBalances();
-    assertNotNull(balances);
+    assertThat(balances).isNotNull();
     // balances.getBalances() may be empty; presence is sufficient for smoke test
   }
 }

@@ -1,18 +1,17 @@
 package org.knowm.xchange.huobi;
 
-import java.io.IOException;
 import java.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.huobi.dto.marketdata.KlineInterval;
 import org.knowm.xchange.huobi.service.HuobiMarketDataService;
 
-public class HuobiInitIntegration {
+class HuobiInitIntegration {
 
   @Test
-  public void init() throws IOException {
+  void init() throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class);
 
     HuobiMarketDataService marketDataService =

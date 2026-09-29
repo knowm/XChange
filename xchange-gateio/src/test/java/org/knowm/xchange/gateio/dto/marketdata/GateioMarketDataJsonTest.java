@@ -3,23 +3,22 @@ package org.knowm.xchange.gateio.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 import org.knowm.xchange.instrument.Instrument;
 
-public class GateioMarketDataJsonTest {
+class GateioMarketDataJsonTest {
 
   @Test
-  public void testDeserializeMarketInfo() throws IOException {
+  void deserializeMarketInfo() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -42,7 +41,7 @@ public class GateioMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializeCurrencyPairs() throws IOException {
+  void deserializeCurrencyPairs() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -60,7 +59,7 @@ public class GateioMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializeDepth() throws IOException {
+  void deserializeDepth() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -82,7 +81,7 @@ public class GateioMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializeTrades() throws IOException {
+  void deserializeTrades() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

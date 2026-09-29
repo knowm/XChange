@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcc.dto.marketdata.BTCCTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-public class MarketDataTest {
+class MarketDataTest {
 
   @Test
-  public void testTickerAdapter() throws Exception {
+  void tickerAdapter() throws Exception {
     InputStream is =
         MarketDataTest.class.getResourceAsStream("/org/knowm/xchange/btcc/ticker.json");
 

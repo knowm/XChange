@@ -10,23 +10,23 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.CandleStickInterval;
 import org.knowm.xchange.instrument.Instrument;
 
-public class OkexStreamingPublicDataIntegration {
+class OkexStreamingPublicDataIntegration {
 
   private StreamingExchange exchange;
   private final Instrument currencyPair = CurrencyPair.BTC_USDT;
   private final Instrument instrumentETH = new FuturesContract("ETH/USDT/SWAP");
   private final Instrument instrumentSHIB = new FuturesContract("SHIB/USDT/SWAP");
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification spec = new OkexStreamingExchange().getDefaultExchangeSpecification();
     spec.setExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT, Duration.ofSeconds(5));
     spec.setExchangeSpecificParametersItem(WS_RETRY_DURATION, Duration.ofSeconds(10));
@@ -36,7 +36,7 @@ public class OkexStreamingPublicDataIntegration {
   }
 
   @Test
-  public void testCandles() throws InterruptedException {
+  void candles() throws Exception {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()
@@ -51,7 +51,7 @@ public class OkexStreamingPublicDataIntegration {
   }
 
   @Test
-  public void testTrades() throws InterruptedException {
+  void trades() throws Exception {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()
@@ -76,7 +76,7 @@ public class OkexStreamingPublicDataIntegration {
   }
 
   @Test
-  public void testTicker() throws InterruptedException {
+  void ticker() throws Exception {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()
@@ -93,7 +93,7 @@ public class OkexStreamingPublicDataIntegration {
   }
 
   @Test
-  public void testFundingRateStream() throws InterruptedException {
+  void fundingRateStream() throws Exception {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()
@@ -104,7 +104,7 @@ public class OkexStreamingPublicDataIntegration {
   }
 
   @Test
-  public void testOrderBook() throws InterruptedException {
+  void orderBook() throws Exception {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()

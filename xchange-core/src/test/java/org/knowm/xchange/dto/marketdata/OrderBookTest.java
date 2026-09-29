@@ -2,8 +2,6 @@ package org.knowm.xchange.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -11,19 +9,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class OrderBookTest {
+class OrderBookTest {
 
   private OrderBook orderBook;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
 
     LimitOrder askOrder =
         new LimitOrder(
@@ -44,13 +42,13 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     OrderBook jsonCopy = ObjectMapperHelper.viaJSON(orderBook);
     assertThat(jsonCopy.getTimeStamp()).isEqualTo(orderBook.getTimeStamp());
   }
 
   @Test
-  public void testUpdateAddOrder() {
+  void updateAddOrder() {
 
     Date timeStamp = new Date(0);
     OrderBookUpdate lowerBidUpdate =
@@ -66,7 +64,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testUpdateRemoveOrder() {
+  void updateRemoveOrder() {
 
     Date timeStamp = new Date(0);
     OrderBookUpdate lowerBidUpdate =
@@ -82,7 +80,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testUpdateRemoveSingleOrder() {
+  void updateRemoveSingleOrder() {
 
     Date timeStamp = new Date(0);
     LimitOrder limitOrder =
@@ -97,7 +95,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testUpdateAddVolume() {
+  void updateAddVolume() {
 
     Date timeStamp = new Date(0);
     OrderBookUpdate lowerBidUpdate =
@@ -114,7 +112,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testDateSame() {
+  void dateSame() {
 
     Date timeStamp = new Date(0);
     OrderBookUpdate lowerBidUpdate =
@@ -131,7 +129,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testDateOther() {
+  void dateOther() {
 
     Date timeStamp = Date.from(orderBook.getTimeStamp().toInstant().plus(Duration.ofDays(10)));
     OrderBookUpdate lowerBidUpdate =
@@ -149,7 +147,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testOrderSorting() {
+  void orderSorting() {
     List<LimitOrder> asks =
         Arrays.asList(
             new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
@@ -178,8 +176,7 @@ public class OrderBookTest {
   }
 
   @Test
-  public void testRecheckIdx()
-      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+  void recheckIdx() throws Exception {
     Class[] cArg = new Class[3];
     cArg[0] = List.class;
     cArg[1] = LimitOrder.class;

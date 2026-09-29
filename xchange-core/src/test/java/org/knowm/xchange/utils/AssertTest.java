@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 
 import java.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Test class for testing various Assert methods */
-public class AssertTest {
+class AssertTest {
 
   @Test
-  public void testNotNull() {
+  void notNull() {
 
     Assert.notNull("", "Not null");
 
@@ -23,7 +23,7 @@ public class AssertTest {
   }
 
   @Test
-  public void testHasLength() {
+  void hasLength() {
 
     Assert.hasLength("Test", 4, "Wrong length");
 
@@ -43,7 +43,7 @@ public class AssertTest {
   }
 
   @Test
-  public void testHasSize() {
+  void hasSize() {
 
     Assert.hasSize(Arrays.asList("1", "2", "3"), 3, "Wrong length");
 

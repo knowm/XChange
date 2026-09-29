@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.observers.TestObserver;
 import java.util.List;
-import org.junit.Assert;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -46,7 +45,7 @@ public class BitstampStreamingMarketDataServiceBaseTest {
   protected void validateTicker(List<Ticker> expectedTickerList, TestObserver<Ticker> test) {
     test.assertValue(
         ticker -> {
-          Assert.assertTrue(expectedTickerList.contains(ticker));
+          assertThat(expectedTickerList.contains(ticker)).isTrue();
           return true;
         });
   }

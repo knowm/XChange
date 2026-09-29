@@ -1,19 +1,20 @@
 package info.bitrich.xchangestream.gateio;
 
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
-
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.utils.AuthUtils;
+
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class GateioStreamingExchangeIT {
 
   public static GateioStreamingExchange exchange;
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     try {
 
       ExchangeSpecification spec =
@@ -22,6 +23,7 @@ public class GateioStreamingExchangeIT {
               .getDefaultExchangeSpecification();
       spec.setApiKey(System.getProperty("apiKey"));
       spec.setSecretKey(System.getProperty("secretKey"));
+      AuthUtils.setApiAndSecretKey(spec, "gateio-main");
 
       exchange = (GateioStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
@@ -37,7 +39,7 @@ public class GateioStreamingExchangeIT {
   }
 
   @AfterAll
-  public static void cleanup() {
+  static void cleanup() {
     if (exchange.isAlive()) {
       exchange.disconnect().blockingAwait();
     }

@@ -1,63 +1,34 @@
 package org.knowm.xchange.binance.service;
 
-import static org.knowm.xchange.binance.BinanceAdapters.adaptSymbol;
-import static org.knowm.xchange.binance.BinanceAdapters.toSymbol;
-import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.ExchangeType;
-import org.knowm.xchange.binance.dto.account.AssetDetail;
-import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo;
+import org.knowm.xchange.binance.dto.account.*;
 import org.knowm.xchange.binance.dto.account.BinanceCurrencyInfo.Network;
-import org.knowm.xchange.binance.dto.account.BinanceFlexiblePosition;
-import org.knowm.xchange.binance.dto.account.BinanceFlexiblePositionResponse;
-import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
-import org.knowm.xchange.binance.dto.account.BinanceLockedPosition;
-import org.knowm.xchange.binance.dto.account.BinanceLockedPositionResponse;
-import org.knowm.xchange.binance.dto.account.BinanceMasterAccountTransferHistoryParams;
-import org.knowm.xchange.binance.dto.account.BinanceSimpleAccount;
-import org.knowm.xchange.binance.dto.account.BinanceSubAccountTransferHistoryParams;
-import org.knowm.xchange.binance.dto.account.BinanceTradeFee;
-import org.knowm.xchange.binance.dto.account.DepositAddress;
-import org.knowm.xchange.binance.dto.account.WithdrawResponse;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureCommissionRate;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.derivative.FuturesContract;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.account.OpenPosition;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.account.params.RequestDepositAddressParams;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.NetworkWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+
+import static org.knowm.xchange.binance.BinanceAdapters.adaptSymbol;
+import static org.knowm.xchange.binance.BinanceAdapters.toSymbol;
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
@@ -551,7 +522,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
-  public boolean setLeverage(Instrument instrument, int leverage) throws IOException {
+  public boolean setLeverage(Instrument instrument, int leverage, Object... args) throws IOException {
     if (instrument instanceof FuturesContract) {
       return setLeverageRaw(instrument, leverage).leverage == leverage;
     } else return false;

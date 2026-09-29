@@ -1,23 +1,24 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
-import org.knowm.xchange.gateio.dto.account.GateioOrder;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class GateioTradeServiceRawTest extends GateioExchangeWiremock {
 
   GateioTradeServiceRaw gateioTradeServiceRaw = (GateioTradeServiceRaw) exchange.getTradeService();
 
-  GateioOrder sampleMarketOrder =
-      GateioOrder.builder()
+  GateioSpotOrderResponse sampleMarketOrder =
+      GateioSpotOrderResponse.builder()
           .id("342251629898")
           .currencyPair(CurrencyPair.BTC_USDT)
           .clientOrderId("t-valid-market-buy-order")
@@ -48,39 +49,39 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
           .build();
 
   @Test
-  void valid_market_buy_order() throws IOException {
-    GateioOrder gateioOrder =
-        GateioOrder.builder()
+  void valid_market_buy_order() throws Exception {
+    GateioSpotOrderRequest gateioOrder =
+        GateioSpotOrderRequest.builder()
             .currencyPair(CurrencyPair.BTC_USDT)
             .clientOrderId("t-valid-market-buy-order")
             .type("market")
             .account("spot")
             .side(OrderType.BID)
             .timeInForce("ioc")
-            .amount(BigDecimal.valueOf(20))
+            .amount(BigDecimal.valueOf(20).toPlainString())
             .build();
 
-    GateioOrder actualResponse = gateioTradeServiceRaw.createOrder(gateioOrder);
+    GateioSpotOrderResponse actualResponse = gateioTradeServiceRaw.createOrder(gateioOrder);
     assertThat(actualResponse).usingRecursiveComparison().isEqualTo(sampleMarketOrder);
   }
 
   @Test
-  void valid_market_sell_order() throws IOException {
-    GateioOrder gateioOrder =
-        GateioOrder.builder()
+  void valid_market_sell_order() throws Exception {
+    GateioSpotOrderRequest gateioOrder =
+        GateioSpotOrderRequest.builder()
             .currencyPair(CurrencyPair.BTC_USDT)
             .clientOrderId("t-valid-market-sell-order")
             .type("market")
             .account("spot")
             .side(OrderType.ASK)
             .timeInForce("ioc")
-            .amount(new BigDecimal("0.0007"))
+            .amount(new BigDecimal("0.0007").toPlainString())
             .build();
 
-    GateioOrder actualResponse = gateioTradeServiceRaw.createOrder(gateioOrder);
+    GateioSpotOrderResponse actualResponse = gateioTradeServiceRaw.createOrder(gateioOrder);
 
-    GateioOrder expectedResponse =
-        GateioOrder.builder()
+    GateioSpotOrderResponse expectedResponse =
+        GateioSpotOrderResponse.builder()
             .id("342260949533")
             .currencyPair(CurrencyPair.BTC_USDT)
             .clientOrderId("t-valid-market-sell-order")
@@ -114,8 +115,8 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void order_details() throws IOException {
-    GateioOrder actualResponse =
+  void order_details() throws Exception {
+    GateioSpotOrderResponse actualResponse =
         gateioTradeServiceRaw.getOrder("342251629898", CurrencyPair.BTC_USDT);
 
     assertThat(actualResponse).usingRecursiveComparison().isEqualTo(sampleMarketOrder);

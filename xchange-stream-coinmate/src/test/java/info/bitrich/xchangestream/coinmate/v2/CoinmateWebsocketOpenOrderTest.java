@@ -5,14 +5,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import java.io.IOException;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CoinmateWebsocketOpenOrderTest {
+class CoinmateWebsocketOpenOrderTest {
 
   @Test
-  public void coinmateWebsocketOpenOrdersTest() throws IOException {
+  void coinmateWebsocketOpenOrdersTest() throws Exception {
     String message =
         StreamingObjectMapperHelper.getObjectMapper()
             .readTree(this.getClass().getResource("/open-orders.json").openStream())

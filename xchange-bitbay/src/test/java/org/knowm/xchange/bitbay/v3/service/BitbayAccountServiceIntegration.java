@@ -1,16 +1,15 @@
 package org.knowm.xchange.bitbay.v3.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitbay.v3.BitbayExchange;
 import org.knowm.xchange.bitbay.v3.dto.BitbayBalanceHistoryEntry;
@@ -18,20 +17,20 @@ import org.knowm.xchange.bitbay.v3.dto.trade.BitbayBalancesHistoryQuery;
 import org.knowm.xchange.dto.account.FundingRecord;
 
 @Slf4j
-public class BitbayAccountServiceIntegration {
+class BitbayAccountServiceIntegration {
 
   private String apiKey = null;
   private String apiSecret = null;
   private BitbayExchange exchange;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     assumeTrue(apiKey != null && apiSecret != null);
     exchange = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class, apiKey, apiSecret);
   }
 
   @Test
-  public void testGetFundingHistoryShouldCorrectMapFields() throws IOException {
+  void getFundingHistoryShouldCorrectMapFields() throws Exception {
     final BitbayAccountService accountService = (BitbayAccountService) exchange.getAccountService();
 
     final BitbayTradeHistoryParams tradeHistoryParams =
@@ -54,7 +53,7 @@ public class BitbayAccountServiceIntegration {
   }
 
   @Test
-  public void testGetBalanceHistoryShouldCorrectMapFields() throws IOException {
+  void getBalanceHistoryShouldCorrectMapFields() throws Exception {
     final BitbayAccountService accountService = (BitbayAccountService) exchange.getAccountService();
 
     final BitbayBalancesHistoryQuery bitbayBalancesHistoryQuery = new BitbayBalancesHistoryQuery();
@@ -92,8 +91,7 @@ public class BitbayAccountServiceIntegration {
   }
 
   @Test
-  public void testGetBalanceHistoryWithTimeFilterShouldContainsOnlyEntriesInGivenPeriod()
-      throws IOException {
+  void getBalanceHistoryWithTimeFilterShouldContainsOnlyEntriesInGivenPeriod() throws Exception {
     final ZonedDateTime start =
         LocalDate.parse("2019-01-01").atStartOfDay(ZoneId.of("Europe/Warsaw"));
     final ZonedDateTime end = start.plusYears(1);

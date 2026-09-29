@@ -3,19 +3,18 @@ package org.knowm.xchange.gateio.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 
-public class GateioTradeJsonTest {
+class GateioTradeJsonTest {
 
   @Test
-  public void testDeserializeOrderList() throws IOException {
+  void deserializeOrderList() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -40,7 +39,7 @@ public class GateioTradeJsonTest {
   }
 
   @Test
-  public void testDeserializeOrderResult() throws IOException {
+  void deserializeOrderResult() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -57,7 +56,7 @@ public class GateioTradeJsonTest {
   }
 
   @Test
-  public void testDeserializeOrderStatus() throws IOException {
+  void deserializeOrderStatus() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

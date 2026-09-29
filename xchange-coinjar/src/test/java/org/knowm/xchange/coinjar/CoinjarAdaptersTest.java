@@ -5,49 +5,49 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinjar.dto.CoinjarOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-public class CoinjarAdaptersTest {
+class CoinjarAdaptersTest {
 
   @Test
-  public void orderTypeToBuySell() {
+  void orderTypeToBuySell() {
     assertThat(CoinjarAdapters.buySellToOrderType("buy")).isEqualTo(Order.OrderType.BID);
     assertThat(CoinjarAdapters.buySellToOrderType("sell")).isEqualTo(Order.OrderType.ASK);
   }
 
   @Test
-  public void testProductToCurrencyPair() {
+  void productToCurrencyPair() {
     assertThat(CoinjarAdapters.productToCurrencyPair("BTCAUD")).isEqualTo(CurrencyPair.BTC_AUD);
   }
 
   @Test
-  public void testCurrencyPairToProduct() {
+  void currencyPairToProduct() {
     assertThat(CoinjarAdapters.currencyPairToProduct(CurrencyPair.BTC_AUD)).isEqualTo("BTCAUD");
   }
 
   @Test
-  public void testProductToCurrencyPairFourChars() {
+  void productToCurrencyPairFourChars() {
     assertThat(CoinjarAdapters.productToCurrencyPair("BTC-USDT")).isEqualTo(CurrencyPair.BTC_USDT);
   }
 
   @Test
-  public void testCurrencyPairToProductFourChars() {
+  void currencyPairToProductFourChars() {
     assertThat(CoinjarAdapters.currencyPairToProduct(CurrencyPair.BTC_USDT)).isEqualTo("BTC-USDT");
   }
 
   @Test
-  public void testAdaptStatus() {
+  void adaptStatus() {
     assertThat(CoinjarAdapters.adaptStatus("filled")).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(CoinjarAdapters.adaptStatus("booked")).isEqualTo(Order.OrderStatus.PENDING_NEW);
   }
 
   @Test
-  public void testAdaptOrderToUserTrade() {
+  void adaptOrderToUserTrade() {
     final CoinjarOrder order =
         new CoinjarOrder(
             3267L,

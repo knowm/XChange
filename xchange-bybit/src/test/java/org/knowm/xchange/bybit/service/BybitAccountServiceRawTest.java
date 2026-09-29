@@ -2,10 +2,9 @@ package org.knowm.xchange.bybit.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -16,18 +15,18 @@ import org.knowm.xchange.bybit.dto.account.walletbalance.BybitCoinWalletBalance;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitWalletBalance;
 import org.knowm.xchange.client.ResilienceRegistries;
 
-public class BybitAccountServiceRawTest extends BaseWiremockTest {
+class BybitAccountServiceRawTest extends BaseWiremockTest {
 
   private BybitAccountServiceRaw bybitAccountServiceRaw;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     BybitExchange bybitExchange = createExchange();
     bybitAccountServiceRaw = new BybitAccountServiceRaw(bybitExchange, new ResilienceRegistries());
   }
 
   @Test
-  public void testGetWalletBalances() throws IOException {
+  void getWalletBalances() throws Exception {
     initGetStub("/v5/account/wallet-balance", "/getWalletBalance.json5");
 
     BybitResult<BybitWalletBalance> walletBalances =
@@ -74,7 +73,7 @@ public class BybitAccountServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetAllCoinsBalances() throws IOException {
+  void getAllCoinsBalances() throws Exception {
     initGetStub("/v5/asset/transfer/query-account-coins-balance", "/getAllCoinsBalance.json5");
 
     BybitResult<BybitAllCoinsBalance> coinsBalanceBybitResult =

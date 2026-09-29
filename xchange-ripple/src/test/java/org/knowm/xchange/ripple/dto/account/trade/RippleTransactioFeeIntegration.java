@@ -3,16 +3,16 @@ package org.knowm.xchange.ripple.dto.account.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.service.RippleTradeService;
 
-public class RippleTransactioFeeIntegration {
+class RippleTransactioFeeIntegration {
 
   @Test
-  public void getTransactionFeeTest() {
+  void getTransactionFeeTest() {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final RippleTradeService tradeService = (RippleTradeService) exchange.getTradeService();
 

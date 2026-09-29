@@ -8,17 +8,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class CoincheckStreamingAdapterTest {
+class CoincheckStreamingAdapterTest {
 
   @Test
-  public void testParseOrderbookUpdate() {
+  void parseOrderbookUpdate() {
     JsonNode json = CoincheckTestUtil.loadJson("example-orderbook-data.json");
     List<OrderBookUpdate> updates =
         CoincheckStreamingAdapter.parseOrderBookUpdates(json).collect(Collectors.toList());
@@ -67,7 +67,7 @@ public class CoincheckStreamingAdapterTest {
 
   @Test
   @SneakyThrows
-  public void testParseTrade() {
+  void parseTrade() {
     JsonNode json = CoincheckTestUtil.loadJson("example-trade-data.json");
     Trade trade = CoincheckStreamingAdapter.parseTrade(json);
 
@@ -86,7 +86,7 @@ public class CoincheckStreamingAdapterTest {
 
   @Test
   @SneakyThrows
-  public void testGetChannelNameFromTradeMessage() {
+  void getChannelNameFromTradeMessage() {
     JsonNode json = CoincheckTestUtil.loadJson("example-trade-data.json");
     assertThat(CoincheckStreamingAdapter.getChannelNameFromMessage(json))
         .isEqualTo("btc_jpy-trades");
@@ -94,7 +94,7 @@ public class CoincheckStreamingAdapterTest {
 
   @Test
   @SneakyThrows
-  public void testGetChannelNameFromOrderBookMessage() {
+  void getChannelNameFromOrderBookMessage() {
     JsonNode json = CoincheckTestUtil.loadJson("example-orderbook-data.json");
     assertThat(CoincheckStreamingAdapter.getChannelNameFromMessage(json))
         .isEqualTo("btc_jpy-orderbook");

@@ -3,15 +3,14 @@ package org.knowm.xchange.binance.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BinanceSimpleEarnJSONTest {
+class BinanceSimpleEarnJSONTest {
 
   @Test
-  public void testSimpleAccountUnmarshal() throws IOException {
+  void simpleAccountUnmarshal() throws Exception {
     InputStream is =
         BinanceSimpleEarnJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/binance/dto/account/example-simple-account.json");
@@ -29,7 +28,7 @@ public class BinanceSimpleEarnJSONTest {
   }
 
   @Test
-  public void testFlexiblePositionUnmarshal() throws IOException {
+  void flexiblePositionUnmarshal() throws Exception {
     InputStream is =
         BinanceSimpleEarnJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/binance/dto/account/example-flexible-position.json");
@@ -70,7 +69,7 @@ public class BinanceSimpleEarnJSONTest {
   }
 
   @Test
-  public void testLockedPositionUnmarshal() throws IOException {
+  void lockedPositionUnmarshal() throws Exception {
     InputStream is =
         BinanceSimpleEarnJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/binance/dto/account/example-locked-position.json");

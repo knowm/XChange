@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -25,7 +25,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 @Slf4j
-public class OkexExchangeIntegration {
+class OkexExchangeIntegration {
 
   // Enter your authentication details here to run private endpoint tests
   private static final String API_KEY = System.getenv("okx_apikey");
@@ -33,7 +33,7 @@ public class OkexExchangeIntegration {
   private static final String PASSPHRASE = System.getenv("okx_passphrase");
 
   @Test
-  public void testCreateExchangeShouldApplyDefaultSpecification() {
+  void createExchangeShouldApplyDefaultSpecification() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
@@ -46,7 +46,7 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testCreateExchangeShouldApplyResilience() {
+  void createExchangeShouldApplyResilience() {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     ExchangeSpecification.ResilienceSpecification resilienceSpecification =
         new ExchangeSpecification.ResilienceSpecification();
@@ -63,14 +63,14 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testMetaData() {
+  void metaData() {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OkexExchange.class);
 
     exchange.getExchangeMetaData().getInstruments().entrySet().forEach(System.out::println);
   }
 
   @Test
-  public void testOpenPosition() throws Exception {
+  void openPosition() throws Exception {
     Properties properties = new Properties();
     try {
       properties.load(this.getClass().getResourceAsStream("/secret.keys"));
@@ -88,7 +88,7 @@ public class OkexExchangeIntegration {
   }
 
   @Test
-  public void testOrderActions() throws Exception {
+  void orderActions() throws Exception {
     Properties properties = new Properties();
     try {
       properties.load(this.getClass().getResourceAsStream("/secret.keys"));

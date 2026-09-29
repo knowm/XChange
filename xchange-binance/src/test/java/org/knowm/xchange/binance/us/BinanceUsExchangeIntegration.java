@@ -2,10 +2,9 @@ package org.knowm.xchange.binance.us;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -16,13 +15,13 @@ import org.knowm.xchange.binance.service.BinanceUsAccountService;
 public class BinanceUsExchangeIntegration {
   protected static BinanceUsExchange exchange;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception {
+  @BeforeAll
+  static void beforeClass() throws Exception {
     createExchange();
   }
 
   @Test
-  public void testSetupIsCorrect() {
+  void setupIsCorrect() {
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     assertThat(specification.getExchangeName().equalsIgnoreCase("Binance US")).isTrue();
     assertThat(specification.getSslUri().equalsIgnoreCase("https://api.binance.us")).isTrue();
@@ -34,7 +33,7 @@ public class BinanceUsExchangeIntegration {
   }
 
   @Test
-  public void testSystemStatus() throws IOException {
+  void systemStatus() throws Exception {
     assumeProduction();
     BinanceSystemStatus systemStatus =
         ((BinanceUsAccountService) exchange.getAccountService()).getSystemStatus();
@@ -53,6 +52,6 @@ public class BinanceUsExchangeIntegration {
   }
 
   protected void assumeProduction() {
-    Assume.assumeFalse("Using sandbox", exchange.usingSandbox());
+    Assumptions.assumeFalse(exchange.usingSandbox(), "Using sandbox");
   }
 }

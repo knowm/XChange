@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
@@ -34,15 +33,15 @@ public class BithumbAdaptersTest {
   private final ObjectMapper mapper = new ObjectMapper();
   private SimpleDateFormat isoFormat;
 
-  @Before
-  public void init() {
+  @BeforeEach
+  void init() {
 
     isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
   @Test
-  public void testAdaptOrderBook() throws IOException {
+  void adaptOrderBook() throws Exception {
 
     // given
     InputStream is =
@@ -67,7 +66,7 @@ public class BithumbAdaptersTest {
   }
 
   @Test
-  public void testAdaptAccountInfo() throws IOException {
+  void adaptAccountInfo() throws Exception {
 
     // Given
     InputStream isAccount =
@@ -94,7 +93,7 @@ public class BithumbAdaptersTest {
   }
 
   @Test
-  public void testAdaptTicker() throws IOException {
+  void adaptTicker() throws Exception {
 
     // given
     InputStream is =
@@ -119,7 +118,7 @@ public class BithumbAdaptersTest {
   }
 
   @Test
-  public void testAdaptTickers() throws IOException {
+  void adaptTickers() throws Exception {
 
     // given
     InputStream is =
@@ -147,7 +146,7 @@ public class BithumbAdaptersTest {
   }
 
   @Test
-  public void testAdaptOpenOrder() throws IOException {
+  void adaptOpenOrder() throws Exception {
 
     // given
     InputStream is =

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitso.BitsoJacksonObjectMapperFactory;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoAvailableBooks;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
@@ -14,12 +14,12 @@ import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTrades;
 
 /** Tests DTOs against real API responses from Bitso API v3 */
-public class BitsoRealApiResponseTest {
+class BitsoRealApiResponseTest {
 
   private final ObjectMapper objectMapper = BitsoJacksonObjectMapperFactory.getInstance();
 
   @Test
-  public void testRealAvailableBooksResponse() throws Exception {
+  void realAvailableBooksResponse() throws Exception {
     // Load real API response from Bitso
     BitsoAvailableBooks availableBooks =
         loadJsonResource("available_books_response.json", BitsoAvailableBooks.class);
@@ -44,7 +44,7 @@ public class BitsoRealApiResponseTest {
   }
 
   @Test
-  public void testRealTickerResponse() throws Exception {
+  void realTickerResponse() throws Exception {
     // Load real API response from Bitso
     BitsoTicker ticker = loadJsonResource("ticker_btc_mxn_response.json", BitsoTicker.class);
 
@@ -79,7 +79,7 @@ public class BitsoRealApiResponseTest {
   }
 
   @Test
-  public void testRealOrderBookResponse() throws Exception {
+  void realOrderBookResponse() throws Exception {
     // Load real API response from Bitso
     BitsoOrderBook orderBook =
         loadJsonResource("order_book_btc_mxn_response.json", BitsoOrderBook.class);
@@ -121,7 +121,7 @@ public class BitsoRealApiResponseTest {
   }
 
   @Test
-  public void testRealTradesResponse() throws Exception {
+  void realTradesResponse() throws Exception {
     // Load real API response from Bitso
     BitsoTrades trades = loadJsonResource("trades_btc_mxn_response.json", BitsoTrades.class);
 

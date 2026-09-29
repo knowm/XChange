@@ -1,18 +1,15 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -28,25 +25,24 @@ import org.slf4j.LoggerFactory;
  * Test ignored in default build because it requires production authentication credentials. See
  * {@link BaseAuthenticatedServiceTest}.
  */
-@Ignore
-public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTest {
+@Disabled
+class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTest {
 
   private static final Logger LOGGER =
       LoggerFactory.getLogger(HitbtcTradeServiceRawIntegration.class);
-  @Rule public final ExpectedException exception = ExpectedException.none();
   private HitbtcTradeServiceRaw service = (HitbtcTradeServiceRaw) exchange.getTradeService();
   private SecureRandom secureRandom = new SecureRandom();
 
   @Test
-  public void testListOrders() throws IOException {
+  void listOrders() throws Exception {
 
     List<HitbtcOrder> orderList = service.getOpenOrdersRaw();
 
-    Assert.assertTrue(orderList.isEmpty());
+    assertThat(orderList.isEmpty()).isTrue();
   }
 
   @Test
-  public void testPlaceLimitOrderRaw() throws IOException {
+  void placeLimitOrderRaw() {
 
     Date date = new Date();
     String id = date.toString().replace(" ", "");
@@ -63,29 +59,40 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
             new Date(),
             limitPrice);
 
-    exception.expect(HitbtcException.class);
-    exception.expectMessage("Insufficient funds");
-    service.placeLimitOrderRaw(limitOrder);
+    Throwable exception =
+        assertThatExceptionOfType(HitbtcException.class)
+            .isThrownBy(() -> service.placeLimitOrderRaw(limitOrder))
+            .actual();
+    assertThat(exception.getMessage()).contains("Insufficient funds");
   }
 
   @Test
-  public void testPlaceMarketOrderRaw() throws IOException {
+  void placeMarketOrderRaw() {
 
     Date date = new Date();
     String id = date.toString().replace(" ", "");
     LOGGER.info("Placing order id : " + id);
 
-    exception.expect(HitbtcException.class);
-    exception.expectMessage("Insufficient funds");
-    MarketOrder limitOrder =
-        new MarketOrder(
-            Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, id, new Date());
+    Throwable exception =
+        assertThatExceptionOfType(HitbtcException.class)
+            .isThrownBy(
+                () -> {
+                  MarketOrder limitOrder =
+                      new MarketOrder(
+                          Order.OrderType.BID,
+                          new BigDecimal("0.01"),
+                          CurrencyPair.BTC_USD,
+                          id,
+                          new Date());
 
-    service.placeMarketOrderRaw(limitOrder);
+                  service.placeMarketOrderRaw(limitOrder);
+                })
+            .actual();
+    assertThat(exception.getMessage()).contains("Insufficient funds");
   }
 
   @Test
-  public void testUpdateOrder_noPrice() throws IOException {
+  void updateOrderNoPrice() throws Exception {
 
     String orderId = String.valueOf(secureRandom.nextInt());
     BigDecimal askingPrice = new BigDecimal("0.05");
@@ -116,7 +123,7 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   }
 
   @Test
-  public void testUpdateOrder_withPrice() throws IOException {
+  void updateOrderWithPrice() throws Exception {
 
     String orderId = String.valueOf(secureRandom.nextInt());
     BigDecimal askingPrice = new BigDecimal("0.05");
@@ -149,16 +156,17 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   }
 
   @Test
-  public void testCancelOrder_wrongOrder() throws IOException {
+  void cancelOrderWrongOrder() {
 
-    exception.expect(HitbtcException.class);
-    exception.expectMessage("Order not found");
-
-    service.cancelOrderRaw("WRONG");
+    Throwable exception =
+        assertThatExceptionOfType(HitbtcException.class)
+            .isThrownBy(() -> service.cancelOrderRaw("WRONG"))
+            .actual();
+    assertThat(exception.getMessage()).contains("Order not found");
   }
 
   @Test
-  public void testCancelAllOrders() throws IOException {
+  void cancelAllOrders() throws Exception {
 
     service.cancelAllOrdersRaw(HitbtcAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
   }

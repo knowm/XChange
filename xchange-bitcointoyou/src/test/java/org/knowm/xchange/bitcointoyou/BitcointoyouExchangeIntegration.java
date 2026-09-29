@@ -2,8 +2,8 @@ package org.knowm.xchange.bitcointoyou;
 
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -18,17 +18,17 @@ import si.mazi.rescu.SynchronizedValueFactory;
  *
  * @author Danilo Guimaraes
  */
-public class BitcointoyouExchangeIntegration {
+class BitcointoyouExchangeIntegration {
 
   private Exchange sut;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     sut = ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class);
   }
 
   @Test
-  public void testNonceFactory() throws Exception {
+  void nonceFactory() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
     SynchronizedValueFactory<Long> nonceFactory = sut.getNonceFactory();
@@ -40,7 +40,7 @@ public class BitcointoyouExchangeIntegration {
   }
 
   @Test
-  public void testExchangeMetaData() throws Exception {
+  void exchangeMetaData() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 

@@ -2,12 +2,13 @@ package org.knowm.xchange.gateio.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.math.BigDecimal;
-import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -42,10 +43,10 @@ public class GateioCurrencyPairDetails {
   String tradeStatus;
 
   @JsonProperty("sell_start")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
   Instant startOfSells;
 
   @JsonProperty("buy_start")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
   Instant startOfBuys;
 }

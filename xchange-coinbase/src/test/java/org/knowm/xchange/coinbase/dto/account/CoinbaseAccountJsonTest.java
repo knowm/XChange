@@ -3,11 +3,10 @@ package org.knowm.xchange.coinbase.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseAccountChange.CoinbaseCache;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
@@ -20,10 +19,10 @@ import org.knowm.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseAccountJsonTest {
+class CoinbaseAccountJsonTest {
 
   @Test
-  public void testDeserializeAccountChanges() throws IOException {
+  void deserializeAccountChanges() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -69,7 +68,7 @@ public class CoinbaseAccountJsonTest {
   }
 
   @Test
-  public void testDeserializeUsers() throws IOException {
+  void deserializeUsers() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -104,7 +103,7 @@ public class CoinbaseAccountJsonTest {
   }
 
   @Test
-  public void testDeserializeBalance() throws IOException {
+  void deserializeBalance() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -120,7 +119,7 @@ public class CoinbaseAccountJsonTest {
   }
 
   @Test
-  public void testDeserializeAddresses() throws IOException {
+  void deserializeAddresses() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -154,7 +153,7 @@ public class CoinbaseAccountJsonTest {
   }
 
   @Test
-  public void testDeserializeContacts() throws IOException {
+  void deserializeContacts() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -177,7 +176,7 @@ public class CoinbaseAccountJsonTest {
   }
 
   @Test
-  public void testDeserializeTransactions() throws IOException {
+  void deserializeTransactions() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -217,7 +216,7 @@ public class CoinbaseAccountJsonTest {
   }
 
   @Test
-  public void testDeserializeRecurringPayments() throws IOException {
+  void deserializeRecurringPayments() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

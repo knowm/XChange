@@ -2,22 +2,19 @@ package org.knowm.xchange.bitcoincore;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoincore.dto.account.BitcoinCoreBalanceResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 
-public class BitcoinCoreAdaptersTest {
+class BitcoinCoreAdaptersTest {
 
   @Test
-  public void adaptAccountInfoTest() throws JsonParseException, JsonMappingException, IOException {
+  void adaptAccountInfoTest() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
 
     // available balance

@@ -1,7 +1,7 @@
 package org.knowm.xchange.hitbtc.v2;
 
 import java.io.IOException;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 
@@ -11,14 +11,14 @@ import org.knowm.xchange.ExchangeFactory;
  * tests will be ignored for default suite runs. example -Dhitbtc_api_key=XXXXXXXXXX
  * -Dhitbtc_secret_key=YYYYYYYYY
  */
-public class AuthenticatedBaseTestCase {
+class AuthenticatedBaseTestCase {
 
   private static final String API_KEY_LOOKUP = "hitbtc_api_key";
   private static final String SECRET_KEY_LOOKUP = "hitbtc_secret_key";
   protected static Exchange EXCHANGE = null;
 
-  @BeforeClass
-  public static void setUpClass() throws IOException {
+  @BeforeAll
+  static void setUpClass() throws IOException {
 
     String apiKey = System.getProperty(API_KEY_LOOKUP);
     String secretValue = System.getProperty(SECRET_KEY_LOOKUP);

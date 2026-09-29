@@ -8,19 +8,18 @@ import com.github.tomakehurst.wiremock.matching.ContainsPattern;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
-import java.io.IOException;
 import java.time.Duration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bybit.service.BaseWiremockTest;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.derivative.FuturesContract;
 
-public class BybitExchangeTest extends BaseWiremockTest {
+class BybitExchangeTest extends BaseWiremockTest {
 
   @Test
-  public void testSymbolLoading() throws IOException {
+  void symbolLoading() throws Exception {
     Exchange bybitExchange = createExchange();
 
     initGetStub(
@@ -53,7 +52,7 @@ public class BybitExchangeTest extends BaseWiremockTest {
   }
 
   @Test
-  public void rateLimiterTest() throws IOException {
+  void rateLimiterTest() throws Exception {
     Exchange bybitExchange = createExchange();
     bybitExchange
         .getResilienceRegistries()

@@ -7,17 +7,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
 
 /**
  * @author timmolter
  */
-public class MaringJsonTest {
+class MaringJsonTest {
 
   @Test
-  public void account() throws Exception {
+  void account() throws Exception {
     MarginAccountResponse[] res =
         readJson("example-maring-account.json", MarginAccountResponse[].class);
     assertThat(res[0].getCurrencyInfo().get("currency:BTC").getAvailable()).isEqualTo("0.021348");
@@ -25,7 +25,7 @@ public class MaringJsonTest {
   }
 
   @Test
-  public void accountSettings() throws Exception {
+  void accountSettings() throws Exception {
     MarginAccountSettingsRecord[] res =
         readJson("example-maring-account-settings.json", MarginAccountSettingsRecord[].class);
     assertThat(res[0].getCurrencyInfo().get("currency:BTC").getAvailable()).isEqualTo("0.09995502");

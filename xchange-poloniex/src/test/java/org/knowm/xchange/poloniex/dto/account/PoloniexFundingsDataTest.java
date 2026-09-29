@@ -2,16 +2,13 @@ package org.knowm.xchange.poloniex.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.assertj.core.data.Offset;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLoansDataTest;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexAdjustment;
@@ -19,11 +16,10 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
 
-public class PoloniexFundingsDataTest {
+class PoloniexFundingsDataTest {
 
   @Test
-  public void testUnmarshallDepositsWithdrawalsResponse()
-      throws JsonParseException, JsonMappingException, IOException {
+  void unmarshallDepositsWithdrawalsResponse() throws Exception {
 
     final InputStream is =
         PoloniexLoansDataTest.class.getResourceAsStream(

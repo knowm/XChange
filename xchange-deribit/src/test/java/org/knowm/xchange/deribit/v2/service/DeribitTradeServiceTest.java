@@ -2,7 +2,6 @@ package org.knowm.xchange.deribit.v2.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collection;
@@ -31,7 +30,7 @@ class DeribitTradeServiceTest extends DeribitExchangeWiremock {
   TradeService tradeService = exchange.getTradeService();
 
   @Test
-  void open_orders_by_symbol() throws IOException {
+  void open_orders_by_symbol() throws Exception {
     DefaultOpenOrdersParamInstrument params =
         (DefaultOpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     params.setInstrument(new CurrencyPair("XRP/USDC"));
@@ -56,7 +55,7 @@ class DeribitTradeServiceTest extends DeribitExchangeWiremock {
   }
 
   @Test
-  void open_positions() throws IOException {
+  void open_positions() throws Exception {
     var expected =
         OpenPosition.builder()
             .instrument(new FuturesContract(new CurrencyPair("BTC/USDC"), "PERPETUAL"))
@@ -76,7 +75,7 @@ class DeribitTradeServiceTest extends DeribitExchangeWiremock {
   }
 
   @Test
-  void place_limit_buy_order() throws IOException {
+  void place_limit_buy_order() throws Exception {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, new CurrencyPair("XRP/USDC"))
             .originalAmount(new BigDecimal("1"))
@@ -89,7 +88,7 @@ class DeribitTradeServiceTest extends DeribitExchangeWiremock {
   }
 
   @Test
-  void buy_order_details() throws IOException {
+  void buy_order_details() throws Exception {
     var expected =
         new MarketOrder.Builder(OrderType.BID, new CurrencyPair("USDC/USDT"))
             .id("USDC_USDT-6470719424")
@@ -111,7 +110,7 @@ class DeribitTradeServiceTest extends DeribitExchangeWiremock {
   }
 
   @Test
-  void trade_history() throws IOException {
+  void trade_history() throws Exception {
     UserTrades userTrades =
         exchange
             .getTradeService()

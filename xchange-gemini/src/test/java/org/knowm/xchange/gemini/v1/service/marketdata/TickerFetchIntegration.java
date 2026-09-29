@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
 import java.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -18,10 +18,10 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /**
  * @author timmolter
  */
-public class TickerFetchIntegration {
+class TickerFetchIntegration {
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  void tickerFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -31,7 +31,7 @@ public class TickerFetchIntegration {
   }
 
   @Test
-  public void candleFetchTest() throws Exception {
+  void candleFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class);
     GeminiMarketDataServiceRaw mds = (GeminiMarketDataServiceRaw) exchange.getMarketDataService();
@@ -41,7 +41,7 @@ public class TickerFetchIntegration {
   }
 
   @Test
-  public void ticker2FetchTest() throws Exception {
+  void ticker2FetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class);
     GeminiMarketDataServiceRaw mds = (GeminiMarketDataServiceRaw) exchange.getMarketDataService();

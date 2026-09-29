@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
 
 /**
@@ -22,7 +22,7 @@ public class BitcointoyouBalanceTest {
   public static BitcointoyouBalance bitcointoyouBalance;
   private static BitcointoyouBalance bitcointoyouBalanceError;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws Exception {
     bitcointoyouBalance = loadBitcointoyouBalanceFromExampleData();
     bitcointoyouBalanceError = loadBitcointoyouBalanceErrorFromExampleData();
@@ -49,7 +49,7 @@ public class BitcointoyouBalanceTest {
   }
 
   @Test
-  public void testBalance() throws Exception {
+  void balance() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -77,7 +77,7 @@ public class BitcointoyouBalanceTest {
   }
 
   @Test
-  public void testBalanceError() throws Exception {
+  void balanceError() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 

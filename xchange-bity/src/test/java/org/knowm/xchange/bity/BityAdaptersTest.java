@@ -3,10 +3,9 @@ package org.knowm.xchange.bity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bity.dto.BityOrders;
 import org.knowm.xchange.bity.dto.BityTickers;
 import org.knowm.xchange.bity.dto.account.BityOrder;
@@ -14,10 +13,10 @@ import org.knowm.xchange.bity.dto.marketdata.BityPairs;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-public class BityAdaptersTest {
+class BityAdaptersTest {
 
   @Test
-  public void testTickersAdapter() throws IOException {
+  void tickersAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BityAdaptersTest.class.getResourceAsStream(
@@ -42,7 +41,7 @@ public class BityAdaptersTest {
   }
 
   @Test
-  public void testExchangeMetaDataAdapter() throws IOException {
+  void exchangeMetaDataAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BityAdaptersTest.class.getResourceAsStream(
@@ -59,7 +58,7 @@ public class BityAdaptersTest {
   }
 
   @Test
-  public void testUsersTradesAdapter() throws IOException {
+  void usersTradesAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BityAdaptersTest.class.getResourceAsStream(

@@ -3,7 +3,6 @@ package org.knowm.xchange.gateio.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashMap;
@@ -28,13 +27,13 @@ import org.knowm.xchange.gateio.dto.account.params.GateioSubAccountTransfersPara
 import org.knowm.xchange.gateio.service.params.GateioDepositsParams;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawalsParams;
 
-public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
+class GateioAccountServiceRawTest extends GateioExchangeWiremock {
 
   GateioAccountServiceRaw gateioAccountServiceRaw =
       ((GateioAccountServiceRaw) exchange.getAccountService());
 
   @Test
-  void getWithdrawStatus_valid() throws IOException {
+  void getWithdrawStatus_valid() throws Exception {
     Map<String, BigDecimal> expectedWithdrawFeeByChain = new HashMap<>();
     expectedWithdrawFeeByChain.put("ETH", new BigDecimal("0.93"));
     expectedWithdrawFeeByChain.put("GTEVM", new BigDecimal("0.0049"));
@@ -99,7 +98,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void pending_deposit_address() throws IOException {
+  void pending_deposit_address() throws Exception {
     GateioDepositAddress a = gateioAccountServiceRaw.getDepositAddress(Currency.getInstance("ITA"));
 
     MultichainAddress expected =
@@ -116,7 +115,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_deposit_address() throws IOException {
+  void valid_deposit_address() throws Exception {
     GateioDepositAddress a =
         gateioAccountServiceRaw.getDepositAddress(Currency.getInstance("ABBC"));
 
@@ -134,7 +133,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void withdrawal_records() throws IOException {
+  void withdrawal_records() throws Exception {
     List<GateioWithdrawalRecord> actual =
         gateioAccountServiceRaw.getWithdrawals(GateioWithdrawalsParams.builder().build());
 
@@ -158,7 +157,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void deposit_records() throws IOException {
+  void deposit_records() throws Exception {
     List<GateioDepositRecord> actual =
         gateioAccountServiceRaw.getDeposits(
             GateioDepositsParams.builder()
@@ -184,7 +183,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void withdraw() throws IOException {
+  void withdraw() throws Exception {
     GateioWithdrawalRequest gateioWithdrawalRequest =
         GateioWithdrawalRequest.builder()
             .clientRecordId("valid-withdrawal-id")
@@ -213,7 +212,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void saved_addresses() throws IOException {
+  void saved_addresses() throws Exception {
     List<GateioAddressRecord> actual = gateioAccountServiceRaw.getSavedAddresses(Currency.USDT);
 
     GateioAddressRecord expected =
@@ -231,7 +230,7 @@ public class GateioAccountServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void sub_account_transfers() throws IOException {
+  void sub_account_transfers() throws Exception {
 
     List<GateioSubAccountTransfer> actual =
         gateioAccountServiceRaw.getSubAccountTransfers(

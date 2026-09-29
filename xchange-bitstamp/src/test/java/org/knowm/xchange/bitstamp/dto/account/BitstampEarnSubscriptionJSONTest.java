@@ -4,16 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 
-public class BitstampEarnSubscriptionJSONTest {
+class BitstampEarnSubscriptionJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
     InputStream is =
         BitstampEarnSubscriptionJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/bitstamp/dto/account/earn-subscriptions.json");
@@ -35,7 +34,7 @@ public class BitstampEarnSubscriptionJSONTest {
   }
 
   @Test
-  public void testUnmarshalSingle() throws IOException {
+  void unmarshalSingle() throws Exception {
     InputStream is =
         BitstampEarnSubscriptionJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/bitstamp/dto/account/earn-subscription-single.json");

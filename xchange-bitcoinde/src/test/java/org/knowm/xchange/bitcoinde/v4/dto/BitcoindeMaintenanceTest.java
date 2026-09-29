@@ -3,14 +3,13 @@ package org.knowm.xchange.bitcoinde.v4.dto;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BitcoindeMaintenanceTest {
+class BitcoindeMaintenanceTest {
 
   @Test
-  public void testBitcoindeMaintenance() throws IOException {
+  void bitcoindeMaintenance() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

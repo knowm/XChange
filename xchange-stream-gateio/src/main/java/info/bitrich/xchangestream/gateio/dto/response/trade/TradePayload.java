@@ -3,16 +3,13 @@ package info.bitrich.xchangestream.gateio.dto.response.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.math.BigDecimal;
-import java.time.Instant;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.gateio.config.converter.DoubleToInstantConverter;
-import org.knowm.xchange.gateio.config.converter.OrderTypeToStringConverter;
-import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
-import org.knowm.xchange.gateio.config.converter.StringToOrderTypeConverter;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.*;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 public class TradePayload {
@@ -21,11 +18,11 @@ public class TradePayload {
   Long id;
 
   @JsonProperty("create_time")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
   Instant time;
 
   @JsonProperty("create_time_ms")
-  @JsonDeserialize(converter = DoubleToInstantConverter.class)
+  @JsonDeserialize(converter = StringMillisecondsToInstantConverter.class)
   Instant timeMs;
 
   @JsonProperty("side")

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "PUT",
+    "urlPath": "/api/v4/futures/usdt/orders/15675394"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_orders-amend-order.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

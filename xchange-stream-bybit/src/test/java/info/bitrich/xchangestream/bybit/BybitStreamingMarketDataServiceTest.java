@@ -10,27 +10,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.CandleStickData;
 import org.knowm.xchange.dto.marketdata.CandleStickInterval;
 import org.knowm.xchange.instrument.Instrument;
 
-public class BybitStreamingMarketDataServiceTest {
+class BybitStreamingMarketDataServiceTest {
 
   private BybitStreamingMarketDataService marketDataService;
   private BybitStreamingService streamingService;
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     streamingService = mock(BybitStreamingService.class);
     marketDataService = new BybitStreamingMarketDataService(streamingService);
   }
 
   @Test
-  public void testGetCandleStick() throws Exception {
+  void getCandleStick() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("getCandleStickResponse.json"));

@@ -2,20 +2,16 @@ package org.knowm.xchange.ripple.dto.account.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ripple.dto.trade.RippleTransactionFee;
 
-public class RippleTransactionFeeTest {
+class RippleTransactionFeeTest {
 
   @Test
-  public void transactionFeeUnmarshalTest()
-      throws JsonParseException, JsonMappingException, IOException {
+  void transactionFeeUnmarshalTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()

@@ -1,19 +1,19 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenPairTest {
+class LatokenPairTest {
 
   LatokenPair pair;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -25,57 +25,57 @@ public class LatokenPairTest {
   }
 
   @Test
-  public void testLatokenPair() {
-    assertNotNull(pair);
+  void latokenPair() {
+    assertThat(pair).isNotNull();
   }
 
   @Test
-  public void testGetPairId() {
-    assertNotNull(pair.getPairId());
+  void getPairId() {
+    assertThat(pair.getPairId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(pair.getSymbol());
+  void getSymbol() {
+    assertThat(pair.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetBaseCurrency() {
-    assertNotNull(pair.getBaseCurrency());
+  void getBaseCurrency() {
+    assertThat(pair.getBaseCurrency()).isNotNull();
   }
 
   @Test
-  public void testGetCounterCurrency() {
-    assertNotNull(pair.getCounterCurrency());
+  void getCounterCurrency() {
+    assertThat(pair.getCounterCurrency()).isNotNull();
   }
 
   @Test
-  public void testGetMakerFee() {
-    assertNotNull(pair.getMakerFee());
+  void getMakerFee() {
+    assertThat(pair.getMakerFee()).isNotNull();
   }
 
   @Test
-  public void testGetTakerFee() {
-    assertNotNull(pair.getTakerFee());
+  void getTakerFee() {
+    assertThat(pair.getTakerFee()).isNotNull();
   }
 
   @Test
-  public void testGetPricePrecision() {
-    assertNotNull(pair.getPricePrecision());
+  void getPricePrecision() {
+    assertThat(pair.getPricePrecision()).isNotNull();
   }
 
   @Test
-  public void testGetAmountPrecision() {
-    assertNotNull(pair.getAmountPrecision());
+  void getAmountPrecision() {
+    assertThat(pair.getAmountPrecision()).isNotNull();
   }
 
   @Test
-  public void testGetMinOrderAmount() {
-    assertNotNull(pair.getMinOrderAmount());
+  void getMinOrderAmount() {
+    assertThat(pair.getMinOrderAmount()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(pair.toString());
+  void testToString() {
+    assertThat(pair.toString()).isNotNull();
   }
 }

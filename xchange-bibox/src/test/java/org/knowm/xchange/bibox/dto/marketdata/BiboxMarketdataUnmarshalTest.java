@@ -3,10 +3,9 @@ package org.knowm.xchange.bibox.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bibox.BiboxTestUtils;
 import org.knowm.xchange.bibox.dto.BiboxResponse;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
@@ -16,10 +15,10 @@ import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
  *
  * @author odrotleff
  */
-public class BiboxMarketdataUnmarshalTest {
+class BiboxMarketdataUnmarshalTest {
 
   @Test
-  public void testTickerUnmarshal() throws IOException {
+  void tickerUnmarshal() throws Exception {
     BiboxResponse<BiboxTicker> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxResponse<BiboxTicker>>() {},
@@ -40,7 +39,7 @@ public class BiboxMarketdataUnmarshalTest {
   }
 
   @Test
-  public void testOrderBookUnmarshal() throws IOException {
+  void orderBookUnmarshal() throws Exception {
     BiboxResponse<BiboxOrderBook> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxResponse<BiboxOrderBook>>() {},
@@ -59,7 +58,7 @@ public class BiboxMarketdataUnmarshalTest {
   }
 
   @Test
-  public void testAllMarketsUnmarshal() throws IOException {
+  void allMarketsUnmarshal() throws Exception {
     BiboxResponse<List<BiboxMarket>> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxResponse<List<BiboxMarket>>>() {},

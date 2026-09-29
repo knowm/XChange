@@ -1,30 +1,31 @@
 package org.knowm.xchange.gateio.service;
 
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.dto.GateioException;
-import org.knowm.xchange.gateio.dto.account.GateioCurrencyBalance;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRecord;
-import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
+import org.knowm.xchange.gateio.dto.account.*;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import java.io.IOException;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class GateioAccountService extends GateioAccountServiceRaw implements AccountService {
 
-  public GateioAccountService(GateioExchange exchange) {
-    super(exchange);
+  public GateioAccountService(GateioExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override
@@ -82,4 +83,60 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       throw GateioErrorAdapter.adapt(e);
     }
   }
+
+  /**
+   * set leverage for futures contract
+   * leverage ≠ 0:
+   * Isolated Margin Mode (Regardless of whether cross_leverage_limit is filled, this parameter will be ignored)
+   * leverage = 0:
+   * Cross Margin Mode (Use cross_leverage_limit to set the leverage multiple)
+   *
+   * @param instrument symbol to change leverage
+   * @param leverage   leverage
+   * @param args       cross_leverage
+   * @return is successful
+   */
+  @Override
+  public boolean setLeverage(Instrument instrument, int leverage, Object... args) throws IOException {
+    if (instrument instanceof FuturesContract) {
+      String settle = instrument.getCounter().getCurrencyCode().toLowerCase();
+      String contract = GateioAdapters.toGateioInstrument(instrument);
+      Integer cross_leverage;
+      if (args != null && args.length > 0) {
+        cross_leverage = (Integer) args[0];
+        if (setLeverage(settle, contract, "0", String.valueOf(cross_leverage)).getCrossLeverageLimit().intValue() == cross_leverage)
+          return true;
+      } else {
+        if (setLeverage(settle, contract, String.valueOf(leverage), null).getLeverage().intValue() == leverage)
+          return true;
+      }
+      return false;
+    } else throw new UnsupportedOperationException("Leverage is not supported for spot instruments");
+  }
+
+  @Override
+  public Map<Instrument, Fee> getDynamicTradingFeesByInstrument(String... category)
+      throws IOException {
+    try {
+      Map<Instrument, Fee> fees = new HashMap<>();
+      if (exchange.isFuturesEnabled()) {
+        Map<String, GateioFuturesFee> futuresFees = getFuturesFee("usdt", null);
+        futuresFees.forEach((contract, fee) -> {
+          fees.put(
+              GateioAdapters.fromGateioInstrument(contract, true),
+              new Fee(fee.getMakerFee(), fee.getTakerFee()));
+        });
+      } else {
+        GateioSpotFee spotFee = getSpotFee(null);
+        exchange.getExchangeMetaData().getInstruments().keySet().forEach(instrument -> {
+          fees.put(instrument,
+              new Fee(spotFee.getMakerFee(), spotFee.getTakerFee()));
+        });
+      }
+      return fees;
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
 }

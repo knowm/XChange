@@ -11,8 +11,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -20,19 +21,21 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class OkCoinStreamingMarketDataServiceTest {
+class OkCoinStreamingMarketDataServiceTest {
+
+  private AutoCloseable mocks;
 
   @Mock private OkCoinStreamingService okCoinStreamingService;
   private OkCoinStreamingMarketDataService marketDataService;
 
-  @Before
-  public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
+  @BeforeEach
+  void setUp() throws Exception {
+    mocks = MockitoAnnotations.openMocks(this);
     marketDataService = new OkCoinStreamingMarketDataService(okCoinStreamingService);
   }
 
   @Test
-  public void testGetOrderBook() throws Exception {
+  void getOrderBook() throws Exception {
     // Given order book in JSON
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
@@ -94,5 +97,10 @@ public class OkCoinStreamingMarketDataServiceTest {
 
     // Get order book object in correct order
     test.assertResult(expected);
+  }
+
+  @AfterEach
+  void tearDown() throws Exception {
+    mocks.close();
   }
 }

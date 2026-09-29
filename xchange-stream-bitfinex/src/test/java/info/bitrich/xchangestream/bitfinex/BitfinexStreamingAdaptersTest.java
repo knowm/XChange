@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.bitfinex;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
@@ -15,10 +15,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-public class BitfinexStreamingAdaptersTest {
+class BitfinexStreamingAdaptersTest {
 
   @Test
-  public void testMarketOrder() {
+  void marketOrder() {
     BitfinexWebSocketAuthOrder bitfinexWebSocketAuthOrder =
         new BitfinexWebSocketAuthOrder(
             123123123L, // id,
@@ -45,23 +45,23 @@ public class BitfinexStreamingAdaptersTest {
 
     Order adaptedOrder = BitfinexStreamingAdapters.adaptOrder(bitfinexWebSocketAuthOrder);
 
-    assertEquals("123123123", adaptedOrder.getId());
-    assertEquals(Order.OrderType.BID, adaptedOrder.getType());
-    assertEquals(new BigDecimal("3495.2"), adaptedOrder.getAveragePrice());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getCumulativeAmount());
-    assertEquals(CurrencyPair.BTC_USD, adaptedOrder.getCurrencyPair());
+    assertThat(adaptedOrder.getId()).isEqualTo("123123123");
+    assertThat(adaptedOrder.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(adaptedOrder.getAveragePrice()).isEqualTo(new BigDecimal("3495.2"));
+    assertThat(adaptedOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
 
     // TODO see above. should be:
     // assertEquals(Collections.singleton(BitfinexOrderFlags.MARGIN), adaptedOrder.getOrderFlags());
 
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.000"), adaptedOrder.getRemainingAmount());
-    assertEquals(OrderStatus.FILLED, adaptedOrder.getStatus());
-    assertEquals(new Date(1548674205259L).getTime(), adaptedOrder.getTimestamp().getTime());
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getRemainingAmount()).isEqualTo(new BigDecimal("0.000"));
+    assertThat(adaptedOrder.getStatus()).isEqualTo(OrderStatus.FILLED);
+    assertThat(adaptedOrder.getTimestamp().getTime()).isEqualTo(new Date(1548674205259L).getTime());
   }
 
   @Test
-  public void testStopOrder() {
+  void stopOrder() {
     BitfinexWebSocketAuthOrder bitfinexWebSocketAuthOrder =
         new BitfinexWebSocketAuthOrder(
             123123123L, // id,
@@ -88,23 +88,23 @@ public class BitfinexStreamingAdaptersTest {
 
     Order adaptedOrder = BitfinexStreamingAdapters.adaptOrder(bitfinexWebSocketAuthOrder);
 
-    assertEquals("123123123", adaptedOrder.getId());
-    assertEquals(Order.OrderType.BID, adaptedOrder.getType());
-    assertEquals(new BigDecimal("3495.2"), adaptedOrder.getAveragePrice());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getCumulativeAmount());
-    assertEquals(CurrencyPair.BTC_USD, adaptedOrder.getCurrencyPair());
+    assertThat(adaptedOrder.getId()).isEqualTo("123123123");
+    assertThat(adaptedOrder.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(adaptedOrder.getAveragePrice()).isEqualTo(new BigDecimal("3495.2"));
+    assertThat(adaptedOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
 
     // TODO see above. should be:
     // assertEquals(Collections.singleton(BitfinexOrderFlags.MARGIN), adaptedOrder.getOrderFlags());
 
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.000"), adaptedOrder.getRemainingAmount());
-    assertEquals(OrderStatus.FILLED, adaptedOrder.getStatus());
-    assertEquals(new Date(1548674205259L).getTime(), adaptedOrder.getTimestamp().getTime());
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getRemainingAmount()).isEqualTo(new BigDecimal("0.000"));
+    assertThat(adaptedOrder.getStatus()).isEqualTo(OrderStatus.FILLED);
+    assertThat(adaptedOrder.getTimestamp().getTime()).isEqualTo(new Date(1548674205259L).getTime());
   }
 
   @Test
-  public void testNewLimitOrder() {
+  void newLimitOrder() {
     BitfinexWebSocketAuthOrder bitfinexWebSocketAuthOrder =
         new BitfinexWebSocketAuthOrder(
             123123123L, // id,
@@ -129,21 +129,21 @@ public class BitfinexStreamingAdaptersTest {
     LimitOrder adaptedOrder =
         (LimitOrder) BitfinexStreamingAdapters.adaptOrder(bitfinexWebSocketAuthOrder);
 
-    assertEquals("123123123", adaptedOrder.getId());
-    assertEquals(Order.OrderType.BID, adaptedOrder.getType());
-    assertEquals(BigDecimal.ZERO, adaptedOrder.getAveragePrice());
-    assertEquals(0, BigDecimal.ZERO.compareTo(adaptedOrder.getCumulativeAmount()));
-    assertEquals(CurrencyPair.BTC_USD, adaptedOrder.getCurrencyPair());
-    assertEquals(new BigDecimal("3495.2"), adaptedOrder.getLimitPrice());
-    assertEquals(Collections.emptySet(), adaptedOrder.getOrderFlags());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getRemainingAmount());
-    assertEquals(OrderStatus.NEW, adaptedOrder.getStatus());
-    assertEquals(new Date(1548674205259L).getTime(), adaptedOrder.getTimestamp().getTime());
+    assertThat(adaptedOrder.getId()).isEqualTo("123123123");
+    assertThat(adaptedOrder.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(adaptedOrder.getAveragePrice()).isEqualTo(BigDecimal.ZERO);
+    assertThat(BigDecimal.ZERO.compareTo(adaptedOrder.getCumulativeAmount())).isEqualTo(0);
+    assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(adaptedOrder.getLimitPrice()).isEqualTo(new BigDecimal("3495.2"));
+    assertThat(adaptedOrder.getOrderFlags()).isEqualTo(Collections.emptySet());
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getRemainingAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getStatus()).isEqualTo(OrderStatus.NEW);
+    assertThat(adaptedOrder.getTimestamp().getTime()).isEqualTo(new Date(1548674205259L).getTime());
   }
 
   @Test
-  public void testCancelledLimitOrder() {
+  void cancelledLimitOrder() {
     BitfinexWebSocketAuthOrder bitfinexWebSocketAuthOrder =
         new BitfinexWebSocketAuthOrder(
             123123123L, // id,
@@ -168,24 +168,24 @@ public class BitfinexStreamingAdaptersTest {
     LimitOrder adaptedOrder =
         (LimitOrder) BitfinexStreamingAdapters.adaptOrder(bitfinexWebSocketAuthOrder);
 
-    assertEquals("123123123", adaptedOrder.getId());
-    assertEquals(Order.OrderType.ASK, adaptedOrder.getType());
-    assertEquals(BigDecimal.ZERO, adaptedOrder.getAveragePrice());
-    assertEquals(0, BigDecimal.ZERO.compareTo(adaptedOrder.getCumulativeAmount()));
-    assertEquals(CurrencyPair.BTC_USD, adaptedOrder.getCurrencyPair());
-    assertEquals(new BigDecimal("3495.2"), adaptedOrder.getLimitPrice());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getRemainingAmount());
+    assertThat(adaptedOrder.getId()).isEqualTo("123123123");
+    assertThat(adaptedOrder.getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(adaptedOrder.getAveragePrice()).isEqualTo(BigDecimal.ZERO);
+    assertThat(BigDecimal.ZERO.compareTo(adaptedOrder.getCumulativeAmount())).isEqualTo(0);
+    assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(adaptedOrder.getLimitPrice()).isEqualTo(new BigDecimal("3495.2"));
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getRemainingAmount()).isEqualTo(new BigDecimal("0.004"));
 
     // TODO see above. should be:
     // assertEquals(Collections.singleton(BitfinexOrderFlags.MARGIN), adaptedOrder.getOrderFlags());
 
-    assertEquals(OrderStatus.CANCELED, adaptedOrder.getStatus());
-    assertEquals(new Date(1548674205259L).getTime(), adaptedOrder.getTimestamp().getTime());
+    assertThat(adaptedOrder.getStatus()).isEqualTo(OrderStatus.CANCELED);
+    assertThat(adaptedOrder.getTimestamp().getTime()).isEqualTo(new Date(1548674205259L).getTime());
   }
 
   @Test
-  public void testPartiallyFilledLimitOrder() {
+  void partiallyFilledLimitOrder() {
     BitfinexWebSocketAuthOrder bitfinexWebSocketAuthOrder =
         new BitfinexWebSocketAuthOrder(
             123123123L, // id,
@@ -210,24 +210,24 @@ public class BitfinexStreamingAdaptersTest {
     LimitOrder adaptedOrder =
         (LimitOrder) BitfinexStreamingAdapters.adaptOrder(bitfinexWebSocketAuthOrder);
 
-    assertEquals("123123123", adaptedOrder.getId());
-    assertEquals(Order.OrderType.ASK, adaptedOrder.getType());
-    assertEquals(new BigDecimal("3495.1"), adaptedOrder.getAveragePrice());
-    assertEquals(new BigDecimal("0.003"), adaptedOrder.getCumulativeAmount());
-    assertEquals(CurrencyPair.BTC_USD, adaptedOrder.getCurrencyPair());
-    assertEquals(new BigDecimal("3495.2"), adaptedOrder.getLimitPrice());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.001"), adaptedOrder.getRemainingAmount());
+    assertThat(adaptedOrder.getId()).isEqualTo("123123123");
+    assertThat(adaptedOrder.getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(adaptedOrder.getAveragePrice()).isEqualTo(new BigDecimal("3495.1"));
+    assertThat(adaptedOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.003"));
+    assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(adaptedOrder.getLimitPrice()).isEqualTo(new BigDecimal("3495.2"));
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getRemainingAmount()).isEqualTo(new BigDecimal("0.001"));
 
     // TODO see above. should be:
     // assertEquals(Collections.singleton(BitfinexOrderFlags.MARGIN), adaptedOrder.getOrderFlags());
 
-    assertEquals(OrderStatus.PARTIALLY_FILLED, adaptedOrder.getStatus());
-    assertEquals(new Date(1548674205259L).getTime(), adaptedOrder.getTimestamp().getTime());
+    assertThat(adaptedOrder.getStatus()).isEqualTo(OrderStatus.PARTIALLY_FILLED);
+    assertThat(adaptedOrder.getTimestamp().getTime()).isEqualTo(new Date(1548674205259L).getTime());
   }
 
   @Test
-  public void testExecutedLimitOrder() {
+  void executedLimitOrder() {
     BitfinexWebSocketAuthOrder bitfinexWebSocketAuthOrder =
         new BitfinexWebSocketAuthOrder(
             123123123L, // id,
@@ -252,21 +252,21 @@ public class BitfinexStreamingAdaptersTest {
     LimitOrder adaptedOrder =
         (LimitOrder) BitfinexStreamingAdapters.adaptOrder(bitfinexWebSocketAuthOrder);
 
-    assertEquals("123123123", adaptedOrder.getId());
-    assertEquals(Order.OrderType.BID, adaptedOrder.getType());
-    assertEquals(new BigDecimal("3495.1"), adaptedOrder.getAveragePrice());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getCumulativeAmount());
-    assertEquals(CurrencyPair.BTC_USD, adaptedOrder.getCurrencyPair());
-    assertEquals(new BigDecimal("3495.2"), adaptedOrder.getLimitPrice());
-    assertEquals(new BigDecimal("0.004"), adaptedOrder.getOriginalAmount());
-    assertEquals(new BigDecimal("0.000"), adaptedOrder.getRemainingAmount());
-    assertEquals(Collections.emptySet(), adaptedOrder.getOrderFlags());
-    assertEquals(OrderStatus.FILLED, adaptedOrder.getStatus());
-    assertEquals(new Date(1548674205259L).getTime(), adaptedOrder.getTimestamp().getTime());
+    assertThat(adaptedOrder.getId()).isEqualTo("123123123");
+    assertThat(adaptedOrder.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(adaptedOrder.getAveragePrice()).isEqualTo(new BigDecimal("3495.1"));
+    assertThat(adaptedOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(adaptedOrder.getLimitPrice()).isEqualTo(new BigDecimal("3495.2"));
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("0.004"));
+    assertThat(adaptedOrder.getRemainingAmount()).isEqualTo(new BigDecimal("0.000"));
+    assertThat(adaptedOrder.getOrderFlags()).isEqualTo(Collections.emptySet());
+    assertThat(adaptedOrder.getStatus()).isEqualTo(OrderStatus.FILLED);
+    assertThat(adaptedOrder.getTimestamp().getTime()).isEqualTo(new Date(1548674205259L).getTime());
   }
 
   @Test
-  public void testTradeBuy() {
+  void tradeBuy() {
     BitfinexWebSocketAuthTrade bitfinexWebSocketAuthTrade =
         new BitfinexWebSocketAuthTrade(
             335015622L, // id
@@ -282,19 +282,19 @@ public class BitfinexStreamingAdaptersTest {
             "BTC" // feeCurrency
             );
     UserTrade adapted = BitfinexStreamingAdapters.adaptUserTrade(bitfinexWebSocketAuthTrade);
-    assertEquals(CurrencyPair.BTC_USD, adapted.getInstrument());
-    assertEquals(new BigDecimal("0.00000682896"), adapted.getFeeAmount());
-    assertEquals(CurrencyPair.BTC_USD.getBase(), adapted.getFeeCurrency());
-    assertEquals("335015622", adapted.getId());
-    assertEquals("21895093123", adapted.getOrderId());
-    assertEquals(new BigDecimal("0.00341448"), adapted.getOriginalAmount());
-    assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
-    assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
-    assertEquals(OrderType.BID, adapted.getType());
+    assertThat(adapted.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(adapted.getFeeAmount()).isEqualTo(new BigDecimal("0.00000682896"));
+    assertThat(adapted.getFeeCurrency()).isEqualTo(CurrencyPair.BTC_USD.getBase());
+    assertThat(adapted.getId()).isEqualTo("335015622");
+    assertThat(adapted.getOrderId()).isEqualTo("21895093123");
+    assertThat(adapted.getOriginalAmount()).isEqualTo(new BigDecimal("0.00341448"));
+    assertThat(adapted.getPrice()).isEqualTo(new BigDecimal("3495.4"));
+    assertThat(adapted.getTimestamp().getTime()).isEqualTo(new Date(1548674247684L).getTime());
+    assertThat(adapted.getType()).isEqualTo(OrderType.BID);
   }
 
   @Test
-  public void testTradeSell() {
+  void tradeSell() {
     BitfinexWebSocketAuthTrade bitfinexWebSocketAuthTrade =
         new BitfinexWebSocketAuthTrade(
             335015622L, // id
@@ -310,14 +310,14 @@ public class BitfinexStreamingAdaptersTest {
             "BTC" // feeCurrency
             );
     UserTrade adapted = BitfinexStreamingAdapters.adaptUserTrade(bitfinexWebSocketAuthTrade);
-    assertEquals(CurrencyPair.BTC_USD, adapted.getInstrument());
-    assertEquals(new BigDecimal("0.00000682896"), adapted.getFeeAmount());
-    assertEquals(CurrencyPair.BTC_USD.getBase(), adapted.getFeeCurrency());
-    assertEquals("335015622", adapted.getId());
-    assertEquals("21895093123", adapted.getOrderId());
-    assertEquals(new BigDecimal("0.00341448"), adapted.getOriginalAmount());
-    assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
-    assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
-    assertEquals(OrderType.ASK, adapted.getType());
+    assertThat(adapted.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(adapted.getFeeAmount()).isEqualTo(new BigDecimal("0.00000682896"));
+    assertThat(adapted.getFeeCurrency()).isEqualTo(CurrencyPair.BTC_USD.getBase());
+    assertThat(adapted.getId()).isEqualTo("335015622");
+    assertThat(adapted.getOrderId()).isEqualTo("21895093123");
+    assertThat(adapted.getOriginalAmount()).isEqualTo(new BigDecimal("0.00341448"));
+    assertThat(adapted.getPrice()).isEqualTo(new BigDecimal("3495.4"));
+    assertThat(adapted.getTimestamp().getTime()).isEqualTo(new Date(1548674247684L).getTime());
+    assertThat(adapted.getType()).isEqualTo(OrderType.ASK);
   }
 }

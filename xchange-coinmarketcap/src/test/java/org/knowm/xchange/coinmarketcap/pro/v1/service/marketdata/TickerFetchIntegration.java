@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinmarketcap.pro.v1.CmcExchange;
@@ -17,21 +17,21 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 
-public class TickerFetchIntegration {
+class TickerFetchIntegration {
   private static Exchange exchange;
   private static CmcMarketDataService cmcMarketDataService;
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(CmcExchange.class);
     exchange.applySpecification(((CmcExchange) exchange).getSandboxExchangeSpecification());
     cmcMarketDataService = (CmcMarketDataService) exchange.getMarketDataService();
 
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
   }
 
   @Test
-  public void getTickerTest() throws Exception {
+  void getTickerTest() throws Exception {
     Ticker ticker = cmcMarketDataService.getTicker(CurrencyPair.BTC_USD);
 
     assertThat(ticker).isNotNull();
@@ -41,7 +41,7 @@ public class TickerFetchIntegration {
   }
 
   @Test
-  public void getTickersTest() throws Exception {
+  void getTickersTest() throws Exception {
     CurrencyPairsParam pairsParam =
         () -> {
           Set<CurrencyPair> pairs = new HashSet<>();
@@ -59,7 +59,7 @@ public class TickerFetchIntegration {
   }
 
   @Test
-  public void getAllTickersTest() throws Exception {
+  void getAllTickersTest() throws Exception {
     List<Ticker> tickerList = cmcMarketDataService.getAllTickers();
 
     assertThat(tickerList).isNotNull();

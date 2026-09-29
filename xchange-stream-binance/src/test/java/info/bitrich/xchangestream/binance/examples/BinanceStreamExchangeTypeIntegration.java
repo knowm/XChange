@@ -13,8 +13,8 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,11 +25,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 
 // Github build give http 451 error(Unavailable For Legal Reasons)
-@Ignore
-public class BinanceStreamExchangeTypeIntegration {
+@Disabled
+class BinanceStreamExchangeTypeIntegration {
 
   @Test
-  public void testConnections() throws InterruptedException, IOException {
+  void connections() throws Exception {
     testConnection(new CurrencyPair("ETH/USDT"), getSpec(SPOT, false));
     testConnection(new CurrencyPair("ETH/USDT"), getSpec1(SPOT, true));
     testConnection(new FuturesContract("ETH/USDT/PERP"), getSpec1(FUTURES, false));

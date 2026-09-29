@@ -3,15 +3,14 @@ package org.knowm.xchange.enigma.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MarketDataJSONTest {
+class MarketDataJSONTest {
 
   @Test
-  public void testUnMarshal() throws IOException {
+  void unMarshal() throws Exception {
     InputStream is = getClass().getClassLoader().getResourceAsStream("market-data.json");
     ObjectMapper mapper = new ObjectMapper();
     EnigmaProductMarketData product = mapper.readValue(is, EnigmaProductMarketData.class);

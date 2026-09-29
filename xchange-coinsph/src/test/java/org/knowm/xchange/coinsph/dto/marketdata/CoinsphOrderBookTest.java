@@ -3,18 +3,17 @@ package org.knowm.xchange.coinsph.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class CoinsphOrderBookTest {
+class CoinsphOrderBookTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshalOrderBook() throws IOException {
+  void unmarshalOrderBook() throws Exception {
     // given
     InputStream is =
         CoinsphOrderBookTest.class.getResourceAsStream(
@@ -43,7 +42,7 @@ public class CoinsphOrderBookTest {
   }
 
   @Test
-  public void testUnmarshalOrderBookFromFile() throws IOException {
+  void unmarshalOrderBookFromFile() throws Exception {
     // This test is already covered in testUnmarshalOrderBook
     // but we're adding it here to show how to read from a file
     String json =

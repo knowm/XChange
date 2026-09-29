@@ -3,20 +3,19 @@ package org.knowm.xchange.bitcoinaverage;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickerJSONTest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
 /** Tests the BitcoinAverageAdapter class */
-public class BitcoinAverageAdapterTest {
+class BitcoinAverageAdapterTest {
 
   @Test
-  public void testTickerAdapter() throws IOException {
+  void tickerAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.time.Instant;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitso.BitsoJacksonObjectMapperFactory;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoAvailableBooks;
@@ -14,12 +14,12 @@ import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTrades;
 import org.knowm.xchange.bitso.dto.trade.*;
 
-public class BitsoV3DTOTest {
+class BitsoV3DTOTest {
 
   private final ObjectMapper objectMapper = BitsoJacksonObjectMapperFactory.getInstance();
 
   @Test
-  public void testBitsoOrderRequestSerialization() throws Exception {
+  void bitsoOrderRequestSerialization() throws Exception {
     BitsoOrderRequest request =
         BitsoOrderRequest.builder()
             .book("btc_mxn")
@@ -44,7 +44,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoOrderResponseDeserialization() throws Exception {
+  void bitsoOrderResponseDeserialization() throws Exception {
     String json = "{\"oid\":\"test-order-456\"}";
 
     BitsoOrderResponse response = objectMapper.readValue(json, BitsoOrderResponse.class);
@@ -53,7 +53,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoOrderDeserialization() throws Exception {
+  void bitsoOrderDeserialization() throws Exception {
     String json =
         "{"
             + "\"book\":\"btc_mxn\","
@@ -84,7 +84,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoBalanceDeserialization() throws Exception {
+  void bitsoBalanceDeserialization() throws Exception {
     String json =
         "{"
             + "\"balances\":["
@@ -123,7 +123,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoBaseResponseDeserialization() throws Exception {
+  void bitsoBaseResponseDeserialization() throws Exception {
     String json = "{" + "\"success\":true," + "\"payload\":{\"oid\":\"test-order-123\"}" + "}";
 
     BitsoBaseResponse<BitsoOrderResponse> response =
@@ -139,7 +139,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoUserTransactionDeserialization() throws Exception {
+  void bitsoUserTransactionDeserialization() throws Exception {
     String json =
         "{"
             + "\"book\":\"btc_mxn\","
@@ -173,7 +173,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoTickerV3() throws Exception {
+  void bitsoTickerV3() throws Exception {
     String json =
         "{"
             + "\"success\": true,"
@@ -218,7 +218,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoOrderBookV3() throws Exception {
+  void bitsoOrderBookV3() throws Exception {
     String json =
         "{"
             + "\"success\": true,"
@@ -272,7 +272,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoTradesV3() throws Exception {
+  void bitsoTradesV3() throws Exception {
     String json =
         "{"
             + "\"success\": true,"
@@ -317,7 +317,7 @@ public class BitsoV3DTOTest {
   }
 
   @Test
-  public void testBitsoAvailableBooksV3() throws Exception {
+  void bitsoAvailableBooksV3() throws Exception {
     String json =
         "{"
             + "\"success\": true,"

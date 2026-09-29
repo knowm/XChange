@@ -1,13 +1,13 @@
 package org.knowm.xchange.bybit.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
@@ -18,7 +18,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.instrument.Instrument;
 
-@Ignore
+@Disabled
 public class BybitAccountServiceTest extends BaseWiremockTest {
 
   static BybitExchange bybitExchange;
@@ -32,7 +32,7 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetWalletBalancesWithUnified() throws IOException {
+  void getWalletBalancesWithUnified() throws Exception {
     setUp();
     initGetStub("/v5/account/wallet-balance", "/getWalletBalance.json5");
     AccountInfo accountInfo = bybitAccountService.getAccountInfo();
@@ -43,7 +43,7 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetAllCoinsBalanceWithFund() throws IOException {
+  void getAllCoinsBalanceWithFund() throws Exception {
     BybitExchange bybitExchange = createExchange();
     BybitAccountService bybitAccountService =
         new BybitAccountService(
@@ -58,7 +58,7 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetFeeRate() throws IOException {
+  void getFeeRate() throws Exception {
     setUp();
     initGetStub("/v5/account/fee-rate", "/getFeeRates.json5");
     Instrument ETH_USDT = new CurrencyPair("ETH/USDT");
@@ -71,22 +71,18 @@ public class BybitAccountServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testSetLeverage() throws IOException {
+  void setLeverage() throws Exception {
     setUp();
     initPostStub("/v5/position/set-leverage", "/setLeverage.json5");
-    try {
-      bybitAccountService.setLeverage(new CurrencyPair("ETH/USDT"), 1);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException ignored) {
-
-    }
+    assertThatThrownBy(() -> bybitAccountService.setLeverage(new CurrencyPair("ETH/USDT"), 1))
+        .isInstanceOf(UnsupportedOperationException.class);
     boolean bybitSetLeverageBybitResult =
         bybitAccountService.setLeverage(new FuturesContract("ETH/USDT/PERP"), 1);
     assertThat(bybitSetLeverageBybitResult).isTrue();
   }
 
   @Test
-  public void testSwitchPositionMode() throws IOException {
+  void switchPositionMode() throws Exception {
     setUp();
     initPostStub("/v5/position/switch-mode", "/switchPositionMode.json5");
 

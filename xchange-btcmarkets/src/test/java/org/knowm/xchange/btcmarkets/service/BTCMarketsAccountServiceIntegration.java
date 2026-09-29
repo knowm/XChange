@@ -3,9 +3,8 @@ package org.knowm.xchange.btcmarkets.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.ExchangeUtils;
 import org.knowm.xchange.btcmarkets.dto.v3.BTCMarketsExceptionV3;
@@ -24,12 +23,12 @@ public class BTCMarketsAccountServiceIntegration {
   }
 
   @Test
-  public void testGetAccountInfo() throws IOException {
+  void getAccountInfo() throws Exception {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
   }
 
   @Test
-  public void testGetTradeHistory() throws IOException {
+  void getTradeHistory() throws Exception {
     BTCMarketsTradeService.HistoryParams tradeHistoryParams =
         (BTCMarketsTradeService.HistoryParams)
             exchange.getTradeService().createTradeHistoryParams();
@@ -39,13 +38,13 @@ public class BTCMarketsAccountServiceIntegration {
   }
 
   @Test
-  public void testGetDepositAddress() throws IOException {
+  void getDepositAddress() throws Exception {
     String address = exchange.getAccountService().requestDepositAddress(Currency.BTC);
     assertThat(address).isNotNull();
   }
 
   @Test
-  public void testPlaceInvalidOrderReturnsV3Error() throws IOException {
+  void placeInvalidOrderReturnsV3Error() throws Exception {
     LimitOrder order =
         new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_AUD)
             .limitPrice(BigDecimal.ONE)

@@ -2,7 +2,6 @@ package org.knowm.xchange.coinex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinex.CoinexExchangeWiremock;
@@ -19,7 +18,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   TradeService tradeService = exchange.getTradeService();
 
   @Test
-  void all_open_orders() throws IOException {
+  void all_open_orders() throws Exception {
     OpenOrders actual = tradeService.getOpenOrders();
 
     assertThat(actual.getOpenOrders()).hasSize(2);
@@ -30,7 +29,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   }
 
   @Test
-  void filtered_open_orders() throws IOException {
+  void filtered_open_orders() throws Exception {
     OpenOrders actual =
         tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_USDT));
 
@@ -41,7 +40,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   }
 
   @Test
-  void valid_cancel_order() throws IOException {
+  void valid_cancel_order() throws Exception {
     boolean actual =
         tradeService.cancelOrder(
             new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "136215219959"));
@@ -49,7 +48,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   }
 
   @Test
-  void place_stop_buy_limit_order() throws IOException {
+  void place_stop_buy_limit_order() throws Exception {
     StopOrder stopOrder =
         new StopOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .userReference("valid_stop_buy_limit_order")
@@ -64,7 +63,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   }
 
   @Test
-  void place_stop_buy_market_order() throws IOException {
+  void place_stop_buy_market_order() throws Exception {
     StopOrder stopOrder =
         new StopOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .userReference("valid_stop_buy_market_order")
@@ -78,7 +77,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   }
 
   @Test
-  void place_stop_sell_limit_order() throws IOException {
+  void place_stop_sell_limit_order() throws Exception {
     StopOrder stopOrder =
         new StopOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
             .userReference("valid_stop_sell_limit_order")
@@ -93,7 +92,7 @@ class CoinexTradeServiceTest extends CoinexExchangeWiremock {
   }
 
   @Test
-  void place_stop_sell_market_order() throws IOException {
+  void place_stop_sell_market_order() throws Exception {
     StopOrder stopOrder =
         new StopOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
             .userReference("valid_stop_sell_market_order")

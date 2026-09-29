@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TradeServiceIntegration extends CoinsphExchangeIntegration {
+class TradeServiceIntegration extends CoinsphExchangeIntegration {
 
   private static final Logger logger = LoggerFactory.getLogger(TradeServiceIntegration.class);
   private CoinsphTradeService tradeService;
@@ -38,7 +38,7 @@ public class TradeServiceIntegration extends CoinsphExchangeIntegration {
   }
 
   @Test
-  void testPlaceMarketOrder() throws IOException {
+  void placeMarketOrder() throws Exception {
     final MarketOrder marketOrder = sampleMarketOrder();
     String orderId = tradeService.placeMarketOrder(marketOrder);
     logger.info("Placed market order with ID: {}", orderId);
@@ -53,7 +53,7 @@ public class TradeServiceIntegration extends CoinsphExchangeIntegration {
   }
 
   @Test
-  void testPlaceLimitOrder() throws IOException {
+  void placeLimitOrder() throws Exception {
     final LimitOrder limitOrder = sampleLimitOrder();
     String orderId = tradeService.placeLimitOrder(limitOrder);
     logger.info("Placed limit order with ID: {}", orderId);
@@ -79,7 +79,7 @@ public class TradeServiceIntegration extends CoinsphExchangeIntegration {
 
   @Test
   @Disabled("This test requires sufficient balance to place an order")
-  void testGetOrderStatus() throws IOException, InterruptedException {
+  void getOrderStatus() throws Exception {
     // Place a market order first
     final MarketOrder marketOrder = sampleMarketOrder();
     String orderId = tradeService.placeMarketOrder(marketOrder);
