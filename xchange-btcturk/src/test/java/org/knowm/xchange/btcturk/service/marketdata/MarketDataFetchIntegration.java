@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -24,13 +24,13 @@ import org.knowm.xchange.service.marketdata.params.Params;
  * @author semihunaldi
  * @author mertguner
  */
-public class MarketDataFetchIntegration {
+class MarketDataFetchIntegration {
 
   private Exchange btcTurk;
   private BTCTurkMarketDataService btcTurkMarketDataService;
 
-  @Before
-  public void InitExchange() throws IOException {
+  @BeforeEach
+  void InitExchange() throws IOException {
     if (BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty())
       btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class);
     else {
@@ -45,7 +45,7 @@ public class MarketDataFetchIntegration {
   }
 
   @Test
-  public void Tests() throws Exception, InterruptedException {
+  void Tests() throws Exception {
 
     // Ticker Test
     Thread.sleep(1000);

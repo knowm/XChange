@@ -14,7 +14,7 @@ public class DeribitStreamingExchangeIT {
   public static StreamingExchange exchange;
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
             .createExchangeWithoutSpecification(DeribitStreamingExchange.class)
@@ -33,7 +33,7 @@ public class DeribitStreamingExchangeIT {
   }
 
   @AfterAll
-  public static void cleanup() {
+  static void cleanup() {
     if (exchange.isAlive()) {
       exchange.disconnect().blockingAwait();
     }

@@ -165,11 +165,8 @@
         <version.github.mmazi>3.1</version.github.mmazi>
 
         <version.java>17</version.java>
-        <version.java-jwt>4.5.2</version.java-jwt>
-        <version.junit>6.1.2</version.junit>
-        <version.knowm.xchart>4.0.2</version.knowm.xchart>
         <version.java-jwt>4.6.0</version.java-jwt>
-        <version.junit>5.12.2</version.junit>
+        <version.junit>6.1.2</version.junit>
         <version.knowm.xchart>4.0.4</version.knowm.xchart>
         <version.lombok>1.18.46</version.lombok>
         <version.maven-enforcer-plugin>3.6.3</version.maven-enforcer-plugin>
@@ -302,6 +299,15 @@
                 <version>${version.bouncycastle}</version>
             </dependency>
 
+            <!-- Keeps all JUnit artifacts aligned, including those pulled in transitively (e.g. by mockito-junit-jupiter) -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${version.junit}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
@@ -373,8 +379,8 @@
 
         <!-- JUnit for testing -->
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>

@@ -2,7 +2,7 @@ package org.knowm.xchange.okcoin.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -14,10 +14,10 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /**
  * @author timmolter
  */
-public class TickerIntegration {
+class TickerIntegration {
 
   @Test
-  public void tickerFetchChinaTest() throws Exception {
+  void tickerFetchChinaTest() throws Exception {
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
     exSpec.setExchangeSpecificParametersItem("Use_Intl", false);
 
@@ -29,7 +29,7 @@ public class TickerIntegration {
   }
 
   @Test
-  public void tickerFetchIntlTest() throws Exception {
+  void tickerFetchIntlTest() throws Exception {
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
     exSpec.setExchangeSpecificParametersItem("Use_Intl", true);
 

@@ -2,10 +2,9 @@ package org.knowm.xchange.bitso.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitso.BitsoJacksonObjectMapperFactory;
 import org.knowm.xchange.bitso.dto.trade.BitsoModifyOrderRequest;
 
@@ -14,12 +13,12 @@ import org.knowm.xchange.bitso.dto.trade.BitsoModifyOrderRequest;
  *
  * @author Piotr Ładyżyński
  */
-public class BitsoV4DTOTest {
+class BitsoV4DTOTest {
 
   private final ObjectMapper objectMapper = BitsoJacksonObjectMapperFactory.getInstance();
 
   @Test
-  public void testBitsoModifyOrderRequestSerialization() throws JsonProcessingException {
+  void bitsoModifyOrderRequestSerialization() throws Exception {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder()
             .major(new BigDecimal("1.5"))
@@ -40,7 +39,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestMinorAmount() throws JsonProcessingException {
+  void bitsoModifyOrderRequestMinorAmount() throws Exception {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder()
             .minor(new BigDecimal("75000.50"))
@@ -61,7 +60,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestStopOrder() throws JsonProcessingException {
+  void bitsoModifyOrderRequestStopOrder() throws Exception {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder()
             .major(new BigDecimal("0.5"))
@@ -81,7 +80,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestPriceOnly() throws JsonProcessingException {
+  void bitsoModifyOrderRequestPriceOnly() throws Exception {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder().price(new BigDecimal("51000.25")).build();
 
@@ -98,7 +97,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestAllFields() throws JsonProcessingException {
+  void bitsoModifyOrderRequestAllFields() throws Exception {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder()
             .major(new BigDecimal("2.0"))
@@ -119,7 +118,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestDeserialization() throws JsonProcessingException {
+  void bitsoModifyOrderRequestDeserialization() throws Exception {
     String json = "{" + "\"major\": 1.5," + "\"price\": 50000.00," + "\"cancel\": false" + "}";
 
     BitsoModifyOrderRequest request = objectMapper.readValue(json, BitsoModifyOrderRequest.class);
@@ -132,7 +131,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestBuilder() {
+  void bitsoModifyOrderRequestBuilder() {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder()
             .major(new BigDecimal("1.0"))
@@ -148,7 +147,7 @@ public class BitsoV4DTOTest {
   }
 
   @Test
-  public void testBitsoModifyOrderRequestImmutability() {
+  void bitsoModifyOrderRequestImmutability() {
     BitsoModifyOrderRequest request =
         BitsoModifyOrderRequest.builder().major(new BigDecimal("1.0")).build();
 

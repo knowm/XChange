@@ -6,18 +6,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceResilience;
 
-public class BinanceBaseServiceTest {
+class BinanceBaseServiceTest {
   /**
    * Tests the functionality of the {@link BinanceBaseService#getRecvWindow()} to safely obtain a
    * value for the recvWindow for various supplied inputs.
    */
   @Test
-  public void testGetRecvWindow() {
+  void getRecvWindow() {
     // Simple helper function that prepares a service with the "recvWindow" param and calls the
     // getter.
     Function<Object, Long> serviceBuilder =

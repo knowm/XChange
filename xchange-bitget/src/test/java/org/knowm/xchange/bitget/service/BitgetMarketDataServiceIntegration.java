@@ -3,7 +3,6 @@ package org.knowm.xchange.bitget.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitget.BitgetIntegrationTestParent;
@@ -18,7 +17,7 @@ import org.knowm.xchange.instrument.Instrument;
 class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
@@ -30,7 +29,7 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
   }
 
   @Test
-  void valid_currencies() throws IOException {
+  void valid_currencies() throws Exception {
     List<Currency> currencies =
         ((BitgetMarketDataService) exchange.getMarketDataService()).getCurrencies();
 
@@ -39,7 +38,7 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
   }
 
   @Test
-  void valid_instruments() throws IOException {
+  void valid_instruments() throws Exception {
     List<Instrument> instruments =
         ((BitgetMarketDataService) exchange.getMarketDataService()).getInstruments();
 
@@ -58,7 +57,7 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
   }
 
   @Test
-  void valid_tickers() throws IOException {
+  void valid_tickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
@@ -75,7 +74,7 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
   }
 
   @Test
-  void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getBids()).isNotEmpty();

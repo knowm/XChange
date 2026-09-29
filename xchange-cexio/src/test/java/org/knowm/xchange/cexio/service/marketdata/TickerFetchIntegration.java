@@ -1,16 +1,14 @@
 package org.knowm.xchange.cexio.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
@@ -24,17 +22,17 @@ import org.knowm.xchange.service.marketdata.params.InstrumentsParams;
 /**
  * @author timmolter
  */
-public class TickerFetchIntegration {
+class TickerFetchIntegration {
 
   private static Exchange exchange;
 
-  @BeforeClass
-  public static void setup() {
+  @BeforeAll
+  static void setup() {
     exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
   }
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  void tickerFetchTest() throws Exception {
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
     System.out.println(ticker.toString());
@@ -42,7 +40,7 @@ public class TickerFetchIntegration {
   }
 
   @Test
-  public void tickerFetchAllTest() throws Exception {
+  void tickerFetchAllTest() throws Exception {
     Set<Instrument> allCurrencyPairs = exchange.getExchangeMetaData().getInstruments().keySet();
 
     List<Ticker> tickers =
@@ -50,17 +48,18 @@ public class TickerFetchIntegration {
     Set<Instrument> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
-    assertEquals(
-        "The number of currency pairs should be the same as the requested number of currency pairs",
-        allCurrencyPairs.size(),
-        currencyPairsInTickers.size());
-    assertTrue(
-        "Returned currency pairs should be the same as the requested",
-        currencyPairsInTickers.containsAll(allCurrencyPairs));
+    assertThat(currencyPairsInTickers.size())
+        .as(
+            "The number of currency pairs should be the same as the requested number of currency"
+                + " pairs")
+        .isEqualTo(allCurrencyPairs.size());
+    assertThat(currencyPairsInTickers.containsAll(allCurrencyPairs))
+        .withFailMessage("Returned currency pairs should be the same as the requested")
+        .isTrue();
   }
 
   @Test
-  public void tickerFetchSomeTest() throws Exception {
+  void tickerFetchSomeTest() throws Exception {
     Set<CurrencyPair> someCurrencyPairs = new HashSet<>();
     someCurrencyPairs.add(new CurrencyPair("BTC", "USD"));
     someCurrencyPairs.add(new CurrencyPair("BTC", "EUR"));
@@ -70,25 +69,27 @@ public class TickerFetchIntegration {
     Set<CurrencyPair> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
-    assertEquals(
-        "The number of currency pairs should be the same as the requested number of currency pairs",
-        someCurrencyPairs.size(),
-        currencyPairsInTickers.size());
-    assertTrue(
-        "Returned currency pairs should be the same as the requested",
-        currencyPairsInTickers.containsAll(someCurrencyPairs));
+    assertThat(currencyPairsInTickers.size())
+        .as(
+            "The number of currency pairs should be the same as the requested number of currency"
+                + " pairs")
+        .isEqualTo(someCurrencyPairs.size());
+    assertThat(currencyPairsInTickers.containsAll(someCurrencyPairs))
+        .withFailMessage("Returned currency pairs should be the same as the requested")
+        .isTrue();
   }
 
   @Test
-  public void tickerFetchNoneTest() throws Exception {
+  void tickerFetchNoneTest() throws Exception {
     List<Ticker> tickers =
         exchange.getMarketDataService().getTickers((CurrencyPairsParam) Collections::emptySet);
     Set<CurrencyPair> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
-    assertEquals(
-        "The number of currency pairs should be the same as the requested number of currency pairs",
-        0,
-        currencyPairsInTickers.size());
+    assertThat(currencyPairsInTickers.size())
+        .as(
+            "The number of currency pairs should be the same as the requested number of currency"
+                + " pairs")
+        .isEqualTo(0);
   }
 }

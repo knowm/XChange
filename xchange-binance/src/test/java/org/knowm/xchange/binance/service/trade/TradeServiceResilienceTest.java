@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.AbstractResilienceTest;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,10 +16,10 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-public class TradeServiceResilienceTest extends AbstractResilienceTest {
+class TradeServiceResilienceTest extends AbstractResilienceTest {
 
   @Test
-  public void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
+  void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
     // given
     BinanceAdapters.putSymbolMapping("LTCBTC", CurrencyPair.LTC_BTC);
     TradeService service = createExchangeWithRetryEnabled().getTradeService();
@@ -39,7 +39,7 @@ public class TradeServiceResilienceTest extends AbstractResilienceTest {
   }
 
   @Test
-  public void shouldFailIfFirstCallTimeoutedAndRetryIsDisabled() {
+  void shouldFailIfFirstCallTimeoutedAndRetryIsDisabled() {
     // given
     TradeService service = createExchangeWithRetryDisabled().getTradeService();
     stubForOpenOrdersWithFirstCallTimetoutAndSecondSuccessful();

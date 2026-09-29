@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -38,15 +38,15 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class BinanceTest {
+@Disabled
+class BinanceTest {
   private static final Instrument instrument = new CurrencyPair("ETH/USDT");
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   private static Exchange binanceExchange;
 
-  @Before
-  public void setUp() throws IOException {
+  @BeforeEach
+  void setUp() throws IOException {
     Properties properties = new Properties();
     try {
       properties.load(BinanceTest.class.getResourceAsStream("/secret.keys"));
@@ -71,7 +71,7 @@ public class BinanceTest {
   }
 
   @Test
-  public void binanceMarketDataService() throws IOException {
+  void binanceMarketDataService() throws Exception {
     // Get Ticker
     Ticker ticker = binanceExchange.getMarketDataService().getTicker(instrument);
     logger.info("Ticker: " + ticker);
@@ -90,7 +90,7 @@ public class BinanceTest {
   }
 
   @Test
-  public void binanceAccountService() throws IOException {
+  void binanceAccountService() throws Exception {
     // Works only on main(not demo) account
     Map<Instrument, Fee> fees =
         binanceExchange.getAccountService().getDynamicTradingFeesByInstrument();
@@ -100,7 +100,7 @@ public class BinanceTest {
   }
 
   @Test
-  public void binanceTradeService() throws IOException {
+  void binanceTradeService() throws Exception {
     Set<IOrderFlags> orderFlags = new HashSet<>();
     //        orderFlags.add(BinanceOrderFlags.REDUCE_ONLY);
 

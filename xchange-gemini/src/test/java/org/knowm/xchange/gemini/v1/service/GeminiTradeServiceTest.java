@@ -8,8 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -22,13 +22,13 @@ public class GeminiTradeServiceTest extends BaseWiremockTest {
   public static final String WIREMOCK_FILES_PATH = "__files";
   private static final String ORDERS_FILE_NAME = "example-open-orders-data.json";
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     classUnderTest = (GeminiTradeService) createExchange().getTradeService();
   }
 
   @Test
-  public void ordersTest() throws Exception {
+  void ordersTest() throws Exception {
     final ObjectMapper mapper = new ObjectMapper();
     JsonNode jsonRoot =
         mapper.readTree(
@@ -60,7 +60,7 @@ public class GeminiTradeServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void openOrdersByCurrencyPairTest() throws Exception {
+  void openOrdersByCurrencyPairTest() throws Exception {
     stubFor(
         post(urlPathEqualTo("/v1/orders"))
             .willReturn(

@@ -7,8 +7,8 @@ import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 import java.io.IOException;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -21,11 +21,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 
 // Github build give http 451 error(Unavailable For Legal Reasons)
-@Ignore
-public class BinanceExchangeTypeIntegration {
+@Disabled
+class BinanceExchangeTypeIntegration {
 
   @Test
-  public void testConnections() throws InterruptedException, IOException {
+  void connections() throws Exception {
     testConnection(new CurrencyPair("ETH/USDT"), getSpec1(SPOT, false));
     testConnection(new CurrencyPair("ETH/USDT"), getSpec(SPOT, true));
     testConnection(new FuturesContract("ETH/USDT/PERP"), getSpec(FUTURES, false));

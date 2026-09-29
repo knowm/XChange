@@ -5,20 +5,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 
-public class HitbtcAdaptersTest {
+class HitbtcAdaptersTest {
 
   // @Rule
   // public final ExpectedException exception = ExpectedException.none();
 
   @Test
-  public void testAdaptWallet_getBalance() {
+  void adaptWalletGetBalance() {
     try {
       List<HitbtcBalance> main = new ArrayList<>();
       main.add(new HitbtcBalance("BTC", new BigDecimal("0.1234"), new BigDecimal("32.23")));
@@ -41,21 +40,21 @@ public class HitbtcAdaptersTest {
   }
 
   @Test
-  public void testGuessSymbol() {
+  void guessSymbol() {
     String symbol1 = "LTCUSDT";
     String symbol2 = "LTCBTC";
     String symbol3 = "USDTBTC";
     String symbol4 = "STRATUSDT";
     String symbol5 = "STRATBTC";
 
-    Assert.assertEquals(
-        new CurrencyPair(Currency.LTC, Currency.USDT), HitbtcAdapters.guessSymbol(symbol1));
-    Assert.assertEquals(CurrencyPair.LTC_BTC, HitbtcAdapters.guessSymbol(symbol2));
-    Assert.assertEquals(
-        new CurrencyPair(Currency.USDT, Currency.BTC), HitbtcAdapters.guessSymbol(symbol3));
-    Assert.assertEquals(
-        new CurrencyPair(Currency.STRAT, Currency.USDT), HitbtcAdapters.guessSymbol(symbol4));
-    Assert.assertEquals(
-        new CurrencyPair(Currency.STRAT, Currency.BTC), HitbtcAdapters.guessSymbol(symbol5));
+    assertThat(HitbtcAdapters.guessSymbol(symbol1))
+        .isEqualTo(new CurrencyPair(Currency.LTC, Currency.USDT));
+    assertThat(HitbtcAdapters.guessSymbol(symbol2)).isEqualTo(CurrencyPair.LTC_BTC);
+    assertThat(HitbtcAdapters.guessSymbol(symbol3))
+        .isEqualTo(new CurrencyPair(Currency.USDT, Currency.BTC));
+    assertThat(HitbtcAdapters.guessSymbol(symbol4))
+        .isEqualTo(new CurrencyPair(Currency.STRAT, Currency.USDT));
+    assertThat(HitbtcAdapters.guessSymbol(symbol5))
+        .isEqualTo(new CurrencyPair(Currency.STRAT, Currency.BTC));
   }
 }

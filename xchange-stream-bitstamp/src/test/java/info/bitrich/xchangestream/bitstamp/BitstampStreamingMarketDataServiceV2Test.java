@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -23,9 +23,12 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.WARN)
+@ExtendWith(MockitoExtension.class)
 public class BitstampStreamingMarketDataServiceV2Test
     extends BitstampStreamingMarketDataServiceBaseTest {
 
@@ -33,8 +36,8 @@ public class BitstampStreamingMarketDataServiceV2Test
 
   private BitstampStreamingMarketDataService marketDataService;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     marketDataService = new BitstampStreamingMarketDataService(streamingService);
   }
 
@@ -98,20 +101,20 @@ public class BitstampStreamingMarketDataServiceV2Test
   }
 
   @Test
-  public void testGetDifferentialOrderBook() throws Exception {
+  void getDifferentialOrderBook() throws Exception {
     testOrderbookCommon(
         "diff_order_book_btceur",
         () -> marketDataService.getFullOrderBook(CurrencyPair.BTC_EUR).test());
   }
 
   @Test
-  public void testGetOrderBook() throws Exception {
+  void getOrderBook() throws Exception {
     testOrderbookCommon(
         "order_book_btceur", () -> marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test());
   }
 
   @Test
-  public void testGetTrades() throws Exception {
+  void getTrades() throws Exception {
     // Given order book in JSON
     JsonNode trade = mapper.readTree(this.getClass().getResource("/trade-v2.json"));
 
@@ -136,7 +139,7 @@ public class BitstampStreamingMarketDataServiceV2Test
   }
 
   @Test
-  public void testGetTicker() throws Exception {
+  void getTicker() throws Exception {
     // Given order book in JSON
     JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
 

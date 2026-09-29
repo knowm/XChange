@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioStreamingMarketDataServiceIntegration extends GateioStreamingExchangeIT {
+class GateioStreamingMarketDataServiceIntegration extends GateioStreamingExchangeIT {
 
   @Test
   void order_book() {

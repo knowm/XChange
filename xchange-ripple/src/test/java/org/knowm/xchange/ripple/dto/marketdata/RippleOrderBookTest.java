@@ -3,16 +3,15 @@ package org.knowm.xchange.ripple.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 
-public class RippleOrderBookTest {
+class RippleOrderBookTest {
 
   @Test
-  public void unmarshalTest() throws IOException {
+  void unmarshalTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()

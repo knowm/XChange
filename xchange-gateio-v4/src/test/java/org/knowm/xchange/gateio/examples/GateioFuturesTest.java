@@ -1,9 +1,9 @@
 package org.knowm.xchange.gateio.examples;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -25,7 +25,6 @@ import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParamWithLimit;
 import org.knowm.xchange.utils.AuthUtils;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -41,14 +40,14 @@ public class GateioFuturesTest {
   public Exchange exchange;
   private final boolean logOutput = true;
 
-  @Before
-  public void before() {
+  @BeforeEach
+  void before() {
     init();
   }
 
   @Test
-  @Ignore
-  public void order() throws IOException {
+  @Disabled
+  void order() throws Exception {
     String userReference = "t-" + System.currentTimeMillis();
     MarketOrder marketOrder = new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(new BigDecimal("0.001")).build();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
@@ -66,8 +65,8 @@ public class GateioFuturesTest {
   }
 
   @Test
-  @Ignore
-  public void candleStick() throws IOException {
+  @Disabled
+  void candleStick() throws Exception {
     CandleStickDataParams params = new DefaultCandleStickParamWithLimit(new Date(System.currentTimeMillis() - 86400000 * 4), new Date(), 86400, 2);
     CandleStickData candleStickData = exchange.getMarketDataService().getCandleStickData(instrument, params);
     assertThat(candleStickData).isNotNull();
@@ -77,8 +76,8 @@ public class GateioFuturesTest {
   }
 
   @Test
-  @Ignore
-  public void getTicker() throws IOException {
+  @Disabled
+  void getTicker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     assertThat(ticker).isNotNull();
     assertThat(ticker.getInstrument()).isEqualTo(instrument);
@@ -86,8 +85,8 @@ public class GateioFuturesTest {
   }
 
   @Test
-  @Ignore
-  public void getTickers() throws IOException {
+  @Disabled
+  void getTickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
     assertThat(tickers).allSatisfy(ticker -> {
@@ -97,15 +96,15 @@ public class GateioFuturesTest {
   }
 
   @Test
-  @Ignore
-  public void setLeverage() throws IOException {
+  @Disabled
+  void setLeverage() throws Exception {
     assertThat(exchange.getAccountService().setLeverage(instrument, 10)).isTrue();
     assertThat(exchange.getAccountService().setLeverage(instrument, 0, 20)).isTrue();
   }
 
   @Test
-  @Ignore
-  public void getFees() throws IOException {
+  @Disabled
+  void getFees() throws Exception {
     Map<Instrument, Fee> fees = exchange.getAccountService().getDynamicTradingFeesByInstrument("FUTURES");
     assertThat(fees).isNotNull();
     fees.forEach((instrument, fee) -> {
@@ -119,8 +118,8 @@ public class GateioFuturesTest {
   }
 
   @Test
-  @Ignore
-  public void getFundingRateHistory() throws IOException {
+  @Disabled
+  void getFundingRateHistory() throws Exception {
     Long from =
         (System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 30) / 1000;
     List<GateioFundingRateHistory> fundingRateHistory = ((GateioMarketDataService) exchange.getMarketDataService()).getFundingRateHistory(instrument, from, (System.currentTimeMillis()) / 1000, 100);

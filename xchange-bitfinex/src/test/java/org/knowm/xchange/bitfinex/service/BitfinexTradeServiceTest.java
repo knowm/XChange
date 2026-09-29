@@ -2,7 +2,6 @@ package org.knowm.xchange.bitfinex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
@@ -35,7 +34,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
   TradeService tradeService = exchange.getTradeService();
 
   @Test
-  void trade_history() throws IOException {
+  void trade_history() throws Exception {
     UserTrades userTrades = exchange.getTradeService().getTradeHistory(null);
 
     assertThat(userTrades.getUserTrades()).hasSize(2);
@@ -61,7 +60,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void trade_history_by_symbol() throws IOException {
+  void trade_history_by_symbol() throws Exception {
     UserTrades userTrades =
         exchange
             .getTradeService()
@@ -93,7 +92,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void sell_order_details_filled_and_active() throws IOException {
+  void sell_order_details_filled_and_active() throws Exception {
     BitfinexOrderQueryParams[] bitfinexOrderQueryParams = {
       BitfinexOrderQueryParams.builder()
           .from(Instant.ofEpochMilli(1698000000000L))
@@ -133,7 +132,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void buy_order_details_filled_and_active() throws IOException {
+  void buy_order_details_filled_and_active() throws Exception {
     BitfinexOrderQueryParams[] bitfinexOrderQueryParams = {
       BitfinexOrderQueryParams.builder()
           .currencyPair(CurrencyPair.BTC_USD)
@@ -172,7 +171,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
 
   @Test
   @Disabled
-  void open_orders() throws IOException {
+  void open_orders() throws Exception {
     OpenOrders actual = tradeService.getOpenOrders();
 
     LimitOrder expected =
@@ -192,7 +191,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void open_orders_by_symbol() throws IOException {
+  void open_orders_by_symbol() throws Exception {
     BitfinexOpenOrdersParams params =
         (BitfinexOpenOrdersParams) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.BTC_USD);
@@ -218,7 +217,7 @@ class BitfinexTradeServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void open_positions() throws IOException {
+  void open_positions() throws Exception {
     var expected =
         OpenPosition.builder()
             .id("185023623")

@@ -2,16 +2,15 @@ package org.knowm.xchange.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class BalanceTest {
+class BalanceTest {
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
 
     Balance balance =
         new Balance.Builder()

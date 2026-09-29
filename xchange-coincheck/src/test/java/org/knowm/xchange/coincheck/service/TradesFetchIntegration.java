@@ -2,7 +2,7 @@ package org.knowm.xchange.coincheck.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coincheck.CoincheckExchange;
@@ -10,10 +10,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class TradesFetchIntegration {
+class TradesFetchIntegration {
 
   @Test
-  public void tradesFetchTest() throws Exception {
+  void tradesFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoincheckExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();

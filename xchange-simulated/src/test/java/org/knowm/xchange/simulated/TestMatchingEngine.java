@@ -1,6 +1,7 @@
 package org.knowm.xchange.simulated;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
@@ -11,6 +12,7 @@ import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.simulated.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -18,28 +20,30 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Consumer;
-import org.assertj.core.matcher.AssertionMatcher;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TestMatchingEngine {
+@MockitoSettings(strictness = Strictness.WARN)
+@ExtendWith(MockitoExtension.class)
+class TestMatchingEngine {
 
   private static final String MAKER = "MAKER";
   private static final String TAKER = "TAKER";
@@ -51,72 +55,89 @@ public class TestMatchingEngine {
   @Captor private ArgumentCaptor<Fill> fillCaptor1;
   @Captor private ArgumentCaptor<Fill> fillCaptor2;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     Mockito.when(accountFactory.get(Mockito.anyString())).thenReturn(account);
     matchingEngine =
         new MatchingEngine(accountFactory, BTC_USD, 2, new BigDecimal("0.001"), onFill);
   }
 
   @Test
-  public void testValidationOK() {
+  void validationOK() {
     matchingEngine.postOrder(
         TAKER,
         new LimitOrder.Builder(ASK, BTC_USD)
             .limitPrice(new BigDecimal("100.01"))
-            .originalAmount(new BigDecimal("0.001"))
-            .build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testValidationNoPriceViolation() {
-    matchingEngine.postOrder(
-        TAKER,
-        new LimitOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal("0.000999999")).build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testValidationMinimumAmountViolation() {
-    matchingEngine.postOrder(
-        TAKER,
-        new LimitOrder.Builder(ASK, BTC_USD)
-            .limitPrice(new BigDecimal("100.01"))
-            .originalAmount(new BigDecimal("0.000999999"))
-            .build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testValidationPriceScaleViolation() {
-    matchingEngine.postOrder(
-        TAKER,
-        new LimitOrder.Builder(ASK, BTC_USD)
-            .limitPrice(new BigDecimal("100.011"))
-            .originalAmount(new BigDecimal("0.001"))
-            .build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testValidationZeroPriceViolation() {
-    matchingEngine.postOrder(
-        TAKER,
-        new LimitOrder.Builder(ASK, BTC_USD)
-            .limitPrice(new BigDecimal(0))
-            .originalAmount(new BigDecimal("0.001"))
-            .build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testValidationNegativePriceViolation() {
-    matchingEngine.postOrder(
-        TAKER,
-        new LimitOrder.Builder(ASK, BTC_USD)
-            .limitPrice(new BigDecimal("-0.0001"))
             .originalAmount(new BigDecimal("0.001"))
             .build());
   }
 
   @Test
-  public void testAskNoMatch() {
+  void validationNoPriceViolation() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new LimitOrder.Builder(ASK, BTC_USD)
+                        .originalAmount(new BigDecimal("0.000999999"))
+                        .build()));
+  }
+
+  @Test
+  void validationMinimumAmountViolation() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new LimitOrder.Builder(ASK, BTC_USD)
+                        .limitPrice(new BigDecimal("100.01"))
+                        .originalAmount(new BigDecimal("0.000999999"))
+                        .build()));
+  }
+
+  @Test
+  void validationPriceScaleViolation() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new LimitOrder.Builder(ASK, BTC_USD)
+                        .limitPrice(new BigDecimal("100.011"))
+                        .originalAmount(new BigDecimal("0.001"))
+                        .build()));
+  }
+
+  @Test
+  void validationZeroPriceViolation() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new LimitOrder.Builder(ASK, BTC_USD)
+                        .limitPrice(new BigDecimal(0))
+                        .originalAmount(new BigDecimal("0.001"))
+                        .build()));
+  }
+
+  @Test
+  void validationNegativePriceViolation() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new LimitOrder.Builder(ASK, BTC_USD)
+                        .limitPrice(new BigDecimal("-0.0001"))
+                        .originalAmount(new BigDecimal("0.001"))
+                        .build()));
+  }
+
+  @Test
+  void askNoMatch() {
 
     // Given an empty order book
 
@@ -141,7 +162,7 @@ public class TestMatchingEngine {
   }
 
   @Test
-  public void testBidNoMatch() {
+  void bidNoMatch() {
     // Given an empty order book
 
     // When
@@ -166,20 +187,32 @@ public class TestMatchingEngine {
     assertThat(book.getAsks()).isEmpty();
   }
 
-  @Test(expected = ExchangeException.class)
-  public void testMarketAskEmptyBook() {
-    matchingEngine.postOrder(
-        TAKER, new MarketOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal(5)).build());
-  }
-
-  @Test(expected = ExchangeException.class)
-  public void testMarketBidEmptyBook() {
-    matchingEngine.postOrder(
-        TAKER, new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal(5)).build());
+  @Test
+  void marketAskEmptyBook() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new MarketOrder.Builder(ASK, BTC_USD)
+                        .originalAmount(new BigDecimal(5))
+                        .build()));
   }
 
   @Test
-  public void testSimpleAskMatch() {
+  void marketBidEmptyBook() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(
+            () ->
+                matchingEngine.postOrder(
+                    TAKER,
+                    new MarketOrder.Builder(BID, BTC_USD)
+                        .originalAmount(new BigDecimal(5))
+                        .build()));
+  }
+
+  @Test
+  void simpleAskMatch() {
 
     // Given
     LimitOrder maker =
@@ -214,38 +247,34 @@ public class TestMatchingEngine {
     verify(onFill)
         .accept(
             argThat(
-                new AssertionMatcher<Fill>() {
-                  @Override
-                  public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual).hasApiKey(TAKER).isTaker();
-                    assertThat(actual.getTrade())
-                        .hasOrderId(taker.getId())
-                        .hasId()
-                        .hasFeeAmount(new BigDecimal("0.500"))
-                        .hasFeeCurrency(USD)
-                        .hasOriginalAmount(new BigDecimal(5))
-                        .hasPrice(new BigDecimal(100))
-                        .hasType(ASK);
-                  }
-                }));
+                fillMatching(
+                    actual -> {
+                      assertThat(actual).hasApiKey(TAKER).isTaker();
+                      assertThat(actual.getTrade())
+                          .hasOrderId(taker.getId())
+                          .hasId()
+                          .hasFeeAmount(new BigDecimal("0.500"))
+                          .hasFeeCurrency(USD)
+                          .hasOriginalAmount(new BigDecimal(5))
+                          .hasPrice(new BigDecimal(100))
+                          .hasType(ASK);
+                    })));
 
     verify(onFill)
         .accept(
             argThat(
-                new AssertionMatcher<Fill>() {
-                  @Override
-                  public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual).hasApiKey(MAKER).isNotTaker();
-                    assertThat(actual.getTrade())
-                        .hasOrderId(maker.getId())
-                        .hasId()
-                        .hasFeeAmount(new BigDecimal("0.005"))
-                        .hasFeeCurrency(BTC)
-                        .hasOriginalAmount(new BigDecimal(5))
-                        .hasPrice(new BigDecimal(100))
-                        .hasType(BID);
-                  }
-                }));
+                fillMatching(
+                    actual -> {
+                      assertThat(actual).hasApiKey(MAKER).isNotTaker();
+                      assertThat(actual.getTrade())
+                          .hasOrderId(maker.getId())
+                          .hasId()
+                          .hasFeeAmount(new BigDecimal("0.005"))
+                          .hasFeeCurrency(BTC)
+                          .hasOriginalAmount(new BigDecimal(5))
+                          .hasPrice(new BigDecimal(100))
+                          .hasType(BID);
+                    })));
 
     verifyNoMoreInteractions(onFill);
 
@@ -255,7 +284,7 @@ public class TestMatchingEngine {
   }
 
   @Test
-  public void testSimpleBidMatch() {
+  void simpleBidMatch() {
 
     // Given
     LimitOrder maker =
@@ -290,38 +319,34 @@ public class TestMatchingEngine {
     verify(onFill)
         .accept(
             argThat(
-                new AssertionMatcher<Fill>() {
-                  @Override
-                  public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual).hasApiKey(TAKER).isTaker();
-                    assertThat(actual.getTrade())
-                        .hasOrderId(taker.getId())
-                        .hasId()
-                        .hasFeeAmount(new BigDecimal("0.005"))
-                        .hasFeeCurrency(BTC)
-                        .hasOriginalAmount(new BigDecimal(5))
-                        .hasPrice(new BigDecimal(100))
-                        .hasType(BID);
-                  }
-                }));
+                fillMatching(
+                    actual -> {
+                      assertThat(actual).hasApiKey(TAKER).isTaker();
+                      assertThat(actual.getTrade())
+                          .hasOrderId(taker.getId())
+                          .hasId()
+                          .hasFeeAmount(new BigDecimal("0.005"))
+                          .hasFeeCurrency(BTC)
+                          .hasOriginalAmount(new BigDecimal(5))
+                          .hasPrice(new BigDecimal(100))
+                          .hasType(BID);
+                    })));
 
     verify(onFill)
         .accept(
             argThat(
-                new AssertionMatcher<Fill>() {
-                  @Override
-                  public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual).hasApiKey(MAKER).isNotTaker();
-                    assertThat(actual.getTrade())
-                        .hasOrderId(maker.getId())
-                        .hasId()
-                        .hasFeeAmount(new BigDecimal("0.500"))
-                        .hasFeeCurrency(USD)
-                        .hasOriginalAmount(new BigDecimal(5))
-                        .hasPrice(new BigDecimal(100))
-                        .hasType(ASK);
-                  }
-                }));
+                fillMatching(
+                    actual -> {
+                      assertThat(actual).hasApiKey(MAKER).isNotTaker();
+                      assertThat(actual.getTrade())
+                          .hasOrderId(maker.getId())
+                          .hasId()
+                          .hasFeeAmount(new BigDecimal("0.500"))
+                          .hasFeeCurrency(USD)
+                          .hasOriginalAmount(new BigDecimal(5))
+                          .hasPrice(new BigDecimal(100))
+                          .hasType(ASK);
+                    })));
 
     verifyNoMoreInteractions(onFill);
 
@@ -331,7 +356,7 @@ public class TestMatchingEngine {
   }
 
   @Test
-  public void testSimpleAskPartial() {
+  void simpleAskPartial() {
 
     // Given
     LimitOrder maker =
@@ -365,7 +390,7 @@ public class TestMatchingEngine {
   }
 
   @Test
-  public void testSimpleBidPartial() {
+  void simpleBidPartial() {
 
     // Given
     LimitOrder maker =
@@ -400,7 +425,7 @@ public class TestMatchingEngine {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testAskMultiple() {
+  void askMultiple() {
 
     // Given
     LimitOrder maker1 =
@@ -532,7 +557,7 @@ public class TestMatchingEngine {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testGetLevel2OrderBook() {
+  void getLevel2OrderBook() {
     // Given
     LimitOrder maker1 =
         matchingEngine.postOrder(
@@ -592,7 +617,7 @@ public class TestMatchingEngine {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testBidMultiple() {
+  void bidMultiple() {
 
     // Given
     LimitOrder maker1 =
@@ -722,11 +747,17 @@ public class TestMatchingEngine {
     assertThat(book.getAsks()).isEmpty();
   }
 
-  private AssertionMatcher<Fill> useAmount(String apiKey, LimitOrder order, BigDecimal amount) {
-    return new AssertionMatcher<Fill>() {
-      @Override
-      public void assertion(Fill actual) throws AssertionError {
-        assertFill(actual, apiKey, order, amount, order.getLimitPrice());
+  private ArgumentMatcher<Fill> useAmount(String apiKey, LimitOrder order, BigDecimal amount) {
+    return fillMatching(actual -> assertFill(actual, apiKey, order, amount, order.getLimitPrice()));
+  }
+
+  private static ArgumentMatcher<Fill> fillMatching(Consumer<Fill> assertion) {
+    return actual -> {
+      try {
+        assertion.accept(actual);
+        return true;
+      } catch (AssertionError e) {
+        return false;
       }
     };
   }

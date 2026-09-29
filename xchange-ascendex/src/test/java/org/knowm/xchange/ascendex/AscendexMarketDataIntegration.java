@@ -1,19 +1,19 @@
 package org.knowm.xchange.ascendex;
 
-import java.io.IOException;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
 import java.util.Objects;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ascendex.dto.marketdata.AscendexBarHistDto;
 import org.knowm.xchange.ascendex.service.AscendexMarketDataService;
 
-public class AscendexMarketDataIntegration {
+class AscendexMarketDataIntegration {
 
   @Test
-  public void testBarHist() throws IOException {
+  void barHist() throws Exception {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(AscendexExchange.class.getCanonicalName());
     exchange.remoteInit();
@@ -21,6 +21,6 @@ public class AscendexMarketDataIntegration {
     List<AscendexBarHistDto> barHistDtos =
         ((AscendexMarketDataService) exchange.getMarketDataService())
             .getBarHistoryData("BTC/USDT", "15", null, null, 100);
-    Assert.assertTrue(Objects.nonNull(barHistDtos) && !barHistDtos.isEmpty());
+    assertThat(Objects.nonNull(barHistDtos) && !barHistDtos.isEmpty()).isTrue();
   }
 }

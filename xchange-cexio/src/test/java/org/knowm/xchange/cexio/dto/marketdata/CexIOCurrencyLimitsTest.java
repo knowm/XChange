@@ -3,16 +3,15 @@ package org.knowm.xchange.cexio.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author ujjwal on 13/02/18.
  */
-public class CexIOCurrencyLimitsTest {
+class CexIOCurrencyLimitsTest {
   @Test
-  public void jsonMapperTest() throws IOException {
+  void jsonMapperTest() throws Exception {
     InputStream is =
         getClass()
             .getResourceAsStream(

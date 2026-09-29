@@ -1,13 +1,14 @@
 package org.knowm.xchange.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DateUtilsTest {
 
@@ -23,27 +24,26 @@ public class DateUtilsTest {
   }
 
   @Test
-  public void testFromISODateString() throws Exception {
+  void fromISODateString() throws Exception {
     String input = "2016-06-10T12:16:11.717Z";
     Date expectedOutput = isoDateFormat.parse("2016-06-10T12:16:11.717");
 
-    assertEquals(expectedOutput, DateUtils.fromISODateString(input));
-  }
-
-  @Test(expected = InvalidFormatException.class)
-  public void testFromISODateStringWrongTimezone() throws Exception {
-
-    String input = "2016-06-10T12:16:11.717";
-    Date expectedOutput = isoDateFormat.parse("2016-06-10T12:16:11.717");
-
-    assertEquals(expectedOutput, DateUtils.fromISODateString(input));
+    assertThat(DateUtils.fromISODateString(input)).isEqualTo(expectedOutput);
   }
 
   @Test
-  public void testFromRFC3339DateString() throws Exception {
+  void fromISODateStringWrongTimezone() throws Exception {
+    String input = "2016-06-10T12:16:11.717";
+
+    assertThatExceptionOfType(InvalidFormatException.class)
+        .isThrownBy(() -> DateUtils.fromISODateString(input));
+  }
+
+  @Test
+  void fromRFC3339DateString() throws Exception {
     String input = "2018-01-15 12:16:11";
     Date expectedOutput = rfc3339DateFormat.parse("2018-01-15 12:16:11");
 
-    assertEquals(expectedOutput, DateUtils.fromRfc3339DateString(input));
+    assertThat(DateUtils.fromRfc3339DateString(input)).isEqualTo(expectedOutput);
   }
 }

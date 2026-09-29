@@ -24,12 +24,12 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.NetworkWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-public class CryptoComAccountServiceTest {
+class CryptoComAccountServiceTest {
 
   private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
-  public void singleAddress_returnedDirectly() throws Exception {
+  void singleAddress_returnedDirectly() throws Exception {
     CryptoComAccountService service = newService(address("eth", "0xabc"));
 
     String address = service.requestDepositAddress(Currency.USDT);
@@ -38,7 +38,7 @@ public class CryptoComAccountServiceTest {
   }
 
   @Test
-  public void multipleAddressesWithoutNetwork_throwsAmbiguousException() throws Exception {
+  void multipleAddressesWithoutNetwork_throwsAmbiguousException() throws Exception {
     CryptoComAccountService service =
         newService(address("eth", "0xabc"), address("sol", "SoLAddr"));
 
@@ -47,7 +47,7 @@ public class CryptoComAccountServiceTest {
   }
 
   @Test
-  public void multipleAddressesWithNetwork_returnsMatchingAddress() throws Exception {
+  void multipleAddressesWithNetwork_returnsMatchingAddress() throws Exception {
     CryptoComAccountService service =
         newService(address("eth", "0xabc"), address("sol", "SoLAddr"));
 
@@ -57,7 +57,7 @@ public class CryptoComAccountServiceTest {
   }
 
   @Test
-  public void multipleAddressesWithUnknownNetwork_throws() throws Exception {
+  void multipleAddressesWithUnknownNetwork_throws() throws Exception {
     CryptoComAccountService service =
         newService(address("eth", "0xabc"), address("sol", "SoLAddr"));
 
@@ -66,7 +66,7 @@ public class CryptoComAccountServiceTest {
   }
 
   @Test
-  public void withdrawFunds_acceptsPlainDefaultParams_omitsNetwork() throws Exception {
+  void withdrawFunds_acceptsPlainDefaultParams_omitsNetwork() throws Exception {
     CryptoComRequest[] captured = new CryptoComRequest[1];
     CryptoComAccountService service = newWithdrawService(captured);
 
@@ -80,7 +80,7 @@ public class CryptoComAccountServiceTest {
   }
 
   @Test
-  public void withdrawFunds_withNetworkParams_includesNetwork() throws Exception {
+  void withdrawFunds_withNetworkParams_includesNetwork() throws Exception {
     CryptoComRequest[] captured = new CryptoComRequest[1];
     CryptoComAccountService service = newWithdrawService(captured);
 
@@ -98,7 +98,7 @@ public class CryptoComAccountServiceTest {
   }
 
   @Test
-  public void withdrawFunds_rejectsUnsupportedParamsType() throws Exception {
+  void withdrawFunds_rejectsUnsupportedParamsType() throws Exception {
     CryptoComAccountService service = newWithdrawService(new CryptoComRequest[1]);
     WithdrawFundsParams unsupported = mock(WithdrawFundsParams.class);
 

@@ -2,19 +2,15 @@ package org.knowm.xchange.poloniex;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.assertj.core.data.Offset;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
@@ -23,10 +19,10 @@ import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLoansDataTest;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
-public class PoloniexAdapterTest {
+class PoloniexAdapterTest {
 
   @Test
-  public void testTradeHistory() throws IOException {
+  void tradeHistory() throws Exception {
 
     final InputStream is =
         PoloniexUserTrade.class.getResourceAsStream(
@@ -39,14 +35,14 @@ public class PoloniexAdapterTest {
 
     LimitOrder result = PoloniexAdapters.adaptUserTradesToOrderStatus("102", tradeHistory);
 
-    Assert.assertEquals(new BigDecimal("0.0102693100000000"), result.getAveragePrice());
-    Assert.assertEquals(new BigDecimal("0.03000000"), result.getCumulativeAmount());
-    Assert.assertEquals(null, result.getOriginalAmount());
-    Assert.assertEquals("102", result.getId());
+    assertThat(result.getAveragePrice()).isEqualTo(new BigDecimal("0.0102693100000000"));
+    assertThat(result.getCumulativeAmount()).isEqualTo(new BigDecimal("0.03000000"));
+    assertThat(result.getOriginalAmount()).isNull();
+    assertThat(result.getId()).isEqualTo("102");
   }
 
   @Test
-  public void testFundingHistory() throws JsonParseException, JsonMappingException, IOException {
+  void fundingHistory() throws Exception {
 
     final InputStream is =
         PoloniexLoansDataTest.class.getResourceAsStream(

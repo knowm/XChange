@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cryptocom.CryptoComStreamingService;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,14 +16,14 @@ import org.knowm.xchange.cryptocom.dto.account.CryptoComBalance;
  * instead of a separate WS-only DTO. Adapter behavior itself is covered by {@code
  * CryptoComStreamingAdaptersTest}.
  */
-public class CryptoComBalanceChannelTest {
+class CryptoComBalanceChannelTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final CryptoComStreamingService service =
       new CryptoComStreamingService("wss://stream.crypto.com/exchange/v1/market");
 
   @Test
-  public void testUnmarshalBalanceUpdate() throws IOException {
+  void unmarshalBalanceUpdate() throws Exception {
     // given
     String resource = "/info/bitrich/xchangestream/cryptocom/dto/user-balance-update.json";
 

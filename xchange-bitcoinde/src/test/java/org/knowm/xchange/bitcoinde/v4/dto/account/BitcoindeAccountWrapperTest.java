@@ -3,15 +3,14 @@ package org.knowm.xchange.bitcoinde.v4.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BitcoindeAccountWrapperTest {
+class BitcoindeAccountWrapperTest {
 
   @Test
-  public void testBitcoindeAccountWarpper() throws IOException {
+  void bitcoindeAccountWarpper() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeAccountWrapperTest.class.getResourceAsStream(

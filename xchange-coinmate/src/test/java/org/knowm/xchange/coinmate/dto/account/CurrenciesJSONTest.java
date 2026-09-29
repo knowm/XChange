@@ -3,15 +3,14 @@ package org.knowm.xchange.coinmate.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CurrenciesJSONTest {
+class CurrenciesJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     InputStream is =
         CurrenciesJSONTest.class.getResourceAsStream(

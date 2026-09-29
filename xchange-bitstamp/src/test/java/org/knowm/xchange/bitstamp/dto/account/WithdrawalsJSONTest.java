@@ -3,17 +3,16 @@ package org.knowm.xchange.bitstamp.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest.Status;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest.Type;
 
-public class WithdrawalsJSONTest {
+class WithdrawalsJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

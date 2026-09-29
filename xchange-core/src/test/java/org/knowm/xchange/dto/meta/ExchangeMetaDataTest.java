@@ -2,58 +2,55 @@ package org.knowm.xchange.dto.meta;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 
-public class ExchangeMetaDataTest {
+class ExchangeMetaDataTest {
 
   /** 1 call per second => 1000ms delay */
   @Test
-  public void testGetPollDelayMillis1000() {
+  void getPollDelayMillis1000() {
     RateLimit limit = new RateLimit(1, 1, SECONDS);
-    assertEquals(1000L, limit.getPollDelayMillis());
+    assertThat(limit.getPollDelayMillis()).isEqualTo(1000L);
   }
 
   /** 2 calls per second => 500ms delay */
   @Test
-  public void testGetPollDelayMillis500() {
+  void getPollDelayMillis500() {
     RateLimit limit = new RateLimit(2, 1, SECONDS);
-    assertEquals(500L, limit.getPollDelayMillis());
+    assertThat(limit.getPollDelayMillis()).isEqualTo(500L);
   }
 
   /** 1 cal per second or 2 calls per second => 1000ms delay (500ms for burst calls) */
   @Test
-  public void testGetPollDelayMillisMulti() {
-    assertEquals(
-        1000L,
-        (long)
-            ExchangeMetaData.getPollDelayMillis(
-                new RateLimit[] {new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS)}));
+  void getPollDelayMillisMulti() {
+    assertThat(
+            (long)
+                ExchangeMetaData.getPollDelayMillis(
+                    new RateLimit[] {new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS)}))
+        .isEqualTo(1000L);
   }
 
   /** null for an unknown value */
   @Test
-  public void testGetPollDelayMillisNull() {
-    assertNull(ExchangeMetaData.getPollDelayMillis(null));
+  void getPollDelayMillisNull() {
+    assertThat(ExchangeMetaData.getPollDelayMillis(null)).isNull();
   }
 
   /** null for an unknown value */
   @Test
-  public void testGetPollDelayMillisEmpty() {
-    assertNull(ExchangeMetaData.getPollDelayMillis(new RateLimit[0]));
+  void getPollDelayMillisEmpty() {
+    assertThat(ExchangeMetaData.getPollDelayMillis(new RateLimit[0])).isNull();
   }
 
   @Test
-  public void shouldDeserialize() throws IOException {
+  void shouldDeserialize() throws Exception {
     InputStream is =
         ExchangeMetaDataTest.class.getResourceAsStream(
             "/org/knowm/xchange/core/meta/exchange-metadata.json");

@@ -7,20 +7,19 @@ import static org.knowm.xchange.okex.dto.OkexInstType.SWAP;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.okex.dto.OkexResponse;
 import org.knowm.xchange.okex.dto.account.OkexTradeFee;
 
-public class OkexAdapterTest {
+class OkexAdapterTest {
   @Test
-  public void testAdaptTradingFee() throws IOException {
+  void adaptTradingFee() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     InputStream is = OkexAdapterTest.class.getResourceAsStream("/getFeeRatesSpot.json5");

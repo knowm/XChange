@@ -69,7 +69,7 @@ public class CryptoComExchangeIntegration {
   }
 
   @Test
-  void getAccountInfo_shouldReturnAccountInfo() throws IOException {
+  void getAccountInfo_shouldReturnAccountInfo() throws Exception {
     AccountInfo accountInfo = accountService.getAccountInfo();
     assertThat(accountInfo).isNotNull();
     assertThat(accountInfo.getWallet()).isNotNull();
@@ -77,7 +77,7 @@ public class CryptoComExchangeIntegration {
   }
 
   @Test
-  void getTicker_shouldReturnTickerForBtcUsdt() throws IOException {
+  void getTicker_shouldReturnTickerForBtcUsdt() throws Exception {
     Ticker ticker = marketDataService.getTicker(TEST_CURRENCY_PAIR);
     assertThat(ticker).isNotNull();
     assertThat(ticker.getInstrument()).isEqualTo(TEST_CURRENCY_PAIR);
@@ -85,7 +85,7 @@ public class CryptoComExchangeIntegration {
   }
 
   @Test
-  void getOrderBook_shouldReturnOrderBookForBtcUsdt() throws IOException {
+  void getOrderBook_shouldReturnOrderBookForBtcUsdt() throws Exception {
     OrderBook orderBook = marketDataService.getOrderBook(TEST_CURRENCY_PAIR);
     assertThat(orderBook).isNotNull();
     logger.info(
@@ -96,7 +96,7 @@ public class CryptoComExchangeIntegration {
   }
 
   @Test
-  void getTrades_shouldReturnTradesForBtcUsdt() throws IOException {
+  void getTrades_shouldReturnTradesForBtcUsdt() throws Exception {
     Trades trades = marketDataService.getTrades(TEST_CURRENCY_PAIR);
     assertThat(trades).isNotNull();
     logger.info("Trades {}: {} entries", TEST_CURRENCY_PAIR, trades.getTrades().size());
@@ -104,7 +104,7 @@ public class CryptoComExchangeIntegration {
 
   @Test
   @Disabled("Places a real (tiny) order - enable explicitly for manual execution")
-  void placeMarketOrder_shouldSucceed() throws IOException {
+  void placeMarketOrder_shouldSucceed() throws Exception {
     MarketOrder marketOrder = sampleMarketOrder();
     String orderId = tradeService.placeMarketOrder(marketOrder);
     logger.info("Placed Market Order ID: {}", orderId);

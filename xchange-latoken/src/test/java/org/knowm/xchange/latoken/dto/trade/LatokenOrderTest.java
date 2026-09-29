@@ -1,18 +1,18 @@
 package org.knowm.xchange.latoken.dto.trade;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenOrderTest {
+class LatokenOrderTest {
   LatokenOrder order;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -24,77 +24,77 @@ public class LatokenOrderTest {
   }
 
   @Test
-  public void testLatokenOrder() {
-    assertNotNull(order);
+  void latokenOrder() {
+    assertThat(order).isNotNull();
   }
 
   @Test
-  public void testGetOrderId() {
-    assertNotNull(order.getOrderId());
+  void getOrderId() {
+    assertThat(order.getOrderId()).isNotNull();
   }
 
   @Test
-  public void testGetClientOrderId() {
-    assertNotNull(order.getClientOrderId());
+  void getClientOrderId() {
+    assertThat(order.getClientOrderId()).isNotNull();
   }
 
   @Test
-  public void testGetPairId() {
-    assertNotNull(order.getPairId());
+  void getPairId() {
+    assertThat(order.getPairId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(order.getSymbol());
+  void getSymbol() {
+    assertThat(order.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetSide() {
-    assertNotNull(order.getSide());
+  void getSide() {
+    assertThat(order.getSide()).isNotNull();
   }
 
   @Test
-  public void testGetType() {
-    assertNotNull(order.getType());
+  void getType() {
+    assertThat(order.getType()).isNotNull();
   }
 
   @Test
-  public void testGetPrice() {
-    assertNotNull(order.getPrice());
+  void getPrice() {
+    assertThat(order.getPrice()).isNotNull();
   }
 
   @Test
-  public void testGetAmount() {
-    assertNotNull(order.getAmount());
+  void getAmount() {
+    assertThat(order.getAmount()).isNotNull();
   }
 
   @Test
-  public void testGetOrderStatus() {
-    assertNotNull(order.getOrderStatus());
+  void getOrderStatus() {
+    assertThat(order.getOrderStatus()).isNotNull();
   }
 
   @Test
-  public void testGetExecutedAmount() {
-    assertNotNull(order.getAmount());
+  void getExecutedAmount() {
+    assertThat(order.getAmount()).isNotNull();
   }
 
   @Test
-  public void testGetReaminingAmount() {
-    assertNotNull(order.getReaminingAmount());
+  void getReaminingAmount() {
+    assertThat(order.getReaminingAmount()).isNotNull();
   }
 
   @Test
-  public void testGetTimeCreated() {
-    assertNotNull(order.getTimeCreated());
+  void getTimeCreated() {
+    assertThat(order.getTimeCreated()).isNotNull();
   }
 
   @Test
-  public void testGetTimeFilled() {
-    assertNotNull(order.getTimeFilled());
+  void getTimeFilled() {
+    assertThat(order.getTimeFilled()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(order.toString());
+  void testToString() {
+    assertThat(order.toString()).isNotNull();
   }
 }

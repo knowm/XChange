@@ -4,11 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbAdaptersTest;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
@@ -17,12 +16,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
 
-public class BithumbMarketDataTest {
+class BithumbMarketDataTest {
 
   private ObjectMapper mapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshallTicker() throws IOException {
+  void unmarshallTicker() throws Exception {
 
     final InputStream is =
         BithumbMarketDataTest.class.getResourceAsStream(
@@ -47,7 +46,7 @@ public class BithumbMarketDataTest {
   }
 
   @Test
-  public void testUnmarshallTickers() throws IOException {
+  void unmarshallTickers() throws Exception {
 
     // given
     final InputStream is =
@@ -79,7 +78,7 @@ public class BithumbMarketDataTest {
   }
 
   @Test
-  public void testUnmarshallOrderbook() throws IOException {
+  void unmarshallOrderbook() throws Exception {
 
     final InputStream is =
         BithumbMarketDataTest.class.getResourceAsStream(
@@ -103,7 +102,7 @@ public class BithumbMarketDataTest {
   }
 
   @Test
-  public void testUnmarshallOrderbookAll() throws IOException {
+  void unmarshallOrderbookAll() throws Exception {
 
     final InputStream is =
         BithumbMarketDataTest.class.getResourceAsStream(
@@ -118,7 +117,7 @@ public class BithumbMarketDataTest {
   }
 
   @Test
-  public void testAdaptTransactionHistory() throws IOException {
+  void adaptTransactionHistory() throws Exception {
 
     // given
     InputStream is =

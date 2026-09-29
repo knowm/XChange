@@ -10,7 +10,7 @@ import org.knowm.xchange.coinsph.CoinsphExchange;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class CoinsphAccountServiceRawTest {
+class CoinsphAccountServiceRawTest {
 
   private CoinsphAccountServiceRaw accountServiceRaw;
   private CoinsphAuthenticated coinsphAuthenticated;
@@ -19,7 +19,7 @@ public class CoinsphAccountServiceRawTest {
   private ParamsDigest signatureCreator;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     exchange = mock(CoinsphExchange.class);
     coinsphAuthenticated = mock(CoinsphAuthenticated.class);
     ResilienceRegistries resilienceRegistries = mock(ResilienceRegistries.class);

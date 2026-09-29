@@ -1,18 +1,18 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenTickerTest {
+class LatokenTickerTest {
   LatokenTicker ticker;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -24,52 +24,52 @@ public class LatokenTickerTest {
   }
 
   @Test
-  public void testLatokenTicker() {
-    assertNotNull(ticker);
+  void latokenTicker() {
+    assertThat(ticker).isNotNull();
   }
 
   @Test
-  public void testGetPairId() {
-    assertNotNull(ticker.getPairId());
+  void getPairId() {
+    assertThat(ticker.getPairId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(ticker.getSymbol());
+  void getSymbol() {
+    assertThat(ticker.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetVolume() {
-    assertNotNull(ticker.getVolume());
+  void getVolume() {
+    assertThat(ticker.getVolume()).isNotNull();
   }
 
   @Test
-  public void testGetOpen() {
-    assertNotNull(ticker.getOpen());
+  void getOpen() {
+    assertThat(ticker.getOpen()).isNotNull();
   }
 
   @Test
-  public void testGetLow() {
-    assertNotNull(ticker.getLow());
+  void getLow() {
+    assertThat(ticker.getLow()).isNotNull();
   }
 
   @Test
-  public void testGetHigh() {
-    assertNotNull(ticker.getHigh());
+  void getHigh() {
+    assertThat(ticker.getHigh()).isNotNull();
   }
 
   @Test
-  public void testGetClose() {
-    assertNotNull(ticker.getClose());
+  void getClose() {
+    assertThat(ticker.getClose()).isNotNull();
   }
 
   @Test
-  public void testGetPriceChange() {
-    assertNotNull(ticker.getPriceChange());
+  void getPriceChange() {
+    assertThat(ticker.getPriceChange()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(ticker.toString());
+  void testToString() {
+    assertThat(ticker.toString()).isNotNull();
   }
 }

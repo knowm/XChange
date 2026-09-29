@@ -7,16 +7,15 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gateio.GateioAdapters;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioFuturesTickerAndFundingDeserializationTest {
+class GateioFuturesTickerAndFundingDeserializationTest {
 
   @Test
-  public void testDeserialize() throws IOException {
+  void deserialize() throws Exception {
     InputStream is = getClass().getResourceAsStream("/__files/api_v4_futures_ticker.json");
     GateioFuturesTickerAndFunding[] tickers = new ObjectMapper()
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)

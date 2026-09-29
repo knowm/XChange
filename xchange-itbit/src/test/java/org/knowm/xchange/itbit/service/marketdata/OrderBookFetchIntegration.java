@@ -2,7 +2,7 @@ package org.knowm.xchange.itbit.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,10 +13,10 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /**
  * @author timmolter
  */
-public class OrderBookFetchIntegration {
+class OrderBookFetchIntegration {
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  void tickerFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();

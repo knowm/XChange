@@ -1,22 +1,18 @@
 package org.knowm.xchange.bitcoinde.dto;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOpenOrdersWrapper;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOrder;
 
-public class BitcoindeOpenOrdersTest {
+class BitcoindeOpenOrdersTest {
 
   @Test
-  public void testBitcoindeOpenOrders()
-      throws JsonParseException, JsonMappingException, IOException {
+  void bitcoindeOpenOrders() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -34,7 +30,7 @@ public class BitcoindeOpenOrdersTest {
     List<BitcoindeMyOrder> orders = bitcoindeOpenOrdersWrapper.getOrders();
     BitcoindeMyOrder order = orders.get(0);
 
-    assertEquals(1, orders.size());
-    assertEquals("VNSP86", order.getOrderId());
+    assertThat(orders.size()).isEqualTo(1);
+    assertThat(order.getOrderId()).isEqualTo("VNSP86");
   }
 }

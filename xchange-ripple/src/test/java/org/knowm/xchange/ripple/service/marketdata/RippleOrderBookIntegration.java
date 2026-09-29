@@ -1,8 +1,9 @@
 package org.knowm.xchange.ripple.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,10 +15,10 @@ import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class RippleOrderBookIntegration {
+class RippleOrderBookIntegration {
 
   @Test
-  public void getOrderBookTest() throws Exception {
+  void getOrderBookTest() throws Exception {
     final int depthLimit = 15;
 
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
@@ -54,32 +55,27 @@ public class RippleOrderBookIntegration {
     System.out.println(orderBook);
   }
 
-  @Test(expected = RippleException.class)
-  public void invalidOrderBookTest() throws Exception {
+  @Test
+  void invalidOrderBookTest() throws Exception {
     final int depthLimit = 15;
-
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final MarketDataService marketDataService = exchange.getMarketDataService();
-
     final RippleMarketDataParams params = new RippleMarketDataParams();
-
-    // rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B is Bitstamp's account
     params.setAddress("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
-
-    params.setBaseCounterparty("invalid_address"); // This is an invalid address
-
-    // Set number of orders on each bid/ask side to return
+    params.setBaseCounterparty("invalid_address");
     params.setLimit(depthLimit);
+    assertThatExceptionOfType(RippleException.class).isThrownBy(() -> {
 
-    try {
-      marketDataService.getOrderBook(CurrencyPair.BTC_XRP, params);
-    } catch (final RippleException e) {
-      assertThat(e.getError()).containsIgnoringCase("restINVALID_PARAMETER");
-      assertThat(e.getErrorType()).containsIgnoringCase("invalid_request");
-      assertThat(e.getMessage())
-          .containsIgnoringCase(
-              "Invalid parameter: base. Must be a currency string in the form currency+counterparty");
-      throw e;
-    }
+      try {
+        marketDataService.getOrderBook(CurrencyPair.BTC_XRP, params);
+      } catch (final RippleException e) {
+        assertThat(e.getError()).containsIgnoringCase("restINVALID_PARAMETER");
+        assertThat(e.getErrorType()).containsIgnoringCase("invalid_request");
+        assertThat(e.getMessage())
+            .containsIgnoringCase(
+                "Invalid parameter: base. Must be a currency string in the form currency+counterparty");
+        throw e;
+      }
+    });
   }
 }

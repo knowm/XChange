@@ -11,12 +11,11 @@ import static org.knowm.xchange.bybit.BybitAdapters.adaptMarketOrder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.core.Response.Status;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.BybitAdapters;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -32,10 +31,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
-public class BybitTradeServiceRawTest extends BaseWiremockTest {
+class BybitTradeServiceRawTest extends BaseWiremockTest {
 
   @Test
-  public void testGetBybitLinearDetailOrder() throws IOException {
+  void getBybitLinearDetailOrder() throws Exception {
     BybitExchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw =
         new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
@@ -139,7 +138,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetBybitSpotDetailOrder() throws IOException {
+  void getBybitSpotDetailOrder() throws Exception {
     BybitExchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw =
         new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
@@ -232,7 +231,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testPlaceBybitMarketOrder() throws IOException {
+  void placeBybitMarketOrder() throws Exception {
     BybitExchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw =
         new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());
@@ -278,7 +277,7 @@ public class BybitTradeServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testPlaceBybitLimitOrder() throws IOException {
+  void placeBybitLimitOrder() throws Exception {
     BybitExchange bybitExchange = createExchange();
     BybitTradeServiceRaw bybitAccountServiceRaw =
         new BybitTradeServiceRaw(bybitExchange, bybitExchange.getResilienceRegistries());

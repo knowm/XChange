@@ -3,19 +3,18 @@ package org.knowm.xchange.mexc.service;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class MEXCTradeServiceTest extends BaseWiremockTest {
+class MEXCTradeServiceTest extends BaseWiremockTest {
 
   @Test
-  public void testGetMEXCOrder() throws IOException {
+  void getMEXCOrder() throws Exception {
     Exchange mexcExchange = createExchange();
     MEXCTradeService mexcAccountService = new MEXCTradeService(mexcExchange);
 
@@ -79,7 +78,7 @@ public class MEXCTradeServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testPlaceMEXCOrder() throws IOException {
+  void placeMEXCOrder() throws Exception {
     Exchange mexcExchange = createExchange();
     MEXCTradeService mexcTradeService = new MEXCTradeService(mexcExchange);
 

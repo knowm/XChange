@@ -19,12 +19,12 @@ import org.knowm.xchange.cryptocom.dto.trade.CryptoComOrderSide;
 import org.knowm.xchange.cryptocom.dto.trade.CryptoComOrderType;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
-public class CryptoComTradeServiceRawTest {
+class CryptoComTradeServiceRawTest {
 
   private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
-  public void marketBuy_sendsNotionalInsteadOfQuantity() throws Exception {
+  void marketBuy_sendsNotionalInsteadOfQuantity() throws Exception {
     CryptoComTradeServiceRaw raw = newRaw();
 
     raw.createCryptoComOrder(
@@ -36,7 +36,7 @@ public class CryptoComTradeServiceRawTest {
   }
 
   @Test
-  public void marketSell_sendsQuantity() throws Exception {
+  void marketSell_sendsQuantity() throws Exception {
     CryptoComTradeServiceRaw raw = newRaw();
 
     raw.createCryptoComOrder(
@@ -48,7 +48,7 @@ public class CryptoComTradeServiceRawTest {
   }
 
   @Test
-  public void limitBuy_sendsQuantity() throws Exception {
+  void limitBuy_sendsQuantity() throws Exception {
     CryptoComTradeServiceRaw raw = newRaw();
 
     raw.createCryptoComOrder(
@@ -66,7 +66,7 @@ public class CryptoComTradeServiceRawTest {
   }
 
   @Test
-  public void missingCredentials_rejectedBeforeSigning() throws Exception {
+  void missingCredentials_rejectedBeforeSigning() throws Exception {
     CryptoComTradeServiceRaw raw = newRaw(null, null);
 
     assertThatThrownBy(

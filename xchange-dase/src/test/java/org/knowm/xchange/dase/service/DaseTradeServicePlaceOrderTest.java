@@ -22,7 +22,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-public class DaseTradeServicePlaceOrderTest {
+class DaseTradeServicePlaceOrderTest {
 
   private DaseTradeService createSpyService() {
     Exchange exchange = Mockito.mock(Exchange.class);
@@ -32,7 +32,7 @@ public class DaseTradeServicePlaceOrderTest {
   }
 
   @Test
-  public void placeLimitOrder_buildsCorrectBody() throws Exception {
+  void placeLimitOrder_buildsCorrectBody() throws Exception {
     DaseTradeService svc = createSpyService();
 
     // Skip remote precision checks
@@ -67,7 +67,7 @@ public class DaseTradeServicePlaceOrderTest {
   }
 
   @Test
-  public void placeMarketOrder_buy_setsSize() throws Exception {
+  void placeMarketOrder_buy_setsSize() throws Exception {
     DaseTradeService svc = createSpyService();
     doNothing().when(svc).validateOrderLimits(any());
 
@@ -96,7 +96,7 @@ public class DaseTradeServicePlaceOrderTest {
   }
 
   @Test
-  public void placeMarketOrder_sell_setsSize() throws Exception {
+  void placeMarketOrder_sell_setsSize() throws Exception {
     DaseTradeService svc = createSpyService();
     doNothing().when(svc).validateOrderLimits(any());
 

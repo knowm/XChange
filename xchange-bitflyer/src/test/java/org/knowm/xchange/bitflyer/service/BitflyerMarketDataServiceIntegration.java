@@ -2,7 +2,6 @@ package org.knowm.xchange.bitflyer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitflyer.BitflyerIntegrationTestParent;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,10 +9,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-public class BitflyerMarketDataServiceIntegration extends BitflyerIntegrationTestParent {
+class BitflyerMarketDataServiceIntegration extends BitflyerIntegrationTestParent {
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_JPY);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_JPY);
@@ -25,7 +24,7 @@ public class BitflyerMarketDataServiceIntegration extends BitflyerIntegrationTes
   }
 
   @Test
-  void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_JPY);
 
     assertThat(orderBook.getBids()).isNotEmpty();

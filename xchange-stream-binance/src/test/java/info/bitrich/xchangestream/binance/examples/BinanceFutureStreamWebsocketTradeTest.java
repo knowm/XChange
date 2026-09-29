@@ -9,12 +9,11 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
 import java.math.BigDecimal;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelOrderParams;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -27,8 +26,8 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class BinanceFutureStreamWebsocketTradeTest {
+@Disabled
+class BinanceFutureStreamWebsocketTradeTest {
 
   private static final Logger LOG =
       LoggerFactory.getLogger(BinanceFutureStreamWebsocketTradeTest.class);
@@ -38,8 +37,8 @@ public class BinanceFutureStreamWebsocketTradeTest {
   private static final Instrument instrument2 = new FuturesContract("SOL/USDT/PERP");
   private final boolean logOutput = false;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceFutureStreamingExchange.class);
     //  futures websocket trade not work on test net, main net only
     AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
@@ -50,7 +49,7 @@ public class BinanceFutureStreamWebsocketTradeTest {
   }
 
   @Test
-  public void websocketTrade() throws InterruptedException, IOException {
+  void websocketTrade() throws Exception {
     ProductSubscription subscription =
         ProductSubscription.create()
             // workaround to connect to userDataStream

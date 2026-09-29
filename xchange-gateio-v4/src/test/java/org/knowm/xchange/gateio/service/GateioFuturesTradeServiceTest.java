@@ -15,20 +15,19 @@ import org.knowm.xchange.gateio.dto.GateioExchangeType;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
+class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
 
   static GateioTradeService gateioTradeService;
   static Instrument btcUsdtPerp = new FuturesContract("BTC/USDT/PERP");
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     ExchangeSpecification exSpec = exchange.getExchangeSpecification();
     exSpec.setExchangeSpecificParametersItem(GateioExchange.EXCHANGE_TYPE, GateioExchangeType.FUTURES);
 
@@ -48,7 +47,7 @@ public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
 
 
   @Test
-  void place_futures_limit_order() throws IOException {
+  void place_futures_limit_order() throws Exception {
     LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, btcUsdtPerp)
         .limitPrice(new BigDecimal("50000"))
         .originalAmount(BigDecimal.ONE)
@@ -61,7 +60,7 @@ public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
 
 
   @Test
-  void place_futures_market_order() throws IOException {
+  void place_futures_market_order() throws Exception {
     MarketOrder marketOrder = new MarketOrder.Builder(OrderType.ASK, btcUsdtPerp)
         .originalAmount(BigDecimal.ONE)
         .userReference("t-futures-market-order")
@@ -72,7 +71,7 @@ public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void cancel_futures_order() throws IOException {
+  void cancel_futures_order() throws Exception {
     boolean cancelled = gateioTradeService.cancelOrder(
         new DefaultCancelOrderByInstrumentAndIdParams(btcUsdtPerp, "15675394"));
 
@@ -80,7 +79,7 @@ public class GateioFuturesTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void change_futures_order() throws IOException {
+  void change_futures_order() throws Exception {
     LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, btcUsdtPerp)
         .id("15675394")
         .originalAmount(BigDecimal.ONE)

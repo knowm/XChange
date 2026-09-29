@@ -35,16 +35,16 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 
-public class CryptoComAdaptersTest {
+class CryptoComAdaptersTest {
 
   @Test
-  public void testToInstrumentName() {
+  void toInstrumentName() {
     assertThat(CryptoComAdapters.toInstrumentName(CurrencyPair.BTC_USDT)).isEqualTo("BTC_USDT");
     assertThat(CryptoComAdapters.toInstrumentName(null)).isNull();
   }
 
   @Test
-  public void testToCurrencyPair() {
+  void toCurrencyPair() {
     assertThat(CryptoComAdapters.toCurrencyPair("BTC_USDT")).isEqualTo(CurrencyPair.BTC_USDT);
     assertThat(CryptoComAdapters.toCurrencyPair(null)).isNull();
     assertThat(CryptoComAdapters.toCurrencyPair("BTCUSDT")).isNull();
@@ -52,19 +52,19 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testToBigDecimal() {
+  void toBigDecimal() {
     assertThat(CryptoComAdapters.toBigDecimal("1.5")).isEqualByComparingTo(new BigDecimal("1.5"));
     assertThat(CryptoComAdapters.toBigDecimal(null)).isNull();
   }
 
   @Test
-  public void testToEpochMillis() {
+  void toEpochMillis() {
     assertThat(CryptoComAdapters.toEpochMillis(new Date(1000L))).isEqualTo(1000L);
     assertThat(CryptoComAdapters.toEpochMillis(null)).isNull();
   }
 
   @Test
-  public void testAdaptExchangeMetaData() {
+  void adaptExchangeMetaData() {
     CryptoComInstrument instrument = new CryptoComInstrument();
     instrument.setSymbol("BTC_USDT");
     instrument.setInstType("CCY_PAIR");
@@ -90,7 +90,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptExchangeMetaData_excludesPerpetualSwaps() {
+  void adaptExchangeMetaDataExcludesPerpetualSwaps() {
     CryptoComInstrument spot = new CryptoComInstrument();
     spot.setSymbol("BTC_USDT");
     spot.setInstType("CCY_PAIR");
@@ -112,7 +112,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptTicker() {
+  void adaptTicker() {
     CryptoComTicker ticker = new CryptoComTicker();
     ticker.setInstrumentName("BTC_USDT");
     ticker.setLatestTradePrice("50000.0");
@@ -142,7 +142,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptTickers() {
+  void adaptTickers() {
     CryptoComTicker ticker = new CryptoComTicker();
     ticker.setInstrumentName("BTC_USDT");
     List<Ticker> adapted = CryptoComAdapters.adaptTickers(Arrays.asList(ticker));
@@ -151,7 +151,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptTickers_excludesPerpetualSwaps() {
+  void adaptTickersExcludesPerpetualSwaps() {
     CryptoComTicker spot = new CryptoComTicker();
     spot.setInstrumentName("BTC_USDT");
 
@@ -165,7 +165,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptOrderBook() {
+  void adaptOrderBook() {
     CryptoComOrderBookData data = new CryptoComOrderBookData();
     data.setBids(Arrays.asList(Arrays.asList("100", "1", "1")));
     data.setAsks(Arrays.asList(Arrays.asList("101", "2", "1")));
@@ -185,7 +185,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptTrade() {
+  void adaptTrade() {
     CryptoComPublicTrade trade = new CryptoComPublicTrade();
     trade.setPrice("100");
     trade.setQuantity("1");
@@ -203,7 +203,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptTrades() {
+  void adaptTrades() {
     CryptoComPublicTrade trade = new CryptoComPublicTrade();
     trade.setSide("buy");
     Trades trades = CryptoComAdapters.adaptTrades(Arrays.asList(trade), CurrencyPair.BTC_USDT);
@@ -214,14 +214,14 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptOrderType() {
+  void adaptOrderType() {
     assertThat(CryptoComAdapters.adaptOrderType("BUY")).isEqualTo(OrderType.BID);
     assertThat(CryptoComAdapters.adaptOrderType("SELL")).isEqualTo(OrderType.ASK);
     assertThat(CryptoComAdapters.adaptOrderType("buy")).isEqualTo(OrderType.BID);
   }
 
   @Test
-  public void testAdaptOrderStatus() {
+  void adaptOrderStatus() {
     assertThat(CryptoComAdapters.adaptOrderStatus("ACTIVE", BigDecimal.ZERO))
         .isEqualTo(OrderStatus.NEW);
     assertThat(CryptoComAdapters.adaptOrderStatus("ACTIVE", new BigDecimal("0.5")))
@@ -239,7 +239,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptOrder() {
+  void adaptOrder() {
     CryptoComOrder order = new CryptoComOrder();
     order.setOrderId("1");
     order.setClientOid("client-1");
@@ -267,7 +267,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptOpenOrders() {
+  void adaptOpenOrders() {
     CryptoComOrder order = new CryptoComOrder();
     order.setInstrumentName("BTC_USDT");
     order.setSide("BUY");
@@ -279,7 +279,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptUserTrade() {
+  void adaptUserTrade() {
     CryptoComUserTrade trade = new CryptoComUserTrade();
     trade.setTradeId("1");
     trade.setOrderId("2");
@@ -306,7 +306,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptUserTrades() {
+  void adaptUserTrades() {
     CryptoComUserTrade trade = new CryptoComUserTrade();
     trade.setInstrumentName("BTC_USDT");
     trade.setSide("BUY");
@@ -318,7 +318,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptAccountInfo() {
+  void adaptAccountInfo() {
     CryptoComBalance.PositionBalance position = new CryptoComBalance.PositionBalance();
     position.setInstrumentName("USDT");
     position.setQuantity("100");
@@ -336,7 +336,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptDepositRecord() {
+  void adaptDepositRecord() {
     CryptoComDepositRecord record = new CryptoComDepositRecord();
     record.setId("1");
     record.setCurrency("BTC");
@@ -357,7 +357,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptWithdrawalRecord() {
+  void adaptWithdrawalRecord() {
     CryptoComWithdrawalRecord record = new CryptoComWithdrawalRecord();
     record.setId("2");
     record.setCurrency("BTC");
@@ -377,7 +377,7 @@ public class CryptoComAdaptersTest {
   }
 
   @Test
-  public void testAdaptDepositAndWithdrawalRecords() {
+  void adaptDepositAndWithdrawalRecords() {
     CryptoComDepositRecord deposit = new CryptoComDepositRecord();
     deposit.setCurrency("BTC");
     assertThat(CryptoComAdapters.adaptDepositRecords(Arrays.asList(deposit))).hasSize(1);

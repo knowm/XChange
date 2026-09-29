@@ -4,18 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinex.dto.CoinexResponse;
 import org.knowm.xchange.coinex.dto.account.CoinexBalanceInfo;
 import org.knowm.xchange.coinex.dto.account.CoinexBalances;
 
-public class CoinexBalancesTest {
+class CoinexBalancesTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         CoinexBalancesTest.class.getResourceAsStream(

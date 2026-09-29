@@ -1,6 +1,6 @@
 package org.knowm.xchange.btcmarkets.service;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.BTCMarkets;
@@ -19,8 +19,8 @@ abstract class BTCMarketsServiceTest extends BTCMarketsTestSupport {
   protected BTCMarketsAuthenticated btcMarketsAuthenticated;
   protected BTCMarkets btcMarkets;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     ExchangeSpecification specification =
         ExchangeFactory.INSTANCE
             .createExchange(BTCMarketsExchange.class)

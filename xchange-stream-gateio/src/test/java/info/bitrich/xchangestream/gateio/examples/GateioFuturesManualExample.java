@@ -5,9 +5,9 @@ import info.bitrich.xchangestream.gateio.GateioStreamingExchange;
 import info.bitrich.xchangestream.gateio.GateioStreamingMarketDataService;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -17,7 +17,6 @@ import org.knowm.xchange.gateio.dto.trade.GateioOrderFlags;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.AuthUtils;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
@@ -31,14 +30,14 @@ public class GateioFuturesManualExample {
   public GateioStreamingExchange exchange;
   private final boolean logOutput = true;
 
-  @Before
-  public void before() {
+  @BeforeEach
+  void before() {
     init();
   }
 
   @Test
-  @Ignore
-  public void getTickerAndFunding() throws InterruptedException {
+  @Disabled
+  void getTickerAndFunding() throws Exception {
     Disposable disposable = exchange.getStreamingMarketDataService().getTicker(instrument).subscribe(
         ticker -> {
           if (logOutput) {
@@ -65,8 +64,8 @@ public class GateioFuturesManualExample {
   }
 
   @Test
-  @Ignore
-  public void getOrderChanges() throws InterruptedException, IOException {
+  @Disabled
+  void getOrderChanges() throws Exception {
     Disposable disposable = exchange.getStreamingTradeService().getOrderChanges(instrument).subscribe(
         order -> {
           if (logOutput) {
@@ -89,8 +88,8 @@ public class GateioFuturesManualExample {
   }
 
   @Test
-  @Ignore
-  public void geOrderBook() throws InterruptedException {
+  @Disabled
+  void geOrderBook() throws Exception {
     Disposable disposable = exchange.getStreamingMarketDataService().getOrderBook(instrument, 400).subscribe(
         orderBook -> {
           if (logOutput) {
@@ -106,8 +105,8 @@ public class GateioFuturesManualExample {
   }
 
   @Test
-  @Ignore
-  public void geOrderBookTicker() throws InterruptedException, IOException {
+  @Disabled
+  void geOrderBookTicker() throws Exception {
     Disposable disposable = ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService()).getOrderBookTicker(instrument).subscribe(
         orderBookTicker -> {
           if (logOutput) {
@@ -124,8 +123,8 @@ public class GateioFuturesManualExample {
   }
 
   @Test
-  @Ignore
-  public void getTrades() throws InterruptedException {
+  @Disabled
+  void getTrades() throws Exception {
     Disposable disposable = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(
         trade -> {
           if (logOutput) {

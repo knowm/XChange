@@ -6,15 +6,14 @@ import info.bitrich.xchangestream.coinsph.CoinsphStreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Disabled("Integration tests are disabled by default. Enable for manual execution against sandbox.")
-public class StreamingTradeServiceIntegration {
+class StreamingTradeServiceIntegration {
   private static final Logger LOG = LoggerFactory.getLogger(StreamingTradeServiceIntegration.class);
 
   private static final CurrencyPair CURRENCY_PAIR = CurrencyPair.BTC_PHP;
@@ -40,8 +39,8 @@ public class StreamingTradeServiceIntegration {
   private StreamingTradeService streamingTradeService;
   private TradeService restTradeService;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinsphStreamingExchange.class);
     exSpec.setSslUri(SANDBOX_API_URL);
     exSpec.setApiKey(API_KEY);
@@ -65,15 +64,15 @@ public class StreamingTradeServiceIntegration {
     streamingExchange.connect().blockingAwait();
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     if (streamingExchange != null) {
       streamingExchange.disconnect().blockingAwait();
     }
   }
 
   @Test
-  public void testGetOrderChanges() throws IOException, InterruptedException {
+  void getOrderChanges() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<Order> receivedOrder = new AtomicReference<>();
 
@@ -87,9 +86,7 @@ public class StreamingTradeServiceIntegration {
                   receivedOrder.set(order);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in order changes subscription", throwable);
-                });
+                throwable -> LOG.error("Error in order changes subscription", throwable));
 
     // Place a market order to trigger order change events
     MarketOrder marketOrder =
@@ -110,7 +107,7 @@ public class StreamingTradeServiceIntegration {
   }
 
   @Test
-  public void testGetUserTrades() throws IOException, InterruptedException {
+  void getUserTrades() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<UserTrade> receivedTrade = new AtomicReference<>();
 
@@ -124,9 +121,7 @@ public class StreamingTradeServiceIntegration {
                   receivedTrade.set(trade);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in user trades subscription", throwable);
-                });
+                throwable -> LOG.error("Error in user trades subscription", throwable));
 
     // Place a market order to trigger trade events
     MarketOrder marketOrder =

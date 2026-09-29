@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -23,14 +23,14 @@ import org.knowm.xchange.service.trade.TradeService;
 /**
  * @author mertguner
  */
-public class TradeDataFetchIntegration {
+class TradeDataFetchIntegration {
 
   private Exchange btcTurk;
   private BTCTurkTradeService btcTurkTradeService;
   private TradeService tradeService;
 
-  @Before
-  public void InitExchange() throws IOException {
+  @BeforeEach
+  void InitExchange() throws IOException {
     if (BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty())
       btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class);
     else {
@@ -45,7 +45,7 @@ public class TradeDataFetchIntegration {
   }
 
   @Test
-  public void Tests() throws IOException, InterruptedException {
+  void Tests() throws Exception {
 
     if (!BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty()) {
       // PlaceOrderAndOpenOrders Test

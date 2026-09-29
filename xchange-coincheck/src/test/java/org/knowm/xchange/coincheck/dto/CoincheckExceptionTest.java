@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CoincheckExceptionTest {
+class CoincheckExceptionTest {
   @Test
   @SneakyThrows
-  public void testParse() {
+  void parse() {
     String json = "{\"success\":false,\"error\":\"invalid pair\"}";
     CoincheckException ex = new ObjectMapper().readValue(json, CoincheckException.class);
     ex.setHttpStatusCode(400);

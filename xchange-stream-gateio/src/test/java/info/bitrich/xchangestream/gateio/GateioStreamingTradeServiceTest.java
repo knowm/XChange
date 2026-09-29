@@ -49,7 +49,7 @@ class GateioStreamingTradeServiceTest {
   Instrument instrumentFuture = new FuturesContract(CurrencyPair.ETH_USDT, "PERP");
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     InstrumentMetaData instrumentMetaData = InstrumentMetaData.builder().contractValue(new BigDecimal("0.01")).build();
     instrumentsMetaData.put(instrumentFuture, instrumentMetaData);
     exchangeMetaData = new ExchangeMetaData(instrumentsMetaData, null, null, null, null);

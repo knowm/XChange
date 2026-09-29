@@ -1,7 +1,7 @@
 package org.knowm.xchange.coinsph.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -9,7 +9,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class CoinsphTradeServiceTest {
+class CoinsphTradeServiceTest {
 
   private CoinsphTradeService tradeService;
   private CoinsphAuthenticated coinsphAuthenticated;
@@ -44,7 +43,7 @@ public class CoinsphTradeServiceTest {
   private ParamsDigest signatureCreator;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     exchange = mock(CoinsphExchange.class);
     Coinsph coinsph = mock(Coinsph.class);
     coinsphAuthenticated = mock(CoinsphAuthenticated.class);
@@ -72,7 +71,7 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testGetOpenOrders() throws IOException {
+  void getOpenOrders() throws Exception {
     // given
     List<CoinsphOrder> mockOrders = new ArrayList<>();
 
@@ -146,7 +145,7 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testPlaceLimitOrder() throws IOException {
+  void placeLimitOrder() throws Exception {
     // given
     LimitOrder limitOrder =
         new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_PHP)
@@ -199,7 +198,7 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testPlaceMarketOrder() throws IOException {
+  void placeMarketOrder() throws Exception {
     // given
     MarketOrder marketOrder =
         new MarketOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_PHP)
@@ -251,7 +250,7 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testCancelOrder() throws IOException {
+  void cancelOrder() throws Exception {
     // given
     String orderId = "12345";
     CurrencyPair currencyPair = CurrencyPair.BTC_PHP;
@@ -321,7 +320,7 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testGetTradeHistoryCurrencyPairParamsScenario() throws IOException {
+  void getTradeHistoryCurrencyPairParamsScenario() throws Exception {
     // given
     List<CoinsphUserTrade> mockTrades = getCoinsphUserTrades();
 
@@ -340,7 +339,7 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testGetTradeHistoryInstrumentParamsScenario() throws IOException {
+  void getTradeHistoryInstrumentParamsScenario() throws Exception {
     // given
     List<CoinsphUserTrade> mockTrades = getCoinsphUserTrades();
 
@@ -359,13 +358,15 @@ public class CoinsphTradeServiceTest {
   }
 
   @Test
-  public void testGetTradeHistoryInvalidParamsScenario() {
+  void getTradeHistoryInvalidParamsScenario() {
     // given
     TradeHistoryParams params = new CoinsphTradeHistoryParams();
 
     // when
     IllegalArgumentException exception =
-        assertThrows(IllegalArgumentException.class, () -> tradeService.getTradeHistory(params));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> tradeService.getTradeHistory(params))
+            .actual();
 
     // then
     assertThat(exception.getMessage())

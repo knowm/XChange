@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.TreeSet;
 import org.assertj.core.util.Sets;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class KrakenStreamingChecksumTest {
+class KrakenStreamingChecksumTest {
   private StringBuilder sb;
 
   private TreeSet<LimitOrder> asks =
@@ -134,19 +134,19 @@ public class KrakenStreamingChecksumTest {
   private final String expectedCrcString =
       "50055005010500501550050205005025500503050050355005040500504550050505005000500499550049905004980500497550049705004965500496050049555004950500";
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     this.sb = new StringBuilder();
   }
 
   @Test
-  public void testAddBigDecimal() {
+  void addBigDecimal() {
     KrakenStreamingChecksum.addBigDecimalToCrcString(this.sb, new BigDecimal("0.05005"));
     assertThat(sb.toString()).isEqualTo("5005");
   }
 
   @Test
-  public void testAddBigDecimalWithDecimalEndingInZero() {
+  void addBigDecimalWithDecimalEndingInZero() {
     KrakenStreamingChecksum.addBigDecimalToCrcString(this.sb, new BigDecimal("0.05000"));
     assertThat(sb.toString()).isEqualTo("5000");
     this.setUp();
@@ -155,13 +155,13 @@ public class KrakenStreamingChecksumTest {
   }
 
   @Test
-  public void testAddOrderbook() {
+  void addOrderbook() {
     String crcString = KrakenStreamingChecksum.createCrcString(asks, bids);
     assertThat(crcString).isEqualTo(expectedCrcString);
   }
 
   @Test
-  public void testCreateCrcLong() {
+  void createCrcLong() {
     long crcLong = KrakenStreamingChecksum.createCrcLong(expectedCrcString);
     assertThat(crcLong).isEqualTo(974947235L);
   }

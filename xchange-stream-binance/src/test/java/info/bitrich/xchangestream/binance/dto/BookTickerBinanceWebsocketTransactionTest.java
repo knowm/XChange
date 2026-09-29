@@ -7,28 +7,27 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.market.BookTickerBinanceWebSocketTransaction;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceBookTicker;
 
-public class BookTickerBinanceWebsocketTransactionTest {
+class BookTickerBinanceWebsocketTransactionTest {
 
   private static ObjectMapper mapper;
 
-  @BeforeClass
-  public static void setupClass() {
+  @BeforeAll
+  static void setupClass() {
     JsonFactory jf = new JsonFactory();
     jf.enable(JsonParser.Feature.ALLOW_COMMENTS);
     mapper = new ObjectMapper(jf);
   }
 
   @Test
-  public void test_deserialization_of_transaction_message() throws IOException {
+  void deserialization_of_transaction_message() throws Exception {
     InputStream stream =
         BookTickerBinanceWebsocketTransactionTest.class.getResourceAsStream(
             "testBookTickerEvent.json");

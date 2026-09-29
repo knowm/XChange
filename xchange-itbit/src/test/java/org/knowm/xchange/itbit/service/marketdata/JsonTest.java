@@ -4,18 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.itbit.dto.trade.ItBitUserTrade;
 
 /** Test Transaction[] JSON parsing */
-public class JsonTest {
+class JsonTest {
 
   @Test
-  public void testTradeHistory() throws IOException {
+  void tradeHistory() throws Exception {
     InputStream is =
         JsonTest.class.getResourceAsStream(
             "/org/knowm/xchange/itbit/service/marketdata/ItBitTradeHistory.json");

@@ -3,14 +3,13 @@ package org.knowm.xchange.coinbase;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUsers;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -31,10 +30,10 @@ import org.knowm.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseAdapterTest {
+class CoinbaseAdapterTest {
 
   @Test
-  public void testAdaptAccountInfo() throws IOException {
+  void adaptAccountInfo() throws Exception {
 
     Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
     List<Balance> balances = new ArrayList<>();
@@ -62,7 +61,7 @@ public class CoinbaseAdapterTest {
   }
 
   @Test
-  public void testAdaptTrades() throws IOException {
+  void adaptTrades() throws Exception {
 
     BigDecimal originalAmount = new BigDecimal("1.20000000");
     BigDecimal price = new BigDecimal("905.10").divide(originalAmount, RoundingMode.HALF_EVEN);
@@ -98,7 +97,7 @@ public class CoinbaseAdapterTest {
   }
 
   @Test
-  public void testAdaptTicker() throws IOException {
+  void adaptTicker() throws Exception {
 
     Ticker expectedTicker =
         new Ticker.Builder()

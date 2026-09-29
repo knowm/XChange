@@ -1,9 +1,9 @@
 package org.knowm.xchange.binance;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -40,16 +40,16 @@ import static org.knowm.xchange.Exchange.USE_SANDBOX;
 import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
-@Ignore
-public class BinanceFutureTest {
+@Disabled
+class BinanceFutureTest {
 
   private static final Instrument instrument = new FuturesContract("BTC/USDT/PERP");
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   private static Exchange binanceExchange;
 
-  @Before
-  public void setUp() throws IOException {
+  @BeforeEach
+  void setUp() throws IOException {
     Properties prop = new Properties();
     prop.load(this.getClass().getResourceAsStream("/secret.keys"));
 
@@ -65,7 +65,7 @@ public class BinanceFutureTest {
   }
 
   @Test
-  public void binanceFutureMarketDataService() throws IOException {
+  void binanceFutureMarketDataService() throws Exception {
     // Get Ticker
     Ticker ticker = binanceExchange.getMarketDataService().getTicker(instrument);
     logger.info("Ticker: " + ticker);
@@ -97,7 +97,7 @@ public class BinanceFutureTest {
   }
 
   @Test
-  public void binanceFutureAccountService() throws IOException {
+  void binanceFutureAccountService() throws Exception {
     BinanceAccountService binanceAccountService =
         ((BinanceAccountService) binanceExchange.getAccountService());
     Fee fee = binanceAccountService.getCommissionRateByInstrument(instrument);
@@ -108,7 +108,7 @@ public class BinanceFutureTest {
   }
 
   @Test
-  public void binanceFutureTradeService() throws IOException {
+  void binanceFutureTradeService() throws Exception {
     Set<Order.IOrderFlags> orderFlags = new HashSet<>();
     //        orderFlags.add(BinanceOrderFlags.REDUCE_ONLY);
 

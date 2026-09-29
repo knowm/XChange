@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.okcoin.v3.dto.MarginMode;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse.FixedLeverage;
@@ -17,10 +17,10 @@ import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse.FixedLeve
 /**
  * @author timmolter
  */
-public class LeverageJsonTest {
+class LeverageJsonTest {
 
   @Test
-  public void crossedLeverage() throws Exception {
+  void crossedLeverage() throws Exception {
     FuturesLeverageResponse res =
         readJson("example-leverage-crossed.json", FuturesLeverageResponse.class);
     assertThat(res.getMarginMode()).isEqualTo(MarginMode.crossed);
@@ -30,7 +30,7 @@ public class LeverageJsonTest {
   }
 
   @Test
-  public void fixedLeverage() throws Exception {
+  void fixedLeverage() throws Exception {
     FuturesLeverageResponse res =
         readJson("example-leverage-fixed.json", FuturesLeverageResponse.class);
 
