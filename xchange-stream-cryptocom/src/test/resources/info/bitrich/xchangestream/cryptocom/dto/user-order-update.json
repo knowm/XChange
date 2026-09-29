@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "method": "subscribe",
+  "code": 0,
+  "result": {
+    "instrument_name": "BTC_USDT",
+    "subscription": "user.order.BTC_USDT",
+    "channel": "user.order",
+    "data": [
+      {
+        "order_id": "18342311",
+        "client_oid": "my-order-0001",
+        "account_id": "88888888-8888-8888-8888-888888888888",
+        "instrument_name": "BTC_USDT",
+        "fee_instrument_name": "USDT",
+        "side": "BUY",
+        "order_type": "LIMIT",
+        "status": "ACTIVE",
+        "limit_price": "50000.0",
+        "quantity": "0.015000",
+        "avg_price": "0",
+        "cumulative_quantity": "0.005000",
+        "cumulative_fee": "0",
+        "time_in_force": "GOOD_TILL_CANCEL",
+        "create_time": 1785085694239,
+        "create_time_ns": "1785085694239123456",
+        "update_time": 1785085695512,
+        "reason": null
+      }
+    ]
+  }
+}

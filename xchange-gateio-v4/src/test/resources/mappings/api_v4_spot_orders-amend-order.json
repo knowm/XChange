@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "PATCH",
+    "urlPath": "/api/v4/spot/orders/1852454420",
+    "queryParameters": {
+      "currency_pair": {
+        "equalTo": "BTC_USDT"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_spot_orders-amend-order.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

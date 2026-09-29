@@ -16,8 +16,8 @@ import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 public class GateioTicker {
 
   @JsonProperty("currency_pair")
-  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
-  CurrencyPair currencyPair;
+//  @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
+  String currencyPair;
 
   @JsonProperty("last")
   BigDecimal lastPrice;

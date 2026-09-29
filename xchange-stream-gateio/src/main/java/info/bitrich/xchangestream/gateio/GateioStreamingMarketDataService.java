@@ -1,26 +1,172 @@
 package info.bitrich.xchangestream.gateio;
 
+import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookNotification;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
+import info.bitrich.xchangestream.gateio.dto.response.funding.GateioSingleTickerAndFundingNotification;
+import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
+import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import io.reactivex.rxjava3.core.Observable;
-import java.time.Duration;
+import io.reactivex.rxjava3.disposables.Disposable;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
+import org.jspecify.annotations.NonNull;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.gateio.service.GateioMarketDataService;
+import org.knowm.xchange.instrument.Instrument;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+
+@Slf4j
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
 
   public static final int MAX_DEPTH_DEFAULT = 5;
-  public static final int UPDATE_INTERVAL_DEFAULT = 100;
+  public static final Duration UPDATE_INTERVAL_DEFAULT = Duration.ofMillis(100);
   private final GateioStreamingService service;
+  private final Map<String, OrderBook> orderBookMap = new HashMap<>();
+  private final ExchangeMetaData exchangeMetaData;
+  private Disposable fundingRateInfoUpdate;
+  private GateioMarketDataService gateioMarketDataService;
+  private GateioStreamingExchange streamingExchange;
 
-  public GateioStreamingMarketDataService(GateioStreamingService service) {
+
+  public GateioStreamingMarketDataService(GateioStreamingService service, ExchangeMetaData exchangeMetaData, GateioMarketDataService marketDataService,
+                                          GateioStreamingExchange streamingExchange) {
     this.service = service;
+    this.exchangeMetaData = exchangeMetaData;
+    this.gateioMarketDataService = marketDataService;
+    this.streamingExchange = streamingExchange;
+  }
+
+  @Override
+  public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
+    Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
+    String channelName =
+        (instrument instanceof FuturesContract)
+            ? Config.FUTURES_ORDERBOOKV2_CHANNEL
+            : Config.SPOT_ORDERBOOKV2_CHANNEL;
+    Observable<GateioWsNotification> updates =
+        service.subscribeChannel(channelName, instrument, orderBookLevel);
+    AtomicLong orderBookUpdateIdPrev = new AtomicLong();
+    BigDecimal contractValue;
+    if (instrument instanceof FuturesContract) {
+      contractValue = exchangeMetaData.getInstruments()
+          .get(instrument).getContractValue();
+      return getOrderBookObservableFutures(instrument, updates, contractValue, orderBookUpdateIdPrev, channelName, orderBookLevel);
+    } else {
+      return getOrderBookObservable(instrument, updates, orderBookUpdateIdPrev, channelName, orderBookLevel);
+    }
+  }
+
+  private @NonNull Observable<OrderBook> getOrderBookObservable(Instrument instrument, Observable<GateioWsNotification> updates, AtomicLong orderBookUpdateIdPrev, String channelName, Integer orderBookLevel) {
+    return updates
+        .map(GateioOrderBookV2Notification.class::cast)
+        .flatMap(ob -> {
+          OrderBook orderBook;
+          if (ob.getResult().isFull()) {
+            orderBook = GateioStreamingAdapters.toOrderBookV2(ob);
+            orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
+            orderBookMap.put(instrument.toString(), orderBook);
+          } else {
+            debugLog(orderBookUpdateIdPrev, ob.getResult().getFirstUpdateId(), ob.getResult().getLastUpdateId());
+            if (orderBookUpdateIdPrev.incrementAndGet() == ob.getResult().getFirstUpdateId()) {
+              orderBook = orderBookMap.getOrDefault(instrument.toString(), null);
+              if (orderBook == null) {
+                log.error("Failed to get orderBook, instId={}.", instrument);
+                return Observable.fromIterable(new LinkedList<>());
+              }
+              List<OrderBookUpdate> orderBookUpdates;
+              orderBookUpdates =
+                  GateioStreamingAdapters.adaptOrderBookUpdates(
+                      instrument,
+                      ob.getResult());
+              orderBookUpdates.forEach(orderBook::update);
+              orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
+              return Observable.just(orderBook);
+            } else {
+              errorHandler(orderBookUpdateIdPrev, ob.getResult().getFirstUpdateId(), instrument, channelName, orderBookLevel);
+            }
+          }
+          return Observable.just(new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false));
+        });
+  }
+
+  private @NonNull Observable<OrderBook> getOrderBookObservableFutures(Instrument instrument, Observable<GateioWsNotification> updates, BigDecimal contractValue, AtomicLong orderBookUpdateIdPrev, String channelName, Integer orderBookLevel) {
+    return updates
+        .map(GateioOrderBookV2FuturesNotification.class::cast)
+        .flatMap(ob -> {
+          OrderBook orderBook;
+          if (ob.getResult().isFull()) {
+            orderBook = GateioStreamingAdapters.toOrderBookV2Futures(ob, contractValue);
+            orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
+            orderBookMap.put(instrument.toString(), orderBook);
+            return Observable.just(orderBook);
+          } else {
+            debugLog(orderBookUpdateIdPrev, ob.getResult().getFirstUpdateId(), ob.getResult().getLastUpdateId());
+            if (orderBookUpdateIdPrev.incrementAndGet() == ob.getResult().getFirstUpdateId()) {
+              orderBook = orderBookMap.getOrDefault(instrument.toString(), null);
+              if (orderBook == null) {
+                log.error("Failed to get orderBook, instId={}.", instrument);
+                return Observable.fromIterable(new LinkedList<>());
+              }
+              List<OrderBookUpdate> orderBookUpdates;
+              orderBookUpdates = GateioStreamingAdapters.adaptOrderBookFuturesUpdates(
+                  instrument,
+                  ob.getResult(),
+                  contractValue);
+              orderBookUpdates.forEach(orderBook::update);
+              orderBookUpdateIdPrev.set(ob.getResult().getLastUpdateId());
+              return Observable.just(orderBook);
+            } else {
+              errorHandler(orderBookUpdateIdPrev, ob.getResult().getFirstUpdateId(), instrument, channelName, orderBookLevel);
+            }
+          }
+          return Observable.just(new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false));
+        });
+  }
+
+  private static void debugLog(AtomicLong orderBookUpdateIdPrev, long firstUpdateId, long lastUpdateId) {
+    log.debug(
+        "orderBookUpdate U {}, u {}, orderBookUpdateIdPrev {} ",
+        firstUpdateId,
+        lastUpdateId, orderBookUpdateIdPrev.get());
+  }
+
+  private void errorHandler(AtomicLong orderBookUpdateIdPrev, Long ob, Instrument instrument, String channelName, Integer orderBookLevel) throws IOException {
+    log.error(
+        "orderBookUpdate id sequence failed, expected {}, in fact {}",
+        orderBookUpdateIdPrev.get(),
+        ob);
+    log.warn(
+        "Resubscribing {} channel after error",
+        instrument);
+    // Resubscribe to the channel, triggering a new snapshot
+    if (orderBookMap.containsKey(instrument.toString())) {
+      orderBookMap.remove(instrument.toString());
+      if (service.isSocketOpen()) {
+        service.sendMessage(service.getUnsubscribeMessage(channelName, instrument, orderBookLevel));
+        service.resubscribeChannels();
+      }
+    }
+  }
+
+  @Override
+  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    return getOrderBook((Instrument) currencyPair, args);
   }
 
   /**
@@ -28,25 +174,61 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
    * https://www.gate.io/docs/apiv4/ws/index.html#limited-level-full-order-book-snapshot
    *
    * @param currencyPair Currency pair of the order book
-   * @param args Order book level: {@link Integer}, update speed: {@link Duration}
+   * @param args         Order book level: {@link Integer}, update speed: {@link Duration}
    */
-  @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Observable<OrderBook> getOrderBookLegacy(CurrencyPair currencyPair, Object... args) {
     Integer orderBookLevel = (Integer) ArrayUtils.get(args, 0, MAX_DEPTH_DEFAULT);
     Duration updateSpeed = (Duration) ArrayUtils.get(args, 1, UPDATE_INTERVAL_DEFAULT);
     return service
         .subscribeChannel(
-            Config.SPOT_ORDERBOOK_CHANNEL, new Object[] {currencyPair, orderBookLevel, updateSpeed})
+            Config.SPOT_ORDERBOOK_CHANNEL, new Object[]{currencyPair, orderBookLevel, updateSpeed})
         .map(GateioOrderBookNotification.class::cast)
         .map(GateioStreamingAdapters::toOrderBook);
   }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    return service
-        .subscribeChannel(Config.SPOT_TICKERS_CHANNEL, currencyPair)
-        .map(GateioTickerNotification.class::cast)
-        .map(GateioStreamingAdapters::toTicker);
+    return getTicker(((Instrument) currencyPair));
+  }
+
+  @Override
+  public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
+    if (instrument instanceof FuturesContract)
+      return service
+          .subscribeChannel(Config.FUTURES_TICKERS_CHANNEL, instrument)
+          .map(GateioSingleTickerAndFundingNotification.class::cast)
+          .map(GateioStreamingAdapters::toTickerFutures);
+    else
+      return service
+          .subscribeChannel(Config.SPOT_TICKERS_CHANNEL, instrument)
+          .map(GateioTickerNotification.class::cast)
+          .map(GateioStreamingAdapters::toTicker);
+  }
+
+  @Override
+  public Observable<Trade> getTrades(Instrument instrument, Object... args) {
+    if (instrument instanceof FuturesContract) {
+      return service
+          .subscribeChannel(
+              Config.FUTURES_TRADES_CHANNEL, instrument)
+          .map(GateioFuturesTradeNotification.class::cast)
+          .flatMapIterable(GateioFuturesTradeNotification::getResult)
+          .map(payload -> {
+            Trade trade = GateioStreamingAdapters.toTradeFutures(payload);
+            return Trade.builder()
+                .type(trade.getType())
+                .originalAmount(trade.getOriginalAmount())
+                .instrument(instrument)
+                .price(trade.getPrice())
+                .timestamp(trade.getTimestamp())
+                .id(trade.getId())
+                .build();
+          });
+    }
+    if (instrument instanceof CurrencyPair) {
+      return getTrades((CurrencyPair) instrument, args);
+    }
+    throw new IllegalArgumentException("Instrument type not supported: " + instrument.getClass());
   }
 
   @Override
@@ -55,5 +237,57 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
         .subscribeChannel(Config.SPOT_TRADES_CHANNEL, currencyPair)
         .map(GateioTradeNotification.class::cast)
         .map(GateioStreamingAdapters::toTrade);
+  }
+
+  @Override
+  public Observable<FundingRate> getFundingRate(Instrument instrument, Object... args) {
+    try {
+      // init update info for funding rate interval, run every hour at 00 minutes
+      synchronized (this) {
+        if (fundingRateInfoUpdate == null) {
+          long millisToNextHour = 3600000 - (System.currentTimeMillis() % 3600000);
+          long secondsLeft = millisToNextHour / 1000;
+          fundingRateInfoUpdate =
+              Observable.interval(secondsLeft, 3600, TimeUnit.SECONDS).subscribe(x -> updateFundingRateInfo());
+        }
+      }
+    } catch (Exception e) {
+      return Observable.error(e);
+    }
+
+    return service
+        .subscribeChannel(Config.FUTURES_TICKET_AND_FUNDING_CHANNEL, instrument)
+        .map(GateioSingleTickerAndFundingNotification.class::cast)
+        .map(data -> GateioStreamingAdapters.toFunding(data, gateioMarketDataService.getFundingRateInfoMap().get(instrument)));
+  }
+
+  private void updateFundingRateInfo() {
+    try {
+      // run every second, 10 times
+      for (int i = 0; i < 10; i++) {
+        streamingExchange.updateExchangeMetaData();
+        Thread.sleep(1000);
+      }
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public Observable<OrderBookTicker> getOrderBookTicker(Instrument instrument) {
+    String channelName =
+        (instrument instanceof FuturesContract)
+            ? Config.FUTURES_ORDERBOOK_TICKER_CHANNEL
+            : Config.SPOT_ORDERBOOK_TICKER_CHANNEL;
+    Observable<GateioWsNotification> updates =
+        service.subscribeChannel(channelName, instrument);
+    if (instrument instanceof FuturesContract)
+      return updates
+          .map(GateioOrderBookFuturesTickerNotification.class::cast)
+          .map(obTicker -> GateioStreamingAdapters.toOrderBookTicker(obTicker.getResult()));
+    else {
+      return updates
+          .map(GateioOrderBookSpotTickerNotification.class::cast)
+          .map(obTicker -> GateioStreamingAdapters.toOrderBookTicker(obTicker.getResult()));
+    }
   }
 }

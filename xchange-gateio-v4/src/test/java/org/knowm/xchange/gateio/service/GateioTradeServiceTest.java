@@ -1,24 +1,12 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
@@ -27,6 +15,15 @@ import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Date;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
 
@@ -177,6 +174,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             .limitPrice(new BigDecimal("80000"))
             .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
             .originalAmount(new BigDecimal("0.00012"))
+            .cumulativeAmount(BigDecimal.ZERO)
             .orderStatus(OrderStatus.OPEN)
             .fee(BigDecimal.ZERO)
             .userReference("web")
@@ -197,6 +195,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             .limitPrice(new BigDecimal("80000"))
             .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
             .originalAmount(new BigDecimal("0.00012"))
+            .cumulativeAmount(BigDecimal.ZERO)
             .orderStatus(OrderStatus.OPEN)
             .fee(BigDecimal.ZERO)
             .userReference("web")

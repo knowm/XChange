@@ -2,16 +2,17 @@ package org.knowm.xchange.gateio.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.math.BigDecimal;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -28,7 +29,7 @@ public class GateioWithdrawalRecord {
   String clientRecordId;
 
   @JsonProperty("timestamp")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
   Instant createdAt;
 
   @JsonProperty("amount")

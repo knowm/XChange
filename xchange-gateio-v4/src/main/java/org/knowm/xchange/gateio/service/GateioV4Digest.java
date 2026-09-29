@@ -1,12 +1,14 @@
 package org.knowm.xchange.gateio.service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import javax.crypto.Mac;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
+
+import javax.crypto.Mac;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 
 public final class GateioV4Digest extends BaseParamsDigest {
 
@@ -25,8 +27,8 @@ public final class GateioV4Digest extends BaseParamsDigest {
     String method = restInvocation.getHttpMethod();
     String path = restInvocation.getPath();
 
-    String query = restInvocation.getQueryString();
-    String body = restInvocation.getRequestBody();
+    String query = StringUtils.defaultString(restInvocation.getQueryString());
+    String body = StringUtils.defaultString(restInvocation.getRequestBody());
     MessageDigest md = MessageDigest.getInstance("SHA-512");
     String hexedHashedBody =
         DigestUtils.bytesToHex(md.digest(body.getBytes(StandardCharsets.UTF_8)));

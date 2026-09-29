@@ -1,13 +1,7 @@
 package org.knowm.xchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import lombok.Getter;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -20,13 +14,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public abstract class BaseExchange implements Exchange {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   protected ExchangeSpecification exchangeSpecification;
   protected ExchangeMetaData exchangeMetaData;
+  @Getter
   protected MarketDataService marketDataService;
+  @Getter
   protected TradeService tradeService;
+  @Getter
   protected AccountService accountService;
 
   private final SynchronizedValueFactory<Long> nonceFactory =
@@ -178,21 +183,6 @@ public abstract class BaseExchange implements Exchange {
   public ExchangeMetaData getExchangeMetaData() {
 
     return exchangeMetaData;
-  }
-
-  public MarketDataService getMarketDataService() {
-
-    return marketDataService;
-  }
-
-  public TradeService getTradeService() {
-
-    return tradeService;
-  }
-
-  public AccountService getAccountService() {
-
-    return accountService;
   }
 
   @Override

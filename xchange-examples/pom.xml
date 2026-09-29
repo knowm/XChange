@@ -136,6 +136,11 @@
             <artifactId>xchange-coinone</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cryptocom</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- XChange dependencies -->
         <dependency>

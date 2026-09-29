@@ -1,15 +1,5 @@
 package org.knowm.xchange.okex.service;
 
-import static org.knowm.xchange.okex.OkexAdapters.adaptInstrument;
-import static org.knowm.xchange.okex.OkexAdapters.adaptTradeMode;
-import static org.knowm.xchange.okex.OkexAdapters.adaptTradingFee;
-import static org.knowm.xchange.okex.dto.OkexInstType.SPOT;
-import static org.knowm.xchange.okex.dto.OkexInstType.SWAP;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -21,14 +11,19 @@ import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexInstType;
 import org.knowm.xchange.okex.dto.OkexResponse;
-import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk;
-import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
-import org.knowm.xchange.okex.dto.account.OkexTradeFee;
-import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
-import org.knowm.xchange.okex.dto.account.OkexWithdrawalResponse;
+import org.knowm.xchange.okex.dto.account.*;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.knowm.xchange.okex.OkexAdapters.*;
+import static org.knowm.xchange.okex.dto.OkexInstType.SPOT;
+import static org.knowm.xchange.okex.dto.OkexInstType.SWAP;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAccountService extends OkexAccountServiceRaw implements AccountService {
@@ -99,7 +94,7 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
   }
 
   @Override
-  public boolean setLeverage(Instrument instrument, int leverage) throws IOException {
+  public boolean setLeverage(Instrument instrument, int leverage, Object... args) throws IOException {
     return setLeverage(
             adaptInstrument(instrument),
             "",

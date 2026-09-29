@@ -1,0 +1,15 @@
+{
+  "request": {
+    "urlPath": "/api/v4/futures/usdt/funding_rate",
+    "method": "GET",
+    "queryParameters": {
+      "contract": {
+        "equalTo": "BTC_USDT"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_funding_rate.json"
+  }
+}

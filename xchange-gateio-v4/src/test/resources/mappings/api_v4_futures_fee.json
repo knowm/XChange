@@ -1,0 +1,11 @@
+{
+  "name": "api_v4_futures_fee",
+  "request": {
+    "url": "/api/v4/futures/usdt/fee",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_fee.json"
+  }
+}

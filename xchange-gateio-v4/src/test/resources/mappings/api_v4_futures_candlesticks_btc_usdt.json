@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/api/v4/futures/usdt/candlesticks",
+    "queryParameters": {
+      "contract": {
+        "equalTo": "BTC_USDT"
+      },
+      "interval": {
+        "equalTo": "1h"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_candlesticks.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
