@@ -3,14 +3,13 @@ package org.knowm.xchange.coinjar.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CoinjarOrderTest {
+class CoinjarOrderTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     InputStream is =
         CoinjarOrderTest.class.getResourceAsStream("/org/knowm/xchange/coinjar/dto/order.json");

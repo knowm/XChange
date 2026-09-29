@@ -4,18 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.enigma.dto.trade.EnigmaOrderSubmission;
 
-public class EnigmaAdaptersTest {
+class EnigmaAdaptersTest {
 
   @Test
-  public void testTradeAdapter() throws IOException {
+  void tradeAdapter() throws Exception {
 
     InputStream is =
         EnigmaAdaptersTest.class.getClassLoader().getResourceAsStream("order-submission.json");

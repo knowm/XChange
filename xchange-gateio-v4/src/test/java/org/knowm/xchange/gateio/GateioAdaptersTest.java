@@ -1,6 +1,5 @@
 package org.knowm.xchange.gateio;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -11,7 +10,6 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioInstrumentDetails;
 import org.knowm.xchange.gateio.dto.marketdata.GateioSpotCandlestick;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -21,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GateioAdaptersTest {
 
   @Test
-  void testToCandleStickDataSpotFutures() throws IOException {
+  void toCandleStickDataSpotFutures() throws Exception {
     try (InputStream is = getClass().getResourceAsStream("/__files/api_v4_futures_candlesticks.json")) {
-      Assertions.assertNotNull(is);
+      assertThat(is).isNotNull();
       GateioFuturesCandlestick[] candlesticks = ObjectMapperHelper.readValue(new String(is.readAllBytes()), GateioFuturesCandlestick[].class);
 
       FuturesContract instrument = new FuturesContract("BTC/USDT/PERP");
@@ -42,9 +40,9 @@ class GateioAdaptersTest {
   }
 
   @Test
-  void testToCandleStickDataSpotSpot() throws IOException {
+  void toCandleStickDataSpotSpot() throws Exception {
     try (InputStream is = getClass().getResourceAsStream("/__files/api_v4_spot_candlesticks.json")) {
-      Assertions.assertNotNull(is);
+      assertThat(is).isNotNull();
       GateioSpotCandlestick[] candlesticks = ObjectMapperHelper.readValue(new String(is.readAllBytes()), GateioSpotCandlestick[].class);
 
       CurrencyPair instrument = CurrencyPair.BTC_USDT;
@@ -63,9 +61,9 @@ class GateioAdaptersTest {
   }
 
   @Test
-  void testInstrumentToInstrumentMetaData() throws IOException {
+  void instrumentToInstrumentMetaData() throws Exception {
     try (InputStream is = getClass().getResourceAsStream("/__files/api_v4_instrument_details.json")) {
-      Assertions.assertNotNull(is);
+      assertThat(is).isNotNull();
       GateioInstrumentDetails[] detailsArray = ObjectMapperHelper.readValue(new String(is.readAllBytes()), GateioInstrumentDetails[].class);
       GateioInstrumentDetails details = detailsArray[0];
 

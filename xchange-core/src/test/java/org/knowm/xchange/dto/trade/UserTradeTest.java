@@ -1,22 +1,19 @@
 package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class UserTradeTest {
+class UserTradeTest {
 
   @Test
-  public void testBuilder() {
+  void builder() {
     final OrderType type = OrderType.BID;
     final BigDecimal originalAmount = new BigDecimal("99.401");
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
@@ -55,7 +52,7 @@ public class UserTradeTest {
   }
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -86,7 +83,7 @@ public class UserTradeTest {
   }
 
   @Test
-  public void returnsEqualsCorrectlyWithEqualUserTrades() {
+  void returnsEqualsCorrectlyWithEqualUserTrades() {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -122,11 +119,11 @@ public class UserTradeTest {
             .feeCurrency(feeCurrency)
             .build();
 
-    assertEquals(original, copy);
+    assertThat(copy).isEqualTo(original);
   }
 
   @Test
-  public void returnsEqualsCorrectlyWithUnequalUserTradesOfUserTradeAttributes() {
+  void returnsEqualsCorrectlyWithUnequalUserTradesOfUserTradeAttributes() {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -160,11 +157,11 @@ public class UserTradeTest {
             .feeCurrency(Currency.USD)
             .build();
 
-    assertNotEquals(original, copy);
+    assertThat(copy).isNotEqualTo(original);
   }
 
   @Test
-  public void returnsEqualsCorrectlyWithUnequalUserTradesOfTradeAttributes() {
+  void returnsEqualsCorrectlyWithUnequalUserTradesOfTradeAttributes() {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -197,6 +194,6 @@ public class UserTradeTest {
             .feeCurrency(Currency.BTC)
             .build();
 
-    assertNotEquals(original, copy);
+    assertThat(copy).isNotEqualTo(original);
   }
 }

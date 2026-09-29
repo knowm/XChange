@@ -3,10 +3,9 @@ package org.knowm.xchange.btcmarkets.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
@@ -15,10 +14,10 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
+class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
 
   @Test
-  public void shouldGetTicker() throws IOException {
+  void shouldGetTicker() throws Exception {
     // given
     when(btcMarkets.getTicker("BTC", "AUD")).thenReturn(EXPECTED_BTC_MARKETS_TICKER);
 
@@ -30,7 +29,7 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldGetOrderBook() throws IOException {
+  void shouldGetOrderBook() throws Exception {
     // given
     final LimitOrder[] expectedAsks = expectedAsks();
     final LimitOrder[] expectedBids = expectedBids();
@@ -60,7 +59,7 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldGetTrades() throws IOException {
+  void shouldGetTrades() throws Exception {
 
     List<BTCMarketsTrade> tradesMock = Arrays.asList(parse(BTCMarketsTrade[].class, "v3"));
 

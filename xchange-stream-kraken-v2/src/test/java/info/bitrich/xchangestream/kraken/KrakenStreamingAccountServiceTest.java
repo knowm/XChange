@@ -28,7 +28,7 @@ class KrakenStreamingAccountServiceTest {
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @BeforeEach
-  public void init() {
+  void init() {
     krakenStreamingAccountService = new KrakenStreamingAccountService(krakenStreamingService);
   }
 

@@ -1,28 +1,28 @@
 package info.bitrich.xchangestream.util;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class BookSanityCheckerTest {
+class BookSanityCheckerTest {
 
   @Test
-  public void testNoOrders() {
+  void noOrders() {
     OrderBook book =
         new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
-    Assert.assertNull(BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book)).isNull();
   }
 
   @Test
-  public void testWithAsksWithBidsNoErrors() {
+  void withAsksWithBidsNoErrors() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     asks.add(
@@ -42,11 +42,11 @@ public class BookSanityCheckerTest {
             new Date(),
             new BigDecimal(0.01)));
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertNull(BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book)).isNull();
   }
 
   @Test
-  public void testNoBidsNoErrors() {
+  void noBidsNoErrors() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     asks.add(
@@ -66,11 +66,11 @@ public class BookSanityCheckerTest {
             new Date(),
             new BigDecimal(0.02)));
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertNull(BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book)).isNull();
   }
 
   @Test
-  public void testWithAsksLimitOrderError() {
+  void withAsksLimitOrderError() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     LimitOrder a1 =
@@ -83,12 +83,12 @@ public class BookSanityCheckerTest {
             new BigDecimal(0.01));
     asks.add(a1);
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertEquals(
-        format("LimitOrder amount is <= 0 for %s", a1), BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book))
+        .isEqualTo(format("LimitOrder amount is <= 0 for %s", a1));
   }
 
   @Test
-  public void testWithBidsLimitOrderError() {
+  void withBidsLimitOrderError() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     LimitOrder b1 =
@@ -101,12 +101,12 @@ public class BookSanityCheckerTest {
             new BigDecimal(0.01));
     bids.add(b1);
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertEquals(
-        format("LimitOrder amount is <= 0 for %s", b1), BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book))
+        .isEqualTo(format("LimitOrder amount is <= 0 for %s", b1));
   }
 
   @Test
-  public void testWithBidNoErrorOnNextOrder() {
+  void withBidNoErrorOnNextOrder() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     LimitOrder b1 =
@@ -128,12 +128,12 @@ public class BookSanityCheckerTest {
     bids.add(b1);
     bids.add(b2);
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertEquals(
-        format("LimitOrder amount is <= 0 for %s", b1), BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book))
+        .isEqualTo(format("LimitOrder amount is <= 0 for %s", b1));
   }
 
   @Test
-  public void testIncorrectBestAskAndBid() {
+  void incorrectBestAskAndBid() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     LimitOrder a1 =
@@ -155,12 +155,12 @@ public class BookSanityCheckerTest {
             new BigDecimal(0.02));
     bids.add(b1);
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertEquals(
-        format("Got incorrect best ask and bid %s, %s", a1, b1), BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book))
+        .isEqualTo(format("Got incorrect best ask and bid %s, %s", a1, b1));
   }
 
   @Test
-  public void testWithBidsWrongPriceOrder() {
+  void withBidsWrongPriceOrder() {
     ArrayList<LimitOrder> asks = new ArrayList<>();
     ArrayList<LimitOrder> bids = new ArrayList<>();
     LimitOrder b1 =
@@ -182,14 +182,13 @@ public class BookSanityCheckerTest {
     bids.add(b1);
     bids.add(b2);
     OrderBook book = new OrderBook(new Date(), asks, bids);
-    Assert.assertEquals(
-        format("Wrong price order for LimitOrders %s, %s", b2, b1),
-        BookSanityChecker.hasErrors(book));
+    assertThat(BookSanityChecker.hasErrors(book))
+        .isEqualTo(format("Wrong price order for LimitOrders %s, %s", b2, b1));
   }
 
   @Test
-  public void testNoNextOrder() {
+  void noNextOrder() {
     ArrayList<LimitOrder> limitOrders = new ArrayList<>();
-    Assert.assertNull(BookSanityChecker.hasErrors(limitOrders.iterator()));
+    assertThat(BookSanityChecker.hasErrors(limitOrders.iterator())).isNull();
   }
 }

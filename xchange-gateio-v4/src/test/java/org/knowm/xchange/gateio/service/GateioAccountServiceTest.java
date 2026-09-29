@@ -3,7 +3,6 @@ package org.knowm.xchange.gateio.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -32,7 +31,7 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
   GateioAccountService gateioAccountService = ((GateioAccountService) exchange.getAccountService());
 
   @Test
-  void getAccountInfo() throws IOException {
+  void getAccountInfo() throws Exception {
 
     AccountInfo accountInfo = gateioAccountService.getAccountInfo();
 
@@ -45,7 +44,7 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void normal_withdraw() throws IOException {
+  void normal_withdraw() throws Exception {
     GateioWithdrawFundsParams params =
         GateioWithdrawFundsParams.builder()
             .clientRecordId("valid-withdrawal-id")
@@ -109,7 +108,7 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void funding_history() throws IOException {
+  void funding_history() throws Exception {
     List<FundingRecord> actual =
         gateioAccountService.getFundingHistory(
             GateioFundingHistoryParams.builder()
@@ -137,7 +136,7 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void get_dynamic_trading_fees_by_instrument() throws IOException {
+  void get_dynamic_trading_fees_by_instrument() throws Exception {
     java.util.Map<org.knowm.xchange.instrument.Instrument, org.knowm.xchange.dto.account.Fee> fees =
         gateioAccountService.getDynamicTradingFeesByInstrument();
     assertThat(fees).isNotEmpty();

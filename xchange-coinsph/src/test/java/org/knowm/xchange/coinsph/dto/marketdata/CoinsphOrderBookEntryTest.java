@@ -3,18 +3,17 @@ package org.knowm.xchange.coinsph.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class CoinsphOrderBookEntryTest {
+class CoinsphOrderBookEntryTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshalOrderBookEntry() throws IOException {
+  void unmarshalOrderBookEntry() throws Exception {
     // given
     String json = "[\"5803095.5\",\"0.0000824\"]";
 
@@ -28,7 +27,7 @@ public class CoinsphOrderBookEntryTest {
   }
 
   @Test
-  public void testConstructor() {
+  void constructor() {
     // given
     List<BigDecimal> values =
         Arrays.asList(new BigDecimal("5803095.5"), new BigDecimal("0.0000824"));
@@ -43,7 +42,7 @@ public class CoinsphOrderBookEntryTest {
   }
 
   @Test
-  public void testConstructorWithInvalidList() {
+  void constructorWithInvalidList() {
     // given
     List<BigDecimal> tooShort = Arrays.asList(new BigDecimal("5803095.5"));
     List<BigDecimal> tooLong =

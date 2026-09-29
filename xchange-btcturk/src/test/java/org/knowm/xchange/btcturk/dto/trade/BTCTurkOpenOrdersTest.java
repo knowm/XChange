@@ -3,10 +3,9 @@ package org.knowm.xchange.btcturk.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTickerTest;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.DateUtils;
@@ -14,10 +13,10 @@ import org.knowm.xchange.utils.DateUtils;
 /**
  * @author mertguner
  */
-public class BTCTurkOpenOrdersTest {
+class BTCTurkOpenOrdersTest {
 
   @Test
-  public void testWithStaticData() throws IOException {
+  void withStaticData() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

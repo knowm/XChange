@@ -18,7 +18,7 @@ import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioWsNotificationTest {
+class GateioWsNotificationTest {
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 

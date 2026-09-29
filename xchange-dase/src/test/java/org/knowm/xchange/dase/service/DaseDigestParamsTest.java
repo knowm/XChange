@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import si.mazi.rescu.RestInvocation;
 
-public class DaseDigestParamsTest {
+class DaseDigestParamsTest {
 
   @Test
-  public void digestParams_buildsSameAsHelper() {
+  void digestParams_buildsSameAsHelper() {
     String secret =
         "NbMBz+ZLqON9yc/tTA8+5eynWD/37pk6b5yq28q9yH99aJyz4fgifpN1wOv28ReSubHvcsT4Yaq8+c12XjArdg==";
     String method = "GET";

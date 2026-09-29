@@ -2,7 +2,6 @@ package org.knowm.xchange.kraken.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -22,12 +21,12 @@ import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 
-public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
+class KrakenTradeServiceTest extends KrakenExchangeWiremock {
 
   TradeService tradeService = exchange.getTradeService();
 
   @Test
-  void all_open_orders() throws IOException {
+  void all_open_orders() throws Exception {
     var expected =
         new LimitOrder.Builder(OrderType.BID, CurrencyPair.ETH_USDT)
             .id("OKXYTQ-BJLS2-HYJD7R")
@@ -52,7 +51,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void filtered_open_orders() throws IOException {
+  void filtered_open_orders() throws Exception {
     OpenOrders actual =
         tradeService.getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(CurrencyPair.BTC_USDT));
 
@@ -63,7 +62,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void open_positions() throws IOException {
+  void open_positions() throws Exception {
     var actual = tradeService.getOpenPositions();
 
     assertThat(actual.getOpenPositions()).hasSize(2);
@@ -83,7 +82,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void trade_history() throws IOException {
+  void trade_history() throws Exception {
     UserTrades userTrades =
         exchange
             .getTradeService()
@@ -114,7 +113,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void place_limit_buy_order() throws IOException {
+  void place_limit_buy_order() throws Exception {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .originalAmount(new BigDecimal("0.0001"))
@@ -126,7 +125,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void place_limit_sell_order() throws IOException {
+  void place_limit_sell_order() throws Exception {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
             .originalAmount(new BigDecimal("0.00005"))
@@ -138,7 +137,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void place_market_buy_order() throws IOException {
+  void place_market_buy_order() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             // exchange requires always asset amount for all orders
@@ -150,7 +149,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void place_market_sell_order() throws IOException {
+  void place_market_sell_order() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
             // exchange requires always asset amount for all orders
@@ -162,7 +161,7 @@ public class KrakenTradeServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void valid_cancel_order() throws IOException {
+  void valid_cancel_order() throws Exception {
     boolean actual = tradeService.cancelOrder("OKXYTQ-BJLS2-HYJD7R");
     assertThat(actual).isTrue();
   }

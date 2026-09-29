@@ -2,7 +2,6 @@ package org.knowm.xchange.coinex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinex.CoinexIntegrationTestParent;
@@ -15,13 +14,13 @@ import org.knowm.xchange.dto.meta.ExchangeHealth;
 class CoinexMarketDataServiceIntegration extends CoinexIntegrationTestParent {
 
   @Test
-  public void exchange_health() {
+  void exchange_health() {
     assertThat(exchange.getMarketDataService().getExchangeHealth())
         .isEqualTo(ExchangeHealth.ONLINE);
   }
 
   @Test
-  void valid_tickers() throws IOException {
+  void valid_tickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
@@ -37,7 +36,7 @@ class CoinexMarketDataServiceIntegration extends CoinexIntegrationTestParent {
   }
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
@@ -49,7 +48,7 @@ class CoinexMarketDataServiceIntegration extends CoinexIntegrationTestParent {
   }
 
   @Test
-  void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getBids()).isNotEmpty();

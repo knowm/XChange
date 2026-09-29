@@ -2,8 +2,7 @@ package org.knowm.xchange.coinjar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinjar.ExchangeUtils;
 import org.knowm.xchange.currency.Currency;
@@ -21,12 +20,12 @@ public class CoinjarAccountServiceIntegration {
   }
 
   @Test
-  public void testGetAccountInfo() throws IOException {
+  void getAccountInfo() throws Exception {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
   }
 
   @Test
-  public void testGetTradeHistory() throws IOException {
+  void getTradeHistory() throws Exception {
     TradeHistoryParams tradeHistoryParams = exchange.getTradeService().createTradeHistoryParams();
     UserTrades userTrades = exchange.getTradeService().getTradeHistory(tradeHistoryParams);
     if (tradeHistoryParams instanceof TradeHistoryParamNextPageCursor) {
@@ -38,7 +37,7 @@ public class CoinjarAccountServiceIntegration {
   }
 
   @Test
-  public void testGetDepositAddress() throws IOException {
+  void getDepositAddress() throws Exception {
     String address = exchange.getAccountService().requestDepositAddress(Currency.BTC);
     assertThat(address).isNotNull();
   }

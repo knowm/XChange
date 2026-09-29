@@ -3,11 +3,10 @@ package org.knowm.xchange.coinbase.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferStatus;
 import org.knowm.xchange.utils.DateUtils;
@@ -15,10 +14,10 @@ import org.knowm.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseTradeJsonTest {
+class CoinbaseTradeJsonTest {
 
   @Test
-  public void testDeserializeTransfers() throws IOException {
+  void deserializeTransfers() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

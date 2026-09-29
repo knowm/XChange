@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();
@@ -27,7 +27,7 @@ class GateioStreamingAccountServiceIntegration extends GateioStreamingExchangeIT
 
   @Test
   @Disabled
-  void spot_balances() throws InterruptedException {
+  void spot_balances() throws Exception {
     Observable<Balance> observable =
         exchange.getStreamingAccountService().getBalanceChanges(Currency.USDT);
 

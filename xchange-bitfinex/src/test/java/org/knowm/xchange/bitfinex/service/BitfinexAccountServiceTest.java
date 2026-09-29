@@ -2,7 +2,6 @@ package org.knowm.xchange.bitfinex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -22,7 +21,7 @@ class BitfinexAccountServiceTest extends BitfinexExchangeWiremock {
   AccountService accountService = exchange.getAccountService();
 
   @Test
-  void account_info() throws IOException {
+  void account_info() throws Exception {
     AccountInfo actual = accountService.getAccountInfo();
 
     assertThat(actual.getWallet("exchange").getBalances()).hasSize(2);
@@ -40,7 +39,7 @@ class BitfinexAccountServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void funding_history_movements() throws IOException {
+  void funding_history_movements() throws Exception {
     var actual = accountService.getFundingHistory(null);
 
     var expected =
@@ -62,7 +61,7 @@ class BitfinexAccountServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void funding_internal_sub_account_transfers() throws IOException {
+  void funding_internal_sub_account_transfers() throws Exception {
     var actual =
         accountService.getFundingHistory(
             BitfinexFundingHistoryParams.builder()
@@ -86,7 +85,7 @@ class BitfinexAccountServiceTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void funding_internal_wallet_transfers() throws IOException {
+  void funding_internal_wallet_transfers() throws Exception {
     var actual =
         accountService.getFundingHistory(
             BitfinexFundingHistoryParams.builder().type(Type.INTERNAL_WALLET_TRANSFER).build());

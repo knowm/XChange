@@ -1,26 +1,27 @@
 package org.knowm.xchange.dto.account;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class WalletFeatureTest {
+class WalletFeatureTest {
 
   static Set<Wallet.WalletFeature> walletFeatureSet;
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     walletFeatureSet = new HashSet<>();
     walletFeatureSet.add(Wallet.WalletFeature.TRADING);
     walletFeatureSet.add(Wallet.WalletFeature.FUNDING);
   }
 
   @Test
-  public void whenNoWalletFeatureExistsThenReturnDefault() {
+  void whenNoWalletFeatureExistsThenReturnDefault() {
     Wallet wallet = Wallet.Builder.from(new ArrayList<>()).build();
     AccountInfo accountInfo = new AccountInfo(wallet);
 
@@ -43,22 +44,21 @@ public class WalletFeatureTest {
   }
 
   @Test
-  public void whenWalletWithSpecificFeatureExistsThenReturnWallet() {
+  void whenWalletWithSpecificFeatureExistsThenReturnWallet() {
     Wallet wallet = Wallet.Builder.from(new ArrayList<>()).features(walletFeatureSet).build();
     AccountInfo accountInfo = new AccountInfo(wallet);
 
     assertThat(accountInfo.getWallet(Wallet.WalletFeature.TRADING)).isEqualTo(wallet);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
-  public void whenMoreThanOneWalletWithSpecificFeatureExistThenThrowUnsupportedOperationExeption() {
+  @Test
+  void whenMoreThanOneWalletWithSpecificFeatureExistThenThrowUnsupportedOperationExeption() {
     Wallet wallet1 =
         Wallet.Builder.from(new ArrayList<>()).id("id1").features(walletFeatureSet).build();
     Wallet wallet2 =
         Wallet.Builder.from(new ArrayList<>()).id("id2").features(walletFeatureSet).build();
-
     AccountInfo accountInfo = new AccountInfo(wallet1, wallet2);
-
-    accountInfo.getWallet(Wallet.WalletFeature.TRADING);
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+        .isThrownBy(() -> accountInfo.getWallet(Wallet.WalletFeature.TRADING));
   }
 }

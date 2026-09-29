@@ -3,11 +3,10 @@ package org.knowm.xchange.coinbase.dto.merchant;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseToken;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -18,10 +17,10 @@ import org.knowm.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMerchantJsonTest {
+class CoinbaseMerchantJsonTest {
 
   @Test
-  public void testDeserializeButton() throws IOException {
+  void deserializeButton() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -53,7 +52,7 @@ public class CoinbaseMerchantJsonTest {
   }
 
   @Test
-  public void testDeserializeOrders() throws IOException {
+  void deserializeOrders() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -92,7 +91,7 @@ public class CoinbaseMerchantJsonTest {
   }
 
   @Test
-  public void testDeserializeRecurringPayments() throws IOException {
+  void deserializeRecurringPayments() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -121,7 +120,7 @@ public class CoinbaseMerchantJsonTest {
   }
 
   @Test
-  public void testDeserializeToken() throws IOException {
+  void deserializeToken() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

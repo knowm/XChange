@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -19,14 +19,14 @@ import org.knowm.xchange.service.account.AccountService;
 /**
  * @author mertguner
  */
-public class AccountDataFetchIntegration {
+class AccountDataFetchIntegration {
 
   private Exchange btcTurk;
   private BTCTurkAccountService btcTurkAccountService;
   private AccountService accountService;
 
-  @Before
-  public void InitExchange() throws IOException {
+  @BeforeEach
+  void InitExchange() throws IOException {
     if (BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty())
       btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class);
     else {
@@ -41,7 +41,7 @@ public class AccountDataFetchIntegration {
   }
 
   @Test
-  public void testBalance() throws IOException, InterruptedException {
+  void balance() throws Exception {
 
     if (!BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty()) {
       // BTCTurkAccountBalance Test

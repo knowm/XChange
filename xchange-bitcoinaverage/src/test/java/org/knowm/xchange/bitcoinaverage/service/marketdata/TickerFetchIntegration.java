@@ -2,7 +2,7 @@ package org.knowm.xchange.bitcoinaverage.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -14,10 +14,10 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /**
  * @author timmolter
  */
-public class TickerFetchIntegration {
+class TickerFetchIntegration {
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  void tickerFetchTest() throws Exception {
 
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(BitcoinAverageExchange.class);

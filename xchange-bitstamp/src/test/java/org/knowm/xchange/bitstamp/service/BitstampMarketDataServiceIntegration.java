@@ -2,7 +2,6 @@ package org.knowm.xchange.bitstamp.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitstamp.BitstampIntegrationTestParent;
@@ -11,10 +10,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-public class BitstampMarketDataServiceIntegration extends BitstampIntegrationTestParent {
+class BitstampMarketDataServiceIntegration extends BitstampIntegrationTestParent {
 
   @Test
-  void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getBids()).isNotEmpty();
@@ -39,7 +38,7 @@ public class BitstampMarketDataServiceIntegration extends BitstampIntegrationTes
   }
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
@@ -51,7 +50,7 @@ public class BitstampMarketDataServiceIntegration extends BitstampIntegrationTes
   }
 
   @Test
-  void valid_tickers() throws IOException {
+  void valid_tickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 

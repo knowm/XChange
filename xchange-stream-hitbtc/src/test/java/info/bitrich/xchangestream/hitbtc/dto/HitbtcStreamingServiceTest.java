@@ -1,16 +1,15 @@
 package info.bitrich.xchangestream.hitbtc.dto;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.hitbtc.HitbtcStreamingService;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 /** Created by Pavel Chertalev on 15.03.2018. */
 public class HitbtcStreamingServiceTest {
@@ -18,15 +17,8 @@ public class HitbtcStreamingServiceTest {
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final HitbtcStreamingService streamingService = new HitbtcStreamingService("testUrl");
 
-  @Rule public ExpectedException thrown;
-
-  public HitbtcStreamingServiceTest() {
-    thrown = ExpectedException.none();
-  }
-
   @Test
-  public void getChannelNameFromMessageTest()
-      throws IOException, InvocationTargetException, IllegalAccessException {
+  void getChannelNameFromMessageTest() throws Exception {
 
     Method method =
         MethodUtils.getMatchingMethod(
@@ -34,23 +26,23 @@ public class HitbtcStreamingServiceTest {
     method.setAccessible(true);
 
     String json = "{\"method\":\"aaa\"}";
-    Assert.assertEquals("aaa", method.invoke(streamingService, objectMapper.readTree(json)));
+    assertThat(method.invoke(streamingService, objectMapper.readTree(json))).isEqualTo("aaa");
 
     json = "{ \"method\": \"updateOrderbook\", \"params\": { \"symbol\": \"ETHBTC\" } }";
-    Assert.assertEquals(
-        "orderbook-ETHBTC", method.invoke(streamingService, objectMapper.readTree(json)));
+    assertThat(method.invoke(streamingService, objectMapper.readTree(json)))
+        .isEqualTo("orderbook-ETHBTC");
 
     json = "{ \"method\": \"snapshotOrderbook\", \"params\": { \"symbol\": \"ETHBTC\" } }";
-    Assert.assertEquals(
-        "orderbook-ETHBTC", method.invoke(streamingService, objectMapper.readTree(json)));
+    assertThat(method.invoke(streamingService, objectMapper.readTree(json)))
+        .isEqualTo("orderbook-ETHBTC");
 
     json = "{ \"method\": \"test\", \"params\": { \"symbol\": \"ETHBTC\" } }";
-    Assert.assertEquals(
-        "test-ETHBTC", method.invoke(streamingService, objectMapper.readTree(json)));
+    assertThat(method.invoke(streamingService, objectMapper.readTree(json)))
+        .isEqualTo("test-ETHBTC");
 
-    json = "{ \"noMethod\": \"updateOrderbook\" } }";
+    JsonNode noMethod = objectMapper.readTree("{ \"noMethod\": \"updateOrderbook\" } }");
 
-    thrown.expect(InvocationTargetException.class);
-    method.invoke(streamingService, objectMapper.readTree(json));
+    assertThatExceptionOfType(InvocationTargetException.class)
+        .isThrownBy(() -> method.invoke(streamingService, noMethod));
   }
 }

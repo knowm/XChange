@@ -5,19 +5,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.truefx.TrueFxExchange;
 import org.knowm.xchange.truefx.service.TrueFxMarketDataServiceRaw;
 
-public class TrueFxTickerTest {
+class TrueFxTickerTest {
 
   @Test
-  public void unmarshalTest1() throws IOException {
+  void unmarshalTest1() throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class);
     TrueFxMarketDataServiceRaw rawService =
         (TrueFxMarketDataServiceRaw) exchange.getMarketDataService();
@@ -29,7 +28,7 @@ public class TrueFxTickerTest {
   }
 
   @Test
-  public void unmarshalTest2() throws IOException {
+  void unmarshalTest2() throws Exception {
     CsvMapper mapper = new CsvMapper();
     CsvSchema schema = mapper.schemaFor(TrueFxTicker.class);
 

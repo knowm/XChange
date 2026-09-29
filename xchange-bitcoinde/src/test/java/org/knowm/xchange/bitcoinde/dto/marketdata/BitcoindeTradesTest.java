@@ -1,20 +1,16 @@
 package org.knowm.xchange.bitcoinde.dto.marketdata;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BitcoindeTradesTest {
+class BitcoindeTradesTest {
 
   @Test
-  public void testBitcoindeOrderBook()
-      throws JsonParseException, JsonMappingException, IOException {
+  void bitcoindeOrderBook() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -31,9 +27,9 @@ public class BitcoindeTradesTest {
 
     BitcoindeTrade[] trades = bitcoindeTradesWrapper.getTrades();
 
-    assertEquals(trades[0].getDate(), 1500718454L);
-    assertEquals(trades[0].getPrice(), new BigDecimal("2391.48"));
-    assertEquals(trades[0].getAmount(), new BigDecimal("0.90000000"));
-    assertEquals(trades[0].getTid(), 2844384);
+    assertThat(trades[0].getDate()).isEqualTo(1500718454L);
+    assertThat(new BigDecimal("2391.48")).isEqualTo(trades[0].getPrice());
+    assertThat(new BigDecimal("0.90000000")).isEqualTo(trades[0].getAmount());
+    assertThat(trades[0].getTid()).isEqualTo(2844384);
   }
 }

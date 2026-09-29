@@ -2,23 +2,22 @@ package org.knowm.xchange.gateio.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 
-public class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
+class GateioMarketDataServiceRawTest extends GateioExchangeWiremock {
 
   GateioMarketDataServiceRaw gateioMarketDataServiceRaw =
       (GateioMarketDataServiceRaw) exchange.getMarketDataService();
 
   @Test
-  public void valid_marketinfo() throws IOException {
+  void valid_marketinfo() throws Exception {
 
     Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> expected = new HashMap<>();
     expected.put(

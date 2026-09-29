@@ -9,11 +9,10 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,8 +24,8 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class BinanceSpotStreamPrivateTest {
+@Disabled
+class BinanceSpotStreamPrivateTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceSpotStreamPrivateTest.class);
   private static final Instrument instrument = new CurrencyPair("ETH/USDT");
@@ -35,8 +34,8 @@ public class BinanceSpotStreamPrivateTest {
   private static StreamingExchange exchange;
   BinanceStreamingExchange binanceStreamingExchange;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceStreamingExchange.class);
     // The most convenient way. Can store all keys in .ssh folder
     AuthUtils.setApiAndSecretKey(spec, "binance-main-ed25519"); // apikey and ed2519 private key
@@ -48,7 +47,7 @@ public class BinanceSpotStreamPrivateTest {
   }
 
   @Test
-  public void getOrderAndPositionChanges() throws IOException, InterruptedException {
+  void getOrderAndPositionChanges() throws Exception {
     ProductSubscription subscription =
         ProductSubscription.create()
             // workaround to connect to userDataStream

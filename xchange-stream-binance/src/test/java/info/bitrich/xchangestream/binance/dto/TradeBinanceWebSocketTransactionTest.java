@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.binance.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -10,26 +9,26 @@ import info.bitrich.xchangestream.binance.dto.market.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.market.TradeBinanceWebsocketTransaction;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class TradeBinanceWebSocketTransactionTest {
+class TradeBinanceWebSocketTransactionTest {
   private static ObjectMapper mapper;
 
-  @BeforeClass
-  public static void setupClass() {
+  @BeforeAll
+  static void setupClass() {
     JsonFactory jf = new JsonFactory();
     jf.enable(JsonParser.Feature.ALLOW_COMMENTS);
     mapper = new ObjectMapper(jf);
   }
 
   @Test
-  public void testMapping() throws Exception {
+  void mapping() throws Exception {
     InputStream stream = this.getClass().getResourceAsStream("testTradeEvent.json");
     TradeBinanceWebsocketTransaction transaction =
         mapper.readValue(stream, TradeBinanceWebsocketTransaction.class);
-    assertEquals(
-        BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.TRADE, transaction.getEventType());
+    assertThat(transaction.getEventType())
+        .isEqualTo(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.TRADE);
 
     BinanceRawTrade rawTrade = transaction.getRawTrade();
 

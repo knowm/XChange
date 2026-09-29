@@ -6,15 +6,14 @@ import info.bitrich.xchangestream.coinsph.CoinsphStreamingExchange;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -27,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Disabled("Integration tests are disabled by default. Enable for manual execution against sandbox.")
-public class StreamingAccountServiceIntegration {
+class StreamingAccountServiceIntegration {
   private static final Logger LOG =
       LoggerFactory.getLogger(StreamingAccountServiceIntegration.class);
 
@@ -42,8 +41,8 @@ public class StreamingAccountServiceIntegration {
   private StreamingAccountService streamingAccountService;
   private TradeService restTradeService;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinsphStreamingExchange.class);
     exSpec.setSslUri(SANDBOX_API_URL);
     exSpec.setApiKey(API_KEY);
@@ -67,15 +66,15 @@ public class StreamingAccountServiceIntegration {
     streamingExchange.connect().blockingAwait();
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     if (streamingExchange != null) {
       streamingExchange.disconnect().blockingAwait();
     }
   }
 
   @Test
-  public void testGetBalanceChanges() throws IOException, InterruptedException {
+  void getBalanceChanges() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<Balance> receivedBalance = new AtomicReference<>();
 
@@ -89,9 +88,7 @@ public class StreamingAccountServiceIntegration {
                   receivedBalance.set(balance);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in balance changes subscription", throwable);
-                });
+                throwable -> LOG.error("Error in balance changes subscription", throwable));
 
     // Place a market order to trigger balance changes
     MarketOrder marketOrder =
@@ -112,7 +109,7 @@ public class StreamingAccountServiceIntegration {
   }
 
   @Test
-  public void testGetBalanceChangesAllCurrencies() throws InterruptedException {
+  void getBalanceChangesAllCurrencies() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<Balance> receivedBalance = new AtomicReference<>();
 
@@ -126,9 +123,7 @@ public class StreamingAccountServiceIntegration {
                   receivedBalance.set(balance);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in balance changes subscription", throwable);
-                });
+                throwable -> LOG.error("Error in balance changes subscription", throwable));
 
     // Wait for any balance change event (passive listening)
     LOG.info("Listening for any balance changes for 30 seconds...");

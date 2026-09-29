@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-public class DaseBalancesResponseJSONTest {
+class DaseBalancesResponseJSONTest {
 
   @Test
-  public void unmarshal() throws Exception {
+  void unmarshal() throws Exception {
     String json =
         "{\n  \"balances\": [\n    {\n      \"id\": \"acc-1\",\n      \"currency\": \"BTC\",\n      \"total\": \"1.23\",\n      \"available\": \"1.00\",\n      \"blocked\": \"0.23\"\n    }\n  ]\n}";
     ObjectMapper mapper = new ObjectMapper();

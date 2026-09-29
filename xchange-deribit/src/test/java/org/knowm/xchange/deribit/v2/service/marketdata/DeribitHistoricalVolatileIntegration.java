@@ -11,20 +11,20 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 
-public class DeribitHistoricalVolatileIntegration {
+class DeribitHistoricalVolatileIntegration {
 
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     exchange = ExchangeFactory.INSTANCE.createExchange(DeribitExchange.class);
     exchange.applySpecification(((DeribitExchange) exchange).getSandboxExchangeSpecification());
     deribitMarketDataService = (DeribitMarketDataService) exchange.getMarketDataService();
   }
 
   @Test
-  public void getHistoricalVol() throws Exception {
+  void getHistoricalVol() throws Exception {
     List<List<BigDecimal>> historyVolatile =
         deribitMarketDataService.getHistoricalVolatility("BTC");
 

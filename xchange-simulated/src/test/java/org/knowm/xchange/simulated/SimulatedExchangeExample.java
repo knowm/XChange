@@ -11,7 +11,7 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ON_OPERATION_PARAM;
 import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,11 +25,11 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
 
-public class SimulatedExchangeExample {
+class SimulatedExchangeExample {
 
   /** Demonstrates the simplest case. */
   @Test
-  public void simple() throws IOException {
+  void simple() throws Exception {
 
     // If you don't provide an API key you get read-only access. No secret is needed.
     ExchangeSpecification exchangeSpecification =
@@ -62,7 +62,7 @@ public class SimulatedExchangeExample {
 
   /** Demonstrates cancelling an order. */
   @Test
-  public void cancel() throws IOException {
+  void cancel() throws Exception {
 
     // If you don't provide an API key you get read-only access. No secret is needed.
     ExchangeSpecification exchangeSpecification =
@@ -146,7 +146,7 @@ public class SimulatedExchangeExample {
 
   /** Demonstrates advanced features. */
   @Test
-  public void complex() throws IOException {
+  void complex() throws Exception {
 
     // By default, the matching engines are scoped to each instance of the Exchange. This ensures
     // that all instances share the same engine within the scope of each test.

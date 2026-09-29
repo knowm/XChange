@@ -8,12 +8,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TradesJSONTest {
+class TradesJSONTest {
 
   @Test
-  public void unmarshal() throws Exception {
+  void unmarshal() throws Exception {
     InputStream is =
         TradesJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/dase/dto/marketdata/example-trades.json");

@@ -113,7 +113,7 @@ public class CoinsphExchangeIntegration {
   }
 
   @Test
-  void getAccountInfo_shouldReturnAccountInfo() throws IOException {
+  void getAccountInfo_shouldReturnAccountInfo() throws Exception {
     AccountInfo accountInfo = accountService.getAccountInfo();
     assertThat(accountInfo).isNotNull();
     org.knowm.xchange.dto.account.Wallet wallet = accountInfo.getWallet();
@@ -128,7 +128,7 @@ public class CoinsphExchangeIntegration {
   }
 
   @Test
-  void getTicker_shouldReturnTickerForBTCPHP() throws IOException {
+  void getTicker_shouldReturnTickerForBTCPHP() throws Exception {
     Ticker ticker = marketDataService.getTicker(TEST_CURRENCY_PAIR);
     assertThat(ticker).isNotNull();
     assertThat(ticker.getInstrument()).isEqualTo(TEST_CURRENCY_PAIR);
@@ -137,7 +137,7 @@ public class CoinsphExchangeIntegration {
   }
 
   @Test
-  void getOrderBook_shouldReturnOrderBookForBTCPHP() throws IOException {
+  void getOrderBook_shouldReturnOrderBookForBTCPHP() throws Exception {
     OrderBook orderBook = marketDataService.getOrderBook(TEST_CURRENCY_PAIR);
     assertThat(orderBook).isNotNull();
     saveJson(orderBook, "orderBook_BTCPHP");
@@ -150,7 +150,7 @@ public class CoinsphExchangeIntegration {
   }
 
   @Test
-  void placeMarketOrder_shouldSucceed() throws IOException {
+  void placeMarketOrder_shouldSucceed() throws Exception {
     final MarketOrder marketOrder = sampleMarketOrder();
     String orderId = tradeService.placeMarketOrder(marketOrder);
     saveJson(orderId, "placedMarketOrder_ID_" + TEST_CURRENCY_PAIR.toString().replace("/", ""));
@@ -160,7 +160,7 @@ public class CoinsphExchangeIntegration {
 
   @Test
   @Disabled("This test requires sufficient balance to place an order")
-  void placeMarketOrderAndGetOrderStatus_shouldSucceed() throws IOException, InterruptedException {
+  void placeMarketOrderAndGetOrderStatus_shouldSucceed() throws Exception {
     final MarketOrder marketOrder = sampleMarketOrder();
     String orderId = tradeService.placeMarketOrder(marketOrder);
 

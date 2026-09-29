@@ -1,14 +1,14 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BTCMarketsTradeServiceHistoryParamsTest {
+class BTCMarketsTradeServiceHistoryParamsTest {
 
   @Test
-  public void shouldHoldPageLength() {
+  void shouldHoldPageLength() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
@@ -19,29 +19,21 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
     assertThat(historyParams.getPageLength()).isEqualTo(19);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnGetPageNumber() {
-    // given
+  @Test
+  void shouldFailOnGetPageNumber() {
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
-    // when
-    historyParams.getPageNumber();
-
     // then
-    fail(
-        "BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call getPageNumber");
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+        .isThrownBy(() -> historyParams.getPageNumber());
   }
 
-  @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnSetPageNumber() {
-    // given
+  @Test
+  void shouldFailOnSetPageNumber() {
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
-    // when
-    historyParams.setPageNumber(1);
-
     // then
-    fail(
-        "BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call setPageNumber");
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+        .isThrownBy(() -> historyParams.setPageNumber(1));
   }
 }

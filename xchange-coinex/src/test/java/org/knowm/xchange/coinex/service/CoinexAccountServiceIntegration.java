@@ -3,7 +3,6 @@ package org.knowm.xchange.coinex.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
-import java.io.IOException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -15,7 +14,7 @@ class CoinexAccountServiceIntegration {
   static CoinexExchange exchange;
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     String apiKey = System.getProperty("apiKey");
     String secretKey = System.getProperty("secretKey");
@@ -26,7 +25,7 @@ class CoinexAccountServiceIntegration {
   }
 
   @Test
-  void valid_balances() throws IOException {
+  void valid_balances() throws Exception {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
     assertThat(accountInfo.getWallet("spot").getBalances()).isNotEmpty();
   }

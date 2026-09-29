@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
 
 /**
@@ -15,14 +15,14 @@ import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
  *
  * @author Danilo Guimaraes
  */
-public class BitcointoyouOrderResponseTest {
+class BitcointoyouOrderResponseTest {
 
   private static BitcointoyouOrderResponse bitcointoyouOrderResponse;
   private static BitcointoyouOrderResponse bitcointoyouOrderResponseMultipleOrders;
   private static BitcointoyouOrderResponse bitcointoyouOrderResponseError;
 
-  @BeforeClass
-  public static void setUp() throws Exception {
+  @BeforeAll
+  static void setUp() throws Exception {
     bitcointoyouOrderResponse = loadBitcointoyouOrderResponseFromExampleData();
     bitcointoyouOrderResponseMultipleOrders =
         loadBitcointoyouOrderResponseMultipleOrdersFromExampleData();
@@ -61,7 +61,7 @@ public class BitcointoyouOrderResponseTest {
   }
 
   @Test
-  public void testOrderResponse() throws Exception {
+  void orderResponse() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -88,7 +88,7 @@ public class BitcointoyouOrderResponseTest {
   }
 
   @Test
-  public void testOrderResponseMultipleOrders() throws Exception {
+  void orderResponseMultipleOrders() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -120,7 +120,7 @@ public class BitcointoyouOrderResponseTest {
   }
 
   @Test
-  public void testOrderResponseError() throws Exception {
+  void orderResponseError() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 

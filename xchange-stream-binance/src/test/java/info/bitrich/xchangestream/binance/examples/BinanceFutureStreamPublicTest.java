@@ -16,9 +16,9 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.*;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -28,8 +28,8 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class BinanceFutureStreamPublicTest {
+@Disabled
+class BinanceFutureStreamPublicTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceFutureStreamPublicTest.class);
   private static StreamingExchange exchange1;
@@ -41,8 +41,8 @@ public class BinanceFutureStreamPublicTest {
   private static final boolean logOutput = false;
   private static final boolean useRealtimeBookTicker = false;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     exchange1 = initExchange();
     binanceFutureStreamingExchange1 = (BinanceFutureStreamingExchange) exchange1;
   }
@@ -62,7 +62,7 @@ public class BinanceFutureStreamPublicTest {
   }
 
   @Test
-  public void kLineSubscription() throws InterruptedException {
+  void kLineSubscription() throws Exception {
     Map<Instrument, Set<KlineInterval>> klineMap = new HashMap<>();
     Set<KlineInterval> klineSet = new HashSet<>();
     klineSet.add(m1);
@@ -87,7 +87,7 @@ public class BinanceFutureStreamPublicTest {
   }
 
   @Test
-  public void streamingMarketDataServiceTest() throws InterruptedException {
+  void streamingMarketDataServiceTest() throws Exception {
     List<Disposable> disposables = new ArrayList<>();
     // separate connection for tickers, klines etc(market path) and
     // orderbook, bookTicker, trades
@@ -195,9 +195,9 @@ public class BinanceFutureStreamPublicTest {
     exchange1.disconnect().blockingAwait();
   }
 
-  @Ignore
+  @Disabled
   @Test
-  public void heavyLoadTest() throws InterruptedException {
+  void heavyLoadTest() throws Exception {
     List<Disposable> disposables = new ArrayList<>();
     ProductSubscription subscription =
         exchange1.getExchangeInstruments().stream()

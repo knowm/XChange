@@ -3,11 +3,10 @@ package org.knowm.xchange.btcmarkets.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
@@ -20,10 +19,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
+class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
-  public void shouldParseBalances() throws IOException {
+  void shouldParseBalances() throws Exception {
     final BTCMarketsBalance[] response = parse(BTCMarketsBalance[].class);
 
     assertThat(response).hasSize(3);
@@ -53,7 +52,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   //  }
 
   @Test
-  public void shouldFailWhenParsingFailedCancelOrderResponseAsResponse() throws IOException {
+  void shouldFailWhenParsingFailedCancelOrderResponseAsResponse() throws Exception {
     try {
       parse(BTCMarketsCancelOrderResponse.class);
       assertThat(true).as("Should throw exception").isFalse();
@@ -62,7 +61,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldParseEmptyCancelOrderResponse() throws IOException {
+  void shouldParseEmptyCancelOrderResponse() throws Exception {
     // when
     final BTCMarketsCancelOrderResponse response =
         parse(
@@ -76,7 +75,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldParseNullCancelOrderResponse() throws IOException {
+  void shouldParseNullCancelOrderResponse() throws Exception {
     // when
     final BTCMarketsCancelOrderResponse response =
         parse(
@@ -90,7 +89,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldParseCancelOrderResponseAsException() throws IOException {
+  void shouldParseCancelOrderResponseAsException() throws Exception {
     // when
     final BTCMarketsException ex =
         parse(
@@ -117,7 +116,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldFailWhenParsingFailedPlaceOrderResponseAsResponse() throws IOException {
+  void shouldFailWhenParsingFailedPlaceOrderResponseAsResponse() throws Exception {
     try {
       parse("Error-PlaceOrderResponse", BTCMarketsPlaceOrderResponse.class);
       assertThat(true).as("Should throw exception").isFalse();
@@ -126,7 +125,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldParseFailedPlaceOrderResponseAsException() throws IOException {
+  void shouldParseFailedPlaceOrderResponseAsException() throws Exception {
     // when
     final BTCMarketsException ex =
         parse(
@@ -143,7 +142,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shoudParseOrderBook() throws IOException {
+  void shoudParseOrderBook() throws Exception {
     // given
     final LimitOrder[] expectedAsks = expectedAsks();
     final LimitOrder[] expectedBids = expectedBids();
@@ -200,7 +199,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   //  }
 
   @Test
-  public void shouldParseTicker() throws IOException {
+  void shouldParseTicker() throws Exception {
     // when
     final BTCMarketsTicker response = parse(BTCMarketsTicker.class);
 
@@ -231,7 +230,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   //  }
 
   @Test
-  public void shouldParseFundTransfers() throws IOException {
+  void shouldParseFundTransfers() throws Exception {
     // given
     final BTCMarketsFundtransferHistoryResponse
         expectedParsedBtcMarketsFundtransferHistoryResponse =

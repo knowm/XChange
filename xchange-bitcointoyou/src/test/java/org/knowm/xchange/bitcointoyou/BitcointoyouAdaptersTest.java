@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalance;
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalanceTest;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
@@ -37,8 +37,8 @@ public class BitcointoyouAdaptersTest {
   private static BitcointoyouPublicTrade[] bitcointoyouPublicTrades;
   private static BitcointoyouBalance bitcointoyouBalance;
 
-  @BeforeClass
-  public static void setUp() throws Exception {
+  @BeforeAll
+  static void setUp() throws Exception {
 
     bitcointoyouOrderBook = loadBitcointoyouOrderBookFromExampleData();
     orderBook = BitcointoyouAdapters.adaptBitcointoyouOrderBook(bitcointoyouOrderBook, null);
@@ -88,7 +88,7 @@ public class BitcointoyouAdaptersTest {
   }
 
   @Test
-  public void testOrderBookAdapter() throws Exception {
+  void orderBookAdapter() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -108,7 +108,7 @@ public class BitcointoyouAdaptersTest {
   }
 
   @Test
-  public void testPublicOrdersAdapter() throws Exception {
+  void publicOrdersAdapter() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -132,7 +132,7 @@ public class BitcointoyouAdaptersTest {
   }
 
   @Test
-  public void testTickerAdapter() throws IOException {
+  void tickerAdapter() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -151,7 +151,7 @@ public class BitcointoyouAdaptersTest {
   }
 
   @Test
-  public void testPublicTradesAdapter() throws Exception {
+  void publicTradesAdapter() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 
@@ -163,7 +163,7 @@ public class BitcointoyouAdaptersTest {
   }
 
   @Test
-  public void testBalancesAdapter() throws Exception {
+  void balancesAdapter() throws Exception {
 
     final SoftAssertions softly = new SoftAssertions();
 

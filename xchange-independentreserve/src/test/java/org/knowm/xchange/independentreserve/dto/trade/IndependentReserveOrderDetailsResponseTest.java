@@ -4,17 +4,16 @@ import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IndependentReserveOrderDetailsResponseTest {
+class IndependentReserveOrderDetailsResponseTest {
 
   @Test
-  public void testUnmarshall() throws IOException {
+  void unmarshall() throws Exception {
     InputStream is =
         IndependentReserveOrderDetailsResponseTest.class.getResourceAsStream(
             "/org/knowm/xchange/independentreserve/dto/trade/GetOrderDetailsResponse.json");

@@ -3,15 +3,15 @@ package org.knowm.xchange.binance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
+class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
 
   @Test
-  public void valid_instrumentsMetaData() {
+  void valid_instrumentsMetaData() {
     Map<Instrument, InstrumentMetaData> instruments =
         exchange.getExchangeMetaData().getInstruments();
     assertThat(instruments.values())
@@ -26,7 +26,7 @@ public class ExchangeMetaDataIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void valid_symbol_mapping() {
+  void valid_symbol_mapping() {
     assertThat(BinanceAdapters.toCurrencyPair("BTCUSDT")).isEqualTo(CurrencyPair.BTC_USDT);
   }
 }

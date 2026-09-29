@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cryptocom.CryptoComStreamingService;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -14,14 +13,14 @@ import org.junit.jupiter.api.Test;
  * Adapter behavior for this DTO is covered by {@code CryptoComStreamingAdaptersTest}; this class
  * covers deserialization only.
  */
-public class CryptoComUserTradeUpdateTest {
+class CryptoComUserTradeUpdateTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final CryptoComStreamingService service =
       new CryptoComStreamingService("wss://stream.crypto.com/exchange/v1/market");
 
   @Test
-  public void testUnmarshalUserTradeUpdate() throws IOException {
+  void unmarshalUserTradeUpdate() throws Exception {
     // given
     String resource = "/info/bitrich/xchangestream/cryptocom/dto/user-trade-update.json";
 

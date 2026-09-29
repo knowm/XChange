@@ -1,8 +1,8 @@
 package org.knowm.xchange.gateio.examples;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -21,7 +21,6 @@ import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 import org.knowm.xchange.utils.AuthUtils;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -34,14 +33,14 @@ public class GateioSpotTest {
   public Exchange exchange;
   private final boolean logOutput = false;
 
-  @Before
-  public void before() throws InterruptedException {
+  @BeforeEach
+  void before() throws InterruptedException {
     init();
   }
 
   @Test
-  @Ignore
-  public void placeOrder() throws IOException {
+  @Disabled
+  void placeOrder() throws Exception {
     //amount: Trading quantity When type is limit, it refers to the base currency (the currency being traded), such as BTC in BTC_USDT When type is market, it refers to different currencies based on the side:
     //    side: buy refers to quote currency, BTC_USDT means USDT
     //    side: sell refers to base currency, BTC_USDT means BTC
@@ -57,23 +56,23 @@ public class GateioSpotTest {
   }
 
   @Test
-  @Ignore
-  public void getTicker() throws IOException {
+  @Disabled
+  void getTicker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(currencyPair);
     assertThat(ticker).isNotNull();
   }
 
   @Test
-  @Ignore
-  public void getTickers() throws IOException {
+  @Disabled
+  void getTickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotNull();
     assertThat(tickers.get(0)).isNotNull();
   }
 
   @Test
-  @Ignore
-  public void candleStick() throws IOException {
+  @Disabled
+  void candleStick() throws Exception {
     CandleStickDataParams params = new DefaultCandleStickParam(new Date(System.currentTimeMillis() - 86400000 * 4), new Date(), 86400);
     CandleStickData candleStickData = exchange.getMarketDataService().getCandleStickData(currencyPair, params);
     assertThat(candleStickData).isNotNull();
@@ -83,8 +82,8 @@ public class GateioSpotTest {
   }
 
   @Test
-  @Ignore
-  public void getFees() throws IOException {
+  @Disabled
+  void getFees() throws Exception {
     Map<Instrument, Fee> fees = exchange.getAccountService().getDynamicTradingFeesByInstrument("SPOT");
     assertThat(fees).isNotEmpty();
     fees.forEach((instrument, fee) -> {

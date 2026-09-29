@@ -8,17 +8,16 @@ import static org.knowm.xchange.currency.CurrencyPair.ETH_USD;
 import static org.knowm.xchange.currency.CurrencyPair.ZEC_BTC;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * @author ujjwal on 14/02/18.
  */
-public class CexIOFeeInfoTest {
+class CexIOFeeInfoTest {
   @Test
-  public void jsonMapperTest() throws IOException {
+  void jsonMapperTest() throws Exception {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/cexio/dto/account/sample_get_myfee.json");

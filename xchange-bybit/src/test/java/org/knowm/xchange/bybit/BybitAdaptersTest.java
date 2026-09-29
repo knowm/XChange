@@ -4,16 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.bybit.BybitAdapters.convertBybitSymbolToInstrument;
 import static org.knowm.xchange.bybit.BybitAdapters.guessSymbol;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
 
-public class BybitAdaptersTest {
+class BybitAdaptersTest {
 
   @Test
-  public void testGuessSymbol() {
+  void testGuessSymbol() {
     assertThat(guessSymbol("BTCUSDT")).isEqualTo(new CurrencyPair("BTC", "USDT"));
     assertThat(guessSymbol("BTCUSDC")).isEqualTo(new CurrencyPair("BTC", "USDC"));
     assertThat(guessSymbol("LTCBTC")).isEqualTo(new CurrencyPair("LTC", "BTC"));
@@ -27,7 +27,7 @@ public class BybitAdaptersTest {
   }
 
   @Test
-  public void testConvertToByBitSymbol() {
+  void convertToByBitSymbol() {
     assertThat(BybitAdapters.convertToBybitSymbol(new CurrencyPair("BTC/USDC")))
         .isEqualTo("BTCUSDC");
 
@@ -47,7 +47,7 @@ public class BybitAdaptersTest {
   }
 
   @Test
-  public void testConvertToInstrument() {
+  void convertToInstrument() {
     assertThat(convertBybitSymbolToInstrument("BTCUSDC", BybitCategory.SPOT))
         .isEqualTo(new CurrencyPair("BTC/USDC"));
     assertThat(convertBybitSymbolToInstrument("ETHUSDT", BybitCategory.LINEAR))

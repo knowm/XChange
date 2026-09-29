@@ -46,7 +46,7 @@ class GateioStreamingMarketDataServiceTest {
   Instrument instrumentBtc = new FuturesContract(CurrencyPair.BTC_USDT, "PERP");
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Map<Instrument, InstrumentMetaData> instruments = new HashMap<>();
     instruments.put(instrumentBtc, InstrumentMetaData.builder()
         .contractValue(new BigDecimal("0.0001"))

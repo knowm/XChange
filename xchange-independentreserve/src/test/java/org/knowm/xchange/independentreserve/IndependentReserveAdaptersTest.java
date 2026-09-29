@@ -7,16 +7,16 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
 
-public class IndependentReserveAdaptersTest {
+class IndependentReserveAdaptersTest {
 
   @Test
-  public void adaptOrderDetails() throws InvalidFormatException {
+  void adaptOrderDetails() throws Exception {
     IndependentReserveOrderDetailsResponse orderDetailsResponse =
         new IndependentReserveOrderDetailsResponse(
             "abcf-123",
@@ -45,7 +45,7 @@ public class IndependentReserveAdaptersTest {
   }
 
   @Test
-  public void adaptOrderDetailsWithFailedStatus() throws InvalidFormatException {
+  void adaptOrderDetailsWithFailedStatus() throws Exception {
     // A market order Independent Reserve accepted (200 + GUID) and then failed internally:
     // GetOrderDetails returns Status "Failed" with zero fill. See OrderStatus.cs in the official
     // dotNetApiClient: Failed(7) = "Order failed to execute".
@@ -56,7 +56,7 @@ public class IndependentReserveAdaptersTest {
   }
 
   @Test
-  public void adaptOrderDetailsWithPartiallyFilledAndFailedStatus() throws InvalidFormatException {
+  void adaptOrderDetailsWithPartiallyFilledAndFailedStatus() throws Exception {
     // PartiallyFilledAndFailed(8) = "Order was partially executed but later failed and will not
     // execute further" — terminal with a partial fill, like PartiallyFilledAndCancelled.
     Order order =
@@ -66,7 +66,7 @@ public class IndependentReserveAdaptersTest {
   }
 
   @Test
-  public void adaptOrderDetailsWithPartiallyFilledAndExpiredStatus() throws InvalidFormatException {
+  void adaptOrderDetailsWithPartiallyFilledAndExpiredStatus() throws Exception {
     // PartiallyFilledAndExpired(6) is terminal with a partial fill as well; mapping it to EXPIRED
     // would hide the partial execution, so all three PartiallyFilledAnd* statuses adapt to
     // PARTIALLY_CANCELED while a plain Expired stays EXPIRED.
@@ -77,7 +77,7 @@ public class IndependentReserveAdaptersTest {
   }
 
   @Test
-  public void adaptOrderDetailsWithExpiredStatus() throws InvalidFormatException {
+  void adaptOrderDetailsWithExpiredStatus() throws Exception {
     Order order =
         IndependentReserveAdapters.adaptOrderDetails(
             orderDetailsResponseWithStatus("Expired", new BigDecimal(0)));

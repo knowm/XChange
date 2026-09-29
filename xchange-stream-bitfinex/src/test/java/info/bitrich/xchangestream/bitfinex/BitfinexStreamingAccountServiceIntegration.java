@@ -13,10 +13,10 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 
 @Slf4j
-public class BitfinexStreamingAccountServiceIntegration extends BitfinexStreamingExchangeIT {
+class BitfinexStreamingAccountServiceIntegration extends BitfinexStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();

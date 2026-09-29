@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class DaseDigestTest {
+class DaseDigestTest {
 
   @Test
-  public void sample_signature_matches_docs() {
+  void sample_signature_matches_docs() {
     // Given sample from docs
     String secret =
         "NbMBz+ZLqON9yc/tTA8+5eynWD/37pk6b5yq28q9yH99aJyz4fgifpN1wOv28ReSubHvcsT4Yaq8+c12XjArdg==";

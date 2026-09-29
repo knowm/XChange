@@ -2,24 +2,23 @@ package org.knowm.xchange.gateio.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 
-public class GateioMarketDataServiceTest extends GateioExchangeWiremock {
+class GateioMarketDataServiceTest extends GateioExchangeWiremock {
 
   GateioMarketDataService gateioMarketDataService =
       (GateioMarketDataService) exchange.getMarketDataService();
 
   @Test
-  public void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook actual = gateioMarketDataService.getOrderBook(CurrencyPair.BTC_USDT);
 
     List<LimitOrder> expectedAsks = new ArrayList<>();

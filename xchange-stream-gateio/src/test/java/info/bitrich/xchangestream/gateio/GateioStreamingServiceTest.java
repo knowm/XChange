@@ -13,13 +13,13 @@ import static info.bitrich.xchangestream.core.StreamingExchange.*;
 import static info.bitrich.xchangestream.service.netty.NettyStreamingService.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioStreamingServiceTest {
+class GateioStreamingServiceTest {
   static ExchangeSpecification exchangeSpecification = new ExchangeSpecification(GateioStreamingExchange.class);
   static GateioStreamingService gateioStreamingService;
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @BeforeAll
-  public static void init() {
+  static void init() {
     exchangeSpecification.setExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
     exchangeSpecification.setExchangeSpecificParametersItem(WS_RETRY_DURATION, DEFAULT_RETRY_DURATION);
     exchangeSpecification.setExchangeSpecificParametersItem(WS_IDLE_TIMEOUT, DEFAULT_IDLE_TIMEOUT);

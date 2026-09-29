@@ -1,21 +1,20 @@
 package org.knowm.xchange.latoken.dto.account;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LatokenBalanceTest {
 
   LatokenBalance balance;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -25,54 +24,54 @@ public class LatokenBalanceTest {
     ObjectMapper mapper = new ObjectMapper();
     List<List<LatokenBalance>> readValues =
         mapper.readValue(is, new TypeReference<List<List<LatokenBalance>>>() {});
-    assertEquals(1, readValues.size());
-    assertEquals(1, readValues.get(0).size());
+    assertThat(readValues.size()).isEqualTo(1);
+    assertThat(readValues.get(0).size()).isEqualTo(1);
 
     balance = readValues.get(0).get(0);
   }
 
   @Test
-  public void testLatokenBalance() {
-    assertNotNull(balance);
+  void latokenBalance() {
+    assertThat(balance).isNotNull();
   }
 
   @Test
-  public void testGetCurrencyId() {
-    assertNotNull(balance.getCurrencyId());
+  void getCurrencyId() {
+    assertThat(balance.getCurrencyId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(balance.getSymbol());
+  void getSymbol() {
+    assertThat(balance.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetName() {
-    assertNotNull(balance.getName());
+  void getName() {
+    assertThat(balance.getName()).isNotNull();
   }
 
   @Test
-  public void testGetAmount() {
-    assertNotNull(balance.getAmount());
+  void getAmount() {
+    assertThat(balance.getAmount()).isNotNull();
   }
 
   @Test
-  public void testGetAvailable() {
-    assertNotNull(balance.getAvailable());
+  void getAvailable() {
+    assertThat(balance.getAvailable()).isNotNull();
   }
 
   @Test
-  public void testGetFrozen() {
-    assertNotNull(balance.getFrozen());
+  void getFrozen() {
+    assertThat(balance.getFrozen()).isNotNull();
   }
 
   @Test
-  public void testGetPending() {
-    assertNotNull(balance.getPending());
+  void getPending() {
+    assertThat(balance.getPending()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(balance.toString());
+  void testToString() {
+    assertThat(balance.toString()).isNotNull();
   }
 }
