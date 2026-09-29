@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v2.dto.account.BitfinexMovement;
@@ -16,6 +17,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.FundingRecord;
 
 class BitfinexAdaptersTest {
+
+  @BeforeAll
+  static void setUp() {
+    // normally registered by BitfinexExchange.remoteInit()
+    BitfinexAdapters.putCurrencyMapping("UST", "USDT");
+  }
 
   @Test
   void adaptCurrencyPairsToTickersParam() {
