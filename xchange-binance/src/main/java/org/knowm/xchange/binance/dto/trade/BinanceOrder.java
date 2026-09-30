@@ -17,6 +17,7 @@ public final class BinanceOrder {
   // spot and futures(margin mode)
   public BigDecimal cumulativeQuoteQty;
   // futures (classic mode)
+  @JsonProperty("avgPrice")
   public BigDecimal averagePrice;
   public final OrderStatus status;
   public final TimeInForce timeInForce;
