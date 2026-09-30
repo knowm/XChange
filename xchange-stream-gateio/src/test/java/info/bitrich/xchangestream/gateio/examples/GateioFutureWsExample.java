@@ -3,9 +3,9 @@ package info.bitrich.xchangestream.gateio.examples;
 import info.bitrich.xchangestream.gateio.GateioStreamingExchange;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -27,15 +27,15 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 public class GateioFutureWsExample {
   private final Instrument instrument = new FuturesContract("SOL/USDT/PERP");
   public GateioStreamingExchange exchange;
-  private final boolean logOutput = true;
+  private final boolean logOutput = false;
 
-  @Before
+  @BeforeEach
   public void before() {
     exchange = GateioExampleSetUp.initFutures();
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void placeLimitOrder() throws InterruptedException, IOException {
     while (!exchange.isAlive())
       Thread.sleep(100);
@@ -125,7 +125,7 @@ public class GateioFutureWsExample {
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void placeMarketOrder() throws InterruptedException, IOException {
     while (!exchange.isAlive())
       Thread.sleep(100);

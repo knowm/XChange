@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -21,7 +20,7 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 public class GateioSpotManualExample {
   private final Instrument instrument = new CurrencyPair("SOL/USDT");
   public GateioStreamingExchange exchange;
-  private final boolean logOutput = true;
+  private final boolean logOutput = false;
 
   @BeforeEach
   void before() {

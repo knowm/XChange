@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -25,11 +24,11 @@ public class GateioFuturesManualExample {
 
   private final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
   public GateioStreamingExchange exchange;
-  private final boolean logOutput = true;
+  private final boolean logOutput = false;
 
   @BeforeEach
   void before() {
-    init();
+    exchange = GateioExampleSetUp.initFutures();
   }
 
 
