@@ -60,7 +60,6 @@
         <module>xchange-cexio</module>
         <module>xchange-coinbase</module>
         <module>xchange-coincheck</module>
-        <module>xchange-coinex</module>
         <module>xchange-coinjar</module>
         <module>xchange-coinmarketcap</module>
         <module>xchange-coinmate</module>
