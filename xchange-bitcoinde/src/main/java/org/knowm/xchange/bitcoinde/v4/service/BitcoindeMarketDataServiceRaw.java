@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindeBoolean;
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindePair;
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindeType;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeUtils.createBitcoindeBoolean;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeUtils.createBitcoindePair;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeUtils.createBitcoindeType;
 
 import java.io.IOException;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
