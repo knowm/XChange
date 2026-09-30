@@ -37,6 +37,25 @@ class BinanceAdaptersTest {
   }
 
   @Test
+  void filledFuturesMarketOrderWithoutCumulativeQuoteQty() throws Exception {
+
+    // USDT-M futures order responses carry "cumQuote" instead of "cummulativeQuoteQty"; adapting
+    // such an order must not throw (regression test for #5074)
+    BinanceOrder binanceOrder =
+        ObjectMapperHelper.readValue(
+            BinanceAdaptersTest.class.getResource(
+                "/org/knowm/xchange/binance/filled-futures-market-order.json"),
+            BinanceOrder.class);
+    assertThat(binanceOrder.cumulativeQuoteQty).isNull();
+
+    Order order = BinanceAdapters.adaptOrder(binanceOrder, true);
+    assertThat(order).isInstanceOf(MarketOrder.class);
+    assertThat(order.getStatus()).isEqualByComparingTo(Order.OrderStatus.FILLED);
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo("0.5");
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo("0.5");
+  }
+
+  @Test
   void assetDividendList() throws Exception {
 
     AssetDividendResponse assetDividendList =
