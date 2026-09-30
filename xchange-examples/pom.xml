@@ -36,18 +36,6 @@
             <artifactId>xchange-binance</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Bitbay exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bitbay</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange BitcoinAverage support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bitcoinaverage</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Bitcoinde support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -130,16 +118,16 @@
             <artifactId>xchange-coinone</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-cryptocom</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- XChange dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cryptocom</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -175,12 +163,6 @@
             <artifactId>xchange-independentreserve</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange ItBit exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-itbit</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- XChange Kraken support -->
         <dependency>
@@ -204,12 +186,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-mercadobitcoin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange OkCoin exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-okcoin</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange OkEx exchange support -->
