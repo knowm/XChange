@@ -69,7 +69,6 @@
         <module>xchange-enigma</module>
         <module>xchange-examples</module>
         <module>xchange-exmo</module>
-        <module>xchange-gateio</module>
         <module>xchange-gateio-v4</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
