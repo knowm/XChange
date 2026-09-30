@@ -99,7 +99,6 @@
 
         <module>xchange-stream-binance</module>
         <module>xchange-stream-bitfinex</module>
-        <module>xchange-stream-bitflyer</module>
         <module>xchange-stream-bitget</module>
         <module>xchange-stream-bitstamp</module>
         <module>xchange-stream-btcmarkets</module>
@@ -127,7 +126,6 @@
         <module>xchange-stream-poloniex2</module>
         <module>xchange-stream-service-core</module>
         <module>xchange-stream-service-netty</module>
-        <module>xchange-stream-service-pubnub</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
         <module>xchange-vaultoro</module>
@@ -247,11 +245,6 @@
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${version.nimbus-jose-jwt}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pubnub</groupId>
-                <artifactId>pubnub-gson</artifactId>
-                <version>4.31.3</version>
             </dependency>
 
             <dependency>
