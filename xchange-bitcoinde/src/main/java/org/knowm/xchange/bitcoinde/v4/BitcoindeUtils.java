@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitcoinde;
+package org.knowm.xchange.bitcoinde.v4;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,10 +1,10 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.rfc3339Timestamp;
+import static org.knowm.xchange.bitcoinde.v4.BitcoindeUtils.rfc3339Timestamp;
 
 import java.io.IOException;
 import java.util.Date;
-import org.knowm.xchange.bitcoinde.BitcoindeUtils;
+import org.knowm.xchange.bitcoinde.v4.BitcoindeUtils;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeAccountLedgerType;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
