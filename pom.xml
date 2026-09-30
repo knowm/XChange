@@ -172,7 +172,7 @@
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.24.0</version.mockito>
         <version.nimbus-jose-jwt>10.9</version.nimbus-jose-jwt>
-        <version.qos.logback>1.5.37</version.qos.logback>
+        <version.qos.logback>1.6.4</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
         <version.resilience4j>2.4.0</version.resilience4j>
         <version.slf4j>2.0.20</version.slf4j>
