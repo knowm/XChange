@@ -140,11 +140,6 @@
             <artifactId>xchange-dvchain</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-gateio</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Hitbtc exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
