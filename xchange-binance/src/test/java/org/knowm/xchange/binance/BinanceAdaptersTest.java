@@ -53,6 +53,7 @@ class BinanceAdaptersTest {
     assertThat(order.getStatus()).isEqualByComparingTo(Order.OrderStatus.FILLED);
     assertThat(order.getOriginalAmount()).isEqualByComparingTo("0.5");
     assertThat(order.getCumulativeAmount()).isEqualByComparingTo("0.5");
+    assertThat(order.getAveragePrice()).isEqualByComparingTo("64250.1");
   }
 
   @Test
