@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
@@ -31,12 +31,12 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
-public class BybitStreamAdaptersTest {
+class BybitStreamAdaptersTest {
 
   ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   @Test
-  public void adaptOrderBookTest() throws Exception {
+  void adaptOrderBookTest() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader()
@@ -55,7 +55,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptTradesTest() throws Exception {
+  void adaptTradesTest() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("tradeResponse.json5"));
@@ -74,7 +74,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptOrdersChangesTest() throws Exception {
+  void adaptOrdersChangesTest() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("orderChangeResponse.json5"));
@@ -102,7 +102,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptPositionChanges() throws Exception {
+  void adaptPositionChanges() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("positionChangeResponse.json5"));
@@ -122,7 +122,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptComplexPositionChanges() throws Exception {
+  void adaptComplexPositionChanges() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("positionChangeResponse.json5"));
@@ -169,7 +169,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptComplexOrdersChangesTest() throws Exception {
+  void adaptComplexOrdersChangesTest() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("orderChangeResponse.json5"));
@@ -231,7 +231,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptTickerSnapshotTest() throws Exception {
+  void adaptTickerSnapshotTest() throws Exception {
     JsonNode jsonNode =
         mapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("tickerSnapshotResponse.json5"));
@@ -264,7 +264,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptTickerDeltaDeserializationTest() throws Exception {
+  void adaptTickerDeltaDeserializationTest() throws Exception {
     // Verify delta messages deserialize correctly with partial fields
     JsonNode jsonNode =
         mapper.readTree(
@@ -290,7 +290,7 @@ public class BybitStreamAdaptersTest {
   }
 
   @Test
-  public void adaptTickerDeltaMergeTest() throws Exception {
+  void adaptTickerDeltaMergeTest() throws Exception {
     // Load snapshot
     JsonNode snapshotNode =
         mapper.readTree(

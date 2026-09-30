@@ -15,13 +15,12 @@ import org.knowm.xchange.gateio.dto.GateioExchangeType;
 import org.knowm.xchange.instrument.Instrument;
 import si.mazi.rescu.CustomRestProxyFactoryImpl;
 
-import java.io.IOException;
 import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioFuturesAccountServiceTest {
+class GateioFuturesAccountServiceTest {
 
   static GateioExchange exchange;
   static WireMockServer wireMockServer;
@@ -48,7 +47,7 @@ public class GateioFuturesAccountServiceTest {
   }
 
   @Test
-  void get_dynamic_trading_fees_by_instrument() throws IOException {
+  void get_dynamic_trading_fees_by_instrument() throws Exception {
     GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
     Map<Instrument, Fee> fees = gateioAccountService.getDynamicTradingFeesByInstrument();
     assertThat(fees).isNotEmpty();
@@ -58,7 +57,7 @@ public class GateioFuturesAccountServiceTest {
   }
 
   @Test
-  void set_leverage() throws IOException {
+  void set_leverage() throws Exception {
     wireMockServer.stubFor(post(urlPathMatching("/futures/usdt/positions/BTC_USDT/leverage"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")

@@ -1,18 +1,18 @@
 package org.knowm.xchange.latoken.dto.trade;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenUserTradeTest {
+class LatokenUserTradeTest {
   LatokenUserTrade trade;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -26,47 +26,47 @@ public class LatokenUserTradeTest {
   }
 
   @Test
-  public void testLatokenUserTrade() {
-    assertNotNull(trade);
+  void latokenUserTrade() {
+    assertThat(trade).isNotNull();
   }
 
   @Test
-  public void testGetId() {
-    assertNotNull(trade.getId());
+  void getId() {
+    assertThat(trade.getId()).isNotNull();
   }
 
   @Test
-  public void testGetOrderId() {
-    assertNotNull(trade.getOrderId());
+  void getOrderId() {
+    assertThat(trade.getOrderId()).isNotNull();
   }
 
   @Test
-  public void testGetFee() {
-    assertNotNull(trade.getFee());
+  void getFee() {
+    assertThat(trade.getFee()).isNotNull();
   }
 
   @Test
-  public void testGetSide() {
-    assertNotNull(trade.getSide());
+  void getSide() {
+    assertThat(trade.getSide()).isNotNull();
   }
 
   @Test
-  public void testGetPrice() {
-    assertNotNull(trade.getPrice());
+  void getPrice() {
+    assertThat(trade.getPrice()).isNotNull();
   }
 
   @Test
-  public void testGetAmount() {
-    assertNotNull(trade.getAmount());
+  void getAmount() {
+    assertThat(trade.getAmount()).isNotNull();
   }
 
   @Test
-  public void testGetTime() {
-    assertNotNull(trade.getTime());
+  void getTime() {
+    assertThat(trade.getTime()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(trade.toString());
+  void testToString() {
+    assertThat(trade.toString()).isNotNull();
   }
 }

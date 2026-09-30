@@ -3,11 +3,10 @@ package org.knowm.xchange.bitcoinde;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -18,10 +17,10 @@ import org.knowm.xchange.dto.marketdata.Trades;
 /**
  * @author matthewdowney
  */
-public class BitcoindeAdapterTest {
+class BitcoindeAdapterTest {
 
   @Test
-  public void testOrderBookAdapter() throws IOException {
+  void orderBookAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -45,7 +44,7 @@ public class BitcoindeAdapterTest {
   }
 
   @Test
-  public void testTradesAdapter() throws IOException {
+  void tradesAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

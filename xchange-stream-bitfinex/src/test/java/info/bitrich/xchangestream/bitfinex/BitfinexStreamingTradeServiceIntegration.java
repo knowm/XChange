@@ -15,10 +15,10 @@ import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 @Slf4j
-public class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingExchangeIT {
+class BitfinexStreamingTradeServiceIntegration extends BitfinexStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();

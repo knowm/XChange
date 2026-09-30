@@ -2,15 +2,14 @@ package org.knowm.xchange;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class CurrencyPairTest {
+class CurrencyPairTest {
 
   @Test
-  public void testMajors() {
+  void majors() {
 
     assertThat(CurrencyPair.EUR_USD.getBase().getCurrencyCode()).isEqualTo("EUR");
     assertThat(CurrencyPair.EUR_USD.getCounter().getCurrencyCode()).isEqualTo("USD");
@@ -32,7 +31,7 @@ public class CurrencyPairTest {
   }
 
   @Test
-  public void testBitcoinCourtesy() {
+  void bitcoinCourtesy() {
 
     assertThat(CurrencyPair.BTC_USD.getBase().getCurrencyCode()).isEqualTo("BTC");
     assertThat(CurrencyPair.BTC_USD.getCounter().getCurrencyCode()).isEqualTo("USD");
@@ -57,7 +56,7 @@ public class CurrencyPairTest {
   }
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     CurrencyPair jsonCopy = ObjectMapperHelper.viaJSON(CurrencyPair.XBT_USD);
     assertThat(jsonCopy).isEqualTo(CurrencyPair.XBT_USD);
   }

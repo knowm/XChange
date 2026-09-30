@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
+class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
 
   GateioMarketDataService gateioMarketDataService;
   FuturesContract btcUsdt = new FuturesContract("BTC/USDT/PERP");
@@ -31,7 +31,7 @@ public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void getTicker_valid_futures() throws IOException {
+  void getTicker_valid_futures() throws Exception {
     Ticker actual = gateioMarketDataService.getTicker(btcUsdt);
 
     assertThat(actual.getInstrument()).isEqualTo(btcUsdt);
@@ -48,7 +48,7 @@ public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void getCandleStickData_valid_futures() throws IOException {
+  void getCandleStickData_valid_futures() throws Exception {
     CandleStickData actual = gateioMarketDataService.getCandleStickData(btcUsdt, new DefaultCandleStickParam(null, null, 3600));
 
     assertThat(actual.getInstrument()).isEqualTo(btcUsdt);
@@ -62,7 +62,7 @@ public class GateioFuturesMarketDataServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void getFundingRateHistory_valid() throws IOException {
+  void getFundingRateHistory_valid() throws Exception {
     List<GateioFundingRateHistory> actual = gateioMarketDataService.getFundingRateHistory(
         btcUsdt, null, null, null);
 

@@ -8,46 +8,52 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v2.dto.account.BitfinexMovement;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.FundingRecord;
 
-public class BitfinexAdaptersTest {
+class BitfinexAdaptersTest {
+
+  @BeforeAll
+  static void setUp() {
+    // normally registered by BitfinexExchange.remoteInit()
+    BitfinexAdapters.putCurrencyMapping("UST", "USDT");
+  }
 
   @Test
-  public void adaptCurrencyPairsToTickersParam() {
+  void adaptCurrencyPairsToTickersParam() {
     List<CurrencyPair> currencyPairs =
         Stream.of(CurrencyPair.BTC_USD, CurrencyPair.ETH_USD, CurrencyPair.ETH_BTC)
             .collect(Collectors.toList());
     String formattedPairs = BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs);
-    Assert.assertEquals("tBTCUSD,tETHUSD,tETHBTC", formattedPairs);
+    assertThat(formattedPairs).isEqualTo("tBTCUSD,tETHUSD,tETHBTC");
   }
 
   @Test
-  public void adaptCurrencyPair() {
+  void adaptCurrencyPair() {
     final List<String> currencyPairStrings =
         Arrays.asList("tBTCUSD", "tETHUSD", "tETHBTC", "tDUSK:USD", "tTKN:USD", "tUSTUSD");
     final List<CurrencyPair> currencyPairs =
         currencyPairStrings.stream()
             .map(BitfinexAdapters::adaptCurrencyPair)
             .collect(Collectors.toList());
-    Assert.assertEquals(
-        Arrays.asList(
-            CurrencyPair.BTC_USD,
-            CurrencyPair.ETH_USD,
-            CurrencyPair.ETH_BTC,
-            new CurrencyPair("DUSK/USD"),
-            new CurrencyPair("TKN/USD"),
-            new CurrencyPair("USDT/USD")),
-        currencyPairs);
+    assertThat(currencyPairs)
+        .isEqualTo(
+            Arrays.asList(
+                CurrencyPair.BTC_USD,
+                CurrencyPair.ETH_USD,
+                CurrencyPair.ETH_BTC,
+                new CurrencyPair("DUSK/USD"),
+                new CurrencyPair("TKN/USD"),
+                new CurrencyPair("USDT/USD")));
   }
 
   @Test
-  public void adaptFundingHistory() {
+  void adaptFundingHistory() {
     List<BitfinexMovement> bitfinexMovements =
         Arrays.asList(
             new BitfinexMovement(

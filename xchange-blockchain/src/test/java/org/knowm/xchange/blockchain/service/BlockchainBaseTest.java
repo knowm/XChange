@@ -10,24 +10,28 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.APPLICATION;
 import static org.knowm.xchange.blockchain.service.utils.BlockchainConstants.CONTENT_TYPE;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.junit.ClassRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 
 public class BlockchainBaseTest {
 
-  @ClassRule
-  public static WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
+  @RegisterExtension
+  public static WireMockExtension wireMockRule =
+      WireMockExtension.newInstance()
+          .options(wireMockConfig().dynamicPort())
+          .configureStaticDsl(true)
+          .build();
 
   protected static BlockchainExchange createExchange() {
     BlockchainExchange exchange =
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BlockchainExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
-    specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
-    specification.setPort(wireMockRule.port());
+    specification.setSslUri("http://localhost:" + wireMockRule.getPort() + "/");
+    specification.setPort(wireMockRule.getPort());
     specification.setShouldLoadRemoteMetaData(false);
     specification.setHttpReadTimeout(1000);
     exchange.applySpecification(specification);

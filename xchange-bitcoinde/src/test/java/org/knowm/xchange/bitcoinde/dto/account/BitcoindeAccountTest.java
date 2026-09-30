@@ -1,23 +1,19 @@
 package org.knowm.xchange.bitcoinde.dto.account;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author kaiserfr
  */
-public class BitcoindeAccountTest {
+class BitcoindeAccountTest {
 
   @Test
-  public void testBitcoindeOrderBook()
-      throws JsonParseException, JsonMappingException, IOException {
+  void bitcoindeOrderBook() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -44,8 +40,8 @@ public class BitcoindeAccountTest {
     //    System.out.println(ethBalance);
     //    System.out.println(reservedAmount);
 
-    assertEquals(btcBalance, new BigDecimal("0.009"));
-    assertEquals(ethBalance, new BigDecimal("0.06463044"));
-    assertEquals(reservedAmount, new BigDecimal("2000"));
+    assertThat(new BigDecimal("0.009")).isEqualTo(btcBalance);
+    assertThat(new BigDecimal("0.06463044")).isEqualTo(ethBalance);
+    assertThat(new BigDecimal("2000")).isEqualTo(reservedAmount);
   }
 }

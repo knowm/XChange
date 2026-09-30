@@ -4,10 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.currency.Currency;
@@ -17,10 +16,10 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
 /** Tests the BitbayAdapter class */
-public class BitbayAdapterTest {
+class BitbayAdapterTest {
 
   @Test
-  public void testAccountInfoAdapter() throws IOException {
+  void accountInfoAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BitbayAdapterTest.class.getResourceAsStream(
@@ -47,7 +46,7 @@ public class BitbayAdapterTest {
   }
 
   @Test
-  public void testOpenOrdersAdapter() throws IOException {
+  void openOrdersAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BitbayAdapterTest.class.getResourceAsStream(

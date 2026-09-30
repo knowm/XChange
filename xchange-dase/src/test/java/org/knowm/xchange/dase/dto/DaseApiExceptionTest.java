@@ -10,12 +10,12 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 
-public class DaseApiExceptionTest {
+class DaseApiExceptionTest {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Test
-  public void deserialize_error_response() throws Exception {
+  void deserialize_error_response() throws Exception {
     String json = "{\"type\":\"InsufficientFunds\",\"message\":\"Not enough balance\"}";
 
     DaseApiException ex = MAPPER.readValue(json, DaseApiException.class);
@@ -26,7 +26,7 @@ public class DaseApiExceptionTest {
   }
 
   @Test
-  public void toExchangeException_maps_insufficient_funds() {
+  void toExchangeException_maps_insufficient_funds() {
     DaseApiException apiEx = new DaseApiException("InsufficientFunds", "Not enough BTC");
 
     ExchangeException ex = apiEx.toExchangeException();
@@ -36,7 +36,7 @@ public class DaseApiExceptionTest {
   }
 
   @Test
-  public void toExchangeException_maps_unauthorized() {
+  void toExchangeException_maps_unauthorized() {
     DaseApiException apiEx = new DaseApiException("Unauthorized", "Invalid API key");
 
     ExchangeException ex = apiEx.toExchangeException();
@@ -46,7 +46,7 @@ public class DaseApiExceptionTest {
   }
 
   @Test
-  public void toExchangeException_maps_rate_limit() {
+  void toExchangeException_maps_rate_limit() {
     DaseApiException apiEx = new DaseApiException("TooManyRequests", "Rate limit exceeded");
 
     ExchangeException ex = apiEx.toExchangeException();
@@ -56,7 +56,7 @@ public class DaseApiExceptionTest {
   }
 
   @Test
-  public void toExchangeException_maps_service_errors() {
+  void toExchangeException_maps_service_errors() {
     DaseApiException apiEx = new DaseApiException("ServiceUnavailable", "Service is down");
 
     ExchangeException ex = apiEx.toExchangeException();
@@ -66,7 +66,7 @@ public class DaseApiExceptionTest {
   }
 
   @Test
-  public void toExchangeException_maps_invalid_input() {
+  void toExchangeException_maps_invalid_input() {
     DaseApiException apiEx = new DaseApiException("InvalidInput", "Invalid size");
 
     ExchangeException ex = apiEx.toExchangeException();

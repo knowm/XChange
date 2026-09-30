@@ -3,7 +3,6 @@ package org.knowm.xchange.bitget.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collection;
@@ -27,7 +26,7 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
   TradeService tradeService = exchange.getTradeService();
 
   @Test
-  void sell_order_details() throws IOException {
+  void sell_order_details() throws Exception {
     MarketOrder expected =
         new MarketOrder.Builder(OrderType.ASK, new CurrencyPair("BGB/USDT"))
             .id("1214193970718347264")
@@ -50,7 +49,7 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void buy_order_details() throws IOException {
+  void buy_order_details() throws Exception {
     MarketOrder expected =
         new MarketOrder.Builder(OrderType.BID, new CurrencyPair("BGB/USDT"))
             .id("1214189703404097539")
@@ -74,7 +73,7 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void place_market_buy_order() throws IOException {
+  void place_market_buy_order() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.BID, new CurrencyPair("BGB/USDT"))
             .userReference("t-valid-market-buy-order")
@@ -86,7 +85,7 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void place_market_sell_order() throws IOException {
+  void place_market_sell_order() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.ASK, new CurrencyPair("BGB/USDT"))
             .userReference("t-valid-market-sell-order")
@@ -98,7 +97,7 @@ class BitgetTradeServiceTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void trade_history() throws IOException {
+  void trade_history() throws Exception {
     UserTrades userTrades =
         exchange
             .getTradeService()

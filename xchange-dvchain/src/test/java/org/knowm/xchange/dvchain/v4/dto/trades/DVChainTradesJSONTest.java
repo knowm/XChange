@@ -1,19 +1,18 @@
 package org.knowm.xchange.dvchain.v4.dto.trades;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.Instant;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.dvchain.dto.trade.DVChainNewMarketOrder;
 import org.knowm.xchange.dvchain.dto.trade.DVChainTradesResponse;
 
-public class DVChainTradesJSONTest {
+class DVChainTradesJSONTest {
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -24,23 +23,23 @@ public class DVChainTradesJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     DVChainTradesResponse readValue = mapper.readValue(is, DVChainTradesResponse.class);
 
-    assertEquals(readValue.getTotal().intValue(), 1);
-    assertEquals(readValue.getPageCount().intValue(), 1);
-    assertEquals(readValue.getData().get(0).getId(), "5bbd1c6709ac22627841ad32");
-    assertEquals(
-        readValue.getData().get(0).getCreatedAt(), Instant.parse("2018-10-09T21:23:51.757Z"));
-    assertEquals(readValue.getData().get(0).getPrice(), new BigDecimal(("513.3")));
-    assertEquals(readValue.getData().get(0).getQuantity(), new BigDecimal(".1"));
-    assertEquals(readValue.getData().get(0).getSide(), "Buy");
-    assertEquals(readValue.getData().get(0).getAsset(), "BCH");
-    assertEquals(readValue.getData().get(0).getStatus(), "Complete");
-    assertEquals(readValue.getData().get(0).getUser().getFirstName(), "Roger");
-    assertEquals(readValue.getData().get(0).getUser().getLastName(), "Ver");
-    assertEquals(readValue.getData().get(0).getUser().getId(), "5ab545a4b933aa1f78e25f34");
+    assertThat(readValue.getTotal().intValue()).isEqualTo(1);
+    assertThat(readValue.getPageCount().intValue()).isEqualTo(1);
+    assertThat(readValue.getData().get(0).getId()).isEqualTo("5bbd1c6709ac22627841ad32");
+    assertThat(Instant.parse("2018-10-09T21:23:51.757Z"))
+        .isEqualTo(readValue.getData().get(0).getCreatedAt());
+    assertThat(new BigDecimal(("513.3"))).isEqualTo(readValue.getData().get(0).getPrice());
+    assertThat(new BigDecimal(".1")).isEqualTo(readValue.getData().get(0).getQuantity());
+    assertThat(readValue.getData().get(0).getSide()).isEqualTo("Buy");
+    assertThat(readValue.getData().get(0).getAsset()).isEqualTo("BCH");
+    assertThat(readValue.getData().get(0).getStatus()).isEqualTo("Complete");
+    assertThat(readValue.getData().get(0).getUser().getFirstName()).isEqualTo("Roger");
+    assertThat(readValue.getData().get(0).getUser().getLastName()).isEqualTo("Ver");
+    assertThat(readValue.getData().get(0).getUser().getId()).isEqualTo("5ab545a4b933aa1f78e25f34");
   }
 
   @Test
-  public void testPlaceOrder() throws IOException {
+  void placeOrder() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
 
     DVChainNewMarketOrder newTrade =
@@ -53,8 +52,8 @@ public class DVChainTradesJSONTest {
 
     String trade = mapper.writeValueAsString(newTrade);
 
-    assertEquals(
-        trade,
-        "{\"side\":\"Buy\",\"price\":527.51,\"qty\":0.1,\"asset\":\"BCH\",\"orderType\":\"market\"}");
+    assertThat(trade)
+        .isEqualTo(
+            "{\"side\":\"Buy\",\"price\":527.51,\"qty\":0.1,\"asset\":\"BCH\",\"orderType\":\"market\"}");
   }
 }

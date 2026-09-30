@@ -1,17 +1,16 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import java.io.IOException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.hitbtc.v2.BaseAuthenticatedServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
@@ -24,15 +23,13 @@ import si.mazi.rescu.HttpStatusIOException;
  * Test ignored in default build because it requires production authentication credentials. See
  * {@link BaseAuthenticatedServiceTest}.
  */
-@Ignore
-public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedServiceTest {
-
-  @Rule public final ExpectedException exception = ExpectedException.none();
+@Disabled
+class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedServiceTest {
 
   private HitbtcAccountServiceRaw service = (HitbtcAccountServiceRaw) exchange.getAccountService();
 
   @Test
-  public void testGetMainBalance() throws IOException {
+  void getMainBalance() throws Exception {
 
     List<HitbtcBalance> balance = service.getMainBalance();
 
@@ -41,13 +38,13 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
       balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
     }
 
-    Assert.assertNotNull(balance);
+    assertThat(balance).isNotNull();
     BigDecimal expected = new BigDecimal("0.00000000");
-    Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
+    assertThat(balanceMap.get(Currency.BTC).getAvailable()).isEqualTo(expected);
   }
 
   @Test
-  public void testGetTradingBalance() throws IOException {
+  void getTradingBalance() throws Exception {
 
     List<HitbtcBalance> balance = service.getTradingBalance();
 
@@ -56,36 +53,36 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
       balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
     }
 
-    Assert.assertNotNull(balance);
+    assertThat(balance).isNotNull();
     BigDecimal expected = new BigDecimal("0.040000000");
-    Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
+    assertThat(balanceMap.get(Currency.BTC).getAvailable()).isEqualTo(expected);
   }
 
   @Test
-  public void testGetPaymentBalance() throws IOException {
+  void getPaymentBalance() throws Exception {
 
     List<HitbtcBalance> response = service.getMainBalance();
 
-    Assert.assertTrue(!response.isEmpty());
+    assertThat(response.isEmpty()).isFalse();
   }
 
   @Test
-  public void testGetDepositAddress() throws IOException {
+  void getDepositAddress() throws Exception {
 
     String response = service.getDepositAddress(Currency.BTC).getAddress();
 
-    Assert.assertTrue(StringUtils.isNotEmpty(response));
+    assertThat(StringUtils.isNotEmpty(response)).isTrue();
   }
 
   @Test
-  public void testGetTransactions() throws IOException {
+  void getTransactions() throws Exception {
     List<HitbtcTransaction> transactions;
 
     transactions =
         service.getTransactions(
             null, HitbtcSort.SORT_ASCENDING, new Date(1520949577579L), new Date(), 100, null);
-    Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+    assertThat(transactions.isEmpty()).isFalse();
+    assertThat(StringUtils.isNotEmpty(transactions.get(0).getId())).isTrue();
 
     transactions =
         service.getTransactions(
@@ -95,8 +92,8 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
             new Date(),
             100,
             null);
-    Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+    assertThat(transactions.isEmpty()).isFalse();
+    assertThat(StringUtils.isNotEmpty(transactions.get(0).getId())).isTrue();
 
     transactions =
         service.getTransactions(
@@ -106,34 +103,38 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
             new Date(),
             100,
             null);
-    Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+    assertThat(transactions.isEmpty()).isFalse();
+    assertThat(StringUtils.isNotEmpty(transactions.get(0).getId())).isTrue();
 
     transactions = service.getTransactions(null, null, null);
-    Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+    assertThat(transactions.isEmpty()).isFalse();
+    assertThat(StringUtils.isNotEmpty(transactions.get(0).getId())).isTrue();
 
     transactions =
         service.getTransactions(
             Currency.LTC.getCurrencyCode(), null, new Date(0), new Date(), null, null);
-    Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+    assertThat(transactions.isEmpty()).isFalse();
+    assertThat(StringUtils.isNotEmpty(transactions.get(0).getId())).isTrue();
 
     transactions =
         service.getTransactions(
             Currency.LTC.getCurrencyCode(), null, 0L, Long.MAX_VALUE, null, null);
-    Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+    assertThat(transactions.isEmpty()).isFalse();
+    assertThat(StringUtils.isNotEmpty(transactions.get(0).getId())).isTrue();
   }
 
   // Should return {"error":{"code":20001,"message":"Insufficient funds","description":"Check that
   // the funds are sufficient, given commissions"}} --I'm poor
   @Test
-  public void testTransferFunds() throws IOException {
+  void transferFunds() {
 
-    exception.expect(HttpStatusIOException.class);
-    exception.expectMessage("HTTP status code was not OK: 400");
-    service.transferFunds(
-        Currency.USD, new BigDecimal("0.01"), HitbtcTransferType.BANK_TO_EXCHANGE);
+    Throwable exception =
+        assertThatExceptionOfType(HttpStatusIOException.class)
+            .isThrownBy(
+                () ->
+                    service.transferFunds(
+                        Currency.USD, new BigDecimal("0.01"), HitbtcTransferType.BANK_TO_EXCHANGE))
+            .actual();
+    assertThat(exception.getMessage()).contains("HTTP status code was not OK: 400");
   }
 }

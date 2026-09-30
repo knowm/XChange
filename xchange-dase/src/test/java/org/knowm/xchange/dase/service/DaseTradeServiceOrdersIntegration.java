@@ -1,13 +1,12 @@
 package org.knowm.xchange.dase.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -24,7 +23,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
  * credentials are missing; placement also requires DASE_TEST_ENABLE_ORDERS=1. Run with: mvn clean
  * verify -DskipIntegrationTests=false
  */
-public class DaseTradeServiceOrdersIntegration {
+class DaseTradeServiceOrdersIntegration {
 
   private static final String DEFAULT_MARKET = "BTC-CZK"; // liquid, 2 price decimals in examples
 
@@ -32,7 +31,7 @@ public class DaseTradeServiceOrdersIntegration {
     String apiKey = System.getenv("DASE_API_KEY");
     String secret = System.getenv("DASE_API_SECRET");
     boolean hasCreds = apiKey != null && !apiKey.isEmpty() && secret != null && !secret.isEmpty();
-    assumeTrue("DASE_API_KEY/DASE_API_SECRET must be set for authenticated tests", hasCreds);
+    assumeTrue(hasCreds, "DASE_API_KEY/DASE_API_SECRET must be set for authenticated tests");
 
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(DaseExchange.class);
     ExchangeSpecification spec = ex.getDefaultExchangeSpecification();
@@ -43,19 +42,19 @@ public class DaseTradeServiceOrdersIntegration {
   }
 
   @Test
-  public void open_orders_live_smoke() throws Exception {
+  void open_orders_live_smoke() throws Exception {
     Exchange ex = authenticatedExchangeOrSkip();
     DaseTradeService svc = new DaseTradeService(ex);
 
     OpenOrders oo = svc.getOpenOrders();
-    assertNotNull(oo);
+    assertThat(oo).isNotNull();
     // Not asserting count to avoid flakiness across accounts
   }
 
   @Test
-  public void place_and_cancel_limit_order_live() throws Exception {
+  void place_and_cancel_limit_order_live() throws Exception {
     boolean enabled = "1".equals(System.getenv("DASE_TEST_ENABLE_ORDERS"));
-    assumeTrue("Set DASE_TEST_ENABLE_ORDERS=1 to run live order placement", enabled);
+    assumeTrue(enabled, "Set DASE_TEST_ENABLE_ORDERS=1 to run live order placement");
 
     Exchange ex = authenticatedExchangeOrSkip();
     DaseTradeService svc = new DaseTradeService(ex);
@@ -87,12 +86,12 @@ public class DaseTradeServiceOrdersIntegration {
     String id = null;
     try {
       id = svc.placeLimitOrder(lo);
-      assertNotNull(id);
+      assertThat(id).isNotNull();
     } finally {
       if (id != null) {
         // Best effort cancel; avoid failing the test if cancel throws
         try {
-          assertTrue(svc.cancelOrder(id));
+          assertThat(svc.cancelOrder(id)).isTrue();
         } catch (Exception ignored) {
           // ignored
         }
@@ -101,7 +100,7 @@ public class DaseTradeServiceOrdersIntegration {
     // Optional: probe order existence via batch get
     if (id != null) {
       try {
-        assertNotNull(svc.batchGetOrders(Collections.singletonList(id)));
+        assertThat(svc.batchGetOrders(Collections.singletonList(id))).isNotNull();
       } catch (Exception ignored) {
         // Some venues may not return recently canceled orders; acceptable
       }

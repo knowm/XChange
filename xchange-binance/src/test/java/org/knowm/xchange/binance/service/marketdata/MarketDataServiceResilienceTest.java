@@ -13,7 +13,9 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import java.io.IOException;
 import java.time.Duration;
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.knowm.xchange.binance.AbstractResilienceTest;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -24,10 +26,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
+class MarketDataServiceResilienceTest extends AbstractResilienceTest {
 
   @Test
-  public void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
+  void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
     BinanceAdapters.putSymbolMapping("BNBBTC", new CurrencyPair("BNB/BTC"));
     // given
     MarketDataService service = createExchangeWithRetryEnabled().getMarketDataService();
@@ -41,7 +43,7 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
   }
 
   @Test
-  public void shouldFailIfFirstCallTimeoutedAndRetryIsDisabled() throws Exception {
+  void shouldFailIfFirstCallTimeoutedAndRetryIsDisabled() throws Exception {
     // given
     MarketDataService service = createExchangeWithRetryDisabled().getMarketDataService();
     stubForTicker24WithFirstCallTimetoutAndSecondSuccessful();
@@ -53,8 +55,12 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     assertThat(exception).isInstanceOf(IOException.class);
   }
 
-  @Test(timeout = 2000)
-  public void shouldGetMaxDepthTwoTimesWithoutDelayWithDefaultRateLimiter() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void shouldGetMaxDepthTwoTimesWithoutDelayWithDefaultRateLimiter() throws Exception {
     // given
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
     MarketDataService service = exchange.getMarketDataService();
@@ -69,8 +75,12 @@ public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
     assertThat(orderBook.getBids()).isNotEmpty();
   }
 
-  @Test(timeout = 2000)
-  public void shouldGetTimeoutOnSecondMaxDepthVeryRestrictiveCustomRateLimiter() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void shouldGetTimeoutOnSecondMaxDepthVeryRestrictiveCustomRateLimiter() throws Exception {
     // given
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
     exchange

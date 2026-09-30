@@ -3,12 +3,11 @@ package org.knowm.xchange.binance;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import java.io.IOException;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,15 +16,21 @@ import org.knowm.xchange.binance.service.BinanceAccountService;
 
 public class BinanceExchangeIntegration {
   protected static BinanceExchange exchange;
-  @Rule public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
 
-  @BeforeClass
-  public static void beforeClass() throws Exception {
+  @RegisterExtension
+  public WireMockExtension wireMockRule =
+      WireMockExtension.newInstance()
+          .options(wireMockConfig().dynamicPort())
+          .configureStaticDsl(true)
+          .build();
+
+  @BeforeAll
+  static void beforeClass() throws Exception {
     createExchange();
   }
 
   @Test
-  public void testSytemStatus() throws IOException {
+  void sytemStatus() throws Exception {
     assumeProduction();
     BinanceSystemStatus systemStatus =
         ((BinanceAccountService) exchange.getAccountService()).getSystemStatus();
@@ -43,7 +48,7 @@ public class BinanceExchangeIntegration {
   }
 
   protected void assumeProduction() {
-    Assume.assumeFalse("Using sandbox", exchange.usingSandbox());
+    Assumptions.assumeFalse(exchange.usingSandbox(), "Using sandbox");
   }
 
   protected BinanceExchange createExchangeMocked() {
@@ -51,8 +56,8 @@ public class BinanceExchangeIntegration {
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
     ExchangeSpecification specification = exchangeMocked.getDefaultExchangeSpecification();
     specification.setHost("localhost");
-    specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
-    specification.setPort(wireMockRule.port());
+    specification.setSslUri("http://localhost:" + wireMockRule.getPort() + "/");
+    specification.setPort(wireMockRule.getPort());
     specification.setShouldLoadRemoteMetaData(false);
     exchangeMocked.applySpecification(specification);
     return exchangeMocked;

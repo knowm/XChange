@@ -11,10 +11,10 @@ import org.knowm.xchange.dase.dto.account.ApiGetAccountTxnsOutput;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.mockito.Mockito;
 
-public class DaseAccountServiceTest {
+class DaseAccountServiceTest {
 
   @Test
-  public void funding_history_params_and_mapping() throws Exception {
+  void funding_history_params_and_mapping() throws Exception {
     Exchange exchange = Mockito.mock(Exchange.class);
     ExchangeSpecification spec =
         new ExchangeSpecification(org.knowm.xchange.dase.DaseExchange.class);

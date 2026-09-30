@@ -8,7 +8,6 @@ import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -50,7 +49,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
           .build();
 
   @Test
-  void valid_market_buy_order() throws IOException {
+  void valid_market_buy_order() throws Exception {
     GateioSpotOrderRequest gateioOrder =
         GateioSpotOrderRequest.builder()
             .currencyPair(CurrencyPair.BTC_USDT)
@@ -67,7 +66,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_market_sell_order() throws IOException {
+  void valid_market_sell_order() throws Exception {
     GateioSpotOrderRequest gateioOrder =
         GateioSpotOrderRequest.builder()
             .currencyPair(CurrencyPair.BTC_USDT)
@@ -116,7 +115,7 @@ class GateioTradeServiceRawTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void order_details() throws IOException {
+  void order_details() throws Exception {
     GateioSpotOrderResponse actualResponse =
         gateioTradeServiceRaw.getOrder("342251629898", CurrencyPair.BTC_USDT);
 

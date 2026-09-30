@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Disabled("Integration tests are disabled by default. Enable for manual execution against sandbox.")
-public class TradeServiceIntegration extends CryptoComExchangeIntegration {
+class TradeServiceIntegration extends CryptoComExchangeIntegration {
 
   private static final Logger logger = LoggerFactory.getLogger(TradeServiceIntegration.class);
 
@@ -32,7 +32,7 @@ public class TradeServiceIntegration extends CryptoComExchangeIntegration {
   }
 
   @Test
-  void getOpenOrders_shouldReturnOpenOrders() throws IOException {
+  void getOpenOrders_shouldReturnOpenOrders() throws Exception {
     OpenOrders openOrders = tradeService.getOpenOrders();
     assertThat(openOrders).isNotNull();
     logger.info("Open orders: {}", openOrders.getOpenOrders().size());
@@ -40,7 +40,7 @@ public class TradeServiceIntegration extends CryptoComExchangeIntegration {
 
   @Test
   @Disabled("Places a real (tiny) order - enable explicitly for manual execution")
-  void placeAndCancelLimitOrder_shouldSucceed() throws IOException {
+  void placeAndCancelLimitOrder_shouldSucceed() throws Exception {
     LimitOrder limitOrder = sampleLimitOrder();
     String orderId = tradeService.placeLimitOrder(limitOrder);
     logger.info("Placed limit order with ID: {}", orderId);

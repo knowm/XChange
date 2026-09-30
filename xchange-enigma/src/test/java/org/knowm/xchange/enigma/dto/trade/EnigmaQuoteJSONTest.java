@@ -3,15 +3,14 @@ package org.knowm.xchange.enigma.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class EnigmaQuoteJSONTest {
+class EnigmaQuoteJSONTest {
 
   @Test
-  public void testUnMarshal() throws IOException {
+  void unMarshal() throws Exception {
     InputStream is = getClass().getClassLoader().getResourceAsStream("ask-rfq.json");
     ObjectMapper mapper = new ObjectMapper();
     EnigmaQuote quote = mapper.readValue(is, EnigmaQuote.class);

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -13,9 +13,9 @@ import org.knowm.xchange.okcoin.OkCoinExchange;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.utils.Assert;
 
-public class MetaDataFileTest {
+class MetaDataFileTest {
   @Test
-  public void metaDataFileNameTest() {
+  void metaDataFileNameTest() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
@@ -43,7 +43,7 @@ public class MetaDataFileTest {
   }
 
   @Test
-  public void loadMetaDataFileNameForChinaTest() {
+  void loadMetaDataFileNameForChinaTest() {
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
 

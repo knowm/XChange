@@ -1,18 +1,18 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenTimeTest {
+class LatokenTimeTest {
   LatokenTime time;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -24,12 +24,12 @@ public class LatokenTimeTest {
   }
 
   @Test
-  public void testLatokenTime() {
-    assertNotNull(time);
+  void latokenTime() {
+    assertThat(time).isNotNull();
   }
 
   @Test
-  public void testGetTime() {
-    assertNotNull(time.getTime());
+  void getTime() {
+    assertThat(time.getTime()).isNotNull();
   }
 }

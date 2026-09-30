@@ -1,20 +1,21 @@
 package org.knowm.xchange.ripple;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
-public class RippleServerTrustTest {
+class RippleServerTrustTest {
 
   /**
    * Make sure it is possible to create a default public query only Ripple connection without a
    * secret key.
    */
   @Test
-  public void noSecretKeyTest() {
+  void noSecretKeyTest() {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     assertThat(exchange).isInstanceOf(RippleExchange.class);
     assertThat(exchange.getExchangeSpecification().getSecretKey()).isNull();
@@ -27,12 +28,13 @@ public class RippleServerTrustTest {
    * a secret key if trust has not been explicitly enabled - an IllegalStateException should be
    * thrown when attempting to create the exchange.
    */
-  @Test(expected = IllegalStateException.class)
-  public void safetyNetTest() {
+  @Test
+  void safetyNetTest() {
     final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(RippleExchange.REST_API_RIPPLE_LABS);
     specification.setSecretKey("s****************************");
-    ExchangeFactory.INSTANCE.createExchange(specification);
+    assertThatExceptionOfType(IllegalStateException.class)
+        .isThrownBy(() -> ExchangeFactory.INSTANCE.createExchange(specification));
   }
 
   /**
@@ -40,7 +42,7 @@ public class RippleServerTrustTest {
    * REST API server, e.g. one running locally.
    */
   @Test
-  public void localServerTest() {
+  void localServerTest() {
     final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(""); // remove the default api.ripple.com connection
     specification.setPlainTextUri(RippleExchange.REST_API_LOCALHOST_PLAIN_TEXT);
@@ -61,7 +63,7 @@ public class RippleServerTrustTest {
    * break glass works.
    */
   @Test
-  public void breakGlassTest() {
+  void breakGlassTest() {
     final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(RippleExchange.REST_API_RIPPLE_LABS);
     specification.setSecretKey("s****************************");

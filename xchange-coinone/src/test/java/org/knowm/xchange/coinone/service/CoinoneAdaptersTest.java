@@ -3,19 +3,18 @@ package org.knowm.xchange.coinone.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinone.dto.account.CoinoneBalancesResponse;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBookData;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneTicker;
 
-public class CoinoneAdaptersTest {
+class CoinoneAdaptersTest {
 
   @Test
-  public void testTicker() throws IOException {
+  void ticker() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         CoinoneAdaptersTest.class.getResourceAsStream(
@@ -32,7 +31,7 @@ public class CoinoneAdaptersTest {
   }
 
   @Test
-  public void testOrderBook() throws IOException {
+  void orderBook() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         CoinoneAdaptersTest.class.getResourceAsStream(
@@ -49,7 +48,7 @@ public class CoinoneAdaptersTest {
   }
 
   @Test
-  public void wallet() throws IOException {
+  void wallet() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         CoinoneAdaptersTest.class.getResourceAsStream(

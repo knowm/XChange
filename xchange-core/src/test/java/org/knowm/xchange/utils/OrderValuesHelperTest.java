@@ -6,23 +6,23 @@ import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
-public class OrderValuesHelperTest {
+class OrderValuesHelperTest {
 
   private InstrumentMetaData pairMetaData;
   private OrderValuesHelper adjuster;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     pairMetaData = mock(InstrumentMetaData.class);
     adjuster = new OrderValuesHelper(pairMetaData);
   }
 
   @Test
-  public void shouldAdjustAmountToStepSize() {
+  void shouldAdjustAmountToStepSize() {
     // given
     given(pairMetaData.getAmountStepSize()).willReturn(new BigDecimal("0.001"));
     given(pairMetaData.getVolumeScale()).willReturn(null);
@@ -35,7 +35,7 @@ public class OrderValuesHelperTest {
   }
 
   @Test
-  public void shouldAdjustAmountToScale() {
+  void shouldAdjustAmountToScale() {
     // given
     given(pairMetaData.getAmountStepSize()).willReturn(null);
     given(pairMetaData.getVolumeScale()).willReturn(5);
@@ -48,7 +48,7 @@ public class OrderValuesHelperTest {
   }
 
   @Test
-  public void shouldAdjustAmountToMaximal() {
+  void shouldAdjustAmountToMaximal() {
     // given
     BigDecimal minimal = new BigDecimal("100");
     given(pairMetaData.getMaximumAmount()).willReturn(minimal);
@@ -62,7 +62,7 @@ public class OrderValuesHelperTest {
   }
 
   @Test
-  public void shouldAdjustPriceToScale() {
+  void shouldAdjustPriceToScale() {
     // given
     given(pairMetaData.getPriceScale()).willReturn(2);
 

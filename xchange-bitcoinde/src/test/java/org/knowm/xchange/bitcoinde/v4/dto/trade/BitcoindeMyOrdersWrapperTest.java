@@ -2,23 +2,19 @@ package org.knowm.xchange.bitcoinde.v4.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderState;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindePage;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindePaymentOption;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeTrustLevel;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class BitcoindeMyOrdersWrapperTest {
+class BitcoindeMyOrdersWrapperTest {
 
   @Test
-  public void testBitcoindeMyOrdersWrapper()
-      throws JsonParseException, JsonMappingException, IOException {
+  void bitcoindeMyOrdersWrapper() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeMyOrdersWrapperTest.class.getResourceAsStream(

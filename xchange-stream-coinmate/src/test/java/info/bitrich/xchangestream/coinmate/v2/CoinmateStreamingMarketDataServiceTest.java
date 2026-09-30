@@ -14,17 +14,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class CoinmateStreamingMarketDataServiceTest {
+class CoinmateStreamingMarketDataServiceTest {
 
   @Test
-  public void testGetOrderBook() throws Exception {
+  void getOrderBook() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
 
     // Given order book in JSON
@@ -100,7 +100,7 @@ public class CoinmateStreamingMarketDataServiceTest {
   }
 
   @Test
-  public void testGetTrades() throws Exception {
+  void getTrades() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
 
     String trade =

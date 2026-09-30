@@ -13,10 +13,10 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 
-public class CryptoComMarketDataServiceTest {
+class CryptoComMarketDataServiceTest {
 
   @Test
-  public void getOrderBook_rejectsNonCurrencyPairInstrument() {
+  void getOrderBook_rejectsNonCurrencyPairInstrument() {
     CryptoComMarketDataService service = newService();
     Instrument futures = new FuturesContract("BTC/USD/PERP");
 
@@ -25,7 +25,7 @@ public class CryptoComMarketDataServiceTest {
   }
 
   @Test
-  public void getTrades_rejectsNonCurrencyPairInstrument() {
+  void getTrades_rejectsNonCurrencyPairInstrument() {
     CryptoComMarketDataService service = newService();
     Instrument futures = new FuturesContract("BTC/USD/PERP");
 

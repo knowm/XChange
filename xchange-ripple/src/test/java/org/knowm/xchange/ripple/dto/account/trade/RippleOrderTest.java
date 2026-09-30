@@ -3,10 +3,8 @@ package org.knowm.xchange.ripple.dto.account.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.trade.RippleAccountOrders;
@@ -16,10 +14,10 @@ import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderResponseBody;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderTransaction;
 
-public class RippleOrderTest {
+class RippleOrderTest {
 
   @Test
-  public void orderEntryResponseUnmarshalTest() throws IOException {
+  void orderEntryResponseUnmarshalTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()
@@ -53,7 +51,7 @@ public class RippleOrderTest {
   }
 
   @Test
-  public void orderCancelResponseUnmarshalTest() throws IOException {
+  void orderCancelResponseUnmarshalTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()
@@ -77,7 +75,7 @@ public class RippleOrderTest {
   }
 
   @Test
-  public void accountOrdersUnmarshalTest() throws IOException {
+  void accountOrdersUnmarshalTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()
@@ -123,7 +121,7 @@ public class RippleOrderTest {
   }
 
   @Test
-  public void orderTransactionUnmarshalTest() throws IOException, ParseException {
+  void orderTransactionUnmarshalTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()

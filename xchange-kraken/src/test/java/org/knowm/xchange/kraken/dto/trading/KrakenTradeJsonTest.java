@@ -1,10 +1,8 @@
 package org.knowm.xchange.kraken.dto.trading;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,10 +21,10 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
 
-public class KrakenTradeJsonTest {
+class KrakenTradeJsonTest {
 
   @Test
-  public void testOrderUnmarshall() throws IOException {
+  void orderUnmarshall() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -59,7 +57,7 @@ public class KrakenTradeJsonTest {
   }
 
   @Test
-  public void testTradeHistoryUnmarshal() throws IOException {
+  void tradeHistoryUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -87,7 +85,7 @@ public class KrakenTradeJsonTest {
   }
 
   @Test
-  public void testCancelOrderUnmarshal() throws IOException {
+  void cancelOrderUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -100,11 +98,11 @@ public class KrakenTradeJsonTest {
     KrakenCancelOrderResponse cancelOrderResponse = krakenResult.getResult();
 
     assertThat(cancelOrderResponse.getCount()).isEqualTo(1);
-    assertFalse(cancelOrderResponse.isPending());
+    assertThat(cancelOrderResponse.isPending()).isFalse();
   }
 
   @Test
-  public void testAddOrderResponseUnmarshal() throws IOException {
+  void addOrderResponseUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

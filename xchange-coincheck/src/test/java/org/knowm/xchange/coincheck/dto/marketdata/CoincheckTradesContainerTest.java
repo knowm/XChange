@@ -2,18 +2,17 @@ package org.knowm.xchange.coincheck.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coincheck.CoincheckTestUtil;
 
 /** Tests CoincheckOrderBook JSON parsing */
-public class CoincheckTradesContainerTest {
+class CoincheckTradesContainerTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
     // Read in the JSON from the example resources.
     CoincheckTradesContainer container =
         CoincheckTestUtil.load(

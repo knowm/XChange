@@ -19,7 +19,7 @@ import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();

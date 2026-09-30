@@ -31,7 +31,7 @@ class GateioStreamingAccountServiceTest {
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     gateioStreamingAccountService = new GateioStreamingAccountService(gateioStreamingService);
   }
 

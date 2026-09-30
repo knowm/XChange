@@ -1,24 +1,19 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PoloniexUserTradeTest {
+class PoloniexUserTradeTest {
 
   @Test
-  public void testTradeHistoryMultiPair()
-      throws JsonParseException, JsonMappingException, IOException {
+  void tradeHistoryMultiPair() throws Exception {
 
     final InputStream is =
         PoloniexUserTrade.class.getResourceAsStream(
@@ -45,14 +40,13 @@ public class PoloniexUserTradeTest {
     assertThat(trade.getRate()).isEqualTo("0.00583818");
     assertThat(trade.getAmount()).isEqualTo("0.03510854");
     assertThat(trade.getTotal()).isEqualTo("0.00020497");
-    assertTrue(trade.getFee().compareTo(BigDecimal.valueOf(0.002)) == 0);
+    assertThat(trade.getFee().compareTo(BigDecimal.valueOf(0.002))).isEqualTo(0);
     assertThat(trade.getOrderNumber()).isEqualTo("19961972");
     assertThat(trade.getType()).isEqualTo("buy");
   }
 
   @Test
-  public void testTradeHistorySinglePair()
-      throws JsonParseException, JsonMappingException, IOException {
+  void tradeHistorySinglePair() throws Exception {
 
     final InputStream is =
         PoloniexUserTrade.class.getResourceAsStream(
@@ -70,7 +64,7 @@ public class PoloniexUserTradeTest {
     assertThat(trade.getRate()).isEqualTo("0.01026896");
     assertThat(trade.getAmount()).isEqualTo("0.01000000");
     assertThat(trade.getTotal()).isEqualTo("0.00010269");
-    assertTrue(trade.getFee().compareTo(BigDecimal.valueOf(0.002)) == 0);
+    assertThat(trade.getFee().compareTo(BigDecimal.valueOf(0.002))).isEqualTo(0);
     assertThat(trade.getOrderNumber()).isEqualTo("17730787");
     assertThat(trade.getType()).isEqualTo("sell");
   }

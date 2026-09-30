@@ -3,18 +3,17 @@ package org.knowm.xchange.kucoin.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kucoin.dto.response.KucoinEarnHolding;
 import org.knowm.xchange.kucoin.dto.response.KucoinEarnHoldingsResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 
-public class KucoinEarnHoldingsJSONTest {
+class KucoinEarnHoldingsJSONTest {
 
   @Test
-  public void testEarnHoldingsUnmarshal() throws IOException {
+  void earnHoldingsUnmarshal() throws Exception {
     InputStream is =
         KucoinEarnHoldingsJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/kucoin/dto/account/example-earn-holdings.json");

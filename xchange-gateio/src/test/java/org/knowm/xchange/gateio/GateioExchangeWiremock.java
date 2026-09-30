@@ -2,11 +2,11 @@ package org.knowm.xchange.gateio;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
-import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.recording.RecordSpecBuilder;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
@@ -17,13 +17,17 @@ public abstract class GateioExchangeWiremock {
 
   private static final boolean IS_RECORDING = false;
 
-  @ClassRule
-  public static WireMockClassRule wireMockRule = new WireMockClassRule(options().dynamicPort());
+  @RegisterExtension
+  public static WireMockExtension wireMockRule =
+      WireMockExtension.newInstance()
+          .options(options().dynamicPort())
+          .configureStaticDsl(true)
+          .build();
 
-  @BeforeClass
+  @BeforeAll
   public static void initExchange() {
     ExchangeSpecification exSpec = new ExchangeSpecification(GateioExchange.class);
-    exSpec.setSslUri("http://localhost:" + wireMockRule.port());
+    exSpec.setSslUri("http://localhost:" + wireMockRule.getPort());
 
     if (IS_RECORDING) {
       // use default url and record the requests
@@ -38,7 +42,7 @@ public abstract class GateioExchangeWiremock {
     exchange = (GateioExchange) ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
-  @AfterClass
+  @AfterAll
   public static void stop() {
     if (IS_RECORDING) {
       wireMockRule.stopRecording();

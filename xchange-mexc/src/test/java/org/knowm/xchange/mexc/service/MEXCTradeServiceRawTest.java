@@ -5,19 +5,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrder;
 import org.knowm.xchange.mexc.dto.trade.MEXCOrderRequestPayload;
 
-public class MEXCTradeServiceRawTest extends BaseWiremockTest {
+class MEXCTradeServiceRawTest extends BaseWiremockTest {
 
   @Test
-  public void testGetMEXCTradeServiceRawOrder() throws IOException {
+  void getMEXCTradeServiceRawOrder() throws Exception {
     Exchange mexcExchange = createExchange();
     MEXCTradeServiceRaw mexcAccountServiceRaw = new MEXCTradeServiceRaw(mexcExchange);
 
@@ -109,7 +108,7 @@ public class MEXCTradeServiceRawTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testPlaceMEXCTradeServiceRawOrder() throws IOException {
+  void placeMEXCTradeServiceRawOrder() throws Exception {
     Exchange mexcExchange = createExchange();
     MEXCTradeServiceRaw mexcTradeServiceRaw = new MEXCTradeServiceRaw(mexcExchange);
 

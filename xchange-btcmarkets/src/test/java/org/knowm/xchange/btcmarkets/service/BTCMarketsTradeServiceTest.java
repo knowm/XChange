@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsOrderFlags;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
@@ -27,10 +26,10 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.mockito.Mockito;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
+class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
 
   @Test
-  public void shouldPlaceMarketOrder() throws IOException {
+  void shouldPlaceMarketOrder() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_AUD)
             .originalAmount(new BigDecimal("10.00000000"))
@@ -57,7 +56,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldPlaceLimitOrder() throws IOException {
+  void shouldPlaceLimitOrder() throws Exception {
     // given
     LimitOrder limitOrder =
         new LimitOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_AUD)
@@ -98,7 +97,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldPlaceLimitOrderWithUserReference() throws IOException {
+  void shouldPlaceLimitOrderWithUserReference() throws Exception {
     // given
     LimitOrder limitOrder =
         new LimitOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_AUD)
@@ -140,7 +139,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldPlaceLimitOrderWithPostOnlyFlag() throws IOException {
+  void shouldPlaceLimitOrderWithPostOnlyFlag() throws Exception {
     // given
     LimitOrder limitOrder =
         new LimitOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_AUD)
@@ -182,7 +181,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldCancelOrder() throws IOException {
+  void shouldCancelOrder() throws Exception {
     // given
     BTCMarketsCancelOrderRequest cancelOrderRequest = new BTCMarketsCancelOrderRequest(111L);
 
@@ -208,7 +207,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldCreateHistoryParams() {
+  void shouldCreateHistoryParams() {
     // when
     BTCMarketsTradeService.HistoryParams historyParams =
         btcMarketsTradeService.createTradeHistoryParams();
@@ -218,7 +217,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldGetOrderDetails() throws IOException {
+  void shouldGetOrderDetails() throws Exception {
     // given
     List<Long> orderIds = new ArrayList<>();
     orderIds.add(1000L);

@@ -9,24 +9,23 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import io.reactivex.rxjava3.observers.TestObserver;
-import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 
-public class BitfinexStreamingServiceTest {
+class BitfinexStreamingServiceTest {
 
   private BitfinexStreamingService service;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     service = new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, null);
   }
 
   @Test
-  public void testGetOrders() throws Exception {
+  void getOrders() throws Exception {
 
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -58,7 +57,7 @@ public class BitfinexStreamingServiceTest {
   }
 
   @Test
-  public void testGetPreTrades() throws Exception {
+  void getPreTrades() throws Exception {
 
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -83,7 +82,7 @@ public class BitfinexStreamingServiceTest {
   }
 
   @Test
-  public void testGetTrades() throws Exception {
+  void getTrades() throws Exception {
 
     JsonNode jsonNode =
         objectMapper.readTree(ClassLoader.getSystemClassLoader().getResourceAsStream("trade.json"));
@@ -109,7 +108,7 @@ public class BitfinexStreamingServiceTest {
   }
 
   @Test
-  public void testGetBalances() throws Exception {
+  void getBalances() throws Exception {
     JsonNode jsonNode =
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("balances.json"));
@@ -132,7 +131,7 @@ public class BitfinexStreamingServiceTest {
   }
 
   @Test
-  public void testGetBalance() throws IOException {
+  void getBalance() throws Exception {
     JsonNode jsonNode =
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("balance.json"));

@@ -3,16 +3,15 @@ package org.knowm.xchange.ripple.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RippleAccountTest {
+class RippleAccountTest {
 
   @Test
-  public void unmarshalBalancesTest() throws IOException {
+  void unmarshalBalancesTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()
@@ -49,7 +48,7 @@ public class RippleAccountTest {
   }
 
   @Test
-  public void unmarshalSettingsTest() throws IOException {
+  void unmarshalSettingsTest() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         getClass()

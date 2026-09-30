@@ -2,22 +2,19 @@ package org.knowm.xchange.poloniex.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 
 public class PoloniexLoansDataTest {
 
   @Test
-  public void testUnmarshallLoans() throws JsonParseException, JsonMappingException, IOException {
+  void unmarshallLoans() throws Exception {
 
     final InputStream is =
         PoloniexLoansDataTest.class.getResourceAsStream(

@@ -3,7 +3,6 @@ package org.knowm.xchange.bitget.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitget.BitgetIntegrationTestParent;
@@ -17,7 +16,7 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
       (BitgetMarketDataServiceRaw) exchange.getMarketDataService();
 
   @Test
-  void valid_coins() throws IOException {
+  void valid_coins() throws Exception {
     List<BitgetCoinDto> coins = bitgetMarketDataServiceRaw.getBitgetCoinDtoList(null);
 
     assertThat(coins).isNotEmpty();
@@ -39,7 +38,7 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
   }
 
   @Test
-  void valid_coin() throws IOException {
+  void valid_coin() throws Exception {
     List<BitgetCoinDto> coins = bitgetMarketDataServiceRaw.getBitgetCoinDtoList(Currency.USDT);
 
     assertThat(coins).hasSize(1);
@@ -54,7 +53,7 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
   }
 
   @Test
-  void valid_symbol() throws IOException {
+  void valid_symbol() throws Exception {
     List<BitgetSymbolDto> symbols = bitgetMarketDataServiceRaw.getBitgetSymbolDtos(BTC_USDT);
 
     assertThat(symbols).hasSize(1);
@@ -67,7 +66,7 @@ class BitgetMarketDataServiceRawIntegration extends BitgetIntegrationTestParent 
   }
 
   @Test
-  void valid_symbols() throws IOException {
+  void valid_symbols() throws Exception {
     List<BitgetSymbolDto> symbols = bitgetMarketDataServiceRaw.getBitgetSymbolDtos(null);
 
     assertThat(symbols).isNotEmpty();

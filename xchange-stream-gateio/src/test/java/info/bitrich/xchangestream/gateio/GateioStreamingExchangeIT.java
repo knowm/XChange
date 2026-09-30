@@ -14,7 +14,7 @@ public class GateioStreamingExchangeIT {
   public static GateioStreamingExchange exchange;
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     try {
 
       ExchangeSpecification spec =
@@ -39,7 +39,7 @@ public class GateioStreamingExchangeIT {
   }
 
   @AfterAll
-  public static void cleanup() {
+  static void cleanup() {
     if (exchange.isAlive()) {
       exchange.disconnect().blockingAwait();
     }

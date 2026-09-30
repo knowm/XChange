@@ -3,7 +3,6 @@ package org.knowm.xchange.kraken.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,12 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
-public class KrakenAssetPairsJSONTest {
+class KrakenAssetPairsJSONTest {
 
   private KrakenAssetPair expectedAssetPairInfo;
 
   @BeforeEach
-  public void before() {
+  void before() {
 
     List<KrakenFee> fees = new ArrayList<>();
     fees.add(new KrakenFee(new BigDecimal("0"), new BigDecimal("0.26")));
@@ -52,7 +51,7 @@ public class KrakenAssetPairsJSONTest {
   }
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

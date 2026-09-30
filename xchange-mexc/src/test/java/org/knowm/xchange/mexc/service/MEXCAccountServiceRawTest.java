@@ -3,17 +3,16 @@ package org.knowm.xchange.mexc.service;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.mexc.dto.MEXCResult;
 import org.knowm.xchange.mexc.dto.account.MEXCBalance;
 
-public class MEXCAccountServiceRawTest extends BaseWiremockTest {
+class MEXCAccountServiceRawTest extends BaseWiremockTest {
 
   @Test
-  public void testGetWalletBalances() throws IOException {
+  void getWalletBalances() throws Exception {
     Exchange mexcExchange = createExchange();
     MEXCAccountServiceRaw mexcAccountServiceRaw = new MEXCAccountServiceRaw(mexcExchange);
 

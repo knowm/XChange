@@ -14,10 +14,10 @@ import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 
-public class KrakenBaseServiceTest {
+class KrakenBaseServiceTest {
 
   @Test
-  public void testDelimitSetOrderFlags() {
+  void delimitSetOrderFlags() {
 
     ExchangeSpecification specification = new ExchangeSpecification(KrakenExchange.class);
     specification.setShouldLoadRemoteMetaData(false);

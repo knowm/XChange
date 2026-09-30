@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -29,12 +29,12 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.instrument.Instrument;
 
-public class GateioAdapterTest {
+class GateioAdapterTest {
 
   Collection<Instrument> currencyPairs;
 
-  @Before
-  public void before() throws JsonParseException, JsonMappingException, IOException {
+  @BeforeEach
+  void before() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -49,7 +49,7 @@ public class GateioAdapterTest {
   }
 
   @Test
-  public void testAdaptOpenOrders() throws IOException {
+  void adaptOpenOrders() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -74,7 +74,7 @@ public class GateioAdapterTest {
   }
 
   @Test
-  public void testAdaptTrades() throws IOException {
+  void adaptTrades() throws Exception {
 
     InputStream is =
         GateioAdapterTest.class.getResourceAsStream(
@@ -99,7 +99,7 @@ public class GateioAdapterTest {
   }
 
   @Test
-  public void testAdaptAccountInfo() throws IOException {
+  void adaptAccountInfo() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -128,7 +128,7 @@ public class GateioAdapterTest {
   }
 
   @Test
-  public void testAdaptOrderBook() throws IOException {
+  void adaptOrderBook() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

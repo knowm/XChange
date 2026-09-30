@@ -8,20 +8,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
-public class BitcoinAverageAuthenticationTest {
+class BitcoinAverageAuthenticationTest {
 
   private static final String BITCOINAVERAGE_SECRET_KEY = "BITCOINAVERAGE_SECRET_KEY";
   private static final String BITCOINAVERAGE_PUBLIC_KEY = "BITCOINAVERAGE_PUBLIC_KEY";
 
   @Test
-  public void testTickerAdapter() throws Exception {
+  void tickerAdapter() throws Exception {
 
     String secretKey = System.getenv(BITCOINAVERAGE_SECRET_KEY);
     String publicKey = System.getenv(BITCOINAVERAGE_PUBLIC_KEY);
-    Assume.assumeTrue(secretKey != null && publicKey != null);
+    Assumptions.assumeTrue(secretKey != null && publicKey != null);
 
     String signature = getSignature(secretKey, publicKey);
 

@@ -2,16 +2,16 @@ package org.knowm.xchange.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 /** Test class for CurrencyPairDeserializer */
-public class CurrencyPairDeserializerTest {
+class CurrencyPairDeserializerTest {
 
   @Test
-  public void testCurrencyPairFromString() {
+  void currencyPairFromString() {
 
     CurrencyPair currencyPair;
 

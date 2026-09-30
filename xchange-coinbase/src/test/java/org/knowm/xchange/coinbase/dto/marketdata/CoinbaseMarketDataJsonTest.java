@@ -5,23 +5,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapLikeType;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMarketDataJsonTest {
+class CoinbaseMarketDataJsonTest {
 
   @Test
-  public void testDeserializeExchangeRates() throws IOException {
+  void deserializeExchangeRates() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -41,7 +40,7 @@ public class CoinbaseMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializeCurrencies() throws IOException {
+  void deserializeCurrencies() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -62,7 +61,7 @@ public class CoinbaseMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializePrice() throws IOException {
+  void deserializePrice() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -84,7 +83,7 @@ public class CoinbaseMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializeSpotRateHistory() throws IOException {
+  void deserializeSpotRateHistory() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

@@ -5,16 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
-
-public class GateioSpotFeeTest {
+class GateioSpotFeeTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
     InputStream is = getClass().getResourceAsStream("/__files/api_v4_spot_fee.json");
     ObjectMapper mapper = new ObjectMapper();
     GateioSpotFee gateioSpotFee = mapper.readValue(is, GateioSpotFee.class);

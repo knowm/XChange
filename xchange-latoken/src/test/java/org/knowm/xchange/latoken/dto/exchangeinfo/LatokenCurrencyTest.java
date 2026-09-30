@@ -1,19 +1,19 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenCurrencyTest {
+class LatokenCurrencyTest {
 
   LatokenCurrency currency;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -25,42 +25,42 @@ public class LatokenCurrencyTest {
   }
 
   @Test
-  public void testLatokenCurrency() {
-    assertNotNull(currency);
+  void latokenCurrency() {
+    assertThat(currency).isNotNull();
   }
 
   @Test
-  public void testGetCurrencyId() {
-    assertNotNull(currency.getCurrencyId());
+  void getCurrencyId() {
+    assertThat(currency.getCurrencyId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(currency.getSymbol());
+  void getSymbol() {
+    assertThat(currency.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetName() {
-    assertNotNull(currency.getName());
+  void getName() {
+    assertThat(currency.getName()).isNotNull();
   }
 
   @Test
-  public void testGetPrecision() {
-    assertNotNull(currency.getPrecision());
+  void getPrecision() {
+    assertThat(currency.getPrecision()).isNotNull();
   }
 
   @Test
-  public void testGetType() {
-    assertNotNull(currency.getType());
+  void getType() {
+    assertThat(currency.getType()).isNotNull();
   }
 
   @Test
-  public void testGetFee() {
-    assertNotNull(currency.getFee());
+  void getFee() {
+    assertThat(currency.getFee()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(currency.toString());
+  void testToString() {
+    assertThat(currency.toString()).isNotNull();
   }
 }

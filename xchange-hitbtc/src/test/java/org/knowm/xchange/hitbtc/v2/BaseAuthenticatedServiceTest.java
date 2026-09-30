@@ -1,6 +1,6 @@
 package org.knowm.xchange.hitbtc.v2;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
@@ -17,8 +17,8 @@ public class BaseAuthenticatedServiceTest extends BaseServiceTest {
     return System.getProperty(SECRET_KEY);
   }
 
-  @BeforeClass
-  public static void setUpBaseClass() {
+  @BeforeAll
+  static void setUpBaseClass() {
 
     exchangeSpecification = new ExchangeSpecification(HitbtcExchange.class);
     exchangeSpecification.setApiKey(getApiKey());

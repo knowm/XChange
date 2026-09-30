@@ -3,9 +3,8 @@ package org.knowm.xchange.bibox.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bibox.BiboxTestUtils;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 
@@ -14,10 +13,10 @@ import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
  *
  * @author odrotleff
  */
-public class BiboxTradeUnmarshalTest {
+class BiboxTradeUnmarshalTest {
 
   @Test
-  public void testOpenOrdersUnmarshal() throws IOException {
+  void openOrdersUnmarshal() throws Exception {
 
     BiboxSingleResponse<BiboxOrders> response =
         BiboxTestUtils.getResponse(
@@ -60,7 +59,7 @@ public class BiboxTradeUnmarshalTest {
   }
 
   @Test
-  public void testTradeHistoryUnmarshal() throws IOException {
+  void tradeHistoryUnmarshal() throws Exception {
 
     BiboxSingleResponse<BiboxOrders> response =
         BiboxTestUtils.getResponse(

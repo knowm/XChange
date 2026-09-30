@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Calendar;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -15,7 +15,7 @@ import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
 
-public class RippleTradeHistoryIntegration {
+class RippleTradeHistoryIntegration {
 
   // The number of trades returned by this test depends on the recent trading activity of the
   // example
@@ -23,7 +23,7 @@ public class RippleTradeHistoryIntegration {
   // found.
 
   @Test
-  public void getTradeHistoryTest() throws Exception {
+  void getTradeHistoryTest() throws Exception {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final TradeService tradeService = exchange.getTradeService();
 

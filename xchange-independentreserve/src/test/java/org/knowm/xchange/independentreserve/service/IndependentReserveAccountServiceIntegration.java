@@ -1,21 +1,21 @@
 package org.knowm.xchange.independentreserve.service;
 
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.independentreserve.IndependentReserveExchange;
 import org.knowm.xchange.utils.AuthUtils;
 
-public class IndependentReserveAccountServiceIntegration {
+class IndependentReserveAccountServiceIntegration {
 
   static Exchange exchange;
   static IndependentReserveAccountService accountService;
 
-  @BeforeClass
-  public static void beforeClass() {
+  @BeforeAll
+  static void beforeClass() {
     exchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification());
     exchange = ExchangeFactory.INSTANCE.createExchange(exchange.getExchangeSpecification());
@@ -23,16 +23,16 @@ public class IndependentReserveAccountServiceIntegration {
   }
 
   @Test
-  public void testGetOpenOrders() throws Exception {
+  void getOpenOrders() throws Exception {
 
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
 
     accountService.getAccountInfo();
   }
 
   @Test
-  public void getFudingHistoryWithGivenCurrency() throws Exception {
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+  void getFudingHistoryWithGivenCurrency() throws Exception {
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
 
     IndependentReserveAccountService.IndependentReserveTradeHistoryParams params =
         (IndependentReserveAccountService.IndependentReserveTradeHistoryParams)
@@ -42,8 +42,8 @@ public class IndependentReserveAccountServiceIntegration {
   }
 
   @Test
-  public void getFudingHistoryWithoutCurrency() throws Exception {
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+  void getFudingHistoryWithoutCurrency() throws Exception {
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
 
     IndependentReserveAccountService.IndependentReserveTradeHistoryParams params =
         (IndependentReserveAccountService.IndependentReserveTradeHistoryParams)

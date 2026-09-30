@@ -2,17 +2,13 @@ package org.knowm.xchange.okcoin.service.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -22,11 +18,10 @@ import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
 
-public class OkCoinAdaptersTest {
+class OkCoinAdaptersTest {
 
   @Test
-  public void testAdaptFundingHistory()
-      throws JsonParseException, JsonMappingException, IOException {
+  void adaptFundingHistory() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
 
     InputStream is =
@@ -68,7 +63,7 @@ public class OkCoinAdaptersTest {
   }
 
   @Test
-  public void testAdaptOrderBook() {
+  void adaptOrderBook() {
     BigDecimal ask1Price = new BigDecimal("8");
     BigDecimal ask1Amount = new BigDecimal("28");
     BigDecimal ask2Price = new BigDecimal("5");
@@ -90,48 +85,72 @@ public class OkCoinAdaptersTest {
 
     OrderBook orderBook = OkCoinAdapters.adaptOrderBook(depth, CurrencyPair.ETH_BTC);
 
-    Assert.assertEquals(orderBook.getAsks().size(), asks.length);
-    Assert.assertTrue(
-        orderBook
-            .getAsks()
-            .contains(
-                new LimitOrder(
-                    Order.OrderType.ASK, ask1Amount, CurrencyPair.ETH_BTC, null, date, ask1Price)));
-    Assert.assertTrue(
-        orderBook
-            .getAsks()
-            .contains(
-                new LimitOrder(
-                    Order.OrderType.ASK, ask2Amount, CurrencyPair.ETH_BTC, null, date, ask2Price)));
-    Assert.assertTrue(
-        orderBook
-            .getAsks()
-            .contains(
-                new LimitOrder(
-                    Order.OrderType.ASK, ask3Amount, CurrencyPair.ETH_BTC, null, date, ask3Price)));
-    Assert.assertTrue(
-        orderBook.getAsks().stream()
-            .sorted()
-            .collect(Collectors.toList())
-            .equals(orderBook.getAsks()));
+    assertThat(asks.length).isEqualTo(orderBook.getAsks().size());
+    assertThat(
+            orderBook
+                .getAsks()
+                .contains(
+                    new LimitOrder(
+                        Order.OrderType.ASK,
+                        ask1Amount,
+                        CurrencyPair.ETH_BTC,
+                        null,
+                        date,
+                        ask1Price)))
+        .isTrue();
+    assertThat(
+            orderBook
+                .getAsks()
+                .contains(
+                    new LimitOrder(
+                        Order.OrderType.ASK,
+                        ask2Amount,
+                        CurrencyPair.ETH_BTC,
+                        null,
+                        date,
+                        ask2Price)))
+        .isTrue();
+    assertThat(
+            orderBook
+                .getAsks()
+                .contains(
+                    new LimitOrder(
+                        Order.OrderType.ASK,
+                        ask3Amount,
+                        CurrencyPair.ETH_BTC,
+                        null,
+                        date,
+                        ask3Price)))
+        .isTrue();
+    assertThat(orderBook.getAsks())
+        .isEqualTo(orderBook.getAsks().stream().sorted().collect(Collectors.toList()));
 
-    Assert.assertEquals(orderBook.getBids().size(), bids.length);
-    Assert.assertTrue(
-        orderBook
-            .getBids()
-            .contains(
-                new LimitOrder(
-                    Order.OrderType.BID, bid1Amount, CurrencyPair.ETH_BTC, null, date, bid1Price)));
-    Assert.assertTrue(
-        orderBook
-            .getBids()
-            .contains(
-                new LimitOrder(
-                    Order.OrderType.BID, bid2Amount, CurrencyPair.ETH_BTC, null, date, bid2Price)));
-    Assert.assertTrue(
-        orderBook.getBids().stream()
-            .sorted()
-            .collect(Collectors.toList())
-            .equals(orderBook.getBids()));
+    assertThat(bids.length).isEqualTo(orderBook.getBids().size());
+    assertThat(
+            orderBook
+                .getBids()
+                .contains(
+                    new LimitOrder(
+                        Order.OrderType.BID,
+                        bid1Amount,
+                        CurrencyPair.ETH_BTC,
+                        null,
+                        date,
+                        bid1Price)))
+        .isTrue();
+    assertThat(
+            orderBook
+                .getBids()
+                .contains(
+                    new LimitOrder(
+                        Order.OrderType.BID,
+                        bid2Amount,
+                        CurrencyPair.ETH_BTC,
+                        null,
+                        date,
+                        bid2Price)))
+        .isTrue();
+    assertThat(orderBook.getBids())
+        .isEqualTo(orderBook.getBids().stream().sorted().collect(Collectors.toList()));
   }
 }
