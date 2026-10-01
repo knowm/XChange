@@ -151,7 +151,7 @@
         <version.github.mmazi>3.1</version.github.mmazi>
 
         <version.java>17</version.java>
-        <version.java-jwt>4.6.0</version.java-jwt>
+        <version.java-jwt>4.6.1</version.java-jwt>
         <version.junit>6.1.3</version.junit>
         <version.knowm.xchart>4.0.4</version.knowm.xchart>
         <version.lombok>1.18.48</version.lombok>
