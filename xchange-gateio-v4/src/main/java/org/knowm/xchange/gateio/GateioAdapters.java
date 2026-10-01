@@ -23,7 +23,6 @@ import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Date;
@@ -308,14 +307,16 @@ public class GateioAdapters {
 
     if (status == OrderStatus.FILLED || status == OrderStatus.PARTIALLY_FILLED) {
       if (orderType == OrderType.BID) {
+        // It is better not to pass anything than a calculated value that is incorrect.
+//        BigDecimal originalAmount =
+//            gateioOrder
+//                .getFilledTotalQuote()
+//                .divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
         builder.cumulativeAmount(gateioOrder.getFilledAmount())
-            .originalAmount(gateioOrder.getFilledAmount());
+            .originalAmount(null);
       } else if (orderType == OrderType.ASK) {
-        BigDecimal filledAssetAmount =
-            gateioOrder
-                .getFilledTotalQuote()
-                .divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
-        builder.cumulativeAmount(filledAssetAmount);
+        builder.cumulativeAmount(gateioOrder.getFilledAmount())
+            .originalAmount(gateioOrder.getAmount());
       } else {
         throw new IllegalArgumentException("Can't map " + orderType);
       }
