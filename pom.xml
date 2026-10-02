@@ -48,7 +48,6 @@
         <module>xchange-bithumb</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
-        <module>xchange-bity</module>
         <module>xchange-blockchain</module>
         <module>xchange-btcmarkets</module>
         <module>xchange-btcturk</module>
