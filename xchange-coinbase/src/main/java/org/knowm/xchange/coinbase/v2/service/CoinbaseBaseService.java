@@ -8,7 +8,7 @@ import java.util.List;
 import javax.crypto.Mac;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.coinbase.service.CoinbaseDigest;
+import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
 import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
@@ -69,7 +69,7 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
   protected String getSignature(BigDecimal timestamp, HttpMethod method, String path, String body) {
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
     String message = timestamp + method.toString() + path + (body != null ? body : "");
-    final Mac mac = CoinbaseDigest.createInstance(secretKey).getMac();
+    final Mac mac = CoinbaseV2Digest.createInstance(secretKey).getMac();
     byte[] bytes = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
     return DigestUtils.bytesToHex(bytes);
   }

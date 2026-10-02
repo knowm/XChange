@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinbase.CoinbaseAdapters;
+import org.knowm.xchange.coinbase.v2.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
