@@ -85,7 +85,6 @@
         <module>xchange-openexchangerates</module>
         <module>xchange-paribu</module>
         <module>xchange-paymium</module>
-        <module>xchange-poloniex</module>
         <module>xchange-ripple</module>
         <module>xchange-simulated</module>
 
@@ -113,7 +112,6 @@
         <module>xchange-stream-krakenfutures</module>
         <module>xchange-stream-kucoin</module>
         <module>xchange-stream-okex</module>
-        <module>xchange-stream-poloniex2</module>
         <module>xchange-stream-service-core</module>
         <module>xchange-stream-service-netty</module>
         <module>xchange-truefx</module>
