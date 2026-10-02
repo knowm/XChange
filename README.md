@@ -200,7 +200,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    6.0.0-SNAPSHOT
+    6.0.1-SNAPSHOT
 
 ## Building with Maven
 
