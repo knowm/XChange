@@ -3,7 +3,7 @@ package org.knowm.xchange.coinbase.v2.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinbase.CoinbaseAdapters;
+import org.knowm.xchange.coinbase.v2.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import org.knowm.xchange.dto.Order;
