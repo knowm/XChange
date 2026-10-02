@@ -79,7 +79,6 @@
         <module>xchange-latoken</module>
         <module>xchange-luno</module>
         <module>xchange-mercadobitcoin</module>
-        <module>xchange-mexc</module>
         <module>xchange-okex</module>
         <module>xchange-openexchangerates</module>
         <module>xchange-paribu</module>

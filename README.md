@@ -26,7 +26,6 @@ Basic usage is very simple: Create an `Exchange` instance, get the appropriate s
 | deribit          | [![status](https://github.com/knowm/XChange/actions/workflows/deribit.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/deribit.yaml)                   |
 | gate.io          | [![status](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml)               |
 | kraken           | [![status](https://github.com/knowm/XChange/actions/workflows/kraken.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/kraken.yaml)                     |
-| mexc             | [![status](https://github.com/knowm/XChange/actions/workflows/mexc.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/mexc.yaml)                         |
 | stream-bitfinex  | [![status](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yml)    |
 | stream-deribit   | [![status](https://github.com/knowm/XChange/actions/workflows/stream-deribit.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-deribit.yml)      |
 | stream-kraken-v2 | [![status](https://github.com/knowm/XChange/actions/workflows/stream-kraken-v2.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-kraken-v2.yaml) |
