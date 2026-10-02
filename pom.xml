@@ -83,7 +83,6 @@
         <module>xchange-openexchangerates</module>
         <module>xchange-paribu</module>
         <module>xchange-paymium</module>
-        <module>xchange-ripple</module>
         <module>xchange-simulated</module>
 
         <module>xchange-stream-binance</module>
