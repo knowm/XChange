@@ -6,12 +6,13 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import java.time.Duration;
 
 public class GateioResilience {
-  public static final String ORDERS_RATE_LIMITER = "ordersPerSecond";
   public static final String DYNAMIC_TRADING_FEE_RATE_LIMITER = "dynamicTradingFee";
   public static final String LEVERAGE_RATE_LIMITER = "setLeverage";
   public static final String TICKERS_RATE_LIMITER = "tickers";
   public static final String FUNDING_HISTORY_RATE_LIMITER = "fundingHistory";
   public static final String CANDLESTICK_DATA_RATE_LIMITER = "candlestickData";
+  public static final String PLACE_ORDER = "placeOrder";
+  public static final String CANCEL_ORDER = "cancelOrder";
 
   public static ResilienceRegistries createRegistries(boolean isFutures) {
     ResilienceRegistries registries = new ResilienceRegistries();
@@ -60,27 +61,36 @@ public class GateioResilience {
                 .timeoutDuration(Duration.ofSeconds(0))
                 .limitForPeriod(200)
                 .build());
-    if (isFutures)
+    registries
+        .rateLimiters()
+        .rateLimiter(
+            CANCEL_ORDER,
+            RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .limitRefreshPeriod(Duration.ofSeconds(1))
+                .timeoutDuration(Duration.ofSeconds(0))
+                .limitForPeriod(200)
+                .build());
+    if (isFutures) {
       registries
           .rateLimiters()
           .rateLimiter(
-              ORDERS_RATE_LIMITER,
+              PLACE_ORDER,
               RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                   .limitRefreshPeriod(Duration.ofSeconds(1))
                   .timeoutDuration(Duration.ofSeconds(0))
                   .limitForPeriod(100)
                   .build());
-    else
+    } else {
       registries
           .rateLimiters()
           .rateLimiter(
-              ORDERS_RATE_LIMITER,
+              PLACE_ORDER,
               RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                   .limitRefreshPeriod(Duration.ofSeconds(1))
                   .timeoutDuration(Duration.ofSeconds(0))
                   .limitForPeriod(10)
                   .build());
-
+    }
     return registries;
   }
 }

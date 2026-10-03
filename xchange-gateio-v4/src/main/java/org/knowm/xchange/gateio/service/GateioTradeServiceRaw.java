@@ -15,7 +15,7 @@ import org.knowm.xchange.service.trade.params.*;
 import java.io.IOException;
 import java.util.*;
 
-import static org.knowm.xchange.gateio.GateioResilience.ORDERS_RATE_LIMITER;
+import static org.knowm.xchange.gateio.GateioResilience.PLACE_ORDER;
 
 public class GateioTradeServiceRaw extends GateioBaseService {
 
@@ -117,7 +117,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
         () ->
             gateioV4Authenticated.createOrder(
                 apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, gateioOrder))
-        .withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(PLACE_ORDER))
         .call();
   }
 
@@ -128,7 +128,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
         () ->
             gateioV4Authenticated.createFuturesOrder(
                 apiKey, exchange.getNonceFactory(), gateioV4ParamsDigest, null, settle, gateioFuturesOrder))
-        .withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(PLACE_ORDER))
         .call();
   }
 
@@ -182,7 +182,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
                 orderId,
                 GateioAdapters.toGateioInstrument(instrument),
                 request))
-        .withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(PLACE_ORDER))
         .call();
   }
 
@@ -197,7 +197,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
                 null,
                 settle,
                 orderId,
-                request)).withRateLimiter(rateLimiter(ORDERS_RATE_LIMITER))
+                request)).withRateLimiter(rateLimiter(PLACE_ORDER))
         .call();
   }
 }
