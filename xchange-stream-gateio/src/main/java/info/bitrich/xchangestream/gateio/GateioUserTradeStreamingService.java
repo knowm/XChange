@@ -15,6 +15,7 @@ import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
@@ -50,6 +51,7 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
   private final boolean isFuturesEnabled;
   private final String pingChannelName;
   private final String pongChannelName;
+  private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 
   public GateioUserTradeStreamingService(String privateApiUrl, String apiSecret,
@@ -152,11 +154,24 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
                     pingPongSrc.subscribe(o -> {
                       sendMessage(("{\"time\":" + System.currentTimeMillis() + ",\"channel\":\"" + pingChannelName + "\"}"));
                     });
+                Disposable disposable =
+                    subscribeDisconnect()
+                        .subscribe(
+                            obj -> {
+                              loginDone = false;
+                            });
+                compositeDisposable.add(disposable);
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
               }
             });
+  }
+
+  @Override
+  public Completable disconnect() {
+    compositeDisposable.dispose();
+    return super.disconnect();
   }
 
   public void login() throws JsonProcessingException {
@@ -223,9 +238,13 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
     }
   }
 
+  @Override
+  public void resubscribeChannels() {
+
+  }
 
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
-    return "";
+    return null;
   }
 }
