@@ -28,7 +28,6 @@ import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
-import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
@@ -36,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.gateio.config.Config.*;
 import static org.knowm.xchange.gateio.GateioResilience.CANCEL_ORDER;
@@ -103,23 +103,41 @@ public class GateioStreamingTradeService implements StreamingTradeService {
       BigDecimal contractValue = exchangeMetaData.getInstruments().get(limitOrder.getInstrument()).getContractValue();
       Observable<Integer> observable = userTradeStreamingService.subscribeChannel(FUTURES_ORDER_PLACE_CHANNEL, reqId,
               limitOrder, contractValue)
-          .flatMap(
-              node -> {
-                TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
-                    new TypeReference<>() {
-                    };
-                GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>> response =
-                    mapper.treeToValue(node, typeReference);
-                if (response != null && response.getHeader().getStatus().equals("200")) {
-                  return Observable.just(0);
+          .map(node -> {
+            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
+                new TypeReference<>() {
+                };
+            return mapper.treeToValue(node, typeReference);
+          })
+          .publish(shared ->
+              shared.take(1).flatMap(first -> {
+                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
+                  return shared.take(1)
+                      .map(second -> {
+                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
+                          return 0;
+                        } else {
+                          assert second != null;
+                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
+                          String label = (second.getData() != null && second.getData().getErrs() != null)
+                              ? second.getData().getErrs().getLabel()
+                              : null;
+                          return label != null ? GateioErrorLabels.convert(label) : -1;
+                        }
+                      })
+                      .timeout(1, TimeUnit.SECONDS, Observable.just(-1))
+                      .defaultIfEmpty(-1);
                 } else {
-                  assert response != null;
-                  LOG.info("Error placing order: {}", response.getData().getErrs());
-                  return Observable.just(GateioErrorLabels.convert(response.getData().getErrs().getLabel()));
+                  assert first != null;
+                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
+                  String label = (first.getData() != null && first.getData().getErrs() != null)
+                      ? first.getData().getErrs().getLabel()
+                      : null;
+                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
                 }
-              });
-      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER))))
-          .firstElement().toSingle();
+              })
+          );
+      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER)))).firstElement().toSingle();
     } else {
       throw new UnsupportedOperationException("Only future market orders are supported");
     }
@@ -140,42 +158,80 @@ public class GateioStreamingTradeService implements StreamingTradeService {
       BigDecimal contractValue = exchangeMetaData.getInstruments().get(marketOrder.getInstrument()).getContractValue();
       Observable<Integer> observable = userTradeStreamingService.subscribeChannel(FUTURES_ORDER_PLACE_CHANNEL, reqId,
               marketOrder, contractValue)
-          .flatMap(
-              node -> {
-                TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
-                    new TypeReference<>() {
-                    };
-                GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>> response =
-                    mapper.treeToValue(node, typeReference);
-                if (response != null && response.getHeader().getStatus().equals("200")) {
-                  return Observable.just(0);
+          .map(node -> {
+            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
+                new TypeReference<>() {
+                };
+            return mapper.treeToValue(node, typeReference);
+          })
+          .publish(shared ->
+              shared.take(1).flatMap(first -> {
+                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
+                  return shared.take(1)
+                      .map(second -> {
+                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
+                          return 0;
+                        } else {
+                          assert second != null;
+                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
+                          String label = (second.getData() != null && second.getData().getErrs() != null)
+                              ? second.getData().getErrs().getLabel()
+                              : null;
+                          return label != null ? GateioErrorLabels.convert(label) : -1;
+                        }
+                      })
+                      .timeout(1, TimeUnit.SECONDS, Observable.just(-1))
+                      .defaultIfEmpty(-1);
                 } else {
-                  assert response != null;
-                  LOG.info("Error placing order: {}", response.getData().getErrs());
-                  return Observable.just(GateioErrorLabels.convert(response.getData().getErrs().getLabel()));
+                  assert first != null;
+                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
+                  String label = (first.getData() != null && first.getData().getErrs() != null)
+                      ? first.getData().getErrs().getLabel()
+                      : null;
+                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
                 }
-              });
+              })
+          );
       return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER))))
           .firstElement().toSingle();
     } else {
       Observable<Integer> observable = userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId, marketOrder)
-          .flatMap(
-              node -> {
-                TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioSpotOrderRequest>>> typeReference =
-                    new TypeReference<>() {
-                    };
-                GateioUserTradeWsResponse<GateioWsOrderPayload<GateioSpotOrderRequest>> response =
-                    mapper.treeToValue(node, typeReference);
-                if (response != null && response.getHeader().getStatus().equals("200")) {
-                  return Observable.just(0);
+          .map(node -> {
+            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
+                new TypeReference<>() {
+                };
+            return mapper.treeToValue(node, typeReference);
+          })
+          .publish(shared ->
+              shared.take(1).flatMap(first -> {
+                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
+                  return shared.take(1)
+                      .map(second -> {
+                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
+                          return 0;
+                        } else {
+                          assert second != null;
+                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
+                          String label = (second.getData() != null && second.getData().getErrs() != null)
+                              ? second.getData().getErrs().getLabel()
+                              : null;
+                          return label != null ? GateioErrorLabels.convert(label) : -1;
+                        }
+                      })
+                      .timeout(1, TimeUnit.SECONDS, Observable.just(-1))
+                      .defaultIfEmpty(-1);
                 } else {
-                  assert response != null;
-                  LOG.info("Error placing order: {}", response.getData().getErrs().getLabel());
-                  return Observable.just(GateioErrorLabels.convert(response.getData().getErrs().getLabel()));
+                  assert first != null;
+                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
+                  String label = (first.getData() != null && first.getData().getErrs() != null)
+                      ? first.getData().getErrs().getLabel()
+                      : null;
+                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
                 }
-              });
+              })
+          );
       return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER))))
-          .first(-2);
+          .firstElement().toSingle();
     }
   }
 
@@ -221,7 +277,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
                   }
                 });
         return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((CANCEL_ORDER))))
-            .first(-2);
+            .firstElement().toSingle();
       } else
         throw new NotSupportedException("id or instrument is empty");
     } catch (GateioException e) {

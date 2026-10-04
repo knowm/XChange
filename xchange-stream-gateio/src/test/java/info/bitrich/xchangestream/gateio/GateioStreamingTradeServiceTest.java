@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.gateio;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
@@ -7,7 +8,9 @@ import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderF
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,19 +35,21 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.dto.Order.OrderStatus.FILLED;
 import static org.knowm.xchange.dto.Order.OrderStatus.OPEN;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GateioStreamingTradeServiceTest {
 
   @Mock GateioStreamingService gateioStreamingService;
-  GateioStreamingTradeService gateioStreamingTradeService;
+  @Mock
   GateioUserTradeStreamingService gateioUserTradeStreamingService;
+  GateioStreamingTradeService gateioStreamingTradeService;
   Map<Instrument, InstrumentMetaData> instrumentsMetaData = new HashMap<>();
   ExchangeMetaData exchangeMetaData;
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
@@ -223,6 +228,364 @@ class GateioStreamingTradeServiceTest {
     assertThat(actual instanceof LimitOrder).isEqualTo(true);
     assertThat(actual.getFee()).isEqualTo(new BigDecimal("0.0003372"));
     assertThat(actual.getStatus().compareTo(FILLED));
+  }
+
+  @Test
+  void place_limit_order_future_first_message_error() throws Exception {
+    String errorJson = "{\"header\":{\"response_time\":\"1791112811535\",\"status\":\"400\"," +
+        "\"event\":\"api\",\"client_id\":\"0xc2487f6708\",\"conn_id\":\"a2b43cee21da6bac\"" +
+        ",\"conn_trace_id\":\"197b19d544a92b8fe0ff5474de9ed973\",\"trace_id\":\"e1d9972b115b00848ea79e174558772a\"" +
+        ",\"x_in_time\":1791112811535779,\"x_out_time\":1791112811535823},\"data\":{\"errs\":{\"label\":\"PARAM_ERROR\"" +
+        ",\"message\":\"req channel not support\"}},\"request_id\":\"1791112811\"}";
+    JsonNode errorNode = objectMapper.readTree(errorJson);
+
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(Observable.just(errorNode));
+
+    LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date(), new BigDecimal("100"));
+    Single<Integer> single = gateioStreamingTradeService.placeLimitOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(-1);
+  }
+
+  @Test
+  void place_limit_order_future_two_messages_both_success() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    String orderResultJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+    JsonNode resultNode = objectMapper.readTree(orderResultJson);
+
+    PublishSubject<JsonNode> subject = PublishSubject.create();
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(subject);
+
+    LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date(), new BigDecimal("100"));
+    Single<Integer> single = gateioStreamingTradeService.placeLimitOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    subject.onNext(ackNode);
+    subject.onNext(resultNode);
+
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(0);
+  }
+
+  @Test
+  void place_limit_order_future_second_message_error() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    String errorJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "400",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "errs": {
+              "label": "INVALID_PARAM_VALUE",
+              "message": "order size too small"
+            }
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+    JsonNode errorNode = objectMapper.readTree(errorJson);
+
+    PublishSubject<JsonNode> subject = PublishSubject.create();
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(subject);
+
+    LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date(), new BigDecimal("100"));
+    Single<Integer> single = gateioStreamingTradeService.placeLimitOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    subject.onNext(ackNode);
+    subject.onNext(errorNode);
+
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(2);
+  }
+
+  @Test
+  void place_limit_order_future_single_success_message_timeout() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+
+    PublishSubject<JsonNode> subject = PublishSubject.create();
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(subject);
+
+    LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date(), new BigDecimal("100"));
+    Single<Integer> single = gateioStreamingTradeService.placeLimitOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    subject.onNext(ackNode);
+
+    testObserver.awaitDone(1500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(-1);
+  }
+
+  @Test
+  void place_limit_order_future_single_success_message_error() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(Observable.just(ackNode));
+
+    LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date(), new BigDecimal("100"));
+    Single<Integer> single = gateioStreamingTradeService.placeLimitOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(-1);
+  }
+
+  @Test
+  void place_market_order_future_first_message_error() throws Exception {
+    String errorJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "400",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "errs": {
+              "label": "INSUFFICIENT_AVAILABLE",
+              "message": "insufficient balance"
+            }
+          }
+        }
+        """;
+    JsonNode errorNode = objectMapper.readTree(errorJson);
+
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(Observable.just(errorNode));
+
+    MarketOrder order = new MarketOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date());
+    Single<Integer> single = gateioStreamingTradeService.placeMarketOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(1);
+  }
+
+  @Test
+  void place_market_order_future_two_messages_both_success() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    String orderResultJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+    JsonNode resultNode = objectMapper.readTree(orderResultJson);
+
+    PublishSubject<JsonNode> subject = PublishSubject.create();
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(subject);
+
+    MarketOrder order = new MarketOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date());
+    Single<Integer> single = gateioStreamingTradeService.placeMarketOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    subject.onNext(ackNode);
+    subject.onNext(resultNode);
+
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(0);
+  }
+
+  @Test
+  void place_market_order_future_second_message_error() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    String errorJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "400",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "errs": {
+              "label": "INVALID_PARAM_VALUE",
+              "message": "order size too small"
+            }
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+    JsonNode errorNode = objectMapper.readTree(errorJson);
+
+    PublishSubject<JsonNode> subject = PublishSubject.create();
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(subject);
+
+    MarketOrder order = new MarketOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date());
+    Single<Integer> single = gateioStreamingTradeService.placeMarketOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    subject.onNext(ackNode);
+    subject.onNext(errorNode);
+
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(2);
+  }
+
+  @Test
+  void place_market_order_future_single_success_message_timeout() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+
+    PublishSubject<JsonNode> subject = PublishSubject.create();
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(subject);
+
+    MarketOrder order = new MarketOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date());
+    Single<Integer> single = gateioStreamingTradeService.placeMarketOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+    subject.onNext(ackNode);
+
+    testObserver.awaitDone(1500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(-1);
+  }
+
+  @Test
+  void place_market_order_future_single_success_message_error() throws Exception {
+    String ackJson = """
+        {
+          "request_id": "123",
+          "header": {
+            "status": "200",
+            "channel": "futures.order_place"
+          },
+          "data": {
+            "result": {}
+          }
+        }
+        """;
+    JsonNode ackNode = objectMapper.readTree(ackJson);
+
+    when(gateioUserTradeStreamingService.subscribeChannel(eq(Config.FUTURES_ORDER_PLACE_CHANNEL), anyString(), any(), any()))
+        .thenReturn(Observable.just(ackNode));
+
+    MarketOrder order = new MarketOrder(OrderType.BID, new BigDecimal("1"), instrumentFuture, "1", new Date());
+    Single<Integer> single = gateioStreamingTradeService.placeMarketOrder(order);
+
+    TestObserver<Integer> testObserver = single.test();
+
+    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.assertComplete();
+    testObserver.assertValue(-1);
   }
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {
