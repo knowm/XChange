@@ -12,7 +12,7 @@ import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
@@ -279,7 +279,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       } else if (notification instanceof GateioMultipleSpotBalanceNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
-      } else if (notification instanceof GateioMultipleOrderNotification multipleNotification) {
+      } else if (notification instanceof GateioMultipleOrderSpotNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       } else if (notification instanceof GateioMultipleOrderFuturesNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);

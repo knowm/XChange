@@ -9,13 +9,16 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.instrument.Instrument;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static info.bitrich.xchangestream.gateio.examples.Utils.getMinAmount;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 @Slf4j
@@ -37,6 +40,12 @@ public class GateioSpotWsExample {
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    minAmount =
+        getMinAmount(
+            new BigDecimal("5"),
+            minAmount,
+            ticker,
+            exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
     BigDecimal minUSDT = minAmount.multiply(ticker.getLast());
     if (minUSDT.compareTo(new BigDecimal("4")) < 0)
       minUSDT = new BigDecimal("4");
@@ -48,7 +57,7 @@ public class GateioSpotWsExample {
         orderChange -> {
           log.info("orderChange: {}, ", orderChange);
           if (orderChange.getUserReference().equals(orderUserReference)) {
-            orderAmountInBaseCurrency.set(orderChange.getOriginalAmount());
+            orderAmountInBaseCurrency.set(orderChange.getCumulativeAmount());
           }
         }
     );
@@ -79,5 +88,26 @@ public class GateioSpotWsExample {
       Thread.sleep(1000);
       log.info("marketSellOrder is disposed: {}", marketSellOrderDisposable.isDisposed());
     }
+    String limitBuyOrderUserRef = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
+    LimitOrder limitBuyOrder = new LimitOrder.Builder(BID, instrument).originalAmount(minAmount)
+        .userReference(limitBuyOrderUserRef).limitPrice(ticker.getLow()).build();
+    Disposable limitBuyOrderDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitBuyOrder)
+            .subscribe(
+                result -> {
+                  log.info("limitBuyOrder is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("limitBuyOrder is disposed: {}", limitBuyOrderDisposable.isDisposed());
+    GateioCancelOrderParams cancelOrderParams1 = new GateioCancelOrderParams("", instrument, limitBuyOrderUserRef);
+    Disposable cancelOrder1 = exchange.getStreamingTradeService().cancelOrder(cancelOrderParams1).subscribe(result -> {
+          log.info("cancel limitBuyOrder is send, retCode: {}", result);
+        },
+        throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("cancelOrder1 is disposed: {}", cancelOrder1.isDisposed());
   }
 }

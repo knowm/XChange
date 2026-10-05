@@ -59,7 +59,7 @@ public class GateioFutureWsExample {
             limitSellOrderId.set(orderChange.getId());
         }
     );
-    Disposable marketBuyOrderDisposable =
+    Disposable limitBuyOrderDisposable =
         exchange
             .getStreamingTradeService()
             .placeLimitOrder(limitBuyOrder)
@@ -69,9 +69,9 @@ public class GateioFutureWsExample {
                 },
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("limitBuyOrder is disposed: {}", marketBuyOrderDisposable.isDisposed());
+    log.info("limitBuyOrder is disposed: {}", limitBuyOrderDisposable.isDisposed());
     LimitOrder limitSellOrder = new LimitOrder.Builder(ASK, instrument).originalAmount(minAmount).limitPrice(ticker.getHigh()).build();
-    Disposable marketSellOrderDisposable =
+    Disposable limitSellOrderDisposable =
         exchange
             .getStreamingTradeService()
             .placeLimitOrder(limitSellOrder)
@@ -81,10 +81,10 @@ public class GateioFutureWsExample {
                 },
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("limitSellOrder is disposed: {}", marketSellOrderDisposable.isDisposed());
+    log.info("limitSellOrder is disposed: {}", limitSellOrderDisposable.isDisposed());
     LimitOrder limitBuyOrderAmend = new LimitOrder.Builder(BID, instrument).originalAmount(minAmount.add(new BigDecimal("0.2")))
         .userReference(orderUserReference).build();
-    Disposable marketBuyOrderAmendDisposable =
+    Disposable limitBuyOrderAmendDisposable =
         exchange
             .getStreamingTradeService()
             .changeOrder(limitBuyOrderAmend)
@@ -94,10 +94,10 @@ public class GateioFutureWsExample {
                 },
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("marketBuyOrderAmendDisposable is disposed: {}", marketBuyOrderAmendDisposable.isDisposed());
+    log.info("limitBuyOrderAmendDisposable is disposed: {}", limitBuyOrderAmendDisposable.isDisposed());
     LimitOrder limitSellOrderAmend = new LimitOrder.Builder(ASK, instrument).limitPrice(ticker.getHigh().add(new BigDecimal("0.1")))
         .id(limitSellOrderId.get()).build();
-    Disposable marketSellOrderAmendDisposable =
+    Disposable limitSellOrderAmendDisposable =
         exchange
             .getStreamingTradeService()
             .changeOrder(limitSellOrderAmend)
@@ -107,21 +107,21 @@ public class GateioFutureWsExample {
                 },
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("limitSellOrderAmend is disposed: {}", marketSellOrderAmendDisposable.isDisposed());
+    log.info("limitSellOrderAmend is disposed: {}", limitSellOrderAmendDisposable.isDisposed());
     GateioCancelOrderParams cancelOrderParams1 = new GateioCancelOrderParams("", instrument, orderUserReference);
     Disposable cancelOrder1 = exchange.getStreamingTradeService().cancelOrder(cancelOrderParams1).subscribe(result -> {
           log.info("cancel limitBuyOrder is send, retCode: {}", result);
         },
         throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("cancelOrder1 is disposed: {}", marketSellOrderDisposable.isDisposed());
+    log.info("cancelOrder1 is disposed: {}", cancelOrder1.isDisposed());
     DefaultCancelOrderByInstrumentAndIdParams cancelOrderParams2 = new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitSellOrderId.get());
     Disposable cancelOrder2 = exchange.getStreamingTradeService().cancelOrder(cancelOrderParams2).subscribe(result -> {
           log.info("cancel limitSellOrder is send, retCode: {}", result);
         },
         throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("cancelOrder2 is disposed: {}", marketSellOrderDisposable.isDisposed());
+    log.info("cancelOrder2 is disposed: {}", cancelOrder2.isDisposed());
   }
 
   @Test

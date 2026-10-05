@@ -26,6 +26,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
+import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,12 +96,18 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
     Object payload;
     switch (channelName) {
       case Config.SPOT_ORDER_PLACE_CHANNEL: {
-        GateioSpotOrderRequest reqParam = GateioAdapters.toGateioSpotOrderRequest((MarketOrder) ArrayUtils.get(args, 1));
+        GateioSpotOrderRequest reqParam;
+        if (ArrayUtils.get(args, 1) instanceof MarketOrder)
+          reqParam = GateioAdapters.toGateioSpotOrderRequest((MarketOrder) ArrayUtils.get(args, 1));
+        else
+          reqParam = GateioAdapters.toGateioSpotOrderRequest((LimitOrder) ArrayUtils.get(args, 1));
         payload = GateioWsOrderPayload.<GateioSpotOrderRequest>builder().reqId(reqId).reqParam(reqParam).build();
         break;
       }
+      case Config.SPOT_ORDER_CANCEL_CHANNEL:
       case Config.FUTURES_ORDER_CANCEL_CHANNEL: {
-        GateioWsCancelOrder reqParam = new GateioWsCancelOrder(ArrayUtils.get(args, 2).toString(), ArrayUtils.get(args, 1).toString(), null);
+        String instrument = GateioAdapters.toGateioInstrument((Instrument) ArrayUtils.get(args, 1));
+        GateioWsCancelOrder reqParam = new GateioWsCancelOrder(ArrayUtils.get(args, 2).toString(), instrument, null);
         payload = GateioWsOrderPayload.<GateioWsCancelOrder>builder().reqId(reqId).reqParam(reqParam).build();
         break;
       }

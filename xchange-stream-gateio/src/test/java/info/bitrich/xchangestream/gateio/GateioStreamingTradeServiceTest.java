@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
@@ -103,9 +103,9 @@ class GateioStreamingTradeServiceTest {
   @Test
   void order_changes_btc() throws Exception {
     GateioWsNotification multipleNotification = readNotification("spot.orders.update.json");
-    assertThat(multipleNotification).isInstanceOf(GateioMultipleOrderNotification.class);
+    assertThat(multipleNotification).isInstanceOf(GateioMultipleOrderSpotNotification.class);
     GateioWsNotification notification =
-        ((GateioMultipleOrderNotification) multipleNotification).toSingleNotifications().get(0);
+        ((GateioMultipleOrderSpotNotification) multipleNotification).toSingleNotifications().get(0);
     when(gateioStreamingService.subscribeChannel(eq("spot.orders"), eq(CurrencyPair.BTC_USDT)))
         .thenReturn(Observable.just(notification));
 

@@ -7,7 +7,7 @@ import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.GateioUserTradeWsResponse;
 import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioWsOrderPayload;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioErrorLabels;
 import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioWsCancelOrder;
@@ -15,7 +15,6 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.github.resilience4j.rxjava3.ratelimiter.operator.RateLimiterOperator;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
-import jakarta.ws.rs.NotSupportedException;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
@@ -28,6 +27,7 @@ import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
@@ -83,8 +83,12 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           .map(GateioSingleOrderFuturesNotification.class::cast)
           .map(m -> GateioStreamingAdapters.toOrder
               (m, exchangeMetaData.getInstruments().get(instrument).getContractValue()));
+    } else {
+      return service
+          .subscribeChannel(Config.SPOT_USER_ORDERS_CHANNEL, instrument)
+          .map(GateioSingleOrderSpotNotification.class::cast)
+          .map(m -> GateioStreamingAdapters.toOrder(m));
     }
-    throw new IllegalArgumentException("Instrument type not supported: " + instrument.getClass());
   }
 
   @Override
@@ -92,7 +96,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
     return service
         .subscribeChannel(Config.SPOT_USER_ORDERS_CHANNEL, currencyPair)
 //        .filter(GateioSingleOrderNotification.class::isInstance)
-        .map(GateioSingleOrderNotification.class::cast)
+        .map(GateioSingleOrderSpotNotification.class::cast)
         .map(GateioStreamingAdapters::toOrder);
   }
 
@@ -139,7 +143,43 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           );
       return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER)))).firstElement().toSingle();
     } else {
-      throw new UnsupportedOperationException("Only future market orders are supported");
+      Observable<Integer> observable = userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId,
+              limitOrder)
+          .map(node -> {
+            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioSpotOrderRequest>>> typeReference =
+                new TypeReference<>() {
+                };
+            return mapper.treeToValue(node, typeReference);
+          })
+          .publish(shared ->
+              shared.take(1).flatMap(first -> {
+                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
+                  return shared.take(1)
+                      .map(second -> {
+                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
+                          return 0;
+                        } else {
+                          assert second != null;
+                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
+                          String label = (second.getData() != null && second.getData().getErrs() != null)
+                              ? second.getData().getErrs().getLabel()
+                              : null;
+                          return label != null ? GateioErrorLabels.convert(label) : -1;
+                        }
+                      })
+                      .timeout(1, TimeUnit.SECONDS, Observable.just(-1))
+                      .defaultIfEmpty(-1);
+                } else {
+                  assert first != null;
+                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
+                  String label = (first.getData() != null && first.getData().getErrs() != null)
+                      ? first.getData().getErrs().getLabel()
+                      : null;
+                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
+                }
+              })
+          );
+      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER)))).firstElement().toSingle();
     }
   }
 
@@ -279,7 +319,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
         return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((CANCEL_ORDER))))
             .firstElement().toSingle();
       } else
-        throw new NotSupportedException("id or instrument is empty");
+        throw new IllegalArgumentException("id or instrument is empty");
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
