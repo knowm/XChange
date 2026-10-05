@@ -212,13 +212,17 @@ public class GateioAdapters {
     userReference = formatUserReference(marketOrder.getUserReference());
     return GateioFuturesOrderRequest.builder()
         .contract(toGateioInstrument(marketOrder.getInstrument()))
-        .size(marketOrder.getType() == OrderType.BID | marketOrder.getType() == OrderType.EXIT_ASK
-            ? size.toPlainString() : size.negate().toPlainString())
+        .size(getGateioSize(marketOrder, size))
         .price(BigDecimal.ZERO.toPlainString())// a price of 0 with tif as ioc represents a market order.
         .text(userReference)
         .timeInForce("ioc")
         .reduceOnly(isReduceOnly(marketOrder))
         .build();
+  }
+
+  public static String getGateioSize(Order order, BigDecimal size) {
+    return order.getType() == OrderType.BID | order.getType() == OrderType.EXIT_ASK
+        ? size.toPlainString() : size.negate().toPlainString();
   }
 
   private static String formatUserReference(String userReference) {
@@ -241,7 +245,7 @@ public class GateioAdapters {
     }
     BigDecimal size = convertVolumeToContractSize(limitOrder.getOriginalAmount(), contractValue);
     return builder.contract(toGateioInstrument(limitOrder.getInstrument()))
-        .size(limitOrder.getType() == OrderType.BID ? size.toPlainString() : size.negate().toPlainString())
+        .size(getGateioSize(limitOrder, size))
         .price(limitOrder.getLimitPrice().toPlainString())
         .text(limitOrder.getUserReference() != null ? limitOrder.getUserReference() : null)
         .reduceOnly(isReduceOnly(limitOrder))

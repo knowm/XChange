@@ -20,7 +20,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.gateio.GateioAdapters;
@@ -38,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.core.StreamingExchange.*;
 import static org.knowm.xchange.gateio.GateioAdapters.convertVolumeToContractSize;
+import static org.knowm.xchange.gateio.GateioAdapters.getGateioSize;
 
 
 public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
@@ -123,8 +123,7 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
         String size = null;
         if (limitOrder.getOriginalAmount() != null) {
           BigDecimal contractSize = convertVolumeToContractSize(limitOrder.getOriginalAmount(), (BigDecimal) ArrayUtils.get(args, 2));
-          size = limitOrder.getType() == Order.OrderType.BID | limitOrder.getType() == Order.OrderType.EXIT_ASK
-              ? contractSize.toPlainString() : contractSize.negate().toPlainString();
+          size = getGateioSize(limitOrder, contractSize);
         }
         String price = limitOrder.getLimitPrice() != null ? limitOrder.getLimitPrice().toString() : null;
         GateioWsAmendOrderFuture reqParam = GateioWsAmendOrderFuture.builder().order_id(id).size(size)
