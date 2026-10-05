@@ -37,6 +37,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import static org.knowm.xchange.gateio.GateioAdapters.convertVolumeToContractSize;
 
 
 public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
@@ -121,8 +122,9 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
         }
         String size = null;
         if (limitOrder.getOriginalAmount() != null) {
+          BigDecimal contractSize = convertVolumeToContractSize(limitOrder.getOriginalAmount(), (BigDecimal) ArrayUtils.get(args, 2));
           size = limitOrder.getType() == Order.OrderType.BID | limitOrder.getType() == Order.OrderType.EXIT_ASK
-              ? limitOrder.getOriginalAmount().toPlainString() : limitOrder.getOriginalAmount().negate().toPlainString();
+              ? contractSize.toPlainString() : contractSize.negate().toPlainString();
         }
         String price = limitOrder.getLimitPrice() != null ? limitOrder.getLimitPrice().toString() : null;
         GateioWsAmendOrderFuture reqParam = GateioWsAmendOrderFuture.builder().order_id(id).size(size)

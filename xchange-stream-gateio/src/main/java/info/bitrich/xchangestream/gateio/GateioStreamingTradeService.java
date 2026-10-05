@@ -73,13 +73,9 @@ public class GateioStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
-    if (instrument instanceof CurrencyPair) {
-      return getOrderChanges((CurrencyPair) instrument, args);
-    }
     if (instrument instanceof FuturesContract) {
       return service
           .subscribeChannel(Config.FUTURES_USER_ORDERS_CHANNEL, instrument)
-//          .filter(GateioSingleOrderFuturesNotification.class::isInstance)
           .map(GateioSingleOrderFuturesNotification.class::cast)
           .map(m -> GateioStreamingAdapters.toOrder
               (m, exchangeMetaData.getInstruments().get(instrument).getContractValue()));
@@ -93,11 +89,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-    return service
-        .subscribeChannel(Config.SPOT_USER_ORDERS_CHANNEL, currencyPair)
-//        .filter(GateioSingleOrderNotification.class::isInstance)
-        .map(GateioSingleOrderSpotNotification.class::cast)
-        .map(GateioStreamingAdapters::toOrder);
+    return getOrderChanges((Instrument) currencyPair);
   }
 
   @Override

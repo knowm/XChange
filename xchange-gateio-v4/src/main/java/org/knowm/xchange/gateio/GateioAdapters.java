@@ -282,7 +282,7 @@ public class GateioAdapters {
         .id(String.valueOf(gateioFutureOrderResponse.getId()))
         .userReference(gateioFutureOrderResponse.getText())
         .originalAmount(amount)
-        .cumulativeAmount(amount.subtract(convertContractSizeToVolume(gateioFutureOrderResponse.getLeft(), contractValue)))
+        .cumulativeAmount(amount.subtract(convertContractSizeToVolume(gateioFutureOrderResponse.getLeft(), contractValue).abs()))
         .orderStatus(status)
         .timestamp(timestamp)
         .averagePrice(gateioFutureOrderResponse.getFillPrice())
@@ -458,7 +458,7 @@ public class GateioAdapters {
     return size.multiply(contractValue).stripTrailingZeros();
   }
 
-  private static BigDecimal convertVolumeToContractSize(
+  public static BigDecimal convertVolumeToContractSize(
       BigDecimal size, BigDecimal contractValue) {
     return size.divide(contractValue, 20, RoundingMode.HALF_DOWN)
         .stripTrailingZeros();

@@ -25,7 +25,7 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 @Slf4j
 public class GateioFutureWsExample {
-  private final Instrument instrument = new FuturesContract("SOL/USDT/PERP");
+  private final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
   public GateioStreamingExchange exchange;
   private final boolean logOutput = false;
 
@@ -82,7 +82,7 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("limitSellOrder is disposed: {}", limitSellOrderDisposable.isDisposed());
-    LimitOrder limitBuyOrderAmend = new LimitOrder.Builder(BID, instrument).originalAmount(minAmount.add(new BigDecimal("0.2")))
+    LimitOrder limitBuyOrderAmend = new LimitOrder.Builder(BID, instrument).originalAmount(minAmount.add(new BigDecimal("0.001")))
         .userReference(orderUserReference).build();
     Disposable limitBuyOrderAmendDisposable =
         exchange
