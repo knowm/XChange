@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-examples</artifactId>
@@ -34,18 +34,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-binance</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange Bitbay exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bitbay</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange BitcoinAverage support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bitcoinaverage</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange Bitcoinde support -->
@@ -130,16 +118,16 @@
             <artifactId>xchange-coinone</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-cryptocom</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- XChange dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cryptocom</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -150,11 +138,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-dvchain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-gateio</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange Hitbtc exchange support -->
@@ -173,12 +156,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-independentreserve</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange ItBit exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-itbit</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -206,12 +183,6 @@
             <artifactId>xchange-mercadobitcoin</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange OkCoin exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-okcoin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange OkEx exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -236,18 +207,7 @@
             <artifactId>xchange-paymium</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Poloniex exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-poloniex</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-ripple</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-upbit</artifactId>

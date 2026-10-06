@@ -1,6 +1,6 @@
 package org.knowm.xchange.kucoin;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.service.AccountAPI;
@@ -70,8 +70,8 @@ public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchan
   }
 
   protected void checkAuthenticated() {
-    if (Strings.isNullOrEmpty(this.apiKey)) throw new KucoinApiException("Missing API key");
+    if (StringUtils.isEmpty(this.apiKey)) throw new KucoinApiException("Missing API key");
     if (this.digest == null) throw new KucoinApiException("Missing secret key");
-    if (Strings.isNullOrEmpty(this.passphrase)) throw new KucoinApiException("Missing passphrase");
+    if (StringUtils.isEmpty(this.passphrase)) throw new KucoinApiException("Missing passphrase");
   }
 }

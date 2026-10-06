@@ -5,7 +5,6 @@ import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.time.Instant;
 import java.util.Comparator;
@@ -30,8 +29,8 @@ class KrakenStreamingAdaptersTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    bids = Sets.newTreeSet(Comparator.reverseOrder());
-    asks = Sets.newTreeSet();
+    bids = new TreeSet<>(Comparator.reverseOrder());
+    asks = new TreeSet<>();
   }
 
   @Test

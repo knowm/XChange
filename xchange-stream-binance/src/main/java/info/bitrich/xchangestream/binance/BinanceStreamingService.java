@@ -6,7 +6,6 @@ import static info.bitrich.xchangestream.core.StreamingExchange.WS_RETRY_DURATIO
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
-import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.binance.dto.BinanceWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -163,7 +163,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     final Set<String> channels =
         subscribedChannels.isEmpty()
             ? new HashSet<>()
-            : Sets.newHashSet(subscribedChannels.split("/"));
+            : new HashSet<>(Arrays.asList(subscribedChannels.split("/")));
     switch (methodType) {
       case SUBSCRIBE:
         channels.add(channelName);

@@ -1,10 +1,10 @@
 package org.knowm.xchange.kucoin.service;
 
-import com.google.common.base.Strings;
 import jakarta.ws.rs.HeaderParam;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.crypto.Mac;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
@@ -19,7 +19,7 @@ public class KucoinDigest extends BaseParamsDigest {
   }
 
   public static KucoinDigest createInstance(String secretKey) {
-    return Strings.isNullOrEmpty(secretKey)
+    return StringUtils.isEmpty(secretKey)
         ? null
         : new KucoinDigest(secretKey.getBytes(StandardCharsets.UTF_8));
   }

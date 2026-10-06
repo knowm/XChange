@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>6.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -39,11 +39,8 @@
         <module>xchange-ascendex</module>
         <module>xchange-bibox</module>
         <module>xchange-binance</module>
-        <module>xchange-bitbay</module>
-        <module>xchange-bitcoinaverage</module>
         <module>xchange-bitcoincore</module>
         <module>xchange-bitcoinde</module>
-        <module>xchange-bitcointoyou</module>
         <module>xchange-bitfinex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bitget</module>
@@ -51,9 +48,7 @@
         <module>xchange-bithumb</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
-        <module>xchange-bity</module>
         <module>xchange-blockchain</module>
-        <module>xchange-btcc</module>
         <module>xchange-btcmarkets</module>
         <module>xchange-btcturk</module>
         <module>xchange-bybit</module>
@@ -70,31 +65,24 @@
         <module>xchange-dase</module>
         <module>xchange-deribit</module>
         <module>xchange-dvchain</module>
-        <module>xchange-dydx</module>
         <module>xchange-enigma</module>
         <module>xchange-examples</module>
         <module>xchange-exmo</module>
-        <module>xchange-gateio</module>
         <module>xchange-gateio-v4</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
         <module>xchange-huobi</module>
         <module>xchange-independentreserve</module>
-        <module>xchange-itbit</module>
         <module>xchange-kraken</module>
         <module>xchange-krakenfutures</module>
         <module>xchange-kucoin</module>
         <module>xchange-latoken</module>
         <module>xchange-luno</module>
         <module>xchange-mercadobitcoin</module>
-        <module>xchange-mexc</module>
-        <module>xchange-okcoin</module>
         <module>xchange-okex</module>
         <module>xchange-openexchangerates</module>
         <module>xchange-paribu</module>
         <module>xchange-paymium</module>
-        <module>xchange-poloniex</module>
-        <module>xchange-ripple</module>
         <module>xchange-simulated</module>
 
         <module>xchange-stream-binance</module>
@@ -111,7 +99,6 @@
         <module>xchange-stream-core</module>
         <module>xchange-stream-cryptocom</module>
         <module>xchange-stream-deribit</module>
-        <module>xchange-stream-dydx</module>
         <module>xchange-stream-gateio</module>
         <module>xchange-stream-gemini</module>
         <module>xchange-stream-gemini-v2</module>
@@ -121,14 +108,11 @@
         <module>xchange-stream-kraken-v2</module>
         <module>xchange-stream-krakenfutures</module>
         <module>xchange-stream-kucoin</module>
-        <module>xchange-stream-okcoin</module>
         <module>xchange-stream-okex</module>
-        <module>xchange-stream-poloniex2</module>
         <module>xchange-stream-service-core</module>
         <module>xchange-stream-service-netty</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
-        <module>xchange-vaultoro</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
     </modules>
@@ -156,21 +140,21 @@
         <skipIntegrationTests>true</skipIntegrationTests>
         <version.assertj>3.27.7</version.assertj>
         <version.bouncycastle>1.86</version.bouncycastle>
-        <version.commons.lang3>3.20.0</version.commons.lang3>
+        <version.commons.lang3>3.21.0</version.commons.lang3>
         <version.fasterxml>2.22.3</version.fasterxml>
         <version.fasterxml.annotations>2.22</version.fasterxml.annotations>
         <version.github.mmazi>3.1</version.github.mmazi>
 
         <version.java>17</version.java>
-        <version.java-jwt>4.6.0</version.java-jwt>
+        <version.java-jwt>4.6.1</version.java-jwt>
         <version.junit>6.1.3</version.junit>
         <version.knowm.xchart>4.0.4</version.knowm.xchart>
-        <version.lombok>1.18.46</version.lombok>
+        <version.lombok>1.18.48</version.lombok>
         <version.maven-enforcer-plugin>3.6.3</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.24.0</version.mockito>
         <version.nimbus-jose-jwt>10.10</version.nimbus-jose-jwt>
-        <version.qos.logback>1.6.4</version.qos.logback>
+        <version.qos.logback>1.6.5</version.qos.logback>
         <version.reflections>0.10.2</version.reflections>
         <version.resilience4j>2.4.0</version.resilience4j>
         <version.slf4j>2.0.20</version.slf4j>
@@ -233,12 +217,6 @@
                         <artifactId>commons-codec</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>33.6.0-jre</version>
             </dependency>
 
             <dependency>

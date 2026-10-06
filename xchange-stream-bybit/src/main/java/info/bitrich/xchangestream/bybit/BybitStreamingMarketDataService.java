@@ -5,7 +5,6 @@ import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.bybit.dto.BybitResponse;
 import info.bitrich.xchangestream.bybit.dto.marketdata.BybitOrderbook;
 import info.bitrich.xchangestream.bybit.dto.marketdata.BybitPublicOrder;
@@ -105,7 +104,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
                             bybitOrderBooks,
                             orderBookUpdateIdPrev.get(finalI));
                       }
-                      return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+                      return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
                     } catch (IllegalStateException e) {
                       LOG.warn(
                           "Resubscribing {} channel after adapter error {}",
@@ -119,7 +118,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
                         streamingService.sendMessage(
                             streamingService.getSubscribeMessage(channelUniqueId, args));
                       }
-                      return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+                      return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
                     }
                   })
               .filter(
@@ -136,7 +135,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
     OrderBook orderBook = orderBookMap.getOrDefault(orderBookMapId, null);
     if (orderBook == null) {
       LOG.error("Failed to get orderBook, orderBookMapId= {}", orderBookMapId);
-      return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+      return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
     }
     if (orderBookUpdateIdPrev.incrementAndGet() == bybitOrderBookUpdate.getData().getU()) {
       LOG.debug(

@@ -16,6 +16,9 @@ import org.knowm.xchange.instrument.Instrument;
 
 class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
 
+  private static final List<CurrencyPair> LIQUID_PAIRS =
+      List.of(CurrencyPair.BTC_USDT, CurrencyPair.ETH_USDT, CurrencyPair.ETH_BTC);
+
   @Test
   void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
@@ -66,7 +69,14 @@ class BitgetMarketDataServiceIntegration extends BitgetIntegrationTestParent {
             ticker -> {
               assertThat(ticker.getInstrument()).isNotNull();
               assertThat(ticker.getLast()).isNotNull();
+            });
 
+    // illiquid pairs occasionally report a crossed book (bid > ask), so only check liquid ones
+    assertThat(tickers)
+        .filteredOn(ticker -> LIQUID_PAIRS.contains(ticker.getInstrument()))
+        .isNotEmpty()
+        .allSatisfy(
+            ticker -> {
               if (ticker.getBid().signum() > 0 && ticker.getAsk().signum() > 0) {
                 assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
               }

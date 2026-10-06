@@ -1,4 +1,0 @@
-BitBay API specification
-================================
-
-https://bitbay.net/public-api

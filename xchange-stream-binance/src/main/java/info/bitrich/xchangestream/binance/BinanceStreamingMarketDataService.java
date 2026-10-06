@@ -1,17 +1,21 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
+import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.TICKER_WINDOW;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.util.concurrent.RateLimiter;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.market.*;
 import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
@@ -20,6 +24,17 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -34,21 +49,6 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.KLINE;
-import static info.bitrich.xchangestream.binance.BinanceSubscriptionType.TICKER_WINDOW;
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -90,10 +90,11 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private static final Scheduler bookSnapshotsScheduler =
       Schedulers.from(
           Executors.newSingleThreadExecutor(
-              new ThreadFactoryBuilder()
-                  .setDaemon(true)
-                  .setNameFormat("binancefuture-book-snapshots-%d")
-                  .build()));
+              runnable -> {
+                Thread thread = new Thread(runnable, "binancefuture-book-snapshots-0");
+                thread.setDaemon(true);
+                return thread;
+              }));
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final BinanceMarketDataService marketDataService;
@@ -516,8 +517,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
           // run every hour, 1 second after new hour, and 5 seconds after new hour for backup
           fundingRateInfoUpdate =
               Observable.interval(delayToNextHour + 1000, millisInHour, TimeUnit.MILLISECONDS)
-                  .flatMap(tick -> Observable.just(tick, tick).delay(i -> Objects.equals(i, tick) ?
-                      Observable.timer(0, TimeUnit.MILLISECONDS) : Observable.timer(4000, TimeUnit.MILLISECONDS)))
+                  .flatMap(
+                      tick ->
+                          Observable.just(tick, tick)
+                              .delay(
+                                  i ->
+                                      Objects.equals(i, tick)
+                                          ? Observable.timer(0, TimeUnit.MILLISECONDS)
+                                          : Observable.timer(4000, TimeUnit.MILLISECONDS)))
                   .subscribe(x -> updateFundingRateInfo());
           updateFundingRateInfo();
         }
@@ -1085,17 +1092,24 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         if (fallenBack.compareAndSet(false, true)) {
           LOG.error(
               "API Rate limit was hit when fetching Binance order book snapshot. Provide a \n"
-                  + "rate limiter. Apache Commons and Google Guava provide the TimedSemaphore\n"
-                  + "and RateLimiter classes which are effective for this purpose. Example:\n"
+                  + "rate limiter. Resilience4j (already on the classpath) provides a RateLimiter\n"
+                  + "class which is effective for this purpose. Example:\n"
                   + "\n"
                   + "  exchangeSpecification.setExchangeSpecificParametersItem(\n"
                   + "      info.bitrich.xchangestream.util.Events.BEFORE_API_CALL_HANDLER,\n"
-                  + "      () -> rateLimiter.acquire())\n"
+                  + "      () -> RateLimiter.waitForPermission(rateLimiter))\n"
                   + "\n"
                   + "Pausing for 15sec and falling back to one call per three seconds, but you\n"
                   + "will get more optimal performance by handling your own rate limiting.");
-          RateLimiter rateLimiter = RateLimiter.create(0.333);
-          fallbackOnApiCall.set(rateLimiter::acquire);
+          RateLimiter rateLimiter =
+              RateLimiter.of(
+                  "binance-book-snapshot-fallback",
+                  RateLimiterConfig.custom()
+                      .limitForPeriod(1)
+                      .limitRefreshPeriod(Duration.ofSeconds(3))
+                      .timeoutDuration(Duration.ofMinutes(1))
+                      .build());
+          fallbackOnApiCall.set(() -> RateLimiter.waitForPermission(rateLimiter));
           Thread.sleep(15000);
         }
       }
