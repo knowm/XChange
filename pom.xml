@@ -236,11 +236,13 @@
                 <artifactId>resilience4j-retry</artifactId>
                 <version>${version.resilience4j}</version>
             </dependency>
-            <!-- Netty version compatible with service-wamp -->
+            <!-- Keeps all Netty artifacts aligned; modules declare only the Netty pieces they use -->
             <dependency>
                 <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
+                <artifactId>netty-bom</artifactId>
                 <version>4.2.18.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- for streaming-->
