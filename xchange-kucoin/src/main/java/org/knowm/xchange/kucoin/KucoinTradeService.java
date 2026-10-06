@@ -1,13 +1,12 @@
 package org.knowm.xchange.kucoin;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import java.io.IOException;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
@@ -202,10 +201,10 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams genericParams) throws IOException {
-    Preconditions.checkNotNull(genericParams, "No parameter supplied");
-    Preconditions.checkArgument(
-        genericParams instanceof CancelOrderByIdParams,
-        "Only order id parameters are currently supported.");
+    Objects.requireNonNull(genericParams, "No parameter supplied");
+    if (!(genericParams instanceof CancelOrderByIdParams)) {
+      throw new IllegalArgumentException("Only order id parameters are currently supported.");
+    }
     CancelOrderByIdParams params = (CancelOrderByIdParams) genericParams;
     return cancelOrder(params.getOrderId());
   }
@@ -226,8 +225,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   }
 
   private OpenOrders convertOpenOrders(Collection<OrderResponse> orders, OpenOrdersParams params) {
-    Builder<LimitOrder> openOrders = ImmutableList.builder();
-    Builder<Order> hiddenOrders = ImmutableList.builder();
+    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> hiddenOrders = new ArrayList<>();
     orders.stream()
         .map(KucoinAdapters::adaptOrder)
         .filter(o -> params == null || params.accept(o))
@@ -239,7 +238,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
                 hiddenOrders.add(o);
               }
             });
-    return new OpenOrders(openOrders.build(), hiddenOrders.build());
+    return new OpenOrders(openOrders, hiddenOrders);
   }
 
   /** TODO same as Binance. Should be merged into generic API */

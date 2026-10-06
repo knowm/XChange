@@ -20,10 +20,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-btcmarkets</artifactId>
             <version>${project.parent.version}</version>

@@ -8,9 +8,11 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ACCOUNT_FACTORY_PARA
 import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM;
 import static org.knowm.xchange.simulated.SimulatedExchange.ON_OPERATION_PARAM;
 
-import com.google.common.util.concurrent.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -178,7 +180,14 @@ class SimulatedExchangeExample {
     // We can now go ahead and interact with the exchange, but now we are forced to obey best
     // practice; we need to obey the rate limit and if we encounter transient exceptions, we
     // need to keep trying.
-    RateLimiter rateLimiter = RateLimiter.create(5);
+    RateLimiter rateLimiter =
+        RateLimiter.of(
+            "example",
+            RateLimiterConfig.custom()
+                .limitForPeriod(1)
+                .limitRefreshPeriod(Duration.ofMillis(200)) // 5 calls per second
+                .timeoutDuration(Duration.ofSeconds(10))
+                .build());
 
     // Accounts
     retryTransientErrors(
@@ -213,7 +222,7 @@ class SimulatedExchangeExample {
   private void retryTransientErrors(RateLimiter rateLimiter, IOExceptionThrowingRunnable runnable) {
     while (true) {
       try {
-        rateLimiter.acquire();
+        RateLimiter.waitForPermission(rateLimiter);
         runnable.run();
         break;
       } catch (NonceException | SystemOverloadException e) {

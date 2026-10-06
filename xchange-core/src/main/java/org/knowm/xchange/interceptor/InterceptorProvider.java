@@ -1,24 +1,24 @@
 package org.knowm.xchange.interceptor;
 
-import com.google.common.base.Suppliers;
 import java.util.Collection;
 import java.util.ServiceLoader;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import si.mazi.rescu.Interceptor;
 
 public class InterceptorProvider {
 
-  private static final Supplier<Collection<Interceptor>> INTERCEPTORS_SUPPLIER =
-      Suppliers.memoize(
-          () -> {
-            final ServiceLoader<Interceptor> serviceLoader = ServiceLoader.load(Interceptor.class);
-            return StreamSupport.stream(serviceLoader.spliterator(), false)
-                .collect(Collectors.toSet());
-          });
+  /** Lazily loaded exactly once, on first access, via the class-initialization holder idiom. */
+  private static final class Holder {
+    private static final Collection<Interceptor> INTERCEPTORS = load();
+
+    private static Collection<Interceptor> load() {
+      final ServiceLoader<Interceptor> serviceLoader = ServiceLoader.load(Interceptor.class);
+      return StreamSupport.stream(serviceLoader.spliterator(), false).collect(Collectors.toSet());
+    }
+  }
 
   public static Collection<Interceptor> provide() {
-    return INTERCEPTORS_SUPPLIER.get();
+    return Holder.INTERCEPTORS;
   }
 }

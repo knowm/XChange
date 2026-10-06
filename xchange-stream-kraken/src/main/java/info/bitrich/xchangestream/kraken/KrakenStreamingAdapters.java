@@ -4,11 +4,9 @@ import static info.bitrich.xchangestream.kraken.KrakenStreamingChecksum.createCr
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import info.bitrich.xchangestream.kraken.dto.KrakenStreamingOhlc;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -17,6 +15,7 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -126,7 +125,7 @@ public class KrakenStreamingAdapters {
             .map(LimitOrder::getTimestamp)
             .max(Date::compareTo)
             .orElse(null);
-    return new OrderBook(lastTime, Lists.newArrayList(asks), Lists.newArrayList(bids), true);
+    return new OrderBook(lastTime, new ArrayList<>(asks), new ArrayList<>(bids), true);
   }
 
   /**
@@ -138,8 +137,9 @@ public class KrakenStreamingAdapters {
     if (node == null || !node.isArray()) {
       return Collections.emptyIterator();
     }
-    return Iterators.transform(
-        node.elements(), jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
+    return StreamSupport.stream(node.spliterator(), false)
+        .map(jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode))
+        .iterator();
   }
 
   /** Adapt a JsonNode containing two decimals into a LimitOrder */
@@ -157,7 +157,7 @@ public class KrakenStreamingAdapters {
 
   /** Adapt an ArrayNode containing a ticker message into a Ticker */
   public static Ticker adaptTickerMessage(Instrument instrument, ArrayNode arrayNode) {
-    return Streams.stream(arrayNode.elements())
+    return StreamSupport.stream(arrayNode.spliterator(), false)
         .filter(JsonNode::isObject)
         .map(
             tickerNode -> {
@@ -210,11 +210,11 @@ public class KrakenStreamingAdapters {
 
   /** Adapt an JsonNode into a list of Trade */
   public static List<Trade> adaptTrades(Instrument instrument, JsonNode arrayNode) {
-    return Streams.stream(arrayNode.elements())
+    return StreamSupport.stream(arrayNode.spliterator(), false)
         .filter(JsonNode::isArray)
         .flatMap(
             innerNode ->
-                Streams.stream(innerNode.elements())
+                StreamSupport.stream(innerNode.spliterator(), false)
                     .map(inner -> KrakenStreamingAdapters.adaptTrade(instrument, inner)))
         .collect(Collectors.toList());
   }
