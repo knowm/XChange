@@ -4,7 +4,6 @@ import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptTrades;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gemini.dto.GeminiLimitOrder;
 import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
@@ -54,7 +53,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
-    int maxDepth = (int) MoreObjects.firstNonNull(args.length > 0 ? args[0] : null, 1);
+    int maxDepth = args.length > 0 && args[0] != null ? (Integer) args[0] : 1;
 
     Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service

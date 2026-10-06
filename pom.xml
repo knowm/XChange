@@ -220,12 +220,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>33.7.2-jre</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${version.nimbus-jose-jwt}</version>
@@ -273,13 +267,6 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
                 <version>${version.bouncycastle}</version>
-            </dependency>
-
-            <!-- Pinned so guava (1.0.1) and micrometer (1.0.0) converge on one jspecify version -->
-            <dependency>
-                <groupId>org.jspecify</groupId>
-                <artifactId>jspecify</artifactId>
-                <version>1.0.1</version>
             </dependency>
 
             <!-- Keeps all JUnit artifacts aligned, including those pulled in transitively (e.g. by mockito-junit-jupiter) -->

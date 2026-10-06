@@ -1,16 +1,16 @@
 package info.bitrich.xchangestream.coinjar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketBookEvent;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -61,15 +61,14 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
                 event.payload.asks, pairFromEvent, Order.OrderType.ASK));
         break;
     }
-    return new OrderBook(
-        null, Lists.newArrayList(asks.values()), Lists.newArrayList(bids.values()));
+    return new OrderBook(null, new ArrayList<>(asks.values()), new ArrayList<>(bids.values()));
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     final SortedMap<BigDecimal, LimitOrder> bids =
-        Maps.newTreeMap((o1, o2) -> Math.negateExact(o1.compareTo(o2)));
-    final SortedMap<BigDecimal, LimitOrder> asks = Maps.newTreeMap(BigDecimal::compareTo);
+        new TreeMap<>((o1, o2) -> Math.negateExact(o1.compareTo(o2)));
+    final SortedMap<BigDecimal, LimitOrder> asks = new TreeMap<>(BigDecimal::compareTo);
     String channelName = CoinjarStreamingAdapters.adaptCurrencyPairToBookTopic(currencyPair);
     return service
         .subscribeChannel(channelName)

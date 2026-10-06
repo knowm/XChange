@@ -1,12 +1,11 @@
 package info.bitrich.xchangestream.kraken;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kraken.dto.KrakenStreamingOhlc;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import io.reactivex.rxjava3.core.Observable;
+import java.util.ArrayList;
 import java.util.TreeSet;
 import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -39,8 +38,8 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
-    TreeSet<LimitOrder> bids = Sets.newTreeSet();
-    TreeSet<LimitOrder> asks = Sets.newTreeSet();
+    TreeSet<LimitOrder> bids = new TreeSet<>();
+    TreeSet<LimitOrder> asks = new TreeSet<>();
     int depth =
         ObjectUtils.defaultIfNull(
             KrakenStreamingService.parseOrderBookSize(args),
@@ -61,7 +60,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
                 // Resubscribe to the channel, triggering a new snapshot
                 this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
                 this.service.sendMessage(service.getSubscribeMessage(channelName, args));
-                return new OrderBook(null, Lists.newArrayList(), Lists.newArrayList(), false);
+                return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
               }
             })
         .filter(ob -> ob.getBids().size() > 0 && ob.getAsks().size() > 0);

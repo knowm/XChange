@@ -7,18 +7,16 @@ import static java.util.stream.Collectors.toList;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -55,7 +53,7 @@ final class MatchingEngine {
   private final List<BookLevel> asks = new LinkedList<>();
   private final List<BookLevel> bids = new LinkedList<>();
   private final Deque<Trade> publicTrades = new ConcurrentLinkedDeque<>();
-  private final Multimap<String, UserTrade> userTrades = LinkedListMultimap.create();
+  private final Map<String, List<UserTrade>> userTrades = new HashMap<>();
 
   private volatile Ticker ticker = new Ticker.Builder().build();
 
@@ -197,28 +195,29 @@ final class MatchingEngine {
     BigDecimal remaining = amount;
     BigDecimal cost = ZERO;
     List<BookLevel> orderbookSide = orderType.equals(BID) ? asks : bids;
-    for (BookOrder order :
-        FluentIterable.from(orderbookSide).transformAndConcat(BookLevel::getOrders)) {
-      BigDecimal available = order.getRemainingAmount();
-      BigDecimal tradeAmount = remaining.compareTo(available) >= 0 ? available : remaining;
-      BigDecimal tradeCost = tradeAmount.multiply(order.getLimitPrice());
-      cost = cost.add(tradeCost);
-      remaining = remaining.subtract(tradeAmount);
-      if (remaining.compareTo(ZERO) == 0) return cost;
+    for (BookLevel level : orderbookSide) {
+      for (BookOrder order : level.getOrders()) {
+        BigDecimal available = order.getRemainingAmount();
+        BigDecimal tradeAmount = remaining.compareTo(available) >= 0 ? available : remaining;
+        BigDecimal tradeCost = tradeAmount.multiply(order.getLimitPrice());
+        cost = cost.add(tradeCost);
+        remaining = remaining.subtract(tradeAmount);
+        if (remaining.compareTo(ZERO) == 0) return cost;
+      }
     }
     throw new ExchangeException("Insufficient liquidity in book");
   }
 
   public synchronized Level3OrderBook book() {
     return new Level3OrderBook(
-        FluentIterable.from(asks)
-            .transformAndConcat(BookLevel::getOrders)
-            .transform(o -> o.toOrder(currencyPair))
-            .toList(),
-        FluentIterable.from(bids)
-            .transformAndConcat(BookLevel::getOrders)
-            .transform(o -> o.toOrder(currencyPair))
-            .toList());
+        asks.stream()
+            .flatMap(level -> level.getOrders().stream())
+            .map(o -> o.toOrder(currencyPair))
+            .collect(toList()),
+        bids.stream()
+            .flatMap(level -> level.getOrders().stream())
+            .map(o -> o.toOrder(currencyPair))
+            .collect(toList()));
   }
 
   public Ticker ticker() {
@@ -230,7 +229,7 @@ final class MatchingEngine {
   }
 
   public synchronized List<UserTrade> tradeHistory(String apiKey) {
-    return ImmutableList.copyOf(userTrades.get(apiKey));
+    return List.copyOf(userTrades.getOrDefault(apiKey, List.of()));
   }
 
   private void chewBook(Iterable<BookLevel> makerOrders, BookOrder takerOrder) {
@@ -340,7 +339,7 @@ final class MatchingEngine {
     return Stream.concat(asks.stream(), bids.stream())
         .flatMap(v -> v.getOrders().stream())
         .filter(o -> o.getApiKey().equals(apiKey))
-        .sorted(Ordering.natural().onResultOf(BookOrder::getTimestamp).reversed())
+        .sorted(Comparator.comparing(BookOrder::getTimestamp).reversed())
         .map(o -> o.toOrder(currencyPair))
         .collect(toList());
   }
@@ -385,7 +384,7 @@ final class MatchingEngine {
         publicTrades.removeLast();
       }
     }
-    userTrades.put(fill.getApiKey(), fill.getTrade());
+    userTrades.computeIfAbsent(fill.getApiKey(), k -> new ArrayList<>()).add(fill.getTrade());
     accountFactory.get(fill.getApiKey()).fill(fill.getTrade(), !fill.isTaker());
     onFill.accept(fill);
   }

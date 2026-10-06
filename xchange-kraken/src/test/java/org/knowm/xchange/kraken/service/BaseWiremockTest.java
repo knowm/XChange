@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.service;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.knowm.xchange.Exchange;
@@ -32,11 +32,11 @@ public class BaseWiremockTest {
     return IOUtils.toByteArray(getClass().getResourceAsStream(path));
   }
 
-  public static final ImmutableMap<String, KrakenAsset> ASSETS =
-      ImmutableMap.of(
+  public static final Map<String, KrakenAsset> ASSETS =
+      Map.of(
           "XXBT", new KrakenAsset("XBT", "currency", 8, 6),
           "ZUSD", new KrakenAsset("USD", "currency", 4, 2));
 
-  public static final ImmutableMap<String, KrakenAssetPair> ASSET_PAIRS =
-      ImmutableMap.of("XXBTZUSD", KrakenAssetPair.builder().base("XXBT").quote("ZUSD").build());
+  public static final Map<String, KrakenAssetPair> ASSET_PAIRS =
+      Map.of("XXBTZUSD", KrakenAssetPair.builder().base("XXBT").quote("ZUSD").build());
 }

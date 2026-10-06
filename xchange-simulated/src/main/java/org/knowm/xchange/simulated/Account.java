@@ -2,12 +2,12 @@ package org.knowm.xchange.simulated;
 
 import static java.math.BigDecimal.ZERO;
 
-import com.google.common.collect.Collections2;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
@@ -28,7 +28,7 @@ class Account {
   }
 
   public Collection<Balance> balances() {
-    return Collections2.transform(balances.values(), AtomicReference::get);
+    return balances.values().stream().map(AtomicReference::get).collect(Collectors.toList());
   }
 
   public void checkBalance(LimitOrder order) {
