@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.dto.marketdata.FundingRate;
 import org.knowm.xchange.dto.marketdata.FundingRate.FundingRateInterval;
+import org.knowm.xchange.instrument.Instrument;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
@@ -38,7 +39,19 @@ public class FundingRateWebsocketTransaction extends ProductBinanceWebSocketTran
     this.nextFundingTime = nextFundingTime;
   }
 
+  /**
+   * Resolves the futures contract from the funding rate symbol through the symbol mapping.
+   * If not mapped, the contract has a null currency pair.
+   */
   public FundingRate toFundingRate(int fundingRateInterval) {
+    return toFundingRate(fundingRateInterval, BinanceAdapters.adaptSymbol(symbol, true));
+  }
+
+  /**
+   * Uses the given instrument instead of resolving the symbol through the symbol mapping.
+   * The instrument must correspond to the funding rate symbol; this is not validated.
+   */
+  public FundingRate toFundingRate(int fundingRateInterval, Instrument instrument) {
     FundingRateInterval rateInterval = FundingRateInterval.H8;
     BigDecimal fundingRate1h = BigDecimal.ZERO;
     switch (fundingRateInterval) {
@@ -85,7 +98,7 @@ public class FundingRateWebsocketTransaction extends ProductBinanceWebSocketTran
         .fundingRate(fundingRate)
         .fundingRate1h(fundingRate1h)
         .fundingRateDate(nextFundingTime)
-        .instrument(BinanceAdapters.adaptSymbol(symbol, true))
+        .instrument(instrument)
         .build();
   }
 }
