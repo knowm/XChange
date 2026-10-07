@@ -88,7 +88,12 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     try {
       if (exchange.isFuturesEnabled()) {
         List<GateioFuturesTickerAndFunding> tickers = getGateioFuturesTickers(null);
-        return tickers.stream()
+        //filter stocks for now
+        return tickers.stream().filter(d -> exchange.getExchangeMetaData().getInstruments()
+                .get(d.getContract()) != null &&
+                exchange.getExchangeMetaData().getInstruments()
+                    .get(d.getContract())
+                    .getContractValue() != null)
             .map(
                 d ->
                     GateioAdapters.toTickerFutures(
@@ -155,13 +160,13 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
         List<GateioInstrumentDetails> metadata = getInstrumentDetails();
         //for get funding stream need this data
         metadata.stream().filter(f -> f.getType().equals("direct") &&
-                f.getStatus().equals("trading"))
+                (f.getStatus().equals("trading") || f.getStatus().equals("prelaunch")))
             .forEach(entry -> fundingRateInfoMap.put(new FuturesContract(
                 new CurrencyPair(entry.getName().replace("_", "/")),
                 "PERP"), new GateioFundingInfo(entry.getFundingInterval(), entry.getFundingNextApply())));
 
         return metadata.stream().filter(f -> f.getType().equals("direct") &&
-                f.getStatus().equals("trading"))
+                (f.getStatus().equals("trading") || f.getStatus().equals("prelaunch")))
             .collect(
                 Collectors.toMap(
                     gateioInstrumentDetails ->

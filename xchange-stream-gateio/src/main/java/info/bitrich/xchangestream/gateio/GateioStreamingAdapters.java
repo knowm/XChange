@@ -4,7 +4,7 @@ import info.bitrich.xchangestream.gateio.dto.response.balance.BalancePayload;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.funding.GateioSingleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.TickerPayload;
@@ -96,7 +96,7 @@ public class GateioStreamingAdapters {
         .build();
   }
 
-  public Order toOrder(GateioSingleOrderNotification notification) {
+  public Order toOrder(GateioSingleOrderSpotNotification notification) {
     return GateioAdapters.toOrder(notification.getResult());
   }
 

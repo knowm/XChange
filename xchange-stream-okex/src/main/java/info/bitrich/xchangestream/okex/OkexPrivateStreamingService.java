@@ -1,9 +1,5 @@
 package info.bitrich.xchangestream.okex;
 
-import static info.bitrich.xchangestream.core.StreamingExchange.*;
-import static info.bitrich.xchangestream.okex.OkexStreamingService.SUBSCRIBE;
-import static info.bitrich.xchangestream.okex.OkexStreamingService.UNSUBSCRIBE;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okex.dto.OkexLoginMessage;
@@ -14,17 +10,6 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -41,6 +26,23 @@ import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static info.bitrich.xchangestream.core.StreamingExchange.*;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.SUBSCRIBE;
+import static info.bitrich.xchangestream.okex.OkexStreamingService.UNSUBSCRIBE;
+
 public class OkexPrivateStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexPrivateStreamingService.class);
@@ -52,7 +54,8 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
   public static final String CANCEL_ORDER = "cancel-order";
   private static final String LOGIN_SIGN_METHOD = "GET";
   private static final String LOGIN_SIGN_REQUEST_PATH = "/users/self/verify";
-  @Getter private volatile boolean loginDone = false;
+  @Getter
+  private volatile boolean loginDone = false;
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification exchangeSpecification;
@@ -210,49 +213,46 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
     if (args != null && args.length > 0) {
       String method = args[0].toString();
       switch (method) {
-        case PLACE_ORDER:
-          {
-            OkexOrderRequest orderPayload;
-            if (args[1] instanceof LimitOrder) {
-              LimitOrder limitOrder = (LimitOrder) args[1];
-              orderPayload =
-                  OkexAdapters.adaptOrder(
-                      limitOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
-            } else {
-              MarketOrder marketOrder = (MarketOrder) args[1];
-              orderPayload =
-                  OkexAdapters.adaptOrder(
-                      marketOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
-            }
-            OkexSubscribeMessage<OkexOrderRequest> payload =
-                new OkexSubscribeMessage<>(
-                    channelName, PLACE_ORDER, Collections.singletonList(orderPayload));
-            return objectMapper.writeValueAsString(payload);
-          }
-        case CHANGE_ORDER:
-          {
+        case PLACE_ORDER: {
+          OkexOrderRequest orderPayload;
+          if (args[1] instanceof LimitOrder) {
             LimitOrder limitOrder = (LimitOrder) args[1];
-            OkexAmendOrderRequest orderChangePayload =
-                OkexAdapters.adaptAmendOrder(limitOrder, okexExchange.getExchangeMetaData());
-            OkexSubscribeMessage<OkexAmendOrderRequest> payload =
-                new OkexSubscribeMessage<>(
-                    channelName, CHANGE_ORDER, Collections.singletonList(orderChangePayload));
-            return objectMapper.writeValueAsString(payload);
+            orderPayload =
+                OkexAdapters.adaptOrder(
+                    limitOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
+          } else {
+            MarketOrder marketOrder = (MarketOrder) args[1];
+            orderPayload =
+                OkexAdapters.adaptOrder(
+                    marketOrder, okexExchange.getExchangeMetaData(), okexExchange.accountLevel);
           }
-        case CANCEL_ORDER:
-          {
-            OkexCancelOrderParams params = (OkexCancelOrderParams) args[1];
-            OkexCancelOrderRequest orderChangePayload =
-                OkexCancelOrderRequest.builder()
-                    .instIdCode(OkexAdapters.instrumentToInstrumentCode(params.instrument))
-                    .orderId(params.orderId)
-                    .clientOrderId(params.getUserReference())
-                    .build();
-            OkexSubscribeMessage<OkexCancelOrderRequest> payload =
-                new OkexSubscribeMessage<>(
-                    channelName, CANCEL_ORDER, Collections.singletonList(orderChangePayload));
-            return objectMapper.writeValueAsString(payload);
-          }
+          OkexSubscribeMessage<OkexOrderRequest> payload =
+              new OkexSubscribeMessage<>(
+                  channelName, PLACE_ORDER, Collections.singletonList(orderPayload));
+          return objectMapper.writeValueAsString(payload);
+        }
+        case CHANGE_ORDER: {
+          LimitOrder limitOrder = (LimitOrder) args[1];
+          OkexAmendOrderRequest orderChangePayload =
+              OkexAdapters.adaptAmendOrder(limitOrder, okexExchange.getExchangeMetaData());
+          OkexSubscribeMessage<OkexAmendOrderRequest> payload =
+              new OkexSubscribeMessage<>(
+                  channelName, CHANGE_ORDER, Collections.singletonList(orderChangePayload));
+          return objectMapper.writeValueAsString(payload);
+        }
+        case CANCEL_ORDER: {
+          OkexCancelOrderParams params = (OkexCancelOrderParams) args[1];
+          OkexCancelOrderRequest orderChangePayload =
+              OkexCancelOrderRequest.builder()
+                  .instIdCode(OkexAdapters.instrumentToInstrumentCode(params.instrument))
+                  .orderId(params.orderId)
+                  .clientOrderId(params.getUserReference())
+                  .build();
+          OkexSubscribeMessage<OkexCancelOrderRequest> payload =
+              new OkexSubscribeMessage<>(
+                  channelName, CANCEL_ORDER, Collections.singletonList(orderChangePayload));
+          return objectMapper.writeValueAsString(payload);
+        }
       }
     }
     return objectMapper.writeValueAsString(
@@ -275,7 +275,16 @@ public class OkexPrivateStreamingService extends JsonNettyStreamingService {
   public void resubscribeChannels() {
     needToResubscribeChannels = true;
     if (loginDone) {
-      super.resubscribeChannels();
+      for (Map.Entry<String, Subscription> entry : channels.entrySet()) {
+        try {
+          Subscription subscription = entry.getValue();
+          // do not resubscribe place order, change order, cancel order
+          if (subscription.getChannelName().contains(USER_ORDER_CHANGES) || subscription.getChannelName().contains(USER_POSITION_CHANGES))/**/
+            sendMessage(getSubscribeMessage(subscription.getChannelName(), subscription.getArgs()));
+        } catch (IOException e) {
+          LOG.error("Failed to reconnect channel: {}", entry.getKey());
+        }
+      }
     }
   }
 }

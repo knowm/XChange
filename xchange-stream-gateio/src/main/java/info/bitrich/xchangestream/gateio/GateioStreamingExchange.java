@@ -22,18 +22,19 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   public GateioStreamingExchange() {
   }
+//
+//  @Override
+//  protected void initServices() {
+//    super.initServices();
+//
+//  }
 
   @Override
-  protected void initServices() {
-    super.initServices();
+  public Completable connect(ProductSubscription... args) {
     if (isFuturesEnabled())
       exchangeSpecification.setSslUri(Config.V4_FUTURES_URL);
     else
       exchangeSpecification.setSslUri(Config.V4_URL);
-  }
-
-  @Override
-  public Completable connect(ProductSubscription... args) {
     applyWebsocketTimeouts(exchangeSpecification);
     streamingService =
         new GateioStreamingService(
@@ -43,13 +44,14 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     applyStreamingSpecification(exchangeSpecification, streamingService);
     if (isApiKeyValid()) {
       userTradeStreamingService =
-          new GateioUserTradeStreamingService(exchangeSpecification.getSslUri(), exchangeSpecification.getApiKey(),
-              exchangeSpecification.getSecretKey(), exchangeSpecification);
+          new GateioUserTradeStreamingService(exchangeSpecification.getSslUri(),
+              exchangeSpecification.getSecretKey(), exchangeSpecification, isFuturesEnabled());
       applyStreamingSpecification(exchangeSpecification, userTradeStreamingService);
     }
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
         (GateioMarketDataService) marketDataService, this);
-    streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData);
+    streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData, userTradeStreamingService
+        , getResilienceRegistries());
     streamingAccountService = new GateioStreamingAccountService(streamingService);
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());
@@ -93,7 +95,16 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public boolean isAlive() {
-    return streamingService != null && streamingService.isSocketOpen();
+    if (streamingService != null) {
+      if (userTradeStreamingService != null) {
+        return streamingService.isSocketOpen()
+            && userTradeStreamingService.isSocketOpen()
+            && userTradeStreamingService.isLoginDone();
+      } else {
+        return streamingService.isSocketOpen();
+      }
+    }
+    return false;
   }
 
   @Override

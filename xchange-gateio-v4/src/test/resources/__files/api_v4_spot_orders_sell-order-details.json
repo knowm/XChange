@@ -17,6 +17,7 @@
   "time_in_force": "ioc",
   "iceberg": "0",
   "left": "0.00",
+  "filled_amount": "105.58",
   "fill_price": "8.43457504",
   "filled_total": "8.43457504",
   "avg_deal_price": "0.079888",
