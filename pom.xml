@@ -146,7 +146,6 @@
         <version.github.mmazi>3.1</version.github.mmazi>
 
         <version.java>17</version.java>
-        <version.java-jwt>4.6.1</version.java-jwt>
         <version.junit>6.1.3</version.junit>
         <version.knowm.xchart>4.0.4</version.knowm.xchart>
         <version.lombok>1.18.48</version.lombok>
@@ -155,7 +154,6 @@
         <version.mockito>5.24.0</version.mockito>
         <version.nimbus-jose-jwt>10.10</version.nimbus-jose-jwt>
         <version.qos.logback>1.6.5</version.qos.logback>
-        <version.reflections>0.10.2</version.reflections>
         <version.resilience4j>2.4.0</version.resilience4j>
         <version.slf4j>2.0.20</version.slf4j>
         <version.wiremock>3.4.2</version.wiremock>
@@ -171,12 +169,6 @@
                 <version>${version.qos.logback}</version>
             </dependency>
 
-            <!-- jwt for auth -->
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${version.java-jwt}</version>
-            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
@@ -305,14 +297,6 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${version.mockito}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- Reflections - java runtime metadata analysis for integration testing -->
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${version.reflections}</version>
                 <scope>test</scope>
             </dependency>
 
