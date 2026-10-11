@@ -19,6 +19,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioFundingRateHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderFlags;
 import org.knowm.xchange.gateio.dto.trade.GateioTimeInForce;
+import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
@@ -62,6 +63,13 @@ public class GateioFuturesTest {
 //    DefaultCancelOrderByInstrumentAndIdParams params = new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderId);
     GateioCancelOrderParams params = new GateioCancelOrderParams(null, instrument, userReference);
     exchange.getTradeService().cancelOrder(params);
+  }
+
+  @Test
+  @Disabled
+  void switchMarginMode() throws Exception {
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualModeRaw("usdt", true));
+    log.info("set single mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", false));
   }
 
   @Test

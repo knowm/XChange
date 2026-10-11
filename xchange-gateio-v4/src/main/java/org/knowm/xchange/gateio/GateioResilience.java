@@ -8,6 +8,7 @@ import java.time.Duration;
 public class GateioResilience {
   public static final String DYNAMIC_TRADING_FEE_RATE_LIMITER = "dynamicTradingFee";
   public static final String LEVERAGE_RATE_LIMITER = "setLeverage";
+  public static final String POSITION_MODE_RATE_LIMITER = "setPositionMode";
   public static final String TICKERS_RATE_LIMITER = "tickers";
   public static final String FUNDING_HISTORY_RATE_LIMITER = "fundingHistory";
   public static final String CANDLESTICK_DATA_RATE_LIMITER = "candlestickData";
@@ -29,6 +30,15 @@ public class GateioResilience {
         .rateLimiters()
         .rateLimiter(
             LEVERAGE_RATE_LIMITER,
+            RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .limitRefreshPeriod(Duration.ofSeconds(10))
+                .timeoutDuration(Duration.ofSeconds(0))
+                .limitForPeriod(200)
+                .build());
+    registries
+        .rateLimiters()
+        .rateLimiter(
+            POSITION_MODE_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(10))
                 .timeoutDuration(Duration.ofSeconds(0))

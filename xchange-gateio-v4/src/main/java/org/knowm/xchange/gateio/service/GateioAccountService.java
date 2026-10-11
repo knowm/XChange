@@ -139,4 +139,27 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     }
   }
 
+  /**
+   * Set position mode (dual mode / hedge mode on or off)
+   *
+   * @param settle   settle currency (e.g. "usdt", "btc")
+   * @param dualMode true for hedge mode (dual mode), false for one-way mode
+   * @return true is successful
+   */
+  public boolean setDualMode(String settle, boolean dualMode) throws IOException {
+    return setDualModeRaw(settle, dualMode);
+  }
+
+  public boolean setDualMode(boolean dualMode) throws IOException {
+    return setDualMode("usdt", dualMode);
+  }
+
+  public boolean setPositionMode(String settle, boolean dualMode) throws IOException {
+    return setDualMode(settle, dualMode);
+  }
+
+  public boolean setPositionMode(boolean dualMode) throws IOException {
+    return setDualMode(dualMode);
+  }
+
 }
