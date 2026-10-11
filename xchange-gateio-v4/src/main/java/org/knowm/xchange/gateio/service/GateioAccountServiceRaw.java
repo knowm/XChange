@@ -200,7 +200,7 @@ public class GateioAccountServiceRaw extends GateioBaseService {
               apiKey,
               exchange.getNonceFactory(),
               gateioV4ParamsDigest,
-              settle,
+              settle.toLowerCase(),
               dualMode)).withRateLimiter(rateLimiter(POSITION_MODE_RATE_LIMITER))
           .call();
       boolean isDualModeSet = result.getPositionMode().equals("dual");
