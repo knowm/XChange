@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.dto.Order.OrderStatus.FILLED;
@@ -61,7 +62,7 @@ class GateioStreamingTradeServiceTest {
     instrumentsMetaData.put(instrumentFuture, instrumentMetaData);
     exchangeMetaData = new ExchangeMetaData(instrumentsMetaData, null, null, null, null);
     gateioStreamingTradeService = new GateioStreamingTradeService(gateioStreamingService, exchangeMetaData
-        , gateioUserTradeStreamingService, GateioResilience.createRegistries(true));
+        , gateioUserTradeStreamingService, GateioResilience.createRegistries(true), 1);
   }
 
   @Test
@@ -371,8 +372,7 @@ class GateioStreamingTradeServiceTest {
     subject.onNext(ackNode);
 
     testObserver.awaitDone(1500, TimeUnit.MILLISECONDS);
-    testObserver.assertComplete();
-    testObserver.assertValue(-1);
+    testObserver.assertError(TimeoutException.class);
   }
 
   @Test
@@ -555,8 +555,7 @@ class GateioStreamingTradeServiceTest {
     subject.onNext(ackNode);
 
     testObserver.awaitDone(1500, TimeUnit.MILLISECONDS);
-    testObserver.assertComplete();
-    testObserver.assertValue(-1);
+    testObserver.assertError(TimeoutException.class);
   }
 
   @Test

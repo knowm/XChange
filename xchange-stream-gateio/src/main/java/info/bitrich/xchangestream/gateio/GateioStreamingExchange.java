@@ -51,7 +51,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
         (GateioMarketDataService) marketDataService, this);
     streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData, userTradeStreamingService
-        , getResilienceRegistries());
+        , getResilienceRegistries(), (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT));
     streamingAccountService = new GateioStreamingAccountService(streamingService);
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());
