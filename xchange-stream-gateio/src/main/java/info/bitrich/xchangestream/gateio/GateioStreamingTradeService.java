@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -49,11 +50,11 @@ public class GateioStreamingTradeService implements StreamingTradeService {
   private final GateioUserTradeStreamingService userTradeStreamingService;
   private final ResilienceRegistries resilienceRegistries;
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-  private final int WS_CONNECTION_TIMEOUT;
+  private final Duration WS_CONNECTION_TIMEOUT;
 
   public GateioStreamingTradeService(GateioStreamingService service, ExchangeMetaData exchangeMetaData,
                                      GateioUserTradeStreamingService userTradeStreamingService, ResilienceRegistries resilienceRegistries,
-                                     Integer ws_connection_timeout) {
+                                     Duration ws_connection_timeout) {
     this.service = service;
     this.exchangeMetaData = exchangeMetaData;
     this.userTradeStreamingService = userTradeStreamingService;
@@ -111,11 +112,11 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           })
           .publish(shared ->
               shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                   .flatMap(first -> {
                 if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
                   return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                       .map(second -> {
                         if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
                           return 0;
@@ -151,11 +152,11 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           })
           .publish(shared ->
               shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                   .flatMap(first -> {
                 if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
                   return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                       .map(second -> {
                         if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
                           return 0;
@@ -206,11 +207,11 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           })
           .publish(shared ->
               shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                   .flatMap(first -> {
                 if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
                   return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                       .map(second -> {
                         if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
                           return 0;
@@ -246,11 +247,11 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           })
           .publish(shared ->
               shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                   .flatMap(first -> {
                 if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
                   return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT, TimeUnit.SECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
                       .map(second -> {
                         if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
                           return 0;

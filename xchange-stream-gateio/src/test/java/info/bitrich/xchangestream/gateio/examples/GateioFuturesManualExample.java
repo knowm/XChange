@@ -22,9 +22,9 @@ import static org.knowm.xchange.gateio.dto.trade.GateioTimeInForce.POC;
 @Slf4j
 public class GateioFuturesManualExample {
 
-  private final Instrument instrument = new FuturesContract("ETH/USDT/PERP");
+  private final Instrument instrument = new FuturesContract("BNB/USDT/PERP");
   public GateioStreamingExchange exchange;
-  private final boolean logOutput = false;
+  private final boolean logOutput = true;
 
   @BeforeEach
   void before() {
@@ -125,7 +125,7 @@ public class GateioFuturesManualExample {
     Disposable disposable = exchange.getStreamingMarketDataService().getTrades(instrument).subscribe(
         trade -> {
           if (logOutput) {
-            log.info("{}", trade);
+            log.info("{}, volume: {}", trade, trade.getPrice().multiply(trade.getOriginalAmount()));
           }
         });
     Thread.sleep(30000);

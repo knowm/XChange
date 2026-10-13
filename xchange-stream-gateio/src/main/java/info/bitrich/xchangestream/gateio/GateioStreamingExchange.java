@@ -9,6 +9,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
         (GateioMarketDataService) marketDataService, this);
     streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData, userTradeStreamingService
-        , getResilienceRegistries(), (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT));
+        , getResilienceRegistries(), (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT));
     streamingAccountService = new GateioStreamingAccountService(streamingService);
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());

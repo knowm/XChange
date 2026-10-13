@@ -31,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,6 +56,7 @@ class GateioStreamingTradeServiceTest {
   ExchangeMetaData exchangeMetaData;
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
   Instrument instrumentFuture = new FuturesContract(CurrencyPair.ETH_USDT, "PERP");
+  Duration ws_timeout = Duration.ofSeconds(1);
 
   @BeforeEach
   void setup() {
@@ -62,7 +64,7 @@ class GateioStreamingTradeServiceTest {
     instrumentsMetaData.put(instrumentFuture, instrumentMetaData);
     exchangeMetaData = new ExchangeMetaData(instrumentsMetaData, null, null, null, null);
     gateioStreamingTradeService = new GateioStreamingTradeService(gateioStreamingService, exchangeMetaData
-        , gateioUserTradeStreamingService, GateioResilience.createRegistries(true), 1);
+        , gateioUserTradeStreamingService, GateioResilience.createRegistries(true), ws_timeout);
   }
 
   @Test
@@ -292,7 +294,7 @@ class GateioStreamingTradeServiceTest {
     subject.onNext(ackNode);
     subject.onNext(resultNode);
 
-    testObserver.awaitDone(500, TimeUnit.MILLISECONDS);
+    testObserver.awaitDone(ws_timeout.toMillis() + 500, TimeUnit.MILLISECONDS);
     testObserver.assertComplete();
     testObserver.assertValue(0);
   }
@@ -371,7 +373,7 @@ class GateioStreamingTradeServiceTest {
     TestObserver<Integer> testObserver = single.test();
     subject.onNext(ackNode);
 
-    testObserver.awaitDone(1500, TimeUnit.MILLISECONDS);
+    testObserver.awaitDone(ws_timeout.toMillis() + 500, TimeUnit.MILLISECONDS);
     testObserver.assertError(TimeoutException.class);
   }
 
@@ -554,7 +556,7 @@ class GateioStreamingTradeServiceTest {
     TestObserver<Integer> testObserver = single.test();
     subject.onNext(ackNode);
 
-    testObserver.awaitDone(1500, TimeUnit.MILLISECONDS);
+    testObserver.awaitDone(ws_timeout.toMillis() + 500, TimeUnit.MILLISECONDS);
     testObserver.assertError(TimeoutException.class);
   }
 
