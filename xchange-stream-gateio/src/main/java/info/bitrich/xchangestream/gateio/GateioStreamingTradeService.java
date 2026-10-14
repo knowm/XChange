@@ -240,7 +240,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
     } else {
       Observable<Integer> observable = userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId, marketOrder)
           .map(node -> {
-            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
+            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioSpotOrderRequest>>> typeReference =
                 new TypeReference<>() {
                 };
             return mapper.treeToValue(node, typeReference);
