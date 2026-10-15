@@ -309,13 +309,12 @@ public class GateioAdapters {
 
     if (status == OrderStatus.FILLED || status == OrderStatus.PARTIALLY_FILLED) {
       if (orderType == OrderType.BID) {
-        // It is better not to pass anything than a calculated value that is incorrect.
-//        BigDecimal originalAmount =
-//            gateioOrder
-//                .getFilledTotalQuote()
-//                .divide(gateioOrder.getAvgDealPrice(), MathContext.DECIMAL32);
-        builder.cumulativeAmount(gateioOrder.getFilledAmount())
-            .originalAmount(null);
+        builder.cumulativeAmount(gateioOrder.getFilledAmount());
+        if ("market".equals(gateioOrder.getType())) {
+          // It is better not to pass anything than a calculated value that is incorrect.
+          builder.originalAmount(null);
+        } else
+          builder.originalAmount(gateioOrder.getAmount());
       } else if (orderType == OrderType.ASK) {
         builder.cumulativeAmount(gateioOrder.getFilledAmount())
             .originalAmount(gateioOrder.getAmount());
@@ -329,7 +328,6 @@ public class GateioAdapters {
 
     return builder
         .id(gateioOrder.getId())
-
         .userReference(gateioOrder.getClientOrderId())
         .timestamp(Date.from(gateioOrder.getCreatedAt()))
         .orderStatus(status)
