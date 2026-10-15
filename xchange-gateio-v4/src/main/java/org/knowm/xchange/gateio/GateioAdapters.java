@@ -245,7 +245,7 @@ public class GateioAdapters {
     return builder.contract(toGateioInstrument(limitOrder.getInstrument()))
         .size(getGateioSize(limitOrder, size))
         .price(limitOrder.getLimitPrice().toPlainString())
-        .text(limitOrder.getUserReference() != null ? limitOrder.getUserReference() : null)
+        .text(formatUserReference(limitOrder.getUserReference()))
         .reduceOnly(isReduceOnly(limitOrder))
         .build();
   }
