@@ -1,9 +1,11 @@
 package info.bitrich.xchangestream.gateio;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.config.IdGenerator;
 import info.bitrich.xchangestream.gateio.dto.GateioUserTradeWsResponse;
 import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioWsOrderPayload;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
@@ -27,7 +29,6 @@ import org.knowm.xchange.gateio.GateioErrorAdapter;
 import org.knowm.xchange.gateio.dto.GateioException;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
-import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
@@ -99,89 +100,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Single<Integer> placeLimitOrder(LimitOrder limitOrder, Object... args) {
-    String reqId = System.currentTimeMillis() + String.valueOf(System.nanoTime() / 1000 % 1000);
-    if (limitOrder.getInstrument() instanceof FuturesContract) {
-      BigDecimal contractValue = exchangeMetaData.getInstruments().get(limitOrder.getInstrument()).getContractValue();
-      Observable<Integer> observable = userTradeStreamingService.subscribeChannel(FUTURES_ORDER_PLACE_CHANNEL, reqId,
-              limitOrder, contractValue)
-          .map(node -> {
-            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
-                new TypeReference<>() {
-                };
-            return mapper.treeToValue(node, typeReference);
-          })
-          .publish(shared ->
-              shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                  .flatMap(first -> {
-                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
-                  return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                      .map(second -> {
-                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
-                          return 0;
-                        } else {
-                          assert second != null;
-                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
-                          String label = (second.getData() != null && second.getData().getErrs() != null)
-                              ? second.getData().getErrs().getLabel()
-                              : null;
-                          return label != null ? GateioErrorLabels.convert(label) : -1;
-                        }
-                      })
-                      .defaultIfEmpty(-1);
-                } else {
-                  assert first != null;
-                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
-                  String label = (first.getData() != null && first.getData().getErrs() != null)
-                      ? first.getData().getErrs().getLabel()
-                      : null;
-                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
-                }
-              })
-          );
-      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER)))).firstElement().toSingle();
-    } else {
-      Observable<Integer> observable = userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId,
-              limitOrder)
-          .map(node -> {
-            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioSpotOrderRequest>>> typeReference =
-                new TypeReference<>() {
-                };
-            return mapper.treeToValue(node, typeReference);
-          })
-          .publish(shared ->
-              shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                  .flatMap(first -> {
-                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
-                  return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                      .map(second -> {
-                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
-                          return 0;
-                        } else {
-                          assert second != null;
-                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
-                          String label = (second.getData() != null && second.getData().getErrs() != null)
-                              ? second.getData().getErrs().getLabel()
-                              : null;
-                          return label != null ? GateioErrorLabels.convert(label) : -1;
-                        }
-                      })
-                      .defaultIfEmpty(-1);
-                } else {
-                  assert first != null;
-                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
-                  String label = (first.getData() != null && first.getData().getErrs() != null)
-                      ? first.getData().getErrs().getLabel()
-                      : null;
-                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
-                }
-              })
-          );
-      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER)))).firstElement().toSingle();
-    }
+    return placeOrder(limitOrder);
   }
 
   /**
@@ -194,95 +113,64 @@ public class GateioStreamingTradeService implements StreamingTradeService {
    */
   @Override
   public Single<Integer> placeMarketOrder(MarketOrder marketOrder, Object... args) {
-    String reqId = System.currentTimeMillis() + String.valueOf(System.nanoTime() / 1000 % 1000);
-    if (marketOrder.getInstrument() instanceof FuturesContract) {
-      BigDecimal contractValue = exchangeMetaData.getInstruments().get(marketOrder.getInstrument()).getContractValue();
-      Observable<Integer> observable = userTradeStreamingService.subscribeChannel(FUTURES_ORDER_PLACE_CHANNEL, reqId,
-              marketOrder, contractValue)
-          .map(node -> {
-            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>> typeReference =
-                new TypeReference<>() {
-                };
-            return mapper.treeToValue(node, typeReference);
-          })
-          .publish(shared ->
-              shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                  .flatMap(first -> {
-                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
-                  return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                      .map(second -> {
-                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
-                          return 0;
-                        } else {
-                          assert second != null;
-                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
-                          String label = (second.getData() != null && second.getData().getErrs() != null)
-                              ? second.getData().getErrs().getLabel()
-                              : null;
-                          return label != null ? GateioErrorLabels.convert(label) : -1;
-                        }
-                      })
-                      .defaultIfEmpty(-1);
-                } else {
-                  assert first != null;
-                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
-                  String label = (first.getData() != null && first.getData().getErrs() != null)
-                      ? first.getData().getErrs().getLabel()
-                      : null;
-                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
-                }
-              })
-          );
-      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER))))
-          .firstElement().toSingle();
+    return placeOrder(marketOrder);
+  }
+
+  private Single<Integer> placeOrder(Order order) {
+    String reqId = IdGenerator.getInstance().requestIdTimeMicroseconds();
+    Observable<JsonNode> observable;
+    if (order.getInstrument() instanceof FuturesContract) {
+      BigDecimal contractValue = exchangeMetaData.getInstruments().get(order.getInstrument()).getContractValue();
+      observable = userTradeStreamingService.subscribeChannel(FUTURES_ORDER_PLACE_CHANNEL, reqId,
+          order, contractValue);
     } else {
-      Observable<Integer> observable = userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId, marketOrder)
-          .map(node -> {
-            TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<GateioSpotOrderRequest>>> typeReference =
-                new TypeReference<>() {
-                };
-            return mapper.treeToValue(node, typeReference);
-          })
-          .publish(shared ->
-              shared.take(1)
-                  .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                  .flatMap(first -> {
-                if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
-                  return shared.take(1)
-                      .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
-                      .map(second -> {
-                        if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
-                          return 0;
-                        } else {
-                          assert second != null;
-                          LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
-                          String label = (second.getData() != null && second.getData().getErrs() != null)
-                              ? second.getData().getErrs().getLabel()
-                              : null;
-                          return label != null ? GateioErrorLabels.convert(label) : -1;
-                        }
-                      })
-                      .defaultIfEmpty(-1);
-                } else {
-                  assert first != null;
-                  LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
-                  String label = (first.getData() != null && first.getData().getErrs() != null)
-                      ? first.getData().getErrs().getLabel()
-                      : null;
-                  return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
-                }
-              })
-          );
-      return observable.compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER))))
-          .firstElement().toSingle();
+      observable = userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId,
+          order);
     }
+    return observable
+        .map(node -> {
+          TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<?>>> typeReference =
+              new TypeReference<>() {
+              };
+          return mapper.treeToValue(node, typeReference);
+        })
+        .publish(shared ->
+            shared.take(1)
+                .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                .flatMap(first -> {
+                  if (first != null && first.getHeader() != null && "200".equals(first.getHeader().getStatus())) {
+                    return shared.take(1)
+                        .timeout(WS_CONNECTION_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS, Observable.error(new TimeoutException("Socket timeout")))
+                        .map(second -> {
+                          if (second != null && second.getHeader() != null && "200".equals(second.getHeader().getStatus())) {
+                            return 0;
+                          } else {
+                            assert second != null;
+                            LOG.info("Error placing order: {}", second.getData() != null ? second.getData().getErrs() : null);
+                            String label = (second.getData() != null && second.getData().getErrs() != null)
+                                ? second.getData().getErrs().getLabel()
+                                : null;
+                            return label != null ? GateioErrorLabels.convert(label) : -1;
+                          }
+                        })
+                        .defaultIfEmpty(-1);
+                  } else {
+                    assert first != null;
+                    LOG.info("Error placing order: {}", first.getData() != null ? first.getData().getErrs() : null);
+                    String label = (first.getData() != null && first.getData().getErrs() != null)
+                        ? first.getData().getErrs().getLabel()
+                        : null;
+                    return Observable.just(label != null ? GateioErrorLabels.convert(label) : -1);
+                  }
+                })
+        )
+        .compose(RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter(PLACE_ORDER)))
+        .firstElement().toSingle();
   }
 
   @Override
   public Single<Integer> cancelOrder(CancelOrderParams orderParams, Object... args) {
-    String reqId = System.currentTimeMillis() + String.valueOf(System.nanoTime() / 1000 % 1000);
+    String reqId = IdGenerator.getInstance().requestIdTimeMicroseconds();
     try {
       String id = "";
       Instrument instrument = null;
@@ -332,7 +220,7 @@ public class GateioStreamingTradeService implements StreamingTradeService {
 
   @Override
   public Single<Integer> changeOrder(LimitOrder order, Object... args) {
-    String reqId = System.currentTimeMillis() + String.valueOf(System.nanoTime() / 1000 % 1000);
+    String reqId = IdGenerator.getInstance().requestIdTimeMicroseconds();
     if (order.getInstrument() instanceof FuturesContract) {
       BigDecimal contractValue = exchangeMetaData.getInstruments().get(order.getInstrument()).getContractValue();
       Observable<Integer> observable = userTradeStreamingService.subscribeChannel(FUTURES_ORDER_AMEND_CHANNEL, reqId,

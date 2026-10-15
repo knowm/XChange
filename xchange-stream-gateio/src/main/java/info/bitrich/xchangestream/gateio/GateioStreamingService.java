@@ -141,7 +141,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
 
     GateioWsRequest request =
         GateioWsRequest.builder()
-            .id(IdGenerator.getInstance().requestId())
+            .id(IdGenerator.getInstance().requestIdRandom())
             .channel(channelName)
             .event(event)
             .time(Instant.now(Config.getInstance().getClock()))

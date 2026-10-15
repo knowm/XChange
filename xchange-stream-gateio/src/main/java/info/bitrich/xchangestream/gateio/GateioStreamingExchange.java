@@ -23,12 +23,6 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   public GateioStreamingExchange() {
   }
-//
-//  @Override
-//  protected void initServices() {
-//    super.initServices();
-//
-//  }
 
   @Override
   public Completable connect(ProductSubscription... args) {

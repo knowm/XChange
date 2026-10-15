@@ -189,7 +189,6 @@ public class GateioAdapters {
         .type("market")
         .timeInForce("ioc")
         .amount(marketOrder.getOriginalAmount().toPlainString());
-//    builder.account("unified");
     return builder.build();
   }
 
@@ -202,7 +201,6 @@ public class GateioAdapters {
         .timeInForce("gtc")
         .price(limitOrder.getLimitPrice().toPlainString())
         .amount(limitOrder.getOriginalAmount().toPlainString());
-//    builder.account("unified");
     return builder.build();
   }
 

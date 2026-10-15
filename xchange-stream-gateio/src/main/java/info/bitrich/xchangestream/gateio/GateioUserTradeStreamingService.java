@@ -87,7 +87,7 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
     String reqId = args[0].toString();
     GateioWsUserTradeRequest request =
         GateioWsUserTradeRequest.builder()
-            .id(IdGenerator.getInstance().requestId())
+            .id(IdGenerator.getInstance().requestIdRandom())
             .reqId(reqId)
             .channel(channelName)
             .event(Event.API.getValue())
