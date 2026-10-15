@@ -245,6 +245,10 @@ public class BinanceAdapters {
     return builder.build();
   }
 
+  /**
+   * Resolves the instrument from the ticker symbol through the symbol mapping.
+   * If not mapped, returns null for spot and a ticker with a null currency pair for futures.
+   */
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
     Instrument instrument = adaptSymbol(binanceTicker24h.getSymbol(), isFuture);
 
@@ -252,6 +256,14 @@ public class BinanceAdapters {
       return null;
     }
 
+    return toTicker(binanceTicker24h, instrument);
+  }
+
+  /**
+   * Uses the given instrument instead of resolving the symbol through the symbol mapping.
+   * The instrument must correspond to the ticker symbol; this is not validated.
+   */
+  public static Ticker toTicker(BinanceTicker24h binanceTicker24h, Instrument instrument) {
     return new Ticker.Builder()
         .instrument(instrument)
         .open(binanceTicker24h.getOpenPrice())

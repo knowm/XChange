@@ -10,6 +10,7 @@ import org.knowm.xchange.instrument.Instrument;
 @Getter
 @ToString
 public class BinanceFundingRateInfo {
+  private final String symbol;
   private final Instrument instrument;
   private final BigDecimal adjustedFundingRateCap;
   private final BigDecimal adjustedFundingRateFloor;
@@ -20,6 +21,7 @@ public class BinanceFundingRateInfo {
       @JsonProperty("adjustedFundingRateCap") BigDecimal adjustedFundingRateCap,
       @JsonProperty("adjustedFundingRateFloor") BigDecimal adjustedFundingRateFloor,
       @JsonProperty("fundingIntervalHours") int fundingIntervalHours) {
+    this.symbol = symbol;
     this.instrument = BinanceAdapters.adaptSymbol(symbol, true);
     this.adjustedFundingRateCap = adjustedFundingRateCap;
     this.adjustedFundingRateFloor = adjustedFundingRateFloor;

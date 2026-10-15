@@ -3,10 +3,12 @@ package org.knowm.xchange.binance.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 
 @Getter
 public final class BinanceBookTicker {
@@ -39,11 +41,23 @@ public final class BinanceBookTicker {
     this.transactionTime = transactionTime;
   }
 
+  /**
+   * Resolves the instrument from the ticker symbol through the symbol mapping.
+   * If not mapped, the instrument is null for spot and has a null currency pair for futures.
+   */
   public synchronized Ticker toTicker(boolean isFuture) {
-    if (ticker == null) {
+    return toTicker(BinanceAdapters.adaptSymbol(symbol, isFuture));
+  }
+
+  /**
+   * Uses the given instrument instead of resolving the symbol through the symbol mapping.
+   * The instrument must correspond to the ticker symbol; this is not validated.
+   */
+  public synchronized Ticker toTicker(Instrument instrument) {
+    if (ticker == null || !Objects.equals(ticker.getInstrument(), instrument)) {
       ticker =
           new Ticker.Builder()
-              .instrument(BinanceAdapters.adaptSymbol(symbol, isFuture))
+              .instrument(instrument)
               .ask(askPrice)
               .bid(bidPrice)
               .askSize(askQty)
