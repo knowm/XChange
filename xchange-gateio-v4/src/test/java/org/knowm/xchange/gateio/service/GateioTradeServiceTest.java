@@ -14,6 +14,7 @@ import org.knowm.xchange.gateio.dto.trade.Role;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 import java.math.BigDecimal;
@@ -181,7 +182,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
     Collection<Order> orders =
         gateioTradeService.getOrder(
-            new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "745504484392"));
+            new DefaultQueryOrderParam("745504484392"));
     assertThat(orders).hasSize(1);
     assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
   }
