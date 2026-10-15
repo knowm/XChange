@@ -178,7 +178,7 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
 
   @Override
   public Completable disconnect() {
-    compositeDisposable.dispose();
+    compositeDisposable.clear();
     return super.disconnect();
   }
 
