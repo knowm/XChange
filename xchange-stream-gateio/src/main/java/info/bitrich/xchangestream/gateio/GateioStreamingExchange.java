@@ -65,12 +65,20 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public Completable disconnect() {
-    GateioStreamingService service = streamingService;
+    List<Completable> completableList = new ArrayList<>();
+    if (streamingService != null) {
+      streamingService.pingPongDisconnectIfConnected();
+      completableList.add(streamingService.disconnect());
+    }
+    if (userTradeStreamingService != null) {
+      userTradeStreamingService.pingPongDisconnectIfConnected();
+      completableList.add(userTradeStreamingService.disconnect());
+    }
     streamingService = null;
     streamingMarketDataService = null;
     streamingTradeService = null;
     streamingAccountService = null;
-    return service.disconnect();
+    return Completable.concat(completableList);
   }
 
   @Override

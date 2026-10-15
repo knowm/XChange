@@ -328,7 +328,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
     return customHeaders;
   }
 
-  private void pingPongDisconnectIfConnected() {
+  public void pingPongDisconnectIfConnected() {
     if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
       pingPongSubscription.dispose();
     }
