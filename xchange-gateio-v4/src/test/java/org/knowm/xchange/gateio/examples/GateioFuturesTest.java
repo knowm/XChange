@@ -106,8 +106,11 @@ public class GateioFuturesTest {
   @Test
   @Disabled
   void setLeverage() throws Exception {
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualModeRaw("usdt", false));
     assertThat(exchange.getAccountService().setLeverage(instrument, 10)).isTrue();
     assertThat(exchange.getAccountService().setLeverage(instrument, 0, 20)).isTrue();
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualModeRaw("usdt", true));
+    assertThat(exchange.getAccountService().setLeverage(instrument, 10)).isTrue();
   }
 
   @Test

@@ -104,10 +104,12 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       Integer cross_leverage;
       if (args != null && args.length > 0) {
         cross_leverage = (Integer) args[0];
-        if (setLeverage(settle, contract, "0", String.valueOf(cross_leverage)).getCrossLeverageLimit().intValue() == cross_leverage)
+        GateioPositionLeverageUpdate update = setLeverage(settle, contract, "0", String.valueOf(cross_leverage));
+        if (update != null && update.getCrossLeverageLimit() != null && update.getCrossLeverageLimit().intValue() == cross_leverage)
           return true;
       } else {
-        if (setLeverage(settle, contract, String.valueOf(leverage), null).getLeverage().intValue() == leverage)
+        GateioPositionLeverageUpdate update = setLeverage(settle, contract, String.valueOf(leverage), null);
+        if (update != null && update.getLeverage() != null && update.getLeverage().intValue() == leverage)
           return true;
       }
       return false;

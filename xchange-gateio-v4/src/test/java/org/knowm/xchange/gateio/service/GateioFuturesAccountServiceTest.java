@@ -73,6 +73,30 @@ class GateioFuturesAccountServiceTest {
   }
 
   @Test
+  void set_leverage_single_mode() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage_single.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
+    assertThat(success).isTrue();
+  }
+
+  @Test
+  void set_leverage_dual_mode() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage_dual.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
+    assertThat(success).isTrue();
+  }
+
+  @Test
   void set_cross_leverage() throws Exception {
     wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
         .willReturn(aResponse()
