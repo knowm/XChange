@@ -145,6 +145,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
             .channel(channelName)
             .event(event)
             .time(Instant.now(Config.getInstance().getClock()))
+            .time_ms(Instant.now(Config.getInstance().getClock()))
             .build();
 
     // create channel specific payload

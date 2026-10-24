@@ -210,7 +210,7 @@ public class GateioFutureWsExample {
     LimitOrder limitOrderBid =
         new LimitOrder.Builder(Order.OrderType.BID, instrument)
             .originalAmount(minAmount)
-            .limitPrice(ticker.getHigh())
+            .limitPrice(ticker.getLow())
             .userReference(limitOrderBidUserId)
             .build();
     Disposable limitOrderBidDisposable =

@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 
 import java.time.Instant;
 
@@ -49,7 +49,7 @@ import java.time.Instant;
 public class GateioWsNotification {
 
   @JsonProperty("time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   private Instant time;
 
   @JsonProperty("time_ms")
