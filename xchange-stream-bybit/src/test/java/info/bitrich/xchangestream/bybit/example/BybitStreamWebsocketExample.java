@@ -202,7 +202,7 @@ public class BybitStreamWebsocketExample {
     LimitOrder limitOrderBid =
         new Builder(OrderType.BID, instrument)
             .originalAmount(minAmount)
-            .limitPrice(ticker.getHigh())
+            .limitPrice(ticker.getLow())
             .userReference(limitOrderBidUserId)
             .flag(BybitHedgeMode.TWOWAY)
             .build();
