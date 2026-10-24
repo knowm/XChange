@@ -13,15 +13,16 @@ import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioWsAmend
 import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioWsCancelOrder;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
 import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
 import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
@@ -50,10 +51,12 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
   private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
   private Disposable pingPongSubscription;
   private final ExchangeSpecification exchangeSpecification;
+  private final Duration connectionTimeout;
   private final boolean isFuturesEnabled;
   private final String pingChannelName;
   private final String pongChannelName;
   private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+  private CompletableSubject loginSubject;
 
 
   public GateioUserTradeStreamingService(String privateApiUrl, String apiSecret,
@@ -65,6 +68,8 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
         (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_RETRY_DURATION),
         (Integer) exchangeSpecification.getExchangeSpecificParametersItem(WS_IDLE_TIMEOUT));
     this.exchangeSpecification = exchangeSpecification;
+    this.connectionTimeout =
+        (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT);
     this.gateioStreamingAuthHelper = new GateioStreamingAuthHelper(apiSecret);
     this.isFuturesEnabled = isFuturesEnabled;
     this.pingChannelName = isFuturesEnabled ? "futures.ping" : "spot.ping";
@@ -153,15 +158,22 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
   public Completable connect() {
     Completable conn = super.connect();
     return conn.andThen(
-        (CompletableSource)
-            (completable) -> {
+        Completable.defer(
+            () -> {
+              loginSubject = CompletableSubject.create();
               try {
                 login();
                 pingPongDisconnectIfConnected();
                 pingPongSubscription =
-                    pingPongSrc.subscribe(o -> {
-                      sendMessage(("{\"time\":" + System.currentTimeMillis() + ",\"channel\":\"" + pingChannelName + "\"}"));
-                    });
+                    pingPongSrc.subscribe(
+                        o -> {
+                          sendMessage(
+                              ("{\"time\":"
+                                  + System.currentTimeMillis()
+                                  + ",\"channel\":\""
+                                  + pingChannelName
+                                  + "\"}"));
+                        });
                 Disposable disposable =
                     subscribeDisconnect()
                         .subscribe(
@@ -169,22 +181,28 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
                               loginDone = false;
                             });
                 compositeDisposable.add(disposable);
-                completable.onComplete();
+                return loginSubject.timeout(connectionTimeout.toMillis(), TimeUnit.MILLISECONDS);
               } catch (Exception e) {
-                completable.onError(e);
+                loginDone = false;
+                return Completable.error(e);
               }
-            });
+            }));
   }
 
   @Override
   public Completable disconnect() {
+    loginDone = false;
+    pingPongDisconnectIfConnected();
     compositeDisposable.clear();
     return super.disconnect();
   }
 
   public void login() throws JsonProcessingException {
-    if (exchangeSpecification.getApiKey() == null) {
+    if (exchangeSpecification == null
+        || exchangeSpecification.getApiKey() == null
+        || exchangeSpecification.getApiKey().isEmpty()) {
       loginDone = false;
+      throw new ExchangeSecurityException("API key is not specified");
     }
     Instant time = Instant.now(Config.getInstance().getClock());
     GateioLoginRequest payload = GateioLoginRequest.builder()
@@ -224,8 +242,23 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
         String channel = header.path("channel") != null ? header.path("channel").asText() : "";
         if (channel.equals(isFuturesEnabled ? CHANNEL_FUTURES_LOGIN : CHANNEL_SPOT_LOGIN)) {
           String status = header.path("status") != null ? header.path("status").asText() : "";
-          if (status.equals("200"))
+          if ("200".equals(status)) {
             loginDone = true;
+            if (loginSubject != null) {
+              loginSubject.onComplete();
+            }
+          } else {
+            loginDone = false;
+            String errMessage = extractErrorMessage(jsonNode);
+            ExchangeSecurityException ex =
+                new ExchangeSecurityException(
+                    "Login failed: status "
+                        + status
+                        + (errMessage != null && !errMessage.isEmpty() ? " - " + errMessage : ""));
+            if (loginSubject != null) {
+              loginSubject.onError(ex);
+            }
+          }
           return;
         }
       } else {
@@ -238,6 +271,28 @@ public class GateioUserTradeStreamingService extends JsonNettyStreamingService {
     } catch (IOException e) {
       LOG.error("Error parsing incoming message to JSON: {}", message);
     }
+  }
+
+  private String extractErrorMessage(JsonNode jsonNode) {
+    if (jsonNode.hasNonNull("data") && jsonNode.get("data").hasNonNull("errs")) {
+      JsonNode errs = jsonNode.get("data").get("errs");
+      String label = errs.hasNonNull("label") ? errs.get("label").asText() : null;
+      String message = errs.hasNonNull("message") ? errs.get("message").asText() : null;
+      if (label != null && message != null) {
+        return label + " - " + message;
+      } else if (message != null) {
+        return message;
+      } else if (label != null) {
+        return label;
+      }
+    }
+    if (jsonNode.hasNonNull("header") && jsonNode.get("header").hasNonNull("message")) {
+      return jsonNode.get("header").get("message").asText();
+    }
+    if (jsonNode.hasNonNull("message")) {
+      return jsonNode.get("message").asText();
+    }
+    return "";
   }
 
   public void pingPongDisconnectIfConnected() {

@@ -71,7 +71,6 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
       completableList.add(streamingService.disconnect());
     }
     if (userTradeStreamingService != null) {
-      userTradeStreamingService.pingPongDisconnectIfConnected();
       completableList.add(userTradeStreamingService.disconnect());
     }
     streamingService = null;
