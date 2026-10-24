@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.gateio.dto.response.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
 import org.knowm.xchange.instrument.Instrument;
@@ -21,7 +21,7 @@ public class TradeFuturesPayload {
   @JsonProperty("id")
   Long id;
   @JsonProperty("create_time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   Instant time;
   @JsonProperty("create_time_ms")
   @JsonDeserialize(converter = LongToInstantConverter.class)

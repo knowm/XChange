@@ -8,13 +8,10 @@ public class StringToOrderTypeConverter extends StdConverter<String, OrderType> 
 
   @Override
   public OrderType convert(String value) {
-    switch (value) {
-      case "buy":
-        return OrderType.BID;
-      case "sell":
-        return OrderType.ASK;
-      default:
-        throw new IllegalArgumentException("Can't map " + value);
-    }
+    return switch (value) {
+      case "buy" -> OrderType.BID;
+      case "sell" -> OrderType.ASK;
+      default -> throw new IllegalArgumentException("Can't map " + value);
+    };
   }
 }

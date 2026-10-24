@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 @Data
 @SuperBuilder
 @Jacksonized
-public class GateioMultipleOrderNotification extends GateioWsNotification {
+public class GateioMultipleOrderSpotNotification extends GateioWsNotification {
 
   @JsonProperty("result")
   private List<GateioSpotOrderResponse> result;
 
-  public List<GateioSingleOrderNotification> toSingleNotifications() {
+  public List<GateioSingleOrderSpotNotification> toSingleNotifications() {
     return result.stream()
         .map(
             orderResponse ->
-                GateioSingleOrderNotification.builder()
+                GateioSingleOrderSpotNotification.builder()
                     .result(orderResponse)
                     .time(getTime())
                     .timeMs(getTimeMs())

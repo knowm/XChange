@@ -58,7 +58,7 @@ class GateioFuturesAccountServiceTest {
 
   @Test
   void set_leverage() throws Exception {
-    wireMockServer.stubFor(post(urlPathMatching("/futures/usdt/positions/BTC_USDT/leverage"))
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")
             .withBodyFile("api_v4_futures_set_leverage.json")));
@@ -67,8 +67,104 @@ class GateioFuturesAccountServiceTest {
     boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
     assertThat(success).isTrue();
 
-    wireMockServer.verify(postRequestedFor(urlPathMatching("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+    wireMockServer.verify(postRequestedFor(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
         .withQueryParam("leverage", equalTo("10"))
         .withoutQueryParam("cross_leverage_limit"));
+  }
+
+  @Test
+  void set_leverage_single_mode() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage_single.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
+    assertThat(success).isTrue();
+  }
+
+  @Test
+  void set_leverage_dual_mode() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage_dual.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 10);
+    assertThat(success).isTrue();
+  }
+
+  @Test
+  void set_cross_leverage() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 0, 20);
+    assertThat(success).isTrue();
+
+    wireMockServer.verify(postRequestedFor(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .withQueryParam("leverage", equalTo("0"))
+        .withQueryParam("cross_leverage_limit", equalTo("20")));
+  }
+
+  @Test
+  void set_leverage_mismatch() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/positions/BTC_USDT/leverage"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_leverage.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean success = gateioAccountService.setLeverage(new FuturesContract("BTC/USDT/USDT"), 5);
+    assertThat(success).isFalse();
+  }
+
+  @Test
+  void set_dual_mode() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/dual_mode"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_dual_mode.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    Boolean dualModeRaw = gateioAccountService.setDualModeRaw("usdt", true);
+    assertThat(dualModeRaw).isNotNull();
+    assertThat(dualModeRaw).isTrue();
+    wireMockServer.verify(postRequestedFor(urlPathEqualTo("/api/v4/futures/usdt/dual_mode"))
+        .withQueryParam("dual_mode", equalTo("true")));
+  }
+
+  @Test
+  void set_dual_mode_no_change() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/usdt/dual_mode"))
+        .withQueryParam("dual_mode", equalTo("true"))
+        .willReturn(aResponse()
+            .withStatus(400)
+            .withHeader("Content-Type", "application/json")
+            .withBody("{\"label\":\"NO_CHANGE\",\"message\":\"Margin mode not changed\"}")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean dualMode = gateioAccountService.setDualModeRaw("usdt", true);
+    assertThat(dualMode).isTrue();
+  }
+
+  @Test
+  void set_position_mode() throws Exception {
+    wireMockServer.stubFor(post(urlPathEqualTo("/api/v4/futures/btc/dual_mode"))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("api_v4_futures_set_dual_mode.json")));
+
+    GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
+    boolean dualModeSet = gateioAccountService.setPositionMode("btc", false);
+    assertThat(dualModeSet).isFalse();
+
+    wireMockServer.verify(postRequestedFor(urlPathEqualTo("/api/v4/futures/btc/dual_mode"))
+        .withQueryParam("dual_mode", equalTo("false")));
   }
 }
