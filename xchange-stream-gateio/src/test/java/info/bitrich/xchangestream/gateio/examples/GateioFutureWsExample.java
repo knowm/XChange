@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
+import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 
@@ -169,6 +170,133 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("marketSellOrder is disposed: {}", marketSellOrderDisposable.isDisposed());
+  }
+
+  // dual position mode
+  @Test
+  @Disabled
+  public void websocketTradeExampleHedgeMode() throws IOException, InterruptedException {
+    // switch mode to two-way
+    ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", true);
+    BigDecimal minAmount =
+        exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
+    Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    minAmount =
+        getMinAmount(
+            new BigDecimal("5"),
+            minAmount,
+            ticker,
+            exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
+    String limitOrderAskUserId = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
+    LimitOrder limitOrderAsk =
+        new LimitOrder.Builder(Order.OrderType.ASK, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getHigh())
+            .userReference(limitOrderAskUserId)
+            .build();
+    Disposable limitOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitOrderAsk)
+            .subscribe(
+                result -> {
+                  log.info("limitOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+
+    log.info("limitOrderBid is disposed: {}", limitOrderAskDisposable.isDisposed());
+    String limitOrderBidUserId = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
+    LimitOrder limitOrderBid =
+        new LimitOrder.Builder(Order.OrderType.BID, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getHigh())
+            .userReference(limitOrderBidUserId)
+            .build();
+    Disposable limitOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitOrderBid)
+            .subscribe(
+                result -> {
+                  log.info("limitOrderBid is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("limitOrderBid is disposed: {}", limitOrderBidDisposable.isDisposed());
+    Disposable cancelLimitOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderAskUserId))
+            .subscribe(
+                result -> {
+                  log.info("cancelLimitOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("cancelLimitOrderAsk is disposed: {}", cancelLimitOrderAskDisposable.isDisposed());
+    Disposable cancelLimitOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderBidUserId))
+            .subscribe(
+                result -> {
+                  log.info("cancelLimitOrderBid is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("cancelLimitOrderBid is disposed: {}", cancelLimitOrderBidDisposable.isDisposed());
+    MarketOrder marketOrderAsk = new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(minAmount).build();
+    Disposable marketOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderAsk)
+            .subscribe(
+                result -> {
+                  log.info("marketOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("marketOrderBid is disposed: {}", marketOrderAskDisposable.isDisposed());
+
+    MarketOrder marketOrderBid = new MarketOrder.Builder(Order.OrderType.BID, instrument).originalAmount(minAmount).build();
+    Disposable marketOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderBid)
+            .subscribe(
+                result -> {
+                  log.info("marketOrderBid is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("marketOrderBid is disposed: {}", marketOrderBidDisposable.isDisposed());
+
+    MarketOrder marketOrderCloseAsk = new MarketOrder.Builder(Order.OrderType.EXIT_ASK, instrument).originalAmount(minAmount).build();
+    Disposable marketOrderCloseAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderCloseAsk)
+            .subscribe(
+                result -> {
+                  log.info("marketOrderCloseBid is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("marketOrderCloseBid is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
+
+    MarketOrder marketOrderCloseBid = new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument).originalAmount(minAmount).build();
+    Disposable marketOrderCloseBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderCloseBid)
+            .subscribe(
+                result -> {
+                  log.info("marketOrderCloseBid is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
+    Thread.sleep(1000);
+    log.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
   }
 
 }

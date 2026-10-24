@@ -68,7 +68,7 @@ public class GateioFuturesTest {
   @Test
   @Disabled
   void switchMarginMode() throws Exception {
-    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualModeRaw("usdt", true));
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", true));
     log.info("set single mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", false));
   }
 

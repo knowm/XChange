@@ -182,6 +182,8 @@ public class GateioStreamingTradeService implements StreamingTradeService {
           instrument = params.getInstrument();
           if (params.getUserReference() != null) {
             id = params.getUserReference();
+            if (!id.startsWith("t-"))
+              throw new IllegalArgumentException("user reference must begin at 't-'");
           } else if (params.getOrderId() != null) {
             id = params.getOrderId();
           }
