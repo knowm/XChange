@@ -1,7 +1,5 @@
 package info.bitrich.xchangestream.binance;
 
-import static java.util.Collections.emptyMap;
-
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -10,13 +8,6 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -26,6 +17,16 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Collections.emptyMap;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
@@ -248,12 +249,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public boolean isAlive() {
     if (exchangeSpecification.getApiKey() != null) {
       if (isFuturesEnabled()) {
-        return streamingService.isSocketOpen()
+        return streamingService != null && streamingService.isSocketOpen()
             && userDataFutureStreamingService.isSocketOpen()
             && userTradeStreamingService.isSocketOpen()
             && userTradeStreamingService.isAuthorized();
       } else {
-        return streamingService.isSocketOpen()
+        return streamingService != null && streamingService.isSocketOpen()
             && userDataSpotStreamingService.isSocketOpen()
             && userDataSpotStreamingService.isAuthorized()
             && userTradeStreamingService.isSocketOpen()
