@@ -1,10 +1,5 @@
 package org.knowm.xchange.okex;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -33,6 +28,14 @@ import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk.PositionData;
 import org.knowm.xchange.okex.dto.account.OkexTradeFee.FiatList;
 import org.knowm.xchange.okex.dto.marketdata.*;
 import org.knowm.xchange.okex.dto.trade.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.knowm.xchange.okex.dto.trade.OkxHedgeMode.TWOWAY;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -193,7 +196,7 @@ public class OkexAdapters {
         .instIdCode(instrumentToInstrumentIdMap.get(order.getInstrument()).toString())
         .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
         .side(getSide(order))
-        .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
+        .posSide(getPositionSide(order)) // PosSide should come as a input from an extended LimitOrder class to
         // support Futures/Swap capabilities of Okex, till then it should be null to
         // perform "net" orders
         .reducePosition(order.hasFlag(OkexOrderFlags.REDUCE_ONLY))
@@ -247,7 +250,7 @@ public class OkexAdapters {
         .instIdCode(instrumentToInstrumentIdMap.get(order.getInstrument()).toString())
         .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
         .side(getSide(order))
-        .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
+        .posSide(getPositionSide(order)) // PosSide should come as a input from an extended LimitOrder class to
         // support Futures/Swap capabilities of Okex, till then it should be null to
         // perform "net" orders
         .clientOrderId(order.getUserReference())
@@ -861,5 +864,35 @@ public class OkexAdapters {
 
   public static String instrumentToInstrumentCode(Instrument instrument) {
     return instrumentToInstrumentIdMap.get(instrument).toString();
+  }
+
+  public static String getPositionSide(Order order) {
+    OkxHedgeMode hedgeMode =
+        getOrderFlag(order, OkxHedgeMode.class).orElse(OkxHedgeMode.ONEWAY);
+    String positionSide = null;
+    if (hedgeMode.equals(TWOWAY)) {
+      positionSide = "long";
+      switch (order.getType()) {
+        case ASK:
+        case EXIT_ASK:
+        {
+          positionSide = "short";
+          break;
+        }
+        case BID:
+        case EXIT_BID:
+        {
+          break;
+        }
+      }
+    }
+    return positionSide;
+  }
+
+  public static <T extends Order.IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
+    return (Optional<T>)
+        order.getOrderFlags().stream()
+            .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
+            .findFirst();
   }
 }
