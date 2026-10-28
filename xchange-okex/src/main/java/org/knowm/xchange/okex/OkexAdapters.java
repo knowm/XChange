@@ -35,7 +35,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.knowm.xchange.okex.dto.trade.OkxHedgeMode.TWOWAY;
+import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
@@ -867,8 +867,8 @@ public class OkexAdapters {
   }
 
   public static String getPositionSide(Order order) {
-    OkxHedgeMode hedgeMode =
-        getOrderFlag(order, OkxHedgeMode.class).orElse(OkxHedgeMode.ONEWAY);
+    OrderHedgeMode hedgeMode =
+        getOrderFlag(order, OrderHedgeMode.class).orElse(OrderHedgeMode.ONEWAY);
     String positionSide = null;
     if (hedgeMode.equals(TWOWAY)) {
       positionSide = "long";
