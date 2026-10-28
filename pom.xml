@@ -141,7 +141,7 @@
         <version.assertj>3.27.7</version.assertj>
         <version.bouncycastle>1.86</version.bouncycastle>
         <version.commons.lang3>3.21.0</version.commons.lang3>
-        <version.fasterxml>2.22.3</version.fasterxml>
+        <version.fasterxml>2.22.4</version.fasterxml>
         <version.fasterxml.annotations>2.22</version.fasterxml.annotations>
         <version.github.mmazi>3.1</version.github.mmazi>
 
@@ -232,7 +232,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
-                <version>4.2.18.Final</version>
+                <version>4.2.19.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -468,7 +468,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <configuration>
                     <skipTests>${skipIntegrationTests}</skipTests>
                     <includes>
@@ -528,12 +528,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.11.0</version>
+                <version>0.12.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>
