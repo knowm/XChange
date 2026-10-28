@@ -41,13 +41,13 @@ public class BybitStreamWebsocketExample {
       while (!exchange.isAlive()) {
         TimeUnit.MILLISECONDS.sleep(100);
       }
-      websocketCandles();
-      websocketFundingRate();
-      // main(not demo) api only
-      websocketTradeExample();
-      Thread.sleep(1000);
-      websocketBatchTradeExample();
-      Thread.sleep(1000);
+//      websocketCandles();
+//      websocketFundingRate();
+//      // main(not demo) api only
+//      websocketTradeExample();
+//      Thread.sleep(1000);
+//      websocketBatchTradeExample();
+//      Thread.sleep(1000);
       websocketTradeExampleHedgeMode();
       exchange.disconnect().blockingAwait();
     } catch (InterruptedException e) {
