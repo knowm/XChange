@@ -156,12 +156,4 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     return setDualMode("usdt", dualMode);
   }
 
-  public boolean setPositionMode(String settle, boolean dualMode) throws IOException {
-    return setDualMode(settle, dualMode);
-  }
-
-  public boolean setPositionMode(boolean dualMode) throws IOException {
-    return setDualMode(dualMode);
-  }
-
 }

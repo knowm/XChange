@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.gateio.dto.account.GateioAccountBookRecord;
 import org.knowm.xchange.gateio.dto.account.GateioWithdrawalRequest;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
 
 @UtilityClass
 public class GateioAdapters {
@@ -206,8 +209,7 @@ public class GateioAdapters {
 
   public static GateioFuturesOrderRequest toGateioFuturesOrder(MarketOrder marketOrder, BigDecimal contractValue) {
     BigDecimal size = convertVolumeToContractSize(marketOrder.getOriginalAmount(), contractValue);
-    String userReference;
-    userReference = formatUserReference(marketOrder.getUserReference());
+    String userReference = formatUserReference(marketOrder.getUserReference());
     return GateioFuturesOrderRequest.builder()
         .contract(toGateioInstrument(marketOrder.getInstrument()))
         .size(getGateioSize(marketOrder, size))
@@ -464,4 +466,21 @@ public class GateioAdapters {
         .stripTrailingZeros();
   }
 
+  // only need for fully close position in two way mode, not realized yet
+  public static String getPositionSide(Order.OrderType orderType,OrderHedgeMode hedgeMode) {
+   String positionSide = null;
+    if (hedgeMode.equals(TWOWAY)) {
+      switch (orderType) {
+        case EXIT_ASK: {
+          positionSide = "close_short";
+          break;
+        }
+        case EXIT_BID: {
+          positionSide = "close_long";
+          break;
+        }
+      }
+    }
+    return positionSide;
+  }
 }

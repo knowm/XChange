@@ -161,7 +161,7 @@ class GateioFuturesAccountServiceTest {
             .withBodyFile("api_v4_futures_set_dual_mode.json")));
 
     GateioAccountService gateioAccountService = (GateioAccountService) exchange.getAccountService();
-    boolean dualModeSet = gateioAccountService.setPositionMode("btc", false);
+    boolean dualModeSet = gateioAccountService.setDualMode("btc", false);
     assertThat(dualModeSet).isFalse();
 
     wireMockServer.verify(postRequestedFor(urlPathEqualTo("/api/v4/futures/btc/dual_mode"))
