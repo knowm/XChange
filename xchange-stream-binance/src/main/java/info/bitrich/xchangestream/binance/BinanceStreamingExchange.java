@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannel
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
+import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.rxjava3.core.Completable;
@@ -139,13 +140,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
           throw new IllegalStateException("Failed to establish user data channel", e);
         }
       } else {
-        if (exchangeSpecification.getExchangeSpecificParametersItem("ed25519") != null
-            && exchangeSpecification.getExchangeSpecificParametersItem("ed25519").equals(true)) {
+        if (isEd25519Enable()) {
           completables.add(createAndConnectUserDataSpotService());
         }
       }
-      if (exchangeSpecification.getExchangeSpecificParametersItem("ed25519") != null
-          && exchangeSpecification.getExchangeSpecificParametersItem("ed25519").equals(true)) {
+      if (isEd25519Enable()) {
         completables.add(createAndConnectUserTradeService());
       }
     }
@@ -174,6 +173,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             () -> streamingMarketDataService.openSubscriptions(subscriptions, klineSubscription))
         .doOnComplete(() -> streamingAccountService.openSubscriptions())
         .doOnComplete(() -> streamingTradeService.openSubscriptions());
+  }
+
+  private boolean isEd25519Enable() {
+    return exchangeSpecification.getExchangeSpecificParametersItem("ed25519") != null
+        && exchangeSpecification.getExchangeSpecificParametersItem("ed25519").equals(true);
   }
 
   private Completable createAndConnectUserDataFutureService(String listenKey) {
@@ -241,6 +245,14 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       userDataChannel.close();
       userDataChannel = null;
     }
+    if(userDataSpotStreamingService!= null) {
+      completables.add(userDataSpotStreamingService.disconnect());
+      userDataSpotStreamingService = null;
+    }
+    if(userTradeStreamingService!=null) {
+      completables.add(userTradeStreamingService.disconnect());
+      userTradeStreamingService = null;
+    }
     streamingMarketDataService = null;
     return Completable.concat(completables);
   }
@@ -249,20 +261,32 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public boolean isAlive() {
     if (exchangeSpecification.getApiKey() != null) {
       if (isFuturesEnabled()) {
-        return streamingService != null && streamingService.isSocketOpen()
-            && userDataFutureStreamingService.isSocketOpen()
-            && userTradeStreamingService.isSocketOpen()
+        if(isEd25519Enable())
+        return nullAndSocketCheck(streamingService)
+            && nullAndSocketCheck(userDataFutureStreamingService)
+            && nullAndSocketCheck(userTradeStreamingService)
             && userTradeStreamingService.isAuthorized();
+        else
+          return nullAndSocketCheck(streamingService)
+              && nullAndSocketCheck(userDataFutureStreamingService)
+              && nullAndSocketCheck(userTradeStreamingService);
       } else {
-        return streamingService != null && streamingService.isSocketOpen()
-            && userDataSpotStreamingService.isSocketOpen()
+        if(isEd25519Enable())
+        return nullAndSocketCheck(streamingService)
+            && nullAndSocketCheck(userDataSpotStreamingService)
             && userDataSpotStreamingService.isAuthorized()
-            && userTradeStreamingService.isSocketOpen()
+            && nullAndSocketCheck(userTradeStreamingService)
             && userTradeStreamingService.isAuthorized();
+        else
+          return nullAndSocketCheck(streamingService);
       }
     } else {
       return streamingService != null && streamingService.isSocketOpen();
     }
+  }
+
+  private boolean nullAndSocketCheck(JsonNettyStreamingService service) {
+    return service != null && service.isSocketOpen();
   }
 
   @Override
