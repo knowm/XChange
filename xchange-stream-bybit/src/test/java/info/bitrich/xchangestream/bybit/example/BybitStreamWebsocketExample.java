@@ -196,8 +196,7 @@ public class BybitStreamWebsocketExample {
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-
-    LOG.info("limitOrderBid is disposed: {}", limitOrderAskDisposable.isDisposed());
+    LOG.info("limitOrderAsk is disposed: {}", limitOrderAskDisposable.isDisposed());
     String limitOrderBidUserId = RandomStringUtils.randomAlphanumeric(20);
     LimitOrder limitOrderBid =
         new Builder(OrderType.BID, instrument)
@@ -272,11 +271,11 @@ public class BybitStreamWebsocketExample {
             .placeMarketOrder(marketOrderCloseAsk)
             .subscribe(
                 result -> {
-                  LOG.info("marketOrderCloseBid is send, retCode: {}", result);
+                  LOG.info("marketOrderCloseAsk is send, retCode: {}", result);
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-    LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
+    LOG.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
 
     MarketOrder marketOrderCloseBid = new MarketOrder.Builder(OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(BybitHedgeMode.TWOWAY).build();
     Disposable marketOrderCloseBidDisposable =
@@ -363,5 +362,8 @@ public class BybitStreamWebsocketExample {
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
     LOG.info("marketOrder is disposed: {}", marketOrderDisposable.isDisposed());
+    // switch back to one-way
+    ((BybitAccountService) exchange.getAccountService())
+        .switchPositionMode(BybitCategory.LINEAR, instrument, "USDT", 0);
   }
 }
