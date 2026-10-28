@@ -141,7 +141,7 @@
         <version.assertj>3.27.7</version.assertj>
         <version.bouncycastle>1.86</version.bouncycastle>
         <version.commons.lang3>3.21.0</version.commons.lang3>
-        <version.fasterxml>2.22.3</version.fasterxml>
+        <version.fasterxml>2.22.4</version.fasterxml>
         <version.fasterxml.annotations>2.22</version.fasterxml.annotations>
         <version.github.mmazi>3.1</version.github.mmazi>
 
