@@ -6,7 +6,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
-import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -15,6 +14,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
@@ -41,13 +41,13 @@ public class BybitStreamWebsocketExample {
       while (!exchange.isAlive()) {
         TimeUnit.MILLISECONDS.sleep(100);
       }
-      websocketCandles();
-      websocketFundingRate();
-      // main(not demo) api only
-      websocketTradeExample();
-      Thread.sleep(1000);
-      websocketBatchTradeExample();
-      Thread.sleep(1000);
+//      websocketCandles();
+//      websocketFundingRate();
+//      // main(not demo) api only
+//      websocketTradeExample();
+//      Thread.sleep(1000);
+//      websocketBatchTradeExample();
+//      Thread.sleep(1000);
       websocketTradeExampleHedgeMode();
       exchange.disconnect().blockingAwait();
     } catch (InterruptedException e) {
@@ -174,7 +174,7 @@ public class BybitStreamWebsocketExample {
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     minAmount =
         getMinAmount(
-            new BigDecimal("5"),
+            new BigDecimal("6"),
             minAmount,
             ticker,
             exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
@@ -184,7 +184,7 @@ public class BybitStreamWebsocketExample {
             .originalAmount(minAmount)
             .limitPrice(ticker.getHigh())
             .userReference(limitOrderAskUserId)
-            .flag(BybitHedgeMode.TWOWAY)
+            .flag(OrderHedgeMode.TWOWAY)
             .build();
     Disposable limitOrderAskDisposable =
         exchange
@@ -203,7 +203,7 @@ public class BybitStreamWebsocketExample {
             .originalAmount(minAmount)
             .limitPrice(ticker.getLow())
             .userReference(limitOrderBidUserId)
-            .flag(BybitHedgeMode.TWOWAY)
+            .flag(OrderHedgeMode.TWOWAY)
             .build();
     Disposable limitOrderBidDisposable =
         exchange
@@ -238,7 +238,7 @@ public class BybitStreamWebsocketExample {
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
     LOG.info("cancelLimitOrderBid is disposed: {}", cancelLimitOrderBidDisposable.isDisposed());
-    MarketOrder marketOrderAsk = new MarketOrder.Builder(OrderType.ASK, instrument).originalAmount(minAmount).flag(BybitHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderAsk = new MarketOrder.Builder(OrderType.ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
     Disposable marketOrderAskDisposable =
         exchange
             .getStreamingTradeService()
@@ -251,7 +251,7 @@ public class BybitStreamWebsocketExample {
     Thread.sleep(1000);
     LOG.info("marketOrderBid is disposed: {}", marketOrderAskDisposable.isDisposed());
 
-    MarketOrder marketOrderBid = new MarketOrder.Builder(OrderType.BID, instrument).originalAmount(minAmount).flag(BybitHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderBid = new MarketOrder.Builder(OrderType.BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
     Disposable marketOrderBidDisposable =
         exchange
             .getStreamingTradeService()
@@ -264,7 +264,7 @@ public class BybitStreamWebsocketExample {
     Thread.sleep(1000);
     LOG.info("marketOrderBid is disposed: {}", marketOrderBidDisposable.isDisposed());
 
-    MarketOrder marketOrderCloseAsk = new MarketOrder.Builder(OrderType.EXIT_ASK, instrument).originalAmount(minAmount).flag(BybitHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderCloseAsk = new MarketOrder.Builder(OrderType.EXIT_ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
     Disposable marketOrderCloseAskDisposable =
         exchange
             .getStreamingTradeService()
@@ -277,7 +277,7 @@ public class BybitStreamWebsocketExample {
     Thread.sleep(1000);
     LOG.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
 
-    MarketOrder marketOrderCloseBid = new MarketOrder.Builder(OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(BybitHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderCloseBid = new MarketOrder.Builder(OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
     Disposable marketOrderCloseBidDisposable =
         exchange
             .getStreamingTradeService()
@@ -289,6 +289,9 @@ public class BybitStreamWebsocketExample {
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
     LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
+    // switch back to one-way
+    ((BybitAccountService) exchange.getAccountService())
+        .switchPositionMode(BybitCategory.LINEAR, instrument, "USDT", 0);
   }
 
   private static void websocketTradeExample() throws IOException, InterruptedException {
@@ -362,8 +365,5 @@ public class BybitStreamWebsocketExample {
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
     LOG.info("marketOrder is disposed: {}", marketOrderDisposable.isDisposed());
-    // switch back to one-way
-    ((BybitAccountService) exchange.getAccountService())
-        .switchPositionMode(BybitCategory.LINEAR, instrument, "USDT", 0);
   }
 }

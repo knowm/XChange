@@ -1,18 +1,5 @@
 package org.knowm.xchange.bybit;
 
-import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode.TWOWAY;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.*;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -30,7 +17,6 @@ import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseT
 import org.knowm.xchange.bybit.dto.marketdata.tickers.option.BybitOptionTicker;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.spot.BybitSpotTicker;
 import org.knowm.xchange.bybit.dto.trade.*;
-import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
 import org.knowm.xchange.bybit.dto.trade.details.BybitOrderDetail;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.bybit.service.BybitException;
@@ -52,8 +38,23 @@ import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
+
+import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
+import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
+import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
+import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
 
 public class BybitAdapters {
 
@@ -548,8 +549,8 @@ public class BybitAdapters {
   }
 
   public static int getPositionIdx(Order order) {
-    BybitHedgeMode hedgeMode =
-        getOrderFlag(order, BybitHedgeMode.class).orElse(BybitHedgeMode.ONEWAY);
+    OrderHedgeMode hedgeMode =
+        getOrderFlag(order, OrderHedgeMode.class).orElse(OrderHedgeMode.ONEWAY);
     int positionIdx = 0;
     if (hedgeMode.equals(TWOWAY)) {
       positionIdx = 1;
