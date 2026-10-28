@@ -300,7 +300,7 @@ public class GateioFutureWsExample {
     Thread.sleep(1000);
     log.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
     // switch back to one-way mode
-//    ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", false);
+    ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", false);
   }
 
 }
