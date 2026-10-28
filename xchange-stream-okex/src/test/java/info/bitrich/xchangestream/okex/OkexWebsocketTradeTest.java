@@ -128,8 +128,7 @@ class OkexWebsocketTradeTest {
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-
-    LOG.info("limitOrderBid is disposed: {}", limitOrderAskDisposable.isDisposed());
+    LOG.info("limitOrderAsk is disposed: {}", limitOrderAskDisposable.isDisposed());
     String limitOrderBidUserId = RandomStringUtils.randomAlphanumeric(20);
     LimitOrder limitOrderBid =
         new LimitOrder.Builder(Order.OrderType.BID, instrument)
@@ -182,7 +181,7 @@ class OkexWebsocketTradeTest {
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-    LOG.info("marketOrderBid is disposed: {}", marketOrderAskDisposable.isDisposed());
+    LOG.info("limitOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
 
     MarketOrder marketOrderBid = new MarketOrder.Builder(Order.OrderType.BID, instrument).originalAmount(minAmount).flag(OkxHedgeMode.TWOWAY).build();
     Disposable marketOrderBidDisposable =
@@ -204,11 +203,11 @@ class OkexWebsocketTradeTest {
             .placeMarketOrder(marketOrderCloseAsk)
             .subscribe(
                 result -> {
-                  LOG.info("marketOrderCloseBid is send, retCode: {}", result);
+                  LOG.info("marketOrderCloseAsk is send, retCode: {}", result);
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-    LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
+    LOG.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
 
     MarketOrder marketOrderCloseBid = new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(OkxHedgeMode.TWOWAY).build();
     Disposable marketOrderCloseBidDisposable =
@@ -222,6 +221,8 @@ class OkexWebsocketTradeTest {
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
     LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
+    // switch back to one-way
+    ((OkexAccountService) exchange.getAccountService()).setPositionDualModeRaw(false);
   }
 
 
