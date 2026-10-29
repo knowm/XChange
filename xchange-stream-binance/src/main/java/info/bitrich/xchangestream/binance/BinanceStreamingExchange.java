@@ -261,28 +261,24 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public boolean isAlive() {
     if (exchangeSpecification.getApiKey() != null) {
       if (isFuturesEnabled()) {
-        if(isEd25519Enable())
         return nullAndSocketCheck(streamingService)
-            && nullAndSocketCheck(userDataFutureStreamingService)
-            && nullAndSocketCheck(userTradeStreamingService)
+            && isNullOrOpen(userDataFutureStreamingService)
+            && isNullOrOpen(userTradeStreamingService)
             && userTradeStreamingService.isAuthorized();
-        else
-          return nullAndSocketCheck(streamingService)
-              && nullAndSocketCheck(userDataFutureStreamingService)
-              && nullAndSocketCheck(userTradeStreamingService);
       } else {
-        if(isEd25519Enable())
         return nullAndSocketCheck(streamingService)
-            && nullAndSocketCheck(userDataSpotStreamingService)
+            && isNullOrOpen(userDataSpotStreamingService)
             && userDataSpotStreamingService.isAuthorized()
-            && nullAndSocketCheck(userTradeStreamingService)
+            && isNullOrOpen(userTradeStreamingService)
             && userTradeStreamingService.isAuthorized();
-        else
-          return nullAndSocketCheck(streamingService);
       }
     } else {
-      return streamingService != null && streamingService.isSocketOpen();
+      return nullAndSocketCheck(streamingService);
     }
+  }
+
+  private boolean isNullOrOpen(JsonNettyStreamingService service) {
+    return service == null || service.isSocketOpen();
   }
 
   private boolean nullAndSocketCheck(JsonNettyStreamingService service) {
