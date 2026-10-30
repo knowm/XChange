@@ -1,44 +1,21 @@
 package org.knowm.xchange.okex;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.okex.dto.OkexException;
+import org.knowm.xchange.okex.dto.OkexResponse;
+import org.knowm.xchange.okex.dto.account.*;
+import org.knowm.xchange.okex.dto.marketdata.OkexCurrency;
+import org.knowm.xchange.okex.dto.subaccount.OkexSubAccountDetails;
+import org.knowm.xchange.okex.dto.trade.*;
+import si.mazi.rescu.ParamsDigest;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.okex.dto.OkexException;
-import org.knowm.xchange.okex.dto.OkexResponse;
-import org.knowm.xchange.okex.dto.account.OkexAccountConfig;
-import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk;
-import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
-import org.knowm.xchange.okex.dto.account.OkexBillDetails;
-import org.knowm.xchange.okex.dto.account.OkexChangeMarginRequest;
-import org.knowm.xchange.okex.dto.account.OkexChangeMarginResponse;
-import org.knowm.xchange.okex.dto.account.OkexDepositAddress;
-import org.knowm.xchange.okex.dto.account.OkexPosition;
-import org.knowm.xchange.okex.dto.account.OkexSetLeverageRequest;
-import org.knowm.xchange.okex.dto.account.OkexSetLeverageResponse;
-import org.knowm.xchange.okex.dto.account.OkexTradeFee;
-import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
-import org.knowm.xchange.okex.dto.account.OkexWithdrawalRequest;
-import org.knowm.xchange.okex.dto.account.OkexWithdrawalResponse;
-import org.knowm.xchange.okex.dto.account.PiggyBalance;
-import org.knowm.xchange.okex.dto.marketdata.OkexCurrency;
-import org.knowm.xchange.okex.dto.subaccount.OkexSubAccountDetails;
-import org.knowm.xchange.okex.dto.trade.OkexAmendOrderRequest;
-import org.knowm.xchange.okex.dto.trade.OkexCancelOrderRequest;
-import org.knowm.xchange.okex.dto.trade.OkexOrderDetails;
-import org.knowm.xchange.okex.dto.trade.OkexOrderRequest;
-import org.knowm.xchange.okex.dto.trade.OkexOrderResponse;
-import si.mazi.rescu.ParamsDigest;
 
 @Path("/api/v5")
 @Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +31,7 @@ public interface OkexAuthenticated extends Okex {
   String positionsPath = "/account/positions"; // Stated as 10 req/2 sec
   String accountPositionAtRiskPath = "/account/account-position-risk"; // Stated as 10 req/2 sec
   String setLeveragePath = "/account/set-leverage"; // Stated as 20 req/2 sec
+  String setPositionModePath = "/account/set-position-mode"; // Stated as 5 req/2 sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
   String orderDetailsPath = "/trade/order";
   String placeOrderPath = "/trade/order"; // Stated as 60 req/2 sec
@@ -77,6 +55,7 @@ public interface OkexAuthenticated extends Okex {
           put(assetBalancesPath, Arrays.asList(6, 1));
           put(positionsPath, Arrays.asList(5, 1));
           put(setLeveragePath, Arrays.asList(20, 2));
+          put(setPositionModePath, Arrays.asList(5, 2));
           put(pendingOrdersPath, Arrays.asList(20, 2));
           put(orderDetailsPath, Arrays.asList(60, 2));
           put(placeOrderPath, Arrays.asList(60, 2));
@@ -258,6 +237,18 @@ public interface OkexAuthenticated extends Okex {
       @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
       @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
       OkexSetLeverageRequest requestPayload)
+      throws IOException, OkexException;
+
+  @POST
+  @Path(setPositionModePath)
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse<List<OkexSetPositionModeResponse>> setPositionMode(
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @HeaderParam("X-SIMULATED-TRADING") String simulatedTrading,
+      OkexSetPositionModeRequest requestPayload)
       throws IOException, OkexException;
 
   @GET

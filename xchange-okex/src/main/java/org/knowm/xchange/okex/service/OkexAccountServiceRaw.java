@@ -1,33 +1,21 @@
 package org.knowm.xchange.okex.service;
 
-import static org.knowm.xchange.okex.OkexExchange.PARAM_PASSPHRASE;
-import static org.knowm.xchange.okex.OkexExchange.PARAM_SIMULATED;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.okex.OkexAuthenticated;
 import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.OkexException;
 import org.knowm.xchange.okex.dto.OkexResponse;
-import org.knowm.xchange.okex.dto.account.OkexAccountConfig;
-import org.knowm.xchange.okex.dto.account.OkexAccountPositionRisk;
-import org.knowm.xchange.okex.dto.account.OkexAssetBalance;
-import org.knowm.xchange.okex.dto.account.OkexBillDetails;
-import org.knowm.xchange.okex.dto.account.OkexChangeMarginRequest;
-import org.knowm.xchange.okex.dto.account.OkexChangeMarginResponse;
-import org.knowm.xchange.okex.dto.account.OkexDepositAddress;
-import org.knowm.xchange.okex.dto.account.OkexSetLeverageRequest;
-import org.knowm.xchange.okex.dto.account.OkexSetLeverageResponse;
-import org.knowm.xchange.okex.dto.account.OkexTradeFee;
-import org.knowm.xchange.okex.dto.account.OkexWalletBalance;
-import org.knowm.xchange.okex.dto.account.OkexWithdrawalRequest;
-import org.knowm.xchange.okex.dto.account.OkexWithdrawalResponse;
-import org.knowm.xchange.okex.dto.account.PiggyBalance;
+import org.knowm.xchange.okex.dto.account.*;
 import org.knowm.xchange.okex.dto.subaccount.OkexSubAccountDetails;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.okex.OkexExchange.PARAM_PASSPHRASE;
+import static org.knowm.xchange.okex.OkexExchange.PARAM_SIMULATED;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAccountServiceRaw extends OkexBaseService {
@@ -183,6 +171,33 @@ public class OkexAccountServiceRaw extends OkexBaseService {
                               .getExchangeSpecificParametersItem(PARAM_SIMULATED),
                       requestPayload))
           .withRateLimiter(rateLimiter(OkexAuthenticated.setLeveragePath))
+          .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexSetPositionModeResponse>> setPositionDualModeRaw(boolean dualMode)
+      throws OkexException, IOException {
+    try {
+      OkexSetPositionModeRequest requestPayload =
+          OkexSetPositionModeRequest.builder().posMode(dualMode ? "long_short_mode" : "net_mode").build();
+      return decorateApiCall(
+              () ->
+                  okexAuthenticated.setPositionMode(
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_PASSPHRASE),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem(PARAM_SIMULATED),
+                      requestPayload))
+          .withRateLimiter(rateLimiter(OkexAuthenticated.setPositionModePath))
           .call();
     } catch (OkexException e) {
       throw handleError(e);
