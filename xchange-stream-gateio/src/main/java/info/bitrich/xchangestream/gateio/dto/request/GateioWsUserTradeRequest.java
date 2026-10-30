@@ -5,15 +5,13 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-import java.time.Instant;
-
 @Data
 @SuperBuilder
 @Jacksonized
 public class GateioWsUserTradeRequest {
 
   @JsonProperty("time")
-  private Instant time;
+  private Long time;
 
   @JsonProperty("id")
   private Long id;

@@ -9,6 +9,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gateio.GateioExchange;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +25,11 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   }
 
   @Override
-  protected void initServices() {
-    super.initServices();
+  public Completable connect(ProductSubscription... args) {
     if (isFuturesEnabled())
       exchangeSpecification.setSslUri(Config.V4_FUTURES_URL);
     else
       exchangeSpecification.setSslUri(Config.V4_URL);
-  }
-
-  @Override
-  public Completable connect(ProductSubscription... args) {
     applyWebsocketTimeouts(exchangeSpecification);
     streamingService =
         new GateioStreamingService(
@@ -43,13 +39,14 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
     applyStreamingSpecification(exchangeSpecification, streamingService);
     if (isApiKeyValid()) {
       userTradeStreamingService =
-          new GateioUserTradeStreamingService(exchangeSpecification.getSslUri(), exchangeSpecification.getApiKey(),
-              exchangeSpecification.getSecretKey(), exchangeSpecification);
+          new GateioUserTradeStreamingService(exchangeSpecification.getSslUri(),
+              exchangeSpecification.getSecretKey(), exchangeSpecification, isFuturesEnabled());
       applyStreamingSpecification(exchangeSpecification, userTradeStreamingService);
     }
     streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
         (GateioMarketDataService) marketDataService, this);
-    streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData);
+    streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData, userTradeStreamingService
+        , getResilienceRegistries(), (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT));
     streamingAccountService = new GateioStreamingAccountService(streamingService);
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());
@@ -68,12 +65,19 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public Completable disconnect() {
-    GateioStreamingService service = streamingService;
+    List<Completable> completableList = new ArrayList<>();
+    if (streamingService != null) {
+      streamingService.pingPongDisconnectIfConnected();
+      completableList.add(streamingService.disconnect());
+    }
+    if (userTradeStreamingService != null) {
+      completableList.add(userTradeStreamingService.disconnect());
+    }
     streamingService = null;
     streamingMarketDataService = null;
     streamingTradeService = null;
     streamingAccountService = null;
-    return service.disconnect();
+    return Completable.concat(completableList);
   }
 
   @Override
@@ -93,7 +97,16 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
 
   @Override
   public boolean isAlive() {
-    return streamingService != null && streamingService.isSocketOpen();
+    if (streamingService != null) {
+      if (userTradeStreamingService != null) {
+        return streamingService.isSocketOpen()
+            && userTradeStreamingService.isSocketOpen()
+            && userTradeStreamingService.isLoginDone();
+      } else {
+        return streamingService.isSocketOpen();
+      }
+    }
+    return false;
   }
 
   @Override

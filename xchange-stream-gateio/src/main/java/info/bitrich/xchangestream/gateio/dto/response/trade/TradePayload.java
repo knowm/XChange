@@ -18,7 +18,7 @@ public class TradePayload {
   Long id;
 
   @JsonProperty("create_time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   Instant time;
 
   @JsonProperty("create_time_ms")

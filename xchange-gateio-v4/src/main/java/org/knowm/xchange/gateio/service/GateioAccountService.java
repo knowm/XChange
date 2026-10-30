@@ -104,10 +104,12 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
       Integer cross_leverage;
       if (args != null && args.length > 0) {
         cross_leverage = (Integer) args[0];
-        if (setLeverage(settle, contract, "0", String.valueOf(cross_leverage)).getCrossLeverageLimit().intValue() == cross_leverage)
+        GateioPositionLeverageUpdate update = setLeverage(settle, contract, "0", String.valueOf(cross_leverage));
+        if (update != null && update.getCrossLeverageLimit() != null && update.getCrossLeverageLimit().intValue() == cross_leverage)
           return true;
       } else {
-        if (setLeverage(settle, contract, String.valueOf(leverage), null).getLeverage().intValue() == leverage)
+        GateioPositionLeverageUpdate update = setLeverage(settle, contract, String.valueOf(leverage), null);
+        if (update != null && update.getLeverage() != null && update.getLeverage().intValue() == leverage)
           return true;
       }
       return false;
@@ -137,6 +139,21 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
     } catch (GateioException e) {
       throw GateioErrorAdapter.adapt(e);
     }
+  }
+
+  /**
+   * Set position mode (dual mode / hedge mode on or off)
+   *
+   * @param settle   settle currency (e.g. "usdt", "btc")
+   * @param dualMode true for hedge mode (dual mode), false for one-way mode
+   * @return true is successful
+   */
+  public boolean setDualMode(String settle, boolean dualMode) throws IOException {
+    return setDualModeRaw(settle, dualMode);
+  }
+
+  public boolean setDualMode(boolean dualMode) throws IOException {
+    return setDualMode("usdt", dualMode);
   }
 
 }

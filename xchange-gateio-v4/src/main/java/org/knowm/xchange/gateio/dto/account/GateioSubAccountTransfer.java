@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyConverter;
 
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ public class GateioSubAccountTransfer {
   Integer mainAccountId;
 
   @JsonProperty("timest")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   private Instant timestamp;
 
   @JsonProperty("source")
