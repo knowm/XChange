@@ -63,7 +63,8 @@ public class BybitStreamOrderBookAndFeesExample {
 
   private static void getOrderBookExample() throws InterruptedException {
     exchange = connectMainApi(BybitCategory.LINEAR, false);
-    subscribeOrderBook("200,50,1");
+    subscribeOrderBook("200");
+    subscribeOrderBook("1");
     Thread.sleep(3000L);
     for (Disposable dis : booksDisposable) {
       dis.dispose();
@@ -84,7 +85,13 @@ public class BybitStreamOrderBookAndFeesExample {
                   }
                 })
             .subscribe(
-                orderBook -> System.out.print("."),
+                orderBook -> {
+                  LOG.info(
+                      "orderBook(level:{}): ask size {}, bid size {}",
+                      depth,
+                      orderBook.getAsks().size(),
+                      orderBook.getBids().size());
+                },
                 throwable -> {
                   LOG.error(throwable.getMessage());
                 }));
