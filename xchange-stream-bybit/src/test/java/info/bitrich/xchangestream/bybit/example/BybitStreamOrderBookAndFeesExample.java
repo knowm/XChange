@@ -1,8 +1,14 @@
 package info.bitrich.xchangestream.bybit.example;
 
+import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
+
 import info.bitrich.xchangestream.core.StreamingExchange;
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.account.Fee;
@@ -10,15 +16,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
-
-@Slf4j
 public class BybitStreamOrderBookAndFeesExample {
 
   private static final Logger LOG =
@@ -29,7 +26,7 @@ public class BybitStreamOrderBookAndFeesExample {
     try {
       // Stream orderBook and OrderBookUpdates
       getOrderBookExample();
-//      getFeesExample();
+      getFeesExample();
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -89,7 +86,11 @@ public class BybitStreamOrderBookAndFeesExample {
                 })
             .subscribe(
                 orderBook -> {
-                  log.info("orderBook(level:{}): ask size {}, bid size {}", depth, orderBook.getAsks().size(), orderBook.getBids().size());
+                  LOG.info(
+                      "orderBook(level:{}): ask size {}, bid size {}",
+                      depth,
+                      orderBook.getAsks().size(),
+                      orderBook.getBids().size());
                 },
                 throwable -> {
                   LOG.error(throwable.getMessage());

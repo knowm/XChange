@@ -1,5 +1,8 @@
 package info.bitrich.xchangestream.bybit;
 
+import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptFundingRateInterval;
+import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bybit.dto.BybitResponse;
@@ -10,24 +13,21 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import org.knowm.xchange.bybit.BybitAdapters;
-import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
-import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.*;
-import org.knowm.xchange.instrument.Instrument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-
-import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.adaptFundingRateInterval;
-import static org.knowm.xchange.bybit.BybitAdapters.convertToBybitSymbol;
+import org.knowm.xchange.bybit.BybitAdapters;
+import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
+import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BybitStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -62,8 +62,13 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
   public Observable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
     int depth = 50;
     AtomicLong orderBookUpdateIdPrev = new AtomicLong();
-    if (args.length > 0 && args[0] != null)
-      depth = Integer.parseInt(args[0].toString());
+    if (args.length > 0 && args[0] != null) {
+      try {
+        depth = Integer.parseInt(args[0].toString());
+      } catch (NumberFormatException e) {
+        throw new ExchangeException("Only one depth per subscription");
+      }
+    }
     String orderBookMapId = ORDERBOOK + depth + convertToBybitSymbol(instrument);
     String channelUniqueId = ORDERBOOK + depth + "." + convertToBybitSymbol(instrument);
     return streamingService
@@ -71,8 +76,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             jsonNode -> {
               try {
-                BybitOrderbook bybitOrderBooks =
-                    mapper.treeToValue(jsonNode, BybitOrderbook.class);
+                BybitOrderbook bybitOrderBooks = mapper.treeToValue(jsonNode, BybitOrderbook.class);
                 String type = bybitOrderBooks.getDataType();
                 if (type.equalsIgnoreCase("snapshot")) {
                   orderBookUpdateIdPrev.set(bybitOrderBooks.getData().getU());
@@ -82,17 +86,12 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
                   return orderBook;
                 } else if (type.equalsIgnoreCase("delta")) {
                   return applyOrderBookDeltaSnapshot(
-                      orderBookMapId,
-                      instrument,
-                      bybitOrderBooks,
-                      orderBookUpdateIdPrev);
+                      orderBookMapId, instrument, bybitOrderBooks, orderBookUpdateIdPrev);
                 }
                 return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
               } catch (IllegalStateException e) {
                 LOG.warn(
-                    "Resubscribing {} channel after adapter error {}",
-                    instrument,
-                    e.getMessage());
+                    "Resubscribing {} channel after adapter error {}", instrument, e.getMessage());
                 // Resubscribe to the channel, triggering a new snapshot
                 orderBookMap.remove(orderBookMapId);
                 if (streamingService.isSocketOpen()) {
@@ -104,8 +103,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
                 return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
               }
             })
-        .filter(
-            orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty());
+        .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty());
   }
 
   private OrderBook applyOrderBookDeltaSnapshot(
@@ -211,8 +209,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             jsonNode -> {
               BybitResponse<BybitLinearInverseTicker> bybitTicker =
-                  mapper.treeToValue(jsonNode, new TypeReference<>() {
-                  });
+                  mapper.treeToValue(jsonNode, new TypeReference<>() {});
               String type = bybitTicker.getType();
               if (type.equalsIgnoreCase("snapshot")) {
                 tickerSnapshotMap.put(channelUniqueId, bybitTicker.getData());
@@ -289,8 +286,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             jsonNode -> {
               BybitResponse<BybitLinearInverseTicker> bybitTicker =
-                  mapper.treeToValue(jsonNode, new TypeReference<>() {
-                  });
+                  mapper.treeToValue(jsonNode, new TypeReference<>() {});
               String type = bybitTicker.getType();
               if (type.equalsIgnoreCase("snapshot")) {
                 FundingRate fundingRate =
@@ -357,8 +353,7 @@ public class BybitStreamingMarketDataService implements StreamingMarketDataServi
         .map(
             jsonNode -> {
               BybitResponse<List<BybitCandleStick>> bybitCandles =
-                  mapper.treeToValue(jsonNode, new TypeReference<>() {
-                  });
+                  mapper.treeToValue(jsonNode, new TypeReference<>() {});
               return BybitStreamAdapters.adaptCandles(bybitCandles.getData().get(0), instrument);
             });
   }
