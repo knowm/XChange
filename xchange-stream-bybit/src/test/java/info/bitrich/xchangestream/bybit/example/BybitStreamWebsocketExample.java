@@ -249,7 +249,7 @@ public class BybitStreamWebsocketExample {
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-    LOG.info("marketOrderBid is disposed: {}", marketOrderAskDisposable.isDisposed());
+    LOG.info("marketOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
 
     MarketOrder marketOrderBid = new MarketOrder.Builder(OrderType.BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
     Disposable marketOrderBidDisposable =
