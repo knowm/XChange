@@ -1,9 +1,15 @@
 package info.bitrich.xchangestream.okex;
 
+import static info.bitrich.xchangestream.okex.Utils.getMinAmount;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -25,16 +31,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
-import static info.bitrich.xchangestream.okex.Utils.getMinAmount;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
 @Disabled
-@Slf4j
 class OkexWebsocketTradeTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexWebsocketTradeTest.class);
@@ -151,7 +148,8 @@ class OkexWebsocketTradeTest {
     Disposable cancelLimitOrderAskDisposable =
         exchange
             .getStreamingTradeService()
-            .cancelOrder( new OkexTradeParams.OkexCancelOrderParams(instrument, "", limitOrderAskUserId))
+            .cancelOrder(
+                new OkexTradeParams.OkexCancelOrderParams(instrument, null, limitOrderAskUserId))
             .subscribe(
                 result -> {
                   LOG.info("cancelLimitOrderAsk is send, retCode: {}", result);
@@ -162,7 +160,8 @@ class OkexWebsocketTradeTest {
     Disposable cancelLimitOrderBidDisposable =
         exchange
             .getStreamingTradeService()
-            .cancelOrder(new OkexTradeParams.OkexCancelOrderParams(instrument, null, limitOrderBidUserId))
+            .cancelOrder(
+                new OkexTradeParams.OkexCancelOrderParams(instrument, null, limitOrderBidUserId))
             .subscribe(
                 result -> {
                   LOG.info("cancelLimitOrderBid is send, retCode: {}", result);
@@ -170,7 +169,11 @@ class OkexWebsocketTradeTest {
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
     LOG.info("cancelLimitOrderBid is disposed: {}", cancelLimitOrderBidDisposable.isDisposed());
-    MarketOrder marketOrderAsk = new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderAsk =
+        new MarketOrder.Builder(Order.OrderType.ASK, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderAskDisposable =
         exchange
             .getStreamingTradeService()
@@ -181,9 +184,13 @@ class OkexWebsocketTradeTest {
                 },
                 throwable -> LOG.error("throwable", throwable));
     Thread.sleep(1000);
-    LOG.info("limitOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
+    LOG.info("marketOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
 
-    MarketOrder marketOrderBid = new MarketOrder.Builder(Order.OrderType.BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderBid =
+        new MarketOrder.Builder(Order.OrderType.BID, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderBidDisposable =
         exchange
             .getStreamingTradeService()
@@ -196,7 +203,11 @@ class OkexWebsocketTradeTest {
     Thread.sleep(1000);
     LOG.info("marketOrderBid is disposed: {}", marketOrderBidDisposable.isDisposed());
 
-    MarketOrder marketOrderCloseAsk = new MarketOrder.Builder(Order.OrderType.EXIT_ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderCloseAsk =
+        new MarketOrder.Builder(Order.OrderType.EXIT_ASK, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderCloseAskDisposable =
         exchange
             .getStreamingTradeService()
@@ -209,7 +220,11 @@ class OkexWebsocketTradeTest {
     Thread.sleep(1000);
     LOG.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
 
-    MarketOrder marketOrderCloseBid = new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderCloseBid =
+        new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderCloseBidDisposable =
         exchange
             .getStreamingTradeService()
@@ -224,7 +239,6 @@ class OkexWebsocketTradeTest {
     // switch back to one-way
     ((OkexAccountService) exchange.getAccountService()).setPositionDualModeRaw(false);
   }
-
 
   private void tradeTest(Instrument instrument) throws IOException, InterruptedException {
     StreamingTradeService tradeService = exchange.getStreamingTradeService();
