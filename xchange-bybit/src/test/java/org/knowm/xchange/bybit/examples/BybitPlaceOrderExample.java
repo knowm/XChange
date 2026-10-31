@@ -1,10 +1,5 @@
 package org.knowm.xchange.bybit.examples;
 
-import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_ACCOUNT_TYPE;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,7 +7,6 @@ import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.account.walletbalance.BybitAccountType;
 import org.knowm.xchange.bybit.dto.trade.BybitOpenOrdersParam;
-import org.knowm.xchange.bybit.dto.trade.details.BybitHedgeMode;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.bybit.service.BybitAccountService;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -21,7 +15,14 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.instrument.Instrument;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_ACCOUNT_TYPE;
 
 public class BybitPlaceOrderExample {
 
@@ -59,7 +60,7 @@ public class BybitPlaceOrderExample {
     // switch mode to two-way
     bybitAccountService.switchPositionMode(BybitCategory.LINEAR, ETH_USDT_PERP, "USDT", 3);
     MarketOrder marketOrder = new MarketOrder(OrderType.BID, minAmountFuture, ETH_USDT_PERP);
-    marketOrder.addOrderFlag(BybitHedgeMode.TWOWAY);
+    marketOrder.addOrderFlag(OrderHedgeMode.TWOWAY);
     String marketOrderId = exchange.getTradeService().placeMarketOrder(marketOrder);
     System.out.println("market order id: " + marketOrderId);
 
@@ -73,7 +74,7 @@ public class BybitPlaceOrderExample {
             new Date(),
             ticker.getHigh());
     limitOrder.addOrderFlag(BybitTimeInForce.POSTONLY);
-    limitOrder.addOrderFlag(BybitHedgeMode.TWOWAY);
+    limitOrder.addOrderFlag(OrderHedgeMode.TWOWAY);
     String limitOrderId = exchange.getTradeService().placeLimitOrder(limitOrder);
     System.out.println("limit order id: " + limitOrderId);
 
