@@ -264,13 +264,13 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         return nullAndSocketCheck(streamingService)
             && isNullOrOpen(userDataFutureStreamingService)
             && isNullOrOpen(userTradeStreamingService)
-            && userTradeStreamingService.isAuthorized();
+            && (userTradeStreamingService == null || userTradeStreamingService.isAuthorized());
       } else {
         return nullAndSocketCheck(streamingService)
             && isNullOrOpen(userDataSpotStreamingService)
             && userDataSpotStreamingService.isAuthorized()
             && isNullOrOpen(userTradeStreamingService)
-            && userTradeStreamingService.isAuthorized();
+            && (userTradeStreamingService==null || userTradeStreamingService.isAuthorized());
       }
     } else {
       return nullAndSocketCheck(streamingService);
