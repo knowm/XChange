@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -13,7 +13,7 @@ import java.time.Instant;
 public class BalancePayload {
 
   @JsonProperty("timestamp")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   private Instant time;
 
   @JsonProperty("timestamp_ms")

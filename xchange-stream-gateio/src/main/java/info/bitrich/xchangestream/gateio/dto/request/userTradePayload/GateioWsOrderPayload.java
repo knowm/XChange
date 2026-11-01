@@ -6,20 +6,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderRequest;
 
 @Data
 @Builder
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class GateioWsPlaceOrderPayload {
+public class GateioWsOrderPayload<T> {
 
   @JsonProperty("req_id")
   private String reqId;
 
   @JsonProperty("req_param")
-  private GateioSpotOrderRequest reqParam;
+  private T reqParam;
 
   @JsonProperty("req_header")
   private ReqHeader reqHeader;
