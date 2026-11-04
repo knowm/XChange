@@ -38,32 +38,36 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
-    TreeSet<LimitOrder> bids = new TreeSet<>();
-    TreeSet<LimitOrder> asks = new TreeSet<>();
     int depth =
         ObjectUtils.defaultIfNull(
             KrakenStreamingService.parseOrderBookSize(args),
             KrakenStreamingService.ORDER_BOOK_SIZE_DEFAULT);
-    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, args)
-        .map(
-            arrayNode -> {
-              try {
-                return KrakenStreamingAdapters.adaptOrderbookMessage(
-                    depth, bids, asks, currencyPair, arrayNode);
-              } catch (IllegalStateException e) {
-                LOG.warn(
-                    "Resubscribing {} channel after adapter error {}",
-                    currencyPair,
-                    e.getMessage());
-                bids.clear();
-                asks.clear();
-                // Resubscribe to the channel, triggering a new snapshot
-                this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
-                this.service.sendMessage(service.getSubscribeMessage(channelName, args));
-                return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
-              }
-            })
-        .filter(ob -> ob.getBids().size() > 0 && ob.getAsks().size() > 0);
+    Observable<ArrayNode> channel = subscribe(channelName, MIN_DATA_ARRAY_SIZE, args);
+    return Observable.defer(
+        () -> {
+          TreeSet<LimitOrder> bids = new TreeSet<>();
+          TreeSet<LimitOrder> asks = new TreeSet<>();
+          return channel
+              .map(
+                  arrayNode -> {
+                    try {
+                      return KrakenStreamingAdapters.adaptOrderbookMessage(
+                          depth, bids, asks, currencyPair, arrayNode);
+                    } catch (IllegalStateException e) {
+                      LOG.warn(
+                          "Resubscribing {} channel after adapter error {}",
+                          currencyPair,
+                          e.getMessage());
+                      bids.clear();
+                      asks.clear();
+                      // Resubscribe to the channel, triggering a new snapshot
+                      this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
+                      this.service.sendMessage(service.getSubscribeMessage(channelName, args));
+                      return new OrderBook(null, new ArrayList<>(), new ArrayList<>(), false);
+                    }
+                  })
+              .filter(ob -> ob.getBids().size() > 0 && ob.getAsks().size() > 0);
+        });
   }
 
   @Override
