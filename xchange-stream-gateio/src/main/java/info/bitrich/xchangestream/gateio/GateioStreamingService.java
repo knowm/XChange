@@ -12,7 +12,7 @@ import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
@@ -141,10 +141,11 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
 
     GateioWsRequest request =
         GateioWsRequest.builder()
-            .id(IdGenerator.getInstance().requestId())
+            .id(IdGenerator.getInstance().requestIdRandom())
             .channel(channelName)
             .event(event)
             .time(Instant.now(Config.getInstance().getClock()))
+            .time_ms(Instant.now(Config.getInstance().getClock()))
             .build();
 
     // create channel specific payload
@@ -279,7 +280,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       } else if (notification instanceof GateioMultipleSpotBalanceNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
-      } else if (notification instanceof GateioMultipleOrderNotification multipleNotification) {
+      } else if (notification instanceof GateioMultipleOrderSpotNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
       } else if (notification instanceof GateioMultipleOrderFuturesNotification multipleNotification) {
         multipleNotification.toSingleNotifications().forEach(this::handleMessage);
@@ -328,7 +329,7 @@ public class GateioStreamingService extends NettyStreamingService<GateioWsNotifi
     return customHeaders;
   }
 
-  private void pingPongDisconnectIfConnected() {
+  public void pingPongDisconnectIfConnected() {
     if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
       pingPongSubscription.dispose();
     }

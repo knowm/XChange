@@ -1,5 +1,6 @@
 package org.knowm.xchange.gateio.examples;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -19,15 +20,18 @@ import org.knowm.xchange.gateio.dto.trade.GateioTimeInForce;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.utils.AuthUtils;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 public class GateioSpotTest {
   private final Instrument currencyPair = CurrencyPair.ETH_USDT;
   public Exchange exchange;
@@ -44,7 +48,8 @@ public class GateioSpotTest {
     //amount: Trading quantity When type is limit, it refers to the base currency (the currency being traded), such as BTC in BTC_USDT When type is market, it refers to different currencies based on the side:
     //    side: buy refers to quote currency, BTC_USDT means USDT
     //    side: sell refers to base currency, BTC_USDT means BTC
-    MarketOrder marketOrder = new MarketOrder(Order.OrderType.BID, new BigDecimal("5"), currencyPair);
+    String marketOrderUserRef = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
+    MarketOrder marketOrder = new MarketOrder.Builder(Order.OrderType.BID, currencyPair).originalAmount(new BigDecimal("5")).userReference(marketOrderUserRef).build();
     Ticker ticker = exchange.getMarketDataService().getTicker(currencyPair);
     LimitOrder limitOrder = new LimitOrder.Builder(Order.OrderType.BID, currencyPair).limitPrice(ticker.getLow()).originalAmount(new BigDecimal("0.002"))
         .userReference(String.valueOf(System.currentTimeMillis())).build();
@@ -53,6 +58,9 @@ public class GateioSpotTest {
     String limitOrderId = exchange.getTradeService().placeLimitOrder(limitOrder);
     CandleStickDataParams params = new DefaultCandleStickParam(new Date(System.currentTimeMillis() - 86400000 * 4), new Date(), 86400);
     CandleStickData candleStickData = exchange.getMarketDataService().getCandleStickData(currencyPair, params);
+    Collection<Order> orders = exchange.getTradeService().getOrder(
+        new DefaultQueryOrderParam(marketOrderUserRef));
+    log.info("marketOrder {}", orders);
   }
 
   @Test

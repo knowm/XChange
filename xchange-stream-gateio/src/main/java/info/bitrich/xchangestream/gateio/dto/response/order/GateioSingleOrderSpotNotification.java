@@ -11,7 +11,7 @@ import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
 @Data
 @SuperBuilder
 @Jacksonized
-public class GateioSingleOrderNotification extends GateioWsNotification {
+public class GateioSingleOrderSpotNotification extends GateioWsNotification {
 
   @JsonProperty("result")
   private GateioSpotOrderResponse result;

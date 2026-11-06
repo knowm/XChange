@@ -7,7 +7,7 @@ import java.time.Instant;
 /**
  * Converts timestamp in seconds to {@code Instant}
  */
-public class DoubleMillisecondsToInstantConverter extends StdConverter<Double, Instant> {
+public class DoubleSecondsToInstantConverter extends StdConverter<Double, Instant> {
 
   @Override
   public Instant convert(final Double value) {

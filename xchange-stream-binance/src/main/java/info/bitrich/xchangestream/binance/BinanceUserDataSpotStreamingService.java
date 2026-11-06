@@ -159,7 +159,7 @@ public class BinanceUserDataSpotStreamingService extends JsonNettyStreamingServi
 
   @Override
   public Completable disconnect() {
-    compositeDisposable.dispose();
+    compositeDisposable.clear();
     return super.disconnect();
   }
 

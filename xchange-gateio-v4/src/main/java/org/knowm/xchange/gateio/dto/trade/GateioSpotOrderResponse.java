@@ -75,6 +75,9 @@ public class GateioSpotOrderResponse {
   @JsonProperty("filled_total")
   private BigDecimal filledTotalQuote;
 
+  @JsonProperty("filled_amount")
+  private BigDecimal filledAmount;
+
   @JsonProperty("avg_deal_price")
   private BigDecimal avgDealPrice;
 

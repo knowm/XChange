@@ -10,7 +10,7 @@ import info.bitrich.xchangestream.gateio.dto.Event;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.funding.GateioMultipleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioMultipleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNotification;
@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 
 import java.time.Instant;
 
@@ -37,7 +37,7 @@ import java.time.Instant;
     @Type(value = GateioOrderBookV2FuturesNotification.class, name = Config.FUTURES_ORDERBOOKV2_CHANNEL),
     @Type(value = GateioMultipleSpotBalanceNotification.class, name = Config.SPOT_BALANCES_CHANNEL),
     @Type(value = GateioMultipleUserTradeNotification.class, name = Config.SPOT_USER_TRADES_CHANNEL),
-    @Type(value = GateioMultipleOrderNotification.class, name = Config.SPOT_USER_ORDERS_CHANNEL),
+    @Type(value = GateioMultipleOrderSpotNotification.class, name = Config.SPOT_USER_ORDERS_CHANNEL),
     @Type(value = GateioMultipleOrderFuturesNotification.class, name = Config.FUTURES_USER_ORDERS_CHANNEL),
     @Type(value = GateioMultipleTickerAndFundingNotification.class, name = Config.FUTURES_TICKET_AND_FUNDING_CHANNEL)
 })
@@ -49,7 +49,7 @@ import java.time.Instant;
 public class GateioWsNotification {
 
   @JsonProperty("time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   private Instant time;
 
   @JsonProperty("time_ms")

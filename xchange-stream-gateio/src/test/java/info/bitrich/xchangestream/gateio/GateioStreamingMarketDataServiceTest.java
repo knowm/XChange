@@ -182,7 +182,7 @@ class GateioStreamingMarketDataServiceTest {
     testObserver.dispose();
 
     assertThat(actual.getInstrument()).isEqualTo(instrumentBtc);
-    assertThat(actual.getOriginalAmount().equals(new BigDecimal("108.5"))).isTrue();
+    assertThat(actual.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("0.01085"));
     assertThat(actual.getPrice().equals(new BigDecimal("96.4"))).isTrue();
     assertThat(actual.getId()).isEqualTo("27753479");
     assertThat(actual.getTimestamp().getTime()).isEqualTo(1545136464123L);
