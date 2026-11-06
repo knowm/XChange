@@ -133,7 +133,6 @@ class KrakenStreamingMarketDataServiceTest {
         assertThat(book.getTimeStamp()).isEqualTo(Instant.ofEpochSecond(2));
       }
       verify(service).subscribeChannel("book-XBT/USD", 10);
-      verify(service, never()).sendMessage(anyString());
     } finally {
       executor.shutdownNow();
       assertThat(executor.awaitTermination(5, TimeUnit.SECONDS)).isTrue();
@@ -229,6 +228,49 @@ class KrakenStreamingMarketDataServiceTest {
     } finally {
       affected.dispose();
       unaffected.dispose();
+    }
+  }
+
+  @Test
+  void lateSubscriberRequestsSnapshotAndExistingSubscriberReplacesBook() throws Exception {
+    PublishSubject<JsonNode> channel = PublishSubject.create();
+    when(service.subscribeChannel("book-XBT/USD", 10)).thenReturn(channel.share());
+    when(service.getUnsubscribeMessage("book-XBT/USD", 10)).thenReturn("unsubscribe");
+    when(service.getSubscribeMessage("book-XBT/USD", 10)).thenReturn("subscribe");
+    Observable<OrderBook> orderBooks = marketDataService.getOrderBook(XBT_USD, 10);
+    TestObserver<OrderBook> early = orderBooks.test();
+    TestObserver<OrderBook> late = null;
+    try {
+      channel.onNext(
+          mapper.readTree(
+              "[1,{\"bs\":[[\"100\",\"1\",\"1\"]],\"as\":[[\"101\",\"2\",\"1\"]]},\"book-10\",\"XBT/USD\"]"));
+      early.assertValueCount(1).assertNoErrors();
+      verify(service, never()).sendMessage(anyString());
+
+      late = orderBooks.test();
+      InOrder messages = org.mockito.Mockito.inOrder(service);
+      messages.verify(service).sendMessage("unsubscribe");
+      messages.verify(service).sendMessage("subscribe");
+
+      channel.onNext(
+          mapper.readTree(
+              "[1,{\"bs\":[[\"200\",\"3\",\"2\"]],\"as\":[[\"201\",\"4\",\"2\"]]},\"book-10\",\"XBT/USD\"]"));
+      late.assertValueCount(1).assertNoErrors();
+      early.assertValueCount(2).assertNoErrors();
+      for (OrderBook book : Arrays.asList(late.values().get(0), early.values().get(1))) {
+        assertThat(book.getBids())
+            .extracting(order -> order.getLimitPrice().toPlainString())
+            .containsExactly("200");
+        assertThat(book.getAsks())
+            .extracting(order -> order.getLimitPrice().toPlainString())
+            .containsExactly("201");
+      }
+      verify(service).subscribeChannel("book-XBT/USD", 10);
+    } finally {
+      early.dispose();
+      if (late != null) {
+        late.dispose();
+      }
     }
   }
 }
