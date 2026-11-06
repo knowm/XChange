@@ -72,6 +72,10 @@ class KrakenStreamingMarketDataServiceTest {
     }
   }
 
+  // Defensive check only. The real channel is single-threaded: NettyStreamingService delivers
+  // every message on the connection's event loop thread, so subscribers on the shared channel
+  // never run the adapter concurrently. This mock emits from two executor threads to show that
+  // each subscription keeps its own book even if that ever changes; it does not reproduce #4943.
   @Test
   void concurrentSubscriptionsKeepIndependentBooks() throws Exception {
     JsonNode firstSnapshot =
