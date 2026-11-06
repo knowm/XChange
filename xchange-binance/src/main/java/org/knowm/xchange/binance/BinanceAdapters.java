@@ -1,5 +1,15 @@
 package org.knowm.xchange.binance;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
@@ -33,17 +43,6 @@ import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class BinanceAdapters {
   private static final DateTimeFormatter DATE_TIME_FMT =
@@ -186,7 +185,7 @@ public class BinanceAdapters {
 
   public static Instrument adaptSymbol(String symbol, boolean isFuture) {
     if (symbol.endsWith("_PERP")) {
-      //COIN-Margin instrument
+      // COIN-Margin instrument
       String pair = symbol.substring(0, symbol.indexOf("_"));
       return new FuturesContract(pair.substring(0, pair.indexOf("USD")) + "/USD/PERP");
     }
@@ -228,15 +227,15 @@ public class BinanceAdapters {
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
-    if (order.averagePrice != null && order.averagePrice.compareTo(BigDecimal.ZERO) != 0) {
-      builder.averagePrice(order.averagePrice);
-    }
+
     if (order.executedQty != null
         && order.cumulativeQuoteQty != null
         && order.executedQty.signum() != 0
         && order.cumulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cumulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
+    } else if (order.averagePrice != null && order.averagePrice.compareTo(BigDecimal.ZERO) != 0) {
+      builder.averagePrice(order.averagePrice);
     }
     if (order.clientOrderId != null) {
       builder.userReference(order.clientOrderId);
@@ -246,8 +245,8 @@ public class BinanceAdapters {
   }
 
   /**
-   * Resolves the instrument from the ticker symbol through the symbol mapping.
-   * If not mapped, returns null for spot and a ticker with a null currency pair for futures.
+   * Resolves the instrument from the ticker symbol through the symbol mapping. If not mapped,
+   * returns null for spot and a ticker with a null currency pair for futures.
    */
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, boolean isFuture) {
     Instrument instrument = adaptSymbol(binanceTicker24h.getSymbol(), isFuture);
@@ -260,8 +259,8 @@ public class BinanceAdapters {
   }
 
   /**
-   * Uses the given instrument instead of resolving the symbol through the symbol mapping.
-   * The instrument must correspond to the ticker symbol; this is not validated.
+   * Uses the given instrument instead of resolving the symbol through the symbol mapping. The
+   * instrument must correspond to the ticker symbol; this is not validated.
    */
   public static Ticker toTicker(BinanceTicker24h binanceTicker24h, Instrument instrument) {
     return new Ticker.Builder()
