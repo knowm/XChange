@@ -38,7 +38,8 @@ class BinanceWebsocketTradePayloadTest {
             .userReference("order123")
             .build();
 
-    BinanceWebsocketPlaceOrderPayload payload = BinanceStreamingAdapters.adaptPlaceOrder(limitOrder);
+    BinanceWebsocketPlaceOrderPayload payload =
+        BinanceStreamingAdapters.adaptPlaceOrder(limitOrder);
     assertThat(payload.getQuantity()).isEqualTo("0.00000001");
     assertThat(payload.getPrice()).isEqualTo("0.00000005");
 
@@ -66,7 +67,8 @@ class BinanceWebsocketTradePayloadTest {
             .userReference("order456")
             .build();
 
-    BinanceWebsocketPlaceOrderPayload payload = BinanceStreamingAdapters.adaptPlaceOrder(marketOrder);
+    BinanceWebsocketPlaceOrderPayload payload =
+        BinanceStreamingAdapters.adaptPlaceOrder(marketOrder);
     assertThat(payload.getQuantity()).isEqualTo("0.00000001");
     assertThat(payload.getPrice()).isNull();
 
@@ -94,7 +96,8 @@ class BinanceWebsocketTradePayloadTest {
             .userReference("order123")
             .build();
 
-    BinanceWebsocketOrderAmendPayload payload = BinanceStreamingAdapters.adaptAmendOrder(limitOrder);
+    BinanceWebsocketOrderAmendPayload payload =
+        BinanceStreamingAdapters.adaptAmendOrder(limitOrder);
     assertThat(payload.getQuantity()).isEqualTo("0.00000001");
     assertThat(payload.getPrice()).isEqualTo("0.00000005");
 

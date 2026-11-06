@@ -1,5 +1,9 @@
 package org.knowm.xchange.binance;
 
+import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
+
+import java.io.IOException;
+import java.util.Map;
 import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
@@ -16,11 +20,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.Map;
-
-import static org.knowm.xchange.binance.dto.ExchangeType.SPOT;
 
 public class BinanceExchange extends BaseExchange implements Exchange {
 
@@ -204,6 +203,5 @@ public class BinanceExchange extends BaseExchange implements Exchange {
                 BinanceAdapters.putSymbolMapping(
                     symbol.getSymbol(),
                     new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset())));
-
   }
 }

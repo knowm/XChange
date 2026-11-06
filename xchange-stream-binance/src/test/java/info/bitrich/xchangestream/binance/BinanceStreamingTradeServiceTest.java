@@ -44,11 +44,7 @@ class BinanceStreamingTradeServiceTest {
 
     streamingTradeService =
         new BinanceStreamingTradeService(
-            binanceExchange,
-            null,
-            spotStreamingService,
-            null,
-            new ResilienceRegistries());
+            binanceExchange, null, spotStreamingService, null, new ResilienceRegistries());
     streamingTradeService.openSubscriptions();
 
     when(exchange.getStreamingTradeService()).thenReturn(streamingTradeService);
