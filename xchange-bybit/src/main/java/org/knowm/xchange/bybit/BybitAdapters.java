@@ -51,8 +51,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
-import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
+import static org.knowm.xchange.bybit.dto.BybitCategory.*;
 import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
 import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
 
@@ -506,6 +505,8 @@ public class BybitAdapters {
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
+    if(category.equals(SPOT))
+      payload.setMarketUnit("baseCoin");
     payload.setTimeInForce(BybitTimeInForce.IOC.getValue());
     return payload;
   }
@@ -544,6 +545,8 @@ public class BybitAdapters {
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
+    if(category.equals(SPOT))
+      payload.setMarketUnit("baseCoin");
     payload.setTimeInForce(timeInForce.getValue());
     return payload;
   }
