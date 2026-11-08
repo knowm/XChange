@@ -9,7 +9,6 @@
   "status": "closed",
   "currency_pair": "BTC_USDT",
   "type": "market",
-  "account": "spot",
   "side": "sell",
   "amount": "0.0007",
   "price": "0",

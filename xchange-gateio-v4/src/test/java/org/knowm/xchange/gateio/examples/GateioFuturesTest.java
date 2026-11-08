@@ -19,6 +19,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioFundingRateHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderFlags;
 import org.knowm.xchange.gateio.dto.trade.GateioTimeInForce;
+import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CandleStickDataParams;
@@ -66,6 +67,13 @@ public class GateioFuturesTest {
 
   @Test
   @Disabled
+  void switchMarginMode() throws Exception {
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", true));
+    log.info("set single mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", false));
+  }
+
+  @Test
+  @Disabled
   void candleStick() throws Exception {
     CandleStickDataParams params = new DefaultCandleStickParamWithLimit(new Date(System.currentTimeMillis() - 86400000 * 4), new Date(), 86400, 2);
     CandleStickData candleStickData = exchange.getMarketDataService().getCandleStickData(instrument, params);
@@ -98,8 +106,11 @@ public class GateioFuturesTest {
   @Test
   @Disabled
   void setLeverage() throws Exception {
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualModeRaw("usdt", false));
     assertThat(exchange.getAccountService().setLeverage(instrument, 10)).isTrue();
     assertThat(exchange.getAccountService().setLeverage(instrument, 0, 20)).isTrue();
+    log.info("set dual mode, response {}", ((GateioAccountService) exchange.getAccountService()).setDualModeRaw("usdt", true));
+    assertThat(exchange.getAccountService().setLeverage(instrument, 10)).isTrue();
   }
 
   @Test

@@ -1,10 +1,9 @@
 package info.bitrich.xchangestream.gateio.dto.request.payload;
 
+import java.math.BigDecimal;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-
-import java.math.BigDecimal;
 
 @Data
 @SuperBuilder

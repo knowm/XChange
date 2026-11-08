@@ -260,4 +260,15 @@ public interface GateioV4Authenticated {
       @QueryParam("leverage") String leverage,
       @QueryParam("cross_leverage_limit") String cross_leverage)
       throws IOException, GateioException;
+
+  @POST
+  @Path("futures/{settle}/dual_mode")
+  @Consumes(MediaType.APPLICATION_JSON)
+  GateioFuturesAccount setDualMode(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @PathParam("settle") String settle,
+      @QueryParam("dual_mode") boolean dualMode)
+      throws IOException, GateioException;
 }
