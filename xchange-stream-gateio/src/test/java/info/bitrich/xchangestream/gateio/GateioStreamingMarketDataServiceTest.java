@@ -1,10 +1,22 @@
 package info.bitrich.xchangestream.gateio;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,26 +32,11 @@ import org.knowm.xchange.instrument.Instrument;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class GateioStreamingMarketDataServiceTest {
 
-  @Mock
-  GateioStreamingService gateioStreamingService;
-  @Mock
-  ExchangeMetaData exchangeMetaData;
+  @Mock GateioStreamingService gateioStreamingService;
+  @Mock ExchangeMetaData exchangeMetaData;
   GateioStreamingMarketDataService gateioStreamingMarketDataService;
 
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
@@ -48,20 +45,22 @@ class GateioStreamingMarketDataServiceTest {
   @BeforeEach
   void setup() {
     Map<Instrument, InstrumentMetaData> instruments = new HashMap<>();
-    instruments.put(instrumentBtc, InstrumentMetaData.builder()
-        .contractValue(new BigDecimal("0.0001"))
-        .build());
+    instruments.put(
+        instrumentBtc,
+        InstrumentMetaData.builder().contractValue(new BigDecimal("0.0001")).build());
     exchangeMetaData = new ExchangeMetaData(instruments, null, null, null, null);
-//    GateioMarketDataService gateioMarketDataService = new GateioMarketDataService(new GateioExchange(),new ResilienceRegistries());
-//    GateioStreamingExchange gateioStreamingExchange = new GateioStreamingExchange();
-    gateioStreamingMarketDataService = new GateioStreamingMarketDataService(gateioStreamingService, exchangeMetaData, null, null);
+    //    GateioMarketDataService gateioMarketDataService = new GateioMarketDataService(new
+    // GateioExchange(),new ResilienceRegistries());
+    //    GateioStreamingExchange gateioStreamingExchange = new GateioStreamingExchange();
+    gateioStreamingMarketDataService =
+        new GateioStreamingMarketDataService(gateioStreamingService, exchangeMetaData, null, null);
   }
 
   @Test
   void order_book_legacy() throws Exception {
     GateioWsNotification notification = readNotification("spot.order_book.update.json");
     when(gateioStreamingService.subscribeChannel(
-        eq("spot.order_book"), eq(CurrencyPair.BTC_USDT), eq(10), eq(Duration.ofMillis(100))))
+            eq("spot.order_book"), eq(CurrencyPair.BTC_USDT), eq(10), eq(Duration.ofMillis(100))))
         .thenReturn(Observable.just(notification));
 
     Observable<OrderBook> observable =
@@ -118,8 +117,7 @@ class GateioStreamingMarketDataServiceTest {
     when(gateioStreamingService.subscribeChannel(eq("spot.trades"), eq(instrumentGT)))
         .thenReturn(Observable.just(notification));
 
-    Observable<Trade> observable =
-        gateioStreamingMarketDataService.getTrades(instrumentGT);
+    Observable<Trade> observable = gateioStreamingMarketDataService.getTrades(instrumentGT);
 
     TestObserver<Trade> testObserver = observable.test();
 
@@ -169,11 +167,11 @@ class GateioStreamingMarketDataServiceTest {
   @Test
   void futuresTrades() throws Exception {
     GateioWsNotification notification = readNotification("futures.trades.update.json");
-    when(gateioStreamingService.subscribeChannel(eq("futures.trades"), eq(new FuturesContract(CurrencyPair.BTC_USDT, "PERP"))))
+    when(gateioStreamingService.subscribeChannel(
+            eq("futures.trades"), eq(new FuturesContract(CurrencyPair.BTC_USDT, "PERP"))))
         .thenReturn(Observable.just(notification));
 
-    Observable<Trade> observable =
-        gateioStreamingMarketDataService.getTrades(instrumentBtc);
+    Observable<Trade> observable = gateioStreamingMarketDataService.getTrades(instrumentBtc);
 
     TestObserver<Trade> testObserver = observable.test();
 
@@ -193,13 +191,11 @@ class GateioStreamingMarketDataServiceTest {
     GateioWsNotification snapshot = readNotification("futures.obu.snapshot.json");
     GateioWsNotification update = readNotification("futures.obu.update.json");
     FuturesContract futuresContract = new FuturesContract(CurrencyPair.BTC_USDT, "PERP");
-    when(gateioStreamingService.subscribeChannel(
-        eq("futures.obu"), eq(instrumentBtc), eq(400)))
+    when(gateioStreamingService.subscribeChannel(eq("futures.obu"), eq(instrumentBtc), eq(400)))
         .thenReturn(Observable.just(snapshot, update));
 
     Observable<OrderBook> observable =
-        gateioStreamingMarketDataService.getOrderBook(
-            instrumentBtc, 400);
+        gateioStreamingMarketDataService.getOrderBook(instrumentBtc, 400);
 
     TestObserver<OrderBook> testObserver = observable.test();
 

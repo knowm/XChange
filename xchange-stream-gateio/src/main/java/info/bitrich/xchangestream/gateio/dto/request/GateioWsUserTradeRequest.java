@@ -30,5 +30,4 @@ public class GateioWsUserTradeRequest {
 
   @JsonProperty("req_param")
   private byte[] reqParam;
-
 }

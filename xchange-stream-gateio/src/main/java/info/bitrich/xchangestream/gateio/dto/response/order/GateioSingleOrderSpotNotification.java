@@ -24,6 +24,4 @@ public class GateioSingleOrderSpotNotification extends GateioWsNotification {
             : "";
     return super.getUniqueChannelName() + suffix;
   }
-
-
 }

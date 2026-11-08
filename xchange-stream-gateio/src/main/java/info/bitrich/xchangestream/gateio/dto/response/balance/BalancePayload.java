@@ -2,12 +2,11 @@ package info.bitrich.xchangestream.gateio.dto.response.balance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.Data;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
-
-import java.math.BigDecimal;
-import java.time.Instant;
 
 @Data
 public class BalancePayload {

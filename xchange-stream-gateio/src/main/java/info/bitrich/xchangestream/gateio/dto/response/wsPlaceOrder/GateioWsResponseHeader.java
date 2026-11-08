@@ -49,5 +49,3 @@ public class GateioWsResponseHeader {
   @JsonProperty("conn_id")
   private String connId;
 }
-
-

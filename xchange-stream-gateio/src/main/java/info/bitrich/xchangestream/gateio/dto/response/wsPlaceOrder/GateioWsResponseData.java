@@ -15,4 +15,3 @@ public class GateioWsResponseData<T> {
   @JsonProperty("errs")
   private GateioWsErrs errs;
 }
-

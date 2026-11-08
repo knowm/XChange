@@ -1,7 +1,14 @@
 package info.bitrich.xchangestream.gateio.examples;
 
+import static info.bitrich.xchangestream.gateio.examples.Utils.getMinAmount;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
 import info.bitrich.xchangestream.gateio.GateioStreamingExchange;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -17,14 +24,6 @@ import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static info.bitrich.xchangestream.gateio.examples.Utils.getMinAmount;
-import static org.knowm.xchange.dto.Order.OrderType.ASK;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
 @Slf4j
 public class GateioFutureWsExample {
   private final Instrument instrument = new FuturesContract("SOL/USDT/PERP");
@@ -39,8 +38,7 @@ public class GateioFutureWsExample {
   @Test
   @Disabled
   public void placeLimitOrder() throws InterruptedException, IOException {
-    while (!exchange.isAlive())
-      Thread.sleep(100);
+    while (!exchange.isAlive()) Thread.sleep(100);
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
@@ -51,16 +49,23 @@ public class GateioFutureWsExample {
             ticker,
             exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
     String orderUserReference = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
-    LimitOrder limitBuyOrder = new LimitOrder.Builder(BID, instrument).originalAmount(minAmount)
-        .userReference(orderUserReference).limitPrice(ticker.getLow()).build();
+    LimitOrder limitBuyOrder =
+        new LimitOrder.Builder(BID, instrument)
+            .originalAmount(minAmount)
+            .userReference(orderUserReference)
+            .limitPrice(ticker.getLow())
+            .build();
     AtomicReference<String> limitSellOrderId = new AtomicReference<>("");
-    Disposable orderChangeDisposable = exchange.getStreamingTradeService().getOrderChanges(instrument).subscribe(
-        orderChange -> {
-          log.info("orderChange: {}", orderChange);
-          if (!orderChange.getUserReference().equals(orderUserReference))
-            limitSellOrderId.set(orderChange.getId());
-        }
-    );
+    Disposable orderChangeDisposable =
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument)
+            .subscribe(
+                orderChange -> {
+                  log.info("orderChange: {}", orderChange);
+                  if (!orderChange.getUserReference().equals(orderUserReference))
+                    limitSellOrderId.set(orderChange.getId());
+                });
     Disposable limitBuyOrderDisposable =
         exchange
             .getStreamingTradeService()
@@ -72,7 +77,11 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("limitBuyOrder is disposed: {}", limitBuyOrderDisposable.isDisposed());
-    LimitOrder limitSellOrder = new LimitOrder.Builder(ASK, instrument).originalAmount(minAmount).limitPrice(ticker.getHigh()).build();
+    LimitOrder limitSellOrder =
+        new LimitOrder.Builder(ASK, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getHigh())
+            .build();
     Disposable limitSellOrderDisposable =
         exchange
             .getStreamingTradeService()
@@ -84,8 +93,11 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("limitSellOrder is disposed: {}", limitSellOrderDisposable.isDisposed());
-    LimitOrder limitBuyOrderAmend = new LimitOrder.Builder(BID, instrument).originalAmount(minAmount.add(new BigDecimal("0.001")))
-        .userReference(orderUserReference).build();
+    LimitOrder limitBuyOrderAmend =
+        new LimitOrder.Builder(BID, instrument)
+            .originalAmount(minAmount.add(new BigDecimal("0.001")))
+            .userReference(orderUserReference)
+            .build();
     Disposable limitBuyOrderAmendDisposable =
         exchange
             .getStreamingTradeService()
@@ -96,9 +108,13 @@ public class GateioFutureWsExample {
                 },
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
-    log.info("limitBuyOrderAmendDisposable is disposed: {}", limitBuyOrderAmendDisposable.isDisposed());
-    LimitOrder limitSellOrderAmend = new LimitOrder.Builder(ASK, instrument).limitPrice(ticker.getHigh().add(new BigDecimal("0.1")))
-        .id(limitSellOrderId.get()).build();
+    log.info(
+        "limitBuyOrderAmendDisposable is disposed: {}", limitBuyOrderAmendDisposable.isDisposed());
+    LimitOrder limitSellOrderAmend =
+        new LimitOrder.Builder(ASK, instrument)
+            .limitPrice(ticker.getHigh().add(new BigDecimal("0.1")))
+            .id(limitSellOrderId.get())
+            .build();
     Disposable limitSellOrderAmendDisposable =
         exchange
             .getStreamingTradeService()
@@ -110,18 +126,30 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("limitSellOrderAmend is disposed: {}", limitSellOrderAmendDisposable.isDisposed());
-    GateioCancelOrderParams cancelOrderParams1 = new GateioCancelOrderParams("", instrument, orderUserReference);
-    Disposable cancelOrder1 = exchange.getStreamingTradeService().cancelOrder(cancelOrderParams1).subscribe(result -> {
-          log.info("cancel limitBuyOrder is send, retCode: {}", result);
-        },
-        throwable -> log.error("throwable", throwable));
+    GateioCancelOrderParams cancelOrderParams1 =
+        new GateioCancelOrderParams("", instrument, orderUserReference);
+    Disposable cancelOrder1 =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(cancelOrderParams1)
+            .subscribe(
+                result -> {
+                  log.info("cancel limitBuyOrder is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("cancelOrder1 is disposed: {}", cancelOrder1.isDisposed());
-    DefaultCancelOrderByInstrumentAndIdParams cancelOrderParams2 = new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitSellOrderId.get());
-    Disposable cancelOrder2 = exchange.getStreamingTradeService().cancelOrder(cancelOrderParams2).subscribe(result -> {
-          log.info("cancel limitSellOrder is send, retCode: {}", result);
-        },
-        throwable -> log.error("throwable", throwable));
+    DefaultCancelOrderByInstrumentAndIdParams cancelOrderParams2 =
+        new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitSellOrderId.get());
+    Disposable cancelOrder2 =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(cancelOrderParams2)
+            .subscribe(
+                result -> {
+                  log.info("cancel limitSellOrder is send, retCode: {}", result);
+                },
+                throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("cancelOrder2 is disposed: {}", cancelOrder2.isDisposed());
   }
@@ -129,8 +157,7 @@ public class GateioFutureWsExample {
   @Test
   @Disabled
   public void placeMarketOrder() throws InterruptedException, IOException {
-    while (!exchange.isAlive())
-      Thread.sleep(100);
+    while (!exchange.isAlive()) Thread.sleep(100);
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
@@ -141,12 +168,19 @@ public class GateioFutureWsExample {
             ticker,
             exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
     String orderUserReference = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
-    MarketOrder marketBuyOrder = new MarketOrder.Builder(BID, instrument).originalAmount(minAmount).userReference(orderUserReference).build();
-    Disposable orderChangeDisposable = exchange.getStreamingTradeService().getOrderChanges(instrument).subscribe(
-        orderChange -> {
-          log.info("orderChange: {}", orderChange);
-        }
-    );
+    MarketOrder marketBuyOrder =
+        new MarketOrder.Builder(BID, instrument)
+            .originalAmount(minAmount)
+            .userReference(orderUserReference)
+            .build();
+    Disposable orderChangeDisposable =
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument)
+            .subscribe(
+                orderChange -> {
+                  log.info("orderChange: {}", orderChange);
+                });
     Disposable marketBuyOrderDisposable =
         exchange
             .getStreamingTradeService()
@@ -158,8 +192,8 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("marketBuyOrder is disposed: {}", marketBuyOrderDisposable.isDisposed());
-    MarketOrder marketSellOrder = new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(minAmount)
-        .build();
+    MarketOrder marketSellOrder =
+        new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(minAmount).build();
     Disposable marketSellOrderDisposable =
         exchange
             .getStreamingTradeService()
@@ -188,7 +222,8 @@ public class GateioFutureWsExample {
             minAmount,
             ticker,
             exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
-    String limitOrderAskUserId = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
+    String limitOrderAskUserId =
+        "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
     LimitOrder limitOrderAsk =
         new LimitOrder.Builder(Order.OrderType.ASK, instrument)
             .originalAmount(minAmount)
@@ -207,7 +242,8 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("limitOrderAsk is disposed: {}", limitOrderAskDisposable.isDisposed());
-    String limitOrderBidUserId = "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
+    String limitOrderBidUserId =
+        "t-" + System.currentTimeMillis() + System.nanoTime() / 1000 % 1000;
     LimitOrder limitOrderBid =
         new LimitOrder.Builder(Order.OrderType.BID, instrument)
             .originalAmount(minAmount)
@@ -229,7 +265,8 @@ public class GateioFutureWsExample {
     Disposable cancelLimitOrderAskDisposable =
         exchange
             .getStreamingTradeService()
-            .cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderAskUserId))
+            .cancelOrder(
+                new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderAskUserId))
             .subscribe(
                 result -> {
                   log.info("cancelLimitOrderAsk is send, retCode: {}", result);
@@ -240,7 +277,8 @@ public class GateioFutureWsExample {
     Disposable cancelLimitOrderBidDisposable =
         exchange
             .getStreamingTradeService()
-            .cancelOrder(new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderBidUserId))
+            .cancelOrder(
+                new DefaultCancelOrderByInstrumentAndIdParams(instrument, limitOrderBidUserId))
             .subscribe(
                 result -> {
                   log.info("cancelLimitOrderBid is send, retCode: {}", result);
@@ -248,7 +286,11 @@ public class GateioFutureWsExample {
                 throwable -> log.error("throwable", throwable));
     Thread.sleep(1000);
     log.info("cancelLimitOrderBid is disposed: {}", cancelLimitOrderBidDisposable.isDisposed());
-    MarketOrder marketOrderAsk = new MarketOrder.Builder(Order.OrderType.ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderAsk =
+        new MarketOrder.Builder(Order.OrderType.ASK, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderAskDisposable =
         exchange
             .getStreamingTradeService()
@@ -261,7 +303,11 @@ public class GateioFutureWsExample {
     Thread.sleep(1000);
     log.info("marketOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
 
-    MarketOrder marketOrderBid = new MarketOrder.Builder(Order.OrderType.BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderBid =
+        new MarketOrder.Builder(Order.OrderType.BID, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderBidDisposable =
         exchange
             .getStreamingTradeService()
@@ -274,7 +320,11 @@ public class GateioFutureWsExample {
     Thread.sleep(1000);
     log.info("marketOrderBid is disposed: {}", marketOrderBidDisposable.isDisposed());
 
-    MarketOrder marketOrderCloseAsk = new MarketOrder.Builder(Order.OrderType.EXIT_ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderCloseAsk =
+        new MarketOrder.Builder(Order.OrderType.EXIT_ASK, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderCloseAskDisposable =
         exchange
             .getStreamingTradeService()
@@ -287,7 +337,11 @@ public class GateioFutureWsExample {
     Thread.sleep(1000);
     log.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
 
-    MarketOrder marketOrderCloseBid = new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    MarketOrder marketOrderCloseBid =
+        new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
     Disposable marketOrderCloseBidDisposable =
         exchange
             .getStreamingTradeService()
@@ -302,5 +356,4 @@ public class GateioFutureWsExample {
     // switch back to one-way mode
     ((GateioAccountService) exchange.getAccountService()).setDualMode("usdt", false);
   }
-
 }

@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.gateio;
 
+import static org.knowm.xchange.gateio.GateioAdapters.convertContractSizeToVolume;
+
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
@@ -10,6 +12,12 @@ import info.bitrich.xchangestream.gateio.dto.response.trade.GateioFuturesTradeNo
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -18,15 +26,6 @@ import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.knowm.xchange.gateio.GateioAdapters.convertContractSizeToVolume;
 
 @Slf4j
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
@@ -243,7 +242,8 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
   public Observable<Trade> getTrades(Instrument instrument, Object... args) {
 
     if (instrument instanceof FuturesContract) {
-      BigDecimal contractValue = exchangeMetaData.getInstruments().get(instrument).getContractValue();
+      BigDecimal contractValue =
+          exchangeMetaData.getInstruments().get(instrument).getContractValue();
       return service
           .subscribeChannel(Config.FUTURES_TRADES_CHANNEL, instrument)
           .map(GateioFuturesTradeNotification.class::cast)
@@ -253,7 +253,8 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
                 Trade trade = GateioStreamingAdapters.toTradeFutures(payload);
                 return Trade.builder()
                     .type(trade.getType())
-                    .originalAmount(convertContractSizeToVolume(trade.getOriginalAmount(), contractValue))
+                    .originalAmount(
+                        convertContractSizeToVolume(trade.getOriginalAmount(), contractValue))
                     .instrument(instrument)
                     .price(trade.getPrice())
                     .timestamp(trade.getTimestamp())

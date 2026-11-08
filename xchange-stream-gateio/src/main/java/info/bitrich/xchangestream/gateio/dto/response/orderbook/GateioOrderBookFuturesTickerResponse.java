@@ -12,5 +12,4 @@ public class GateioOrderBookFuturesTickerResponse extends GateioOrderBookTickerR
   @JsonProperty("s")
   @JsonDeserialize(converter = StringToFutureContractConverter.class)
   private Instrument contract;
-
 }

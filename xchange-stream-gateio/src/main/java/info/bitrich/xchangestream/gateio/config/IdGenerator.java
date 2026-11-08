@@ -1,13 +1,11 @@
 package info.bitrich.xchangestream.gateio.config;
 
-import lombok.Getter;
-
 import java.util.concurrent.ThreadLocalRandom;
+import lombok.Getter;
 
 public final class IdGenerator {
 
-  @Getter
-  private static IdGenerator instance = new IdGenerator();
+  @Getter private static IdGenerator instance = new IdGenerator();
 
   private IdGenerator() {}
 

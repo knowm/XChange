@@ -17,5 +17,4 @@ public class GateioWsAmendOrderFuture {
 
   @JsonProperty("price")
   String price;
-
 }

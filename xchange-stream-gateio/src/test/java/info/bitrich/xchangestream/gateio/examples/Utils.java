@@ -1,10 +1,9 @@
 package info.bitrich.xchangestream.gateio.examples;
 
-import org.knowm.xchange.dto.marketdata.Ticker;
+import static java.math.RoundingMode.UP;
 
 import java.math.BigDecimal;
-
-import static java.math.RoundingMode.UP;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 public class Utils {
   public static BigDecimal getMinAmount(

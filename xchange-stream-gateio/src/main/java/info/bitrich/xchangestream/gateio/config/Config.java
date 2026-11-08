@@ -5,11 +5,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.Data;
-
 import java.time.Clock;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public final class Config {
@@ -37,7 +36,11 @@ public final class Config {
   public static final String FUTURES_TICKET_AND_FUNDING_CHANNEL = "futures.tickers";
 
   public static final List<String> PRIVATE_CHANNELS =
-      Arrays.asList(SPOT_BALANCES_CHANNEL, SPOT_USER_TRADES_CHANNEL, SPOT_USER_ORDERS_CHANNEL, FUTURES_USER_ORDERS_CHANNEL);
+      Arrays.asList(
+          SPOT_BALANCES_CHANNEL,
+          SPOT_USER_TRADES_CHANNEL,
+          SPOT_USER_ORDERS_CHANNEL,
+          FUTURES_USER_ORDERS_CHANNEL);
 
   public static final String CHANNEL_NAME_DELIMITER = "-";
 

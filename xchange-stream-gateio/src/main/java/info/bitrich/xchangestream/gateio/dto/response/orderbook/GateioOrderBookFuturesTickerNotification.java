@@ -18,9 +18,7 @@ public class GateioOrderBookFuturesTickerNotification extends GateioWsNotificati
   @Override
   public String getUniqueChannelName() {
     String suffix =
-        result.getContract() != null
-            ? Config.CHANNEL_NAME_DELIMITER + result.getContract()
-            : "";
+        result.getContract() != null ? Config.CHANNEL_NAME_DELIMITER + result.getContract() : "";
     return super.getUniqueChannelName() + suffix;
   }
 }

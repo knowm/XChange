@@ -5,13 +5,12 @@ import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.gateio.GateioExchange;
-import org.knowm.xchange.gateio.service.GateioMarketDataService;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.service.GateioMarketDataService;
 
 public class GateioStreamingExchange extends GateioExchange implements StreamingExchange {
 
@@ -21,32 +20,41 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   private StreamingAccountService streamingAccountService;
   private GateioUserTradeStreamingService userTradeStreamingService;
 
-  public GateioStreamingExchange() {
-  }
+  public GateioStreamingExchange() {}
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    if (isFuturesEnabled())
-      exchangeSpecification.setSslUri(Config.V4_FUTURES_URL);
-    else
-      exchangeSpecification.setSslUri(Config.V4_URL);
+    if (isFuturesEnabled()) exchangeSpecification.setSslUri(Config.V4_FUTURES_URL);
+    else exchangeSpecification.setSslUri(Config.V4_URL);
     applyWebsocketTimeouts(exchangeSpecification);
     streamingService =
         new GateioStreamingService(
             exchangeSpecification.getSslUri(),
             exchangeSpecification.getApiKey(),
-            exchangeSpecification.getSecretKey(), exchangeSpecification, isFuturesEnabled());
+            exchangeSpecification.getSecretKey(),
+            exchangeSpecification,
+            isFuturesEnabled());
     applyStreamingSpecification(exchangeSpecification, streamingService);
     if (isApiKeyValid()) {
       userTradeStreamingService =
-          new GateioUserTradeStreamingService(exchangeSpecification.getSslUri(),
-              exchangeSpecification.getSecretKey(), exchangeSpecification, isFuturesEnabled());
+          new GateioUserTradeStreamingService(
+              exchangeSpecification.getSslUri(),
+              exchangeSpecification.getSecretKey(),
+              exchangeSpecification,
+              isFuturesEnabled());
       applyStreamingSpecification(exchangeSpecification, userTradeStreamingService);
     }
-    streamingMarketDataService = new GateioStreamingMarketDataService(streamingService, exchangeMetaData,
-        (GateioMarketDataService) marketDataService, this);
-    streamingTradeService = new GateioStreamingTradeService(streamingService, exchangeMetaData, userTradeStreamingService
-        , getResilienceRegistries(), (Duration) exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT));
+    streamingMarketDataService =
+        new GateioStreamingMarketDataService(
+            streamingService, exchangeMetaData, (GateioMarketDataService) marketDataService, this);
+    streamingTradeService =
+        new GateioStreamingTradeService(
+            streamingService,
+            exchangeMetaData,
+            userTradeStreamingService,
+            getResilienceRegistries(),
+            (Duration)
+                exchangeSpecification.getExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT));
     streamingAccountService = new GateioStreamingAccountService(streamingService);
     List<Completable> completableList = new ArrayList<>();
     completableList.add(streamingService.connect());

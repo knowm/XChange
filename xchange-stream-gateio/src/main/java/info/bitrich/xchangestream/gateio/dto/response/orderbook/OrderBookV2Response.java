@@ -4,16 +4,15 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.config.converter.StringToCurrencyPairConverter;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 public class OrderBookV2Response {
@@ -44,13 +43,14 @@ public class OrderBookV2Response {
   @JsonProperty("contract")
   @JsonDeserialize(converter = StringToCurrencyPairConverter.class)
   Instrument contract;
-//
-//  @JsonIgnore
-//  public Instrument getInstrument() {
-//    String[] parts = streamName.substring(3).split("\\.");
-//    String[] currencies = parts[0].split("_");
-//    return new CurrencyPair(currencies[0], currencies[1]);
-//  }
+
+  //
+  //  @JsonIgnore
+  //  public Instrument getInstrument() {
+  //    String[] parts = streamName.substring(3).split("\\.");
+  //    String[] currencies = parts[0].split("_");
+  //    return new CurrencyPair(currencies[0], currencies[1]);
+  //  }
 
   @Data
   @Builder

@@ -1,8 +1,11 @@
 package info.bitrich.xchangestream.gateio.examples;
 
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
 import info.bitrich.xchangestream.gateio.GateioStreamingExchange;
 import info.bitrich.xchangestream.gateio.GateioStreamingMarketDataService;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -11,10 +14,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-
-import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 @Slf4j
 public class GateioSpotManualExample {
@@ -27,20 +26,23 @@ public class GateioSpotManualExample {
     exchange = GateioExampleSetUp.initSpot();
   }
 
-
   @Test
   @Disabled
   void getBalance() throws Exception {
-    Disposable disposable = exchange.getStreamingAccountService().getBalanceChanges(Currency.USDT).
-        subscribe(
-            balance -> {
-              if (logOutput) {
-                log.info("balance {}", balance);
-              }
-            }, throwable -> {
-              log.error("throwable encountered error while subscribing to pair {}", instrument);
-              log.error("", throwable);
-            });
+    Disposable disposable =
+        exchange
+            .getStreamingAccountService()
+            .getBalanceChanges(Currency.USDT)
+            .subscribe(
+                balance -> {
+                  if (logOutput) {
+                    log.info("balance {}", balance);
+                  }
+                },
+                throwable -> {
+                  log.error("throwable encountered error while subscribing to pair {}", instrument);
+                  log.error("", throwable);
+                });
     Thread.sleep(20000000);
     disposable.dispose();
     Thread.sleep(1000);
@@ -49,16 +51,23 @@ public class GateioSpotManualExample {
   @Test
   @Disabled
   void getOrderBook() throws Exception {
-    Disposable disposable = exchange.getStreamingMarketDataService().getOrderBook(instrument, 400).
-        subscribe(
-            orderBook -> {
-              if (logOutput) {
-                log.info("OB ask.size: {}, bid.size: {}", orderBook.getAsks().size(), orderBook.getBids().size());
-              }
-            }, throwable -> {
-              log.error("throwable encountered error while subscribing to pair {}", instrument);
-              log.error("", throwable);
-            });
+    Disposable disposable =
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBook(instrument, 400)
+            .subscribe(
+                orderBook -> {
+                  if (logOutput) {
+                    log.info(
+                        "OB ask.size: {}, bid.size: {}",
+                        orderBook.getAsks().size(),
+                        orderBook.getBids().size());
+                  }
+                },
+                throwable -> {
+                  log.error("throwable encountered error while subscribing to pair {}", instrument);
+                  log.error("", throwable);
+                });
     Thread.sleep(2000);
     disposable.dispose();
     Thread.sleep(1000);
@@ -68,17 +77,26 @@ public class GateioSpotManualExample {
   @Disabled
   void geOrderBookTicker() throws Exception {
     Thread.sleep(2000000);
-    Disposable disposable = ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService())
-        .getOrderBookTicker(instrument).subscribe(
-            orderBookTicker -> {
-              if (logOutput) {
-                log.info("OB ticker bid: {}:{}, ask: {}:{}", orderBookTicker.getBidPrice(), orderBookTicker.getBidSize(),
-                    orderBookTicker.getAskPrice(), orderBookTicker.getAskSize());
-              }
-            }, throwable -> {
-              log.error("Future throwable encountered error while subscribing to pair {}", instrument);
-              log.error("", throwable);
-            });
+    Disposable disposable =
+        ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService())
+            .getOrderBookTicker(instrument)
+            .subscribe(
+                orderBookTicker -> {
+                  if (logOutput) {
+                    log.info(
+                        "OB ticker bid: {}:{}, ask: {}:{}",
+                        orderBookTicker.getBidPrice(),
+                        orderBookTicker.getBidSize(),
+                        orderBookTicker.getAskPrice(),
+                        orderBookTicker.getAskSize());
+                  }
+                },
+                throwable -> {
+                  log.error(
+                      "Future throwable encountered error while subscribing to pair {}",
+                      instrument);
+                  log.error("", throwable);
+                });
     Thread.sleep(20000);
     disposable.dispose();
     Thread.sleep(1000);
@@ -87,16 +105,25 @@ public class GateioSpotManualExample {
   @Test
   @Disabled
   void getOrderChanges() throws Exception {
-    Disposable disposable = exchange.getStreamingTradeService().getOrderChanges(instrument).subscribe(
-        order -> {
-          if (logOutput) {
-            log.info("order changes {}", order);
-          }
-        }, throwable -> {
-          log.error("throwable encountered error while subscribing to pair {}", instrument);
-          log.error("", throwable);
-        });
-    MarketOrder order = new MarketOrder.Builder(BID, instrument).userReference("t-" + System.currentTimeMillis()).originalAmount(new BigDecimal("3")).build();
+    Disposable disposable =
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument)
+            .subscribe(
+                order -> {
+                  if (logOutput) {
+                    log.info("order changes {}", order);
+                  }
+                },
+                throwable -> {
+                  log.error("throwable encountered error while subscribing to pair {}", instrument);
+                  log.error("", throwable);
+                });
+    MarketOrder order =
+        new MarketOrder.Builder(BID, instrument)
+            .userReference("t-" + System.currentTimeMillis())
+            .originalAmount(new BigDecimal("3"))
+            .build();
     Thread.sleep(1000);
     String result = exchange.getTradeService().placeMarketOrder(order);
     Thread.sleep(3000);
@@ -107,16 +134,22 @@ public class GateioSpotManualExample {
   @Test
   @Disabled
   void getOrderBookSpotLegacy() throws Exception {
-    Disposable disposable = ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService()).getOrderBookLegacy((CurrencyPair) instrument).
-        subscribe(
-            orderBook -> {
-              if (logOutput) {
-                log.info("OB ask.size: {}, bid.size: {}", orderBook.getAsks().size(), orderBook.getBids().size());
-              }
-            }, throwable -> {
-              log.error("throwable encountered error while subscribing to pair {}", instrument);
-              log.error("", throwable);
-            });
+    Disposable disposable =
+        ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService())
+            .getOrderBookLegacy((CurrencyPair) instrument)
+            .subscribe(
+                orderBook -> {
+                  if (logOutput) {
+                    log.info(
+                        "OB ask.size: {}, bid.size: {}",
+                        orderBook.getAsks().size(),
+                        orderBook.getBids().size());
+                  }
+                },
+                throwable -> {
+                  log.error("throwable encountered error while subscribing to pair {}", instrument);
+                  log.error("", throwable);
+                });
     Thread.sleep(2000);
     disposable.dispose();
     Thread.sleep(1000);
@@ -141,5 +174,4 @@ public class GateioSpotManualExample {
     Thread.sleep(10000);
     sub1.dispose();
   }
-
 }

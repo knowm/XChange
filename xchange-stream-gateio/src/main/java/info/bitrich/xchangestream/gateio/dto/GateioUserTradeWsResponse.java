@@ -19,5 +19,4 @@ public class GateioUserTradeWsResponse<T> {
 
   @JsonProperty("data")
   private GateioWsResponseData<T> data;
-
 }

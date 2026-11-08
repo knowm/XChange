@@ -24,12 +24,12 @@ public class OrderBookV2RequestPayload {
             ? ((FuturesContract) instrument).getCurrencyPair()
             : (CurrencyPair) instrument;
 
-    return new String[]{
-        String.format(
-            "ob.%s_%s.%s",
-            currencyPair.getBase().getCurrencyCode(),
-            currencyPair.getCounter().getCurrencyCode(),
-            orderBookLevel)
+    return new String[] {
+      String.format(
+          "ob.%s_%s.%s",
+          currencyPair.getBase().getCurrencyCode(),
+          currencyPair.getCounter().getCurrencyCode(),
+          orderBookLevel)
     };
   }
 }
