@@ -273,4 +273,64 @@ class KrakenStreamingMarketDataServiceTest {
       }
     }
   }
+
+  @Test
+  void lateSubscriberFromSeparateGetOrderBookCallRequestsSnapshot() throws Exception {
+    PublishSubject<JsonNode> channel = PublishSubject.create();
+    when(service.subscribeChannel("book-XBT/USD", 10)).thenReturn(channel.share());
+    when(service.getUnsubscribeMessage("book-XBT/USD", 10)).thenReturn("unsubscribe");
+    when(service.getSubscribeMessage("book-XBT/USD", 10)).thenReturn("subscribe");
+    TestObserver<OrderBook> early = marketDataService.getOrderBook(XBT_USD, 10).test();
+    TestObserver<OrderBook> late = null;
+    try {
+      channel.onNext(
+          mapper.readTree(
+              "[1,{\"bs\":[[\"100\",\"1\",\"1\"]],\"as\":[[\"101\",\"2\",\"1\"]]},\"book-10\",\"XBT/USD\"]"));
+      early.assertValueCount(1).assertNoErrors();
+      verify(service, never()).sendMessage(anyString());
+
+      // A second getOrderBook call for the same pair and depth shares the Kraken channel, so it
+      // must also learn that a book is already live and ask for a snapshot.
+      late = marketDataService.getOrderBook(XBT_USD, 10).test();
+      InOrder messages = org.mockito.Mockito.inOrder(service);
+      messages.verify(service).sendMessage("unsubscribe");
+      messages.verify(service).sendMessage("subscribe");
+
+      channel.onNext(
+          mapper.readTree(
+              "[1,{\"bs\":[[\"200\",\"3\",\"2\"]],\"as\":[[\"201\",\"4\",\"2\"]]},\"book-10\",\"XBT/USD\"]"));
+      late.assertValueCount(1).assertNoErrors();
+      early.assertValueCount(2).assertNoErrors();
+      assertThat(late.values().get(0).getBids().get(0).getLimitPrice()).isEqualByComparingTo("200");
+      assertThat(early.values().get(1).getBids().get(0).getLimitPrice())
+          .isEqualByComparingTo("200");
+    } finally {
+      early.dispose();
+      if (late != null) {
+        late.dispose();
+      }
+    }
+  }
+
+  @Test
+  void subscriberJoiningBeforeFirstSnapshotDoesNotResubscribe() throws Exception {
+    PublishSubject<JsonNode> channel = PublishSubject.create();
+    when(service.subscribeChannel("book-XBT/USD", 10)).thenReturn(channel.share());
+    Observable<OrderBook> orderBooks = marketDataService.getOrderBook(XBT_USD, 10);
+    TestObserver<OrderBook> first = orderBooks.test();
+    TestObserver<OrderBook> second = marketDataService.getOrderBook(XBT_USD, 10).test();
+    try {
+      // Nobody holds a book yet, so the pending initial snapshot serves both subscribers.
+      verify(service, never()).sendMessage(anyString());
+      channel.onNext(
+          mapper.readTree(
+              "[1,{\"bs\":[[\"100\",\"1\",\"1\"]],\"as\":[[\"101\",\"2\",\"1\"]]},\"book-10\",\"XBT/USD\"]"));
+      first.assertValueCount(1).assertNoErrors();
+      second.assertValueCount(1).assertNoErrors();
+      verify(service, never()).sendMessage(anyString());
+    } finally {
+      first.dispose();
+      second.dispose();
+    }
+  }
 }

@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +35,13 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   private final KrakenStreamingService service;
   private final boolean spreadForTicker;
 
+  /**
+   * One flag per live order book subscription, grouped by Kraken book channel (pair and depth).
+   * All subscriptions on the same channel share one entry, whether they came from the same
+   * {@link #getOrderBook} call or from separate calls, because they share one Kraken subscription.
+   */
+  private final Map<String, Set<AtomicBoolean>> activeBooksByChannel = new ConcurrentHashMap<>();
+
   public KrakenStreamingMarketDataService(KrakenStreamingService service, boolean spreadForTicker) {
     this.service = service;
     this.spreadForTicker = spreadForTicker;
@@ -41,8 +49,10 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
 
   /**
    * Each subscription to the returned observable keeps its own book. A subscription that joins
-   * while another one already holds a book asks Kraken for a fresh snapshot by resubscribing the
-   * channel; the existing subscriptions replace their books with that snapshot.
+   * while another one already holds a book on the same Kraken channel, from this call or from an
+   * earlier {@code getOrderBook} call for the same pair and depth, asks Kraken for a fresh
+   * snapshot by resubscribing the channel; the existing subscriptions replace their books with
+   * that snapshot, so every late joiner costs them one snapshot.
    */
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
@@ -52,7 +62,9 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
             KrakenStreamingService.parseOrderBookSize(args),
             KrakenStreamingService.ORDER_BOOK_SIZE_DEFAULT);
     Observable<ArrayNode> channel = subscribe(channelName, MIN_DATA_ARRAY_SIZE, args);
-    Set<AtomicBoolean> activeBooks = ConcurrentHashMap.newKeySet();
+    Set<AtomicBoolean> activeBooks =
+        activeBooksByChannel.computeIfAbsent(
+            channelName + KRAKEN_CHANNEL_DELIMITER + depth, k -> ConcurrentHashMap.newKeySet());
     return Observable.defer(
         () -> {
           TreeSet<LimitOrder> bids = new TreeSet<>();
