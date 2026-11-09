@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class KrakenStreamingTradeServiceTest {
+class KrakenStreamingTradeServiceTest {
 
   @Mock KrakenPrivateStreamingService krakenPrivateStreamingService;
 
@@ -33,7 +33,7 @@ public class KrakenStreamingTradeServiceTest {
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @BeforeEach
-  public void init() {
+  void init() {
     krakenStreamingTradeService = new KrakenStreamingTradeService(krakenPrivateStreamingService);
   }
 

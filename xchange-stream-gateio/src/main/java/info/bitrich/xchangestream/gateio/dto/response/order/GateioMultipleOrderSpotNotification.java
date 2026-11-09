@@ -1,0 +1,34 @@
+package info.bitrich.xchangestream.gateio.dto.response.order;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
+import java.util.List;
+import java.util.stream.Collectors;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+import org.knowm.xchange.gateio.dto.trade.GateioSpotOrderResponse;
+
+@Data
+@SuperBuilder
+@Jacksonized
+public class GateioMultipleOrderSpotNotification extends GateioWsNotification {
+
+  @JsonProperty("result")
+  private List<GateioSpotOrderResponse> result;
+
+  public List<GateioSingleOrderSpotNotification> toSingleNotifications() {
+    return result.stream()
+        .map(
+            orderResponse ->
+                GateioSingleOrderSpotNotification.builder()
+                    .result(orderResponse)
+                    .time(getTime())
+                    .timeMs(getTimeMs())
+                    .channel(getChannel())
+                    .event(getEvent())
+                    .error(getError())
+                    .build())
+        .collect(Collectors.toList());
+  }
+}

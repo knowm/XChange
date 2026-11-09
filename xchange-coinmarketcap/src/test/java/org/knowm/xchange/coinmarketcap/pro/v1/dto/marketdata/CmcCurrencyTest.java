@@ -7,13 +7,13 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 
-public class CmcCurrencyTest {
+class CmcCurrencyTest {
 
   @Test
-  public void testDeserializeCurrencyMap() throws Exception {
+  void deserializeCurrencyMap() throws Exception {
     // given
     InputStream is =
         CmcCurrency.class.getResourceAsStream(

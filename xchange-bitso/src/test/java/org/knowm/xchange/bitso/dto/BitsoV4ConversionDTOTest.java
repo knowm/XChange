@@ -1,10 +1,11 @@
 package org.knowm.xchange.bitso.dto;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitso.BitsoJacksonObjectMapperFactory;
 import org.knowm.xchange.bitso.dto.trade.BitsoConversionExecutionResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoConversionQuoteRequest;
@@ -12,12 +13,12 @@ import org.knowm.xchange.bitso.dto.trade.BitsoConversionQuoteResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoConversionStatusResponse;
 
 /** Tests for Bitso v4 Currency Conversion DTOs */
-public class BitsoV4ConversionDTOTest {
+class BitsoV4ConversionDTOTest {
 
   private final ObjectMapper mapper = BitsoJacksonObjectMapperFactory.getInstance();
 
   @Test
-  public void testConversionQuoteRequest() {
+  void conversionQuoteRequest() {
     // Test builder pattern with all fields
     BitsoConversionQuoteRequest request =
         BitsoConversionQuoteRequest.builder()
@@ -27,15 +28,15 @@ public class BitsoV4ConversionDTOTest {
             .amountType("exact_in")
             .build();
 
-    assertNotNull(request);
-    assertEquals("mxn", request.getFrom());
-    assertEquals("usd", request.getTo());
-    assertEquals(new BigDecimal("1854.21860516"), request.getAmount());
-    assertEquals("exact_in", request.getAmountType());
+    assertThat(request).isNotNull();
+    assertThat(request.getFrom()).isEqualTo("mxn");
+    assertThat(request.getTo()).isEqualTo("usd");
+    assertThat(request.getAmount()).isEqualTo(new BigDecimal("1854.21860516"));
+    assertThat(request.getAmountType()).isEqualTo("exact_in");
   }
 
   @Test
-  public void testConversionQuoteRequestMinimal() {
+  void conversionQuoteRequestMinimal() {
     // Test builder pattern with minimal required fields
     BitsoConversionQuoteRequest request =
         BitsoConversionQuoteRequest.builder()
@@ -44,14 +45,14 @@ public class BitsoV4ConversionDTOTest {
             .amount(new BigDecimal("0.1"))
             .build();
 
-    assertNotNull(request);
-    assertEquals("btc", request.getFrom());
-    assertEquals("mxn", request.getTo());
-    assertEquals(new BigDecimal("0.1"), request.getAmount());
+    assertThat(request).isNotNull();
+    assertThat(request.getFrom()).isEqualTo("btc");
+    assertThat(request.getTo()).isEqualTo("mxn");
+    assertThat(request.getAmount()).isEqualTo(new BigDecimal("0.1"));
   }
 
   @Test
-  public void testConversionQuoteResponseDeserialization() throws Exception {
+  void conversionQuoteResponseDeserialization() throws Exception {
     String json =
         "{\n"
             + "  \"id\": \"quote_123456\",\n"
@@ -70,33 +71,33 @@ public class BitsoV4ConversionDTOTest {
     BitsoConversionQuoteResponse response =
         mapper.readValue(json, BitsoConversionQuoteResponse.class);
 
-    assertNotNull(response);
-    assertEquals("quote_123456", response.getId());
-    assertEquals(new BigDecimal("1854.21860516"), response.getFromAmount());
-    assertEquals("mxn", response.getFromCurrency());
-    assertEquals(new BigDecimal("100.00000000"), response.getToAmount());
-    assertEquals("usd", response.getToCurrency());
-    assertEquals(Long.valueOf(1719862355209L), response.getCreated());
-    assertEquals(Long.valueOf(1719862385209L), response.getExpires());
-    assertEquals(new BigDecimal("18.54218605"), response.getRate());
-    assertEquals(new BigDecimal("18.36"), response.getPlainRate());
-    assertEquals("mxn", response.getRateCurrency());
-    assertEquals("usd_mxn", response.getBook());
+    assertThat(response).isNotNull();
+    assertThat(response.getId()).isEqualTo("quote_123456");
+    assertThat(response.getFromAmount()).isEqualTo(new BigDecimal("1854.21860516"));
+    assertThat(response.getFromCurrency()).isEqualTo("mxn");
+    assertThat(response.getToAmount()).isEqualTo(new BigDecimal("100.00000000"));
+    assertThat(response.getToCurrency()).isEqualTo("usd");
+    assertThat(response.getCreated()).isEqualTo(Long.valueOf(1719862355209L));
+    assertThat(response.getExpires()).isEqualTo(Long.valueOf(1719862385209L));
+    assertThat(response.getRate()).isEqualTo(new BigDecimal("18.54218605"));
+    assertThat(response.getPlainRate()).isEqualTo(new BigDecimal("18.36"));
+    assertThat(response.getRateCurrency()).isEqualTo("mxn");
+    assertThat(response.getBook()).isEqualTo("usd_mxn");
   }
 
   @Test
-  public void testConversionExecutionResponseDeserialization() throws Exception {
+  void conversionExecutionResponseDeserialization() throws Exception {
     String json = "{\n" + "  \"oid\": \"conversion_789012\"\n" + "}";
 
     BitsoConversionExecutionResponse response =
         mapper.readValue(json, BitsoConversionExecutionResponse.class);
 
-    assertNotNull(response);
-    assertEquals("conversion_789012", response.getConversionId());
+    assertThat(response).isNotNull();
+    assertThat(response.getConversionId()).isEqualTo("conversion_789012");
   }
 
   @Test
-  public void testConversionStatusResponseDeserialization() throws Exception {
+  void conversionStatusResponseDeserialization() throws Exception {
     String json =
         "{\n"
             + "  \"id\": \"7316\",\n"
@@ -116,25 +117,25 @@ public class BitsoV4ConversionDTOTest {
     BitsoConversionStatusResponse response =
         mapper.readValue(json, BitsoConversionStatusResponse.class);
 
-    assertNotNull(response);
-    assertEquals("7316", response.getId());
-    assertEquals(new BigDecimal("1854.21860516"), response.getFromAmount());
-    assertEquals("mxn", response.getFromCurrency());
-    assertEquals(new BigDecimal("100.00000000"), response.getToAmount());
-    assertEquals("usd", response.getToCurrency());
-    assertEquals(Long.valueOf(1719862355209L), response.getCreated());
-    assertEquals(Long.valueOf(1719862385209L), response.getExpires());
-    assertEquals(new BigDecimal("18.54218605"), response.getRate());
-    assertEquals(new BigDecimal("18.36"), response.getPlainRate());
-    assertEquals("mxn", response.getRateCurrency());
-    assertEquals("xrp_mxn", response.getBook());
-    assertEquals("completed", response.getStatus());
-    assertEquals(
-        BitsoConversionStatusResponse.ConversionStatus.COMPLETED, response.getStatusEnum());
+    assertThat(response).isNotNull();
+    assertThat(response.getId()).isEqualTo("7316");
+    assertThat(response.getFromAmount()).isEqualTo(new BigDecimal("1854.21860516"));
+    assertThat(response.getFromCurrency()).isEqualTo("mxn");
+    assertThat(response.getToAmount()).isEqualTo(new BigDecimal("100.00000000"));
+    assertThat(response.getToCurrency()).isEqualTo("usd");
+    assertThat(response.getCreated()).isEqualTo(Long.valueOf(1719862355209L));
+    assertThat(response.getExpires()).isEqualTo(Long.valueOf(1719862385209L));
+    assertThat(response.getRate()).isEqualTo(new BigDecimal("18.54218605"));
+    assertThat(response.getPlainRate()).isEqualTo(new BigDecimal("18.36"));
+    assertThat(response.getRateCurrency()).isEqualTo("mxn");
+    assertThat(response.getBook()).isEqualTo("xrp_mxn");
+    assertThat(response.getStatus()).isEqualTo("completed");
+    assertThat(response.getStatusEnum())
+        .isEqualTo(BitsoConversionStatusResponse.ConversionStatus.COMPLETED);
   }
 
   @Test
-  public void testConversionStatusResponseQueuedState() throws Exception {
+  void conversionStatusResponseQueuedState() throws Exception {
     String json =
         "{\n"
             + "  \"id\": \"7317\",\n"
@@ -154,44 +155,45 @@ public class BitsoV4ConversionDTOTest {
     BitsoConversionStatusResponse response =
         mapper.readValue(json, BitsoConversionStatusResponse.class);
 
-    assertNotNull(response);
-    assertEquals("7317", response.getId());
-    assertEquals("queued", response.getStatus());
-    assertEquals(BitsoConversionStatusResponse.ConversionStatus.QUEUED, response.getStatusEnum());
+    assertThat(response).isNotNull();
+    assertThat(response.getId()).isEqualTo("7317");
+    assertThat(response.getStatus()).isEqualTo("queued");
+    assertThat(response.getStatusEnum())
+        .isEqualTo(BitsoConversionStatusResponse.ConversionStatus.QUEUED);
   }
 
   @Test
-  public void testConversionStatusEnumFromString() {
-    assertEquals(
-        BitsoConversionStatusResponse.ConversionStatus.OPEN,
-        BitsoConversionStatusResponse.ConversionStatus.fromString("open"));
-    assertEquals(
-        BitsoConversionStatusResponse.ConversionStatus.QUEUED,
-        BitsoConversionStatusResponse.ConversionStatus.fromString("queued"));
-    assertEquals(
-        BitsoConversionStatusResponse.ConversionStatus.COMPLETED,
-        BitsoConversionStatusResponse.ConversionStatus.fromString("completed"));
-    assertEquals(
-        BitsoConversionStatusResponse.ConversionStatus.FAILED,
-        BitsoConversionStatusResponse.ConversionStatus.fromString("failed"));
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testConversionStatusEnumInvalidString() {
-    BitsoConversionStatusResponse.ConversionStatus.fromString("invalid_status");
+  void conversionStatusEnumFromString() {
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.fromString("open"))
+        .isEqualTo(BitsoConversionStatusResponse.ConversionStatus.OPEN);
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.fromString("queued"))
+        .isEqualTo(BitsoConversionStatusResponse.ConversionStatus.QUEUED);
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.fromString("completed"))
+        .isEqualTo(BitsoConversionStatusResponse.ConversionStatus.COMPLETED);
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.fromString("failed"))
+        .isEqualTo(BitsoConversionStatusResponse.ConversionStatus.FAILED);
   }
 
   @Test
-  public void testConversionStatusEnumGetApiValue() {
-    assertEquals("open", BitsoConversionStatusResponse.ConversionStatus.OPEN.getApiValue());
-    assertEquals("queued", BitsoConversionStatusResponse.ConversionStatus.QUEUED.getApiValue());
-    assertEquals(
-        "completed", BitsoConversionStatusResponse.ConversionStatus.COMPLETED.getApiValue());
-    assertEquals("failed", BitsoConversionStatusResponse.ConversionStatus.FAILED.getApiValue());
+  void conversionStatusEnumInvalidString() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+        .isThrownBy(
+            () -> BitsoConversionStatusResponse.ConversionStatus.fromString("invalid_status"));
   }
 
   @Test
-  public void testConversionStatusResponseAllStates() throws Exception {
+  void conversionStatusEnumGetApiValue() {
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.OPEN.getApiValue()).isEqualTo("open");
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.QUEUED.getApiValue())
+        .isEqualTo("queued");
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.COMPLETED.getApiValue())
+        .isEqualTo("completed");
+    assertThat(BitsoConversionStatusResponse.ConversionStatus.FAILED.getApiValue())
+        .isEqualTo("failed");
+  }
+
+  @Test
+  void conversionStatusResponseAllStates() throws Exception {
     // Test all possible conversion states
     String[] states = {"open", "queued", "completed", "failed"};
 
@@ -216,18 +218,18 @@ public class BitsoV4ConversionDTOTest {
 
       BitsoConversionStatusResponse response =
           mapper.readValue(json, BitsoConversionStatusResponse.class);
-      assertNotNull(response);
-      assertEquals(state, response.getStatus());
+      assertThat(response).isNotNull();
+      assertThat(response.getStatus()).isEqualTo(state);
 
       // Verify enum conversion works for all states
       BitsoConversionStatusResponse.ConversionStatus statusEnum = response.getStatusEnum();
-      assertNotNull(statusEnum);
-      assertEquals(state, statusEnum.getApiValue());
+      assertThat(statusEnum).isNotNull();
+      assertThat(statusEnum.getApiValue()).isEqualTo(state);
     }
   }
 
   @Test
-  public void testConversionQuoteRequestSerialization() throws Exception {
+  void conversionQuoteRequestSerialization() throws Exception {
     BitsoConversionQuoteRequest request =
         BitsoConversionQuoteRequest.builder()
             .from("btc")
@@ -240,14 +242,14 @@ public class BitsoV4ConversionDTOTest {
 
     System.out.println(json);
 
-    assertTrue(json.contains("\"from\":\"btc\""));
-    assertTrue(json.contains("\"to\":\"mxn\""));
-    assertTrue(json.contains("\"amount\":0.5"));
-    assertTrue(json.contains("\"amount_type\":\"exact_in\""));
+    assertThat(json.contains("\"from\":\"btc\"")).isTrue();
+    assertThat(json.contains("\"to\":\"mxn\"")).isTrue();
+    assertThat(json.contains("\"amount\":0.5")).isTrue();
+    assertThat(json.contains("\"amount_type\":\"exact_in\"")).isTrue();
   }
 
   @Test
-  public void testLombokFunctionality() {
+  void lombokFunctionality() {
     // Test Lombok-generated methods
     BitsoConversionQuoteRequest request1 =
         BitsoConversionQuoteRequest.builder()
@@ -264,13 +266,13 @@ public class BitsoV4ConversionDTOTest {
             .build();
 
     // Test equals and hashCode
-    assertEquals(request1, request2);
-    assertEquals(request1.hashCode(), request2.hashCode());
+    assertThat(request2).isEqualTo(request1);
+    assertThat(request2.hashCode()).isEqualTo(request1.hashCode());
 
     // Test toString
     String toString = request1.toString();
-    assertTrue(toString.contains("btc"));
-    assertTrue(toString.contains("mxn"));
-    assertTrue(toString.contains("1.0"));
+    assertThat(toString.contains("btc")).isTrue();
+    assertThat(toString.contains("mxn")).isTrue();
+    assertThat(toString.contains("1.0")).isTrue();
   }
 }

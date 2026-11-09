@@ -1,10 +1,8 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -12,55 +10,55 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.hitbtc.v2.BaseServiceTest;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class HitbtcMarketDataServiceIntegration extends BaseServiceTest {
+class HitbtcMarketDataServiceIntegration extends BaseServiceTest {
 
   @Test
-  public void testGetTicker() throws IOException {
+  void getTicker() throws Exception {
 
     MarketDataService marketDataService = exchange().getMarketDataService();
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
-    assertNotNull(ticker);
-    assertEquals(CurrencyPair.BTC_USD, ticker.getCurrencyPair());
+    assertThat(ticker).isNotNull();
+    assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
   @Test
-  public void testGetTicker_BCC() throws IOException {
+  void getTickerBCC() throws Exception {
 
     MarketDataService marketDataService = exchange().getMarketDataService();
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BCC_USD);
-    assertNotNull(ticker);
-    assertEquals(CurrencyPair.BCC_USD, ticker.getCurrencyPair());
+    assertThat(ticker).isNotNull();
+    assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BCC_USD);
   }
 
   @Test
-  public void testGetTicker_BCH() throws IOException {
+  void getTickerBCH() throws Exception {
 
     MarketDataService marketDataService = exchange().getMarketDataService();
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BCH_USD);
-    assertNotNull(ticker);
-    assertEquals(CurrencyPair.BCH_USD, ticker.getCurrencyPair());
+    assertThat(ticker).isNotNull();
+    assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BCH_USD);
   }
 
   @Test
-  public void testGetTrades() throws IOException {
+  void getTrades() throws Exception {
 
     MarketDataService marketDataService = exchange().getMarketDataService();
 
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
 
-    assertNotNull(trades);
+    assertThat(trades).isNotNull();
   }
 
   @Test
-  public void testGetOrderBook() throws IOException {
+  void getOrderBook() throws Exception {
 
     MarketDataService marketDataService = exchange().getMarketDataService();
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
-    assertNotNull(orderBook);
+    assertThat(orderBook).isNotNull();
   }
 }

@@ -8,10 +8,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-public class KrakenExchangeIntegration extends KrakenIntegrationTestParent {
+class KrakenExchangeIntegration extends KrakenIntegrationTestParent {
 
   @Test
-  public void valid_metadata() {
+  void valid_metadata() {
     assertThat(exchange.getExchangeMetaData()).isNotNull();
     Map<Instrument, InstrumentMetaData> instruments =
         exchange.getExchangeMetaData().getInstruments();

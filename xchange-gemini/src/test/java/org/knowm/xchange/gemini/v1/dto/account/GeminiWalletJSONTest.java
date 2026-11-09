@@ -1,18 +1,17 @@
 package org.knowm.xchange.gemini.v1.dto.account;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Test BTCEDepth JSON parsing */
 public class GeminiWalletJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -23,6 +22,6 @@ public class GeminiWalletJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     GeminiBalancesResponse readValue = mapper.readValue(is, GeminiBalancesResponse.class);
 
-    assertEquals(readValue.getAmount().toString(), new BigDecimal("8.53524686").toString());
+    assertThat(new BigDecimal("8.53524686").toString()).isEqualTo(readValue.getAmount().toString());
   }
 }

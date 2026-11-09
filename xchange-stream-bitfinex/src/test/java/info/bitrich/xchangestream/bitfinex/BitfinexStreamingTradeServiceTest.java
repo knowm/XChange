@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitfinex.config.Config;
-import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,13 +25,13 @@ class BitfinexStreamingTradeServiceTest {
   BitfinexStreamingTradeService bitfinexStreamingTradeService;
 
   @BeforeAll
-  public static void initAdapters() {
+  static void initAdapters() {
     BitfinexAdapters.putCurrencyMapping("BTCF0", "BTC");
     BitfinexAdapters.putCurrencyMapping("USTF0", "USDT");
   }
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     bitfinexStreamingService =
         new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, null);
     bitfinexStreamingService.setApiKey("a");
@@ -40,7 +39,7 @@ class BitfinexStreamingTradeServiceTest {
   }
 
   @Test
-  void position_changes() throws IOException {
+  void position_changes() throws Exception {
 
     JsonNode jsonNode =
         objectMapper.readTree(

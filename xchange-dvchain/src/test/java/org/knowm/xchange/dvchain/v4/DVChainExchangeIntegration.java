@@ -1,11 +1,10 @@
 package org.knowm.xchange.dvchain.v4;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -21,12 +20,12 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
 
-public class DVChainExchangeIntegration {
+class DVChainExchangeIntegration {
   final String secret =
       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjMGZkZjczNTUxYTU4M2I2OGNmOTM1YSIsImlhdCI6MTU0NDcyNjk3Nn0.wBuyED4CmkFzzrNdQm1FqwixJhvQTfl-aN4OE0ryoho";
 
   @Test
-  public void shouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
+  void shouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getCanonicalName());
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
@@ -36,7 +35,7 @@ public class DVChainExchangeIntegration {
   }
 
   @Test
-  public void testExchangeMarketData() {
+  void exchangeMarketData() {
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
@@ -47,9 +46,9 @@ public class DVChainExchangeIntegration {
     try {
       OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("BTC", "USD"));
       List<LimitOrder> bids = orderBook.getBids();
-      assertEquals(bids.size(), 3);
+      assertThat(bids.size()).isEqualTo(3);
       List<LimitOrder> asks = orderBook.getAsks();
-      assertEquals(asks.size(), 3);
+      assertThat(asks.size()).isEqualTo(3);
       System.out.println(orderBook.toString());
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
@@ -58,7 +57,7 @@ public class DVChainExchangeIntegration {
   }
 
   @Test
-  public void testMarketOrder() {
+  void marketOrder() {
 
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
@@ -72,7 +71,7 @@ public class DVChainExchangeIntegration {
           tradeService.placeMarketOrder(
               new MarketOrder(
                   Order.OrderType.BID, new BigDecimal(1), new CurrencyPair("BTC", "USD")));
-      assertNotNull(order);
+      assertThat(order).isNotNull();
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
       assert (false);
@@ -80,7 +79,7 @@ public class DVChainExchangeIntegration {
   }
 
   @Test
-  public void testLimitOrder() {
+  void limitOrder() {
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
@@ -98,7 +97,7 @@ public class DVChainExchangeIntegration {
                   "",
                   null,
                   new BigDecimal("7001")));
-      assertNotNull(order);
+      assertThat(order).isNotNull();
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
       assert (false);
@@ -106,7 +105,7 @@ public class DVChainExchangeIntegration {
   }
 
   @Test
-  public void testOrders() {
+  void orders() {
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
@@ -116,7 +115,7 @@ public class DVChainExchangeIntegration {
     TradeService tradeService = exchange.getTradeService();
     try {
       OpenOrders orders = tradeService.getOpenOrders();
-      assertNotNull(orders);
+      assertThat(orders).isNotNull();
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
       assert (false);
@@ -124,7 +123,7 @@ public class DVChainExchangeIntegration {
   }
 
   @Test
-  public void testTrades() {
+  void trades() {
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class, secret, secret);
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
@@ -134,7 +133,7 @@ public class DVChainExchangeIntegration {
     TradeService tradeService = exchange.getTradeService();
     try {
       UserTrades trades = tradeService.getTradeHistory(new TradeHistoryParamsZero());
-      assertNotNull(trades);
+      assertThat(trades).isNotNull();
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
       assert (false);

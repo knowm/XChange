@@ -10,7 +10,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinbase.cdp.CoinbaseAuthenticatedCDP;
 import org.knowm.xchange.coinbase.cdp.CoinbaseV2DigestCDP;
-import org.knowm.xchange.coinbase.service.CoinbaseDigest;
+import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
@@ -71,7 +71,7 @@ public class CoinbaseBaseServiceCDP extends BaseExchangeService implements BaseS
   protected String getSignature(BigDecimal timestamp, HttpMethod method, String path, String body) {
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
     String message = timestamp + method.toString() + path + (body != null ? body : "");
-    final Mac mac = CoinbaseDigest.createInstance(secretKey).getMac();
+    final Mac mac = CoinbaseV2Digest.createInstance(secretKey).getMac();
     byte[] bytes = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
     return DigestUtils.bytesToHex(bytes);
   }

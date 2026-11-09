@@ -2,19 +2,18 @@ package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class OpenOrdersTest {
+class OpenOrdersTest {
 
   @Test
-  public void testSerializationDeserialization() throws IOException {
+  void serializationDeserialization() throws Exception {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("FOO").build();
     StopOrder stopOrder =

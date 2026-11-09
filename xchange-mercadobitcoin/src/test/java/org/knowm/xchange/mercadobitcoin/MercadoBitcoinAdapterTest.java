@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -32,10 +31,10 @@ import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
  *
  * @author Felipe Micaroni Lalli
  */
-public class MercadoBitcoinAdapterTest {
+class MercadoBitcoinAdapterTest {
 
   @Test
-  public void testOrderBookAdapter() throws IOException {
+  void orderBookAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -59,7 +58,7 @@ public class MercadoBitcoinAdapterTest {
   }
 
   @Test
-  public void testTradesAdapter() throws IOException {
+  void tradesAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -83,7 +82,7 @@ public class MercadoBitcoinAdapterTest {
   }
 
   @Test
-  public void testTickerAdapter() throws IOException {
+  void tickerAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -104,7 +103,7 @@ public class MercadoBitcoinAdapterTest {
   }
 
   @Test
-  public void testAccountInfoAdapter() throws IOException {
+  void accountInfoAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -137,7 +136,7 @@ public class MercadoBitcoinAdapterTest {
   }
 
   @Test
-  public void testOrdersAdapter() throws IOException {
+  void ordersAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

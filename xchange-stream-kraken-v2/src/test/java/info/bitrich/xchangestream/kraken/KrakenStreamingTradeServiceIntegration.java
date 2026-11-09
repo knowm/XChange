@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 @Slf4j
-public class KrakenStreamingTradeServiceIntegration extends KrakenStreamingExchangeIT {
+class KrakenStreamingTradeServiceIntegration extends KrakenStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();

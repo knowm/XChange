@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
+import org.knowm.xchange.instrument.Instrument;
 
 @Getter
 public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransaction {
@@ -49,8 +50,19 @@ public class KlineBinanceWebSocketTransaction extends BaseBinanceWebSocketTransa
     return parameters;
   }
 
+  /**
+   * Resolves the instrument from the kline symbol through the symbol mapping.
+   * If not mapped, the instrument is null for spot and has a null currency pair for futures.
+   */
   public BinanceKline toBinanceKline(boolean isFuture) {
-    return new BinanceKline(
-        BinanceAdapters.adaptSymbol(symbol, isFuture), klineInterval, getParameters(kline));
+    return toBinanceKline(BinanceAdapters.adaptSymbol(symbol, isFuture));
+  }
+
+  /**
+   * Uses the given instrument instead of resolving the symbol through the symbol mapping.
+   * The instrument must correspond to the kline symbol; this is not validated.
+   */
+  public BinanceKline toBinanceKline(Instrument instrument) {
+    return new BinanceKline(instrument, klineInterval, getParameters(kline));
   }
 }

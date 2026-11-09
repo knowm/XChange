@@ -13,10 +13,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-public class CryptoComStreamingAdaptersTest {
+class CryptoComStreamingAdaptersTest {
 
   @Test
-  public void testAdaptUserTrade() {
+  void adaptUserTrade() {
     CryptoComUserTradeUpdate update = new CryptoComUserTradeUpdate();
     update.setTradeId("38246881");
     update.setOrderId("18342311");
@@ -42,7 +42,7 @@ public class CryptoComStreamingAdaptersTest {
   }
 
   @Test
-  public void testAdaptUserTradeWithNullFeeCurrency() {
+  void adaptUserTradeWithNullFeeCurrency() {
     CryptoComUserTradeUpdate update = new CryptoComUserTradeUpdate();
     update.setInstrumentName("BTC_USDT");
     update.setSide("SELL");
@@ -55,7 +55,7 @@ public class CryptoComStreamingAdaptersTest {
   }
 
   @Test
-  public void testAdaptBalance() {
+  void adaptBalance() {
     CryptoComBalance.PositionBalance position = new CryptoComBalance.PositionBalance();
     position.setInstrumentName("BTC");
     position.setQuantity("0.01500000");

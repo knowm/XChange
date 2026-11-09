@@ -2,17 +2,16 @@ package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class MarketOrderTest {
+class MarketOrderTest {
   @Test
-  public void testBuilder() {
+  void builder() {
     final Order.OrderType type = Order.OrderType.BID;
     final BigDecimal originalAmount = new BigDecimal("99.401");
     final BigDecimal cumulativeAmount = new BigDecimal("44.401");
@@ -53,7 +52,7 @@ public class MarketOrderTest {
   }
 
   @Test
-  public void testBuilderFrom() throws IOException {
+  void builderFrom() throws Exception {
     final Order.OrderType type = Order.OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final BigDecimal cumulativeAmount = new BigDecimal("44.401");
@@ -83,7 +82,7 @@ public class MarketOrderTest {
   }
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     final Order.OrderType type = Order.OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final BigDecimal cumulativeAmount = new BigDecimal("44.401");

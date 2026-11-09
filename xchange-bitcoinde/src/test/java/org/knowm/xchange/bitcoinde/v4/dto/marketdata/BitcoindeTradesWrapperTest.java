@@ -3,14 +3,13 @@ package org.knowm.xchange.bitcoinde.v4.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class BitcoindeTradesWrapperTest {
+class BitcoindeTradesWrapperTest {
 
   @Test
-  public void testBitcoindeTradesWrapper() throws IOException {
+  void bitcoindeTradesWrapper() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeTradesWrapperTest.class.getResourceAsStream(

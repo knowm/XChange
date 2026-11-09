@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import lombok.SneakyThrows;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coincheck.dto.marketdata.CoincheckOrderBook;
 import org.knowm.xchange.coincheck.dto.marketdata.CoincheckTicker;
 import org.knowm.xchange.coincheck.dto.marketdata.CoincheckTrade;
@@ -18,9 +18,9 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 
-public class CoincheckAdapterTest {
+class CoincheckAdapterTest {
   @Test
-  public void testCreateTicker() {
+  void createTicker() {
     CurrencyPair pair = CurrencyPair.BTC_JPY;
     Instant time = Instant.parse("2020-01-01T00:00:00Z");
     CoincheckTicker coincheck =
@@ -48,7 +48,7 @@ public class CoincheckAdapterTest {
   }
 
   @Test
-  public void testCreateOrderBook() {
+  void createOrderBook() {
     OrderBook book =
         CoincheckAdapter.createOrderBook(
             CurrencyPair.BTC_JPY,
@@ -71,7 +71,7 @@ public class CoincheckAdapterTest {
   }
 
   @Test
-  public void testCreateSortedOrderBook() {
+  void createSortedOrderBook() {
     // Tests that the adapter creates a sorted order book.
     // Or rather, tests that the result from Coincheck is sorted as expected.
     CoincheckOrderBook orderBook =
@@ -84,7 +84,7 @@ public class CoincheckAdapterTest {
 
   @Test
   @SneakyThrows
-  public void testCreateTrade() {
+  void createTrade() {
     CoincheckTrade coincheck =
         CoincheckTrade.builder()
             .id(211288499)

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/api/v4/futures/usdt/contracts"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_instrument_details.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

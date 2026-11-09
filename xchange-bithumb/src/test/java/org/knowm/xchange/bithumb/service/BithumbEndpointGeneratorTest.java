@@ -4,21 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import si.mazi.rescu.RestInvocation;
 
-public class BithumbEndpointGeneratorTest {
+class BithumbEndpointGeneratorTest {
 
   private BithumbEndpointGenerator bithumbEndpointGenerator;
 
-  @Before
-  public void init() {
+  @BeforeEach
+  void init() {
     bithumbEndpointGenerator = new BithumbEndpointGenerator();
   }
 
   @Test
-  public void digestParams() {
+  void digestParams() {
 
     // Given
     final RestInvocation restInvocation = mock(RestInvocation.class);

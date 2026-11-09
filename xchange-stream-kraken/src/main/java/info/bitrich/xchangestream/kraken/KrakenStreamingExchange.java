@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -12,6 +11,7 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import java.io.IOException;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
@@ -46,11 +46,11 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
   protected void initServices() {
     super.initServices();
     Boolean useBeta =
-        MoreObjects.firstNonNull(
+        ObjectUtils.defaultIfNull(
             (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BETA),
             Boolean.FALSE);
     Boolean spreadForTicker =
-        MoreObjects.firstNonNull(
+        ObjectUtils.defaultIfNull(
             (Boolean)
                 exchangeSpecification.getExchangeSpecificParametersItem(USE_SPREAD_FOR_TICKER),
             Boolean.FALSE);

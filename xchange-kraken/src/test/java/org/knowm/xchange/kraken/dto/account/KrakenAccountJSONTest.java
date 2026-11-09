@@ -3,10 +3,8 @@ package org.knowm.xchange.kraken.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
@@ -14,10 +12,10 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenWebsocketTokenResult;
 
-public class KrakenAccountJSONTest {
+class KrakenAccountJSONTest {
 
   @Test
-  public void testBalanceUnmarshal() throws IOException {
+  void balanceUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -27,13 +25,13 @@ public class KrakenAccountJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
-    Assertions.assertEquals(3, krakenBalance.getResult().size());
+    assertThat(krakenBalance.getResult().size()).isEqualTo(3);
     assertThat(krakenBalance.getResult().get("ZUSD")).isNull();
     assertThat(krakenBalance.getResult().get("ZEUR")).isEqualTo("1.0539");
   }
 
   @Test
-  public void testBalanceInfoUnmarshal() throws IOException {
+  void balanceInfoUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -56,7 +54,7 @@ public class KrakenAccountJSONTest {
   }
 
   @Test
-  public void testLedgerInfoUnmarshal() throws IOException {
+  void ledgerInfoUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -91,7 +89,7 @@ public class KrakenAccountJSONTest {
   }
 
   @Test
-  public void testTradeVolumeUnmarshal() throws IOException {
+  void tradeVolumeUnmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -124,7 +122,7 @@ public class KrakenAccountJSONTest {
   }
 
   @Test
-  public void testKrakenWebsocketTokenUnmarshal() throws IOException {
+  void krakenWebsocketTokenUnmarshal() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         KrakenAccountJSONTest.class.getResourceAsStream(

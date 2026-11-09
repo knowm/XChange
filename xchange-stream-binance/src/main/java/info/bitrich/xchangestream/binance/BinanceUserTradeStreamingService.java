@@ -24,25 +24,15 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.Security;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Duration;
-import java.util.Base64;
 import lombok.Getter;
-import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
-import org.bouncycastle.crypto.Signer;
-import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
-import org.bouncycastle.crypto.signers.Ed25519Signer;
-import org.bouncycastle.crypto.util.PrivateKeyFactory;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelOrderParams;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.service.BinanceEd25519Signer;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.slf4j.Logger;
@@ -54,7 +44,6 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
   private final String apiKey;
   private final String privateKey;
   CompositeDisposable compositeDisposable = new CompositeDisposable();
-  Charset charSet = StandardCharsets.UTF_8;
   @Getter private boolean authorized = false;
   private String signature = "";
   private Disposable loginDisposable;
@@ -95,7 +84,7 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
 
   @Override
   public Completable disconnect() {
-    compositeDisposable.dispose();
+    compositeDisposable.clear();
     return super.disconnect();
   }
 
@@ -133,18 +122,9 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
                 });
   }
 
-  public String signPayload(String payload) throws Exception {
-    Security.addProvider(new BouncyCastleProvider());
-    byte[] decodePrivateKey = Base64.getDecoder().decode(privateKey.getBytes(charSet));
-    PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(decodePrivateKey);
-    PrivateKeyInfo instancePrivate = PrivateKeyInfo.getInstance(pkcs8EncodedKeySpec.getEncoded());
-    AsymmetricKeyParameter keyPrivate = PrivateKeyFactory.createKey(instancePrivate);
-    Signer signer = new Ed25519Signer();
-    signer.init(true, keyPrivate);
-    var payloadBytes = payload.getBytes(charSet);
-    signer.update(payloadBytes, 0, payloadBytes.length);
-    byte[] signature = signer.generateSignature();
-    return new String(Base64.getEncoder().encode(signature));
+  public String signPayload(String payload) {
+    return BinanceEd25519Signer.signBase64(
+        BinanceEd25519Signer.parsePrivateKey(privateKey), payload);
   }
 
   @Override
@@ -248,8 +228,8 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
                   .side(BinanceAdapters.convert(limitOrder.getType()))
                   .newClientOrderId(limitOrder.getUserReference())
                   .type(OrderType.LIMIT)
-                  .price(limitOrder.getLimitPrice())
-                  .quantity(limitOrder.getOriginalAmount())
+                  .price(limitOrder.getLimitPrice().toPlainString())
+                  .quantity(limitOrder.getOriginalAmount().toPlainString())
                   .timeInForce(tif)
                   .cancelReplaceMode(STOP_ON_FAILURE)
                   .timestamp(System.currentTimeMillis())
@@ -261,5 +241,10 @@ public class BinanceUserTradeStreamingService extends JsonNettyStreamingService 
       default:
         return null;
     }
+  }
+
+  @Override
+  public void resubscribeChannels() {
+
   }
 }

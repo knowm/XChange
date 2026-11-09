@@ -2,17 +2,16 @@ package org.knowm.xchange.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class TickerTest {
+class TickerTest {
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     Ticker ticker =
         new Ticker.Builder()
             .ask(new BigDecimal("0.12"))

@@ -16,7 +16,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 class BitgetStreamingTradeServiceIntegration extends BitgetStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();

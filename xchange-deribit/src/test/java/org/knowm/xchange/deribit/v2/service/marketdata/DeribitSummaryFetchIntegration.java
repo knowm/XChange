@@ -11,20 +11,20 @@ import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitSummary;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 
-public class DeribitSummaryFetchIntegration {
+class DeribitSummaryFetchIntegration {
 
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     exchange = ExchangeFactory.INSTANCE.createExchange(DeribitExchange.class);
     exchange.applySpecification(((DeribitExchange) exchange).getSandboxExchangeSpecification());
     deribitMarketDataService = (DeribitMarketDataService) exchange.getMarketDataService();
   }
 
   @Test
-  public void getDeribitSummaryTest() throws Exception {
+  void getDeribitSummaryTest() throws Exception {
     List<DeribitSummary> summary = deribitMarketDataService.getSummaryByInstrument("BTC-PERPETUAL");
 
     assertThat(summary).isNotEmpty();

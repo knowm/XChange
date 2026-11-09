@@ -1,10 +1,9 @@
 package org.knowm.xchange.coinmate.service;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.ExchangeUtils;
 import org.knowm.xchange.currency.Currency;
@@ -17,19 +16,19 @@ import org.knowm.xchange.service.account.AccountService;
  * Integration tests for Wallet retrieval. For these tests to function, a file
  * 'exchangeConfiguration.json' must be on the classpath and contain valid api and secret keys.
  */
-public class AccountInfoFetchIntegration {
+class AccountInfoFetchIntegration {
 
   @Test
-  public void fetchAccountInfoTest() throws Exception {
+  void fetchAccountInfoTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
       return; // forces pass if not configuration is available
     }
-    assertNotNull(exchange);
+    assertThat(exchange).isNotNull();
     AccountService service = exchange.getAccountService();
-    assertNotNull(service);
+    assertThat(service).isNotNull();
     AccountInfo info = service.getAccountInfo();
-    assertNotNull(info);
+    assertThat(info).isNotNull();
     Currency[] currencies = {Currency.BTC, Currency.EUR, Currency.CZK};
     for (Currency curr : currencies) {
       System.out.println(curr.toString() + " --- ");
@@ -40,16 +39,16 @@ public class AccountInfoFetchIntegration {
   }
 
   @Test
-  public void depositTest() throws Exception {
+  void depositTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
       return; // forces pass if not configuration is available
     }
-    assertNotNull(exchange);
+    assertThat(exchange).isNotNull();
     AccountService service = exchange.getAccountService();
-    assertNotNull(service);
+    assertThat(service).isNotNull();
     String addr = service.requestDepositAddress(Currency.BTC);
-    assertNotNull(addr);
+    assertThat(addr).isNotNull();
     System.out.println("Deposit address: " + addr);
   }
 
@@ -61,14 +60,14 @@ public class AccountInfoFetchIntegration {
    */
 
   @Test
-  public void dynamicFeesTest() throws IOException {
+  void dynamicFeesTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
       return; // forces pass if not configuration is available
     }
-    assertNotNull(exchange);
+    assertThat(exchange).isNotNull();
     AccountService service = exchange.getAccountService();
-    assertNotNull(service);
+    assertThat(service).isNotNull();
     Map<Instrument, Fee> fees = service.getDynamicTradingFeesByInstrument();
     System.out.println(fees);
   }

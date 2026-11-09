@@ -1,56 +1,53 @@
 package org.knowm.xchange;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
-import java.io.IOException;
 import org.apache.commons.lang3.SerializationUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class CurrencyTest {
+class CurrencyTest {
 
   @Test
-  public void testCurrencyCode() {
-    assertEquals(Currency.CNY.getCodeCurrency("CNY"), Currency.CNY);
-    assertEquals(Currency.CNY.getCodeCurrency("cny"), Currency.CNY);
+  void currencyCode() {
+    assertThat(Currency.CNY.getCodeCurrency("CNY")).isEqualTo(Currency.CNY);
+    assertThat(Currency.CNY.getCodeCurrency("cny")).isEqualTo(Currency.CNY);
   }
 
   @Test
-  public void testGetInstance() {
-    assertEquals(Currency.BTC, Currency.getInstance("BTC"));
-    assertEquals(Currency.BTC, Currency.getInstance("btc"));
-    assertEquals(new Currency("btc"), Currency.getInstance("BTC"));
+  void getInstance() {
+    assertThat(Currency.getInstance("BTC")).isEqualTo(Currency.BTC);
+    assertThat(Currency.getInstance("btc")).isEqualTo(Currency.BTC);
+    assertThat(Currency.getInstance("BTC")).isEqualTo(new Currency("btc"));
   }
 
   @Test
-  public void testGetInstanceNoCreate() {
-    assertEquals(Currency.CNY, Currency.getInstanceNoCreate("CNY"));
-    assertEquals(Currency.CNY, Currency.getInstanceNoCreate("cny"));
-    assertEquals(new Currency("cny"), Currency.getInstanceNoCreate("CNY"));
+  void getInstanceNoCreate() {
+    assertThat(Currency.getInstanceNoCreate("CNY")).isEqualTo(Currency.CNY);
+    assertThat(Currency.getInstanceNoCreate("cny")).isEqualTo(Currency.CNY);
+    assertThat(Currency.getInstanceNoCreate("CNY")).isEqualTo(new Currency("cny"));
   }
 
   @Test
-  public void testEquals() {
-    assertEquals(Currency.BTC, Currency.XBT);
-    assertNotEquals(Currency.LTC, Currency.XBT);
+  void equals() {
+    assertThat(Currency.XBT).isEqualTo(Currency.BTC);
+    assertThat(Currency.XBT).isNotEqualTo(Currency.LTC);
 
     Currency btc = SerializationUtils.deserialize(SerializationUtils.serialize(Currency.BTC));
-    assertEquals(Currency.BTC, btc);
-    assertEquals(Currency.XBT, btc);
-    assertNotEquals(Currency.LTC, btc);
+    assertThat(btc).isEqualTo(Currency.BTC);
+    assertThat(btc).isEqualTo(Currency.XBT);
+    assertThat(btc).isNotEqualTo(Currency.LTC);
   }
 
   @Test
-  public void testToString() {
-    assertEquals("XBT", Currency.XBT.toString());
-    assertEquals("BTC", Currency.BTC.toString());
+  void testToString() {
+    assertThat(Currency.XBT.toString()).isEqualTo("XBT");
+    assertThat(Currency.BTC.toString()).isEqualTo("BTC");
   }
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     Currency jsonCopy = ObjectMapperHelper.viaJSON(Currency.XBT);
     assertThat(jsonCopy).isEqualTo(Currency.XBT);
   }

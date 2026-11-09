@@ -8,10 +8,10 @@ import org.knowm.xchange.dase.dto.account.ApiAccountTxn;
 import org.knowm.xchange.dase.dto.account.ApiGetAccountTxnsOutput;
 import org.knowm.xchange.dase.dto.user.DaseUserProfile;
 
-public class DaseAccountServiceRawTest {
+class DaseAccountServiceRawTest {
 
   @Test
-  public void deserialize_user_profile_stub() throws Exception {
+  void deserialize_user_profile_stub() throws Exception {
     String json = "{\n  \"portfolio_id\": \"cbd1e8f4-8b94-4e90-a2b0-20d3a2a2b11f\"\n}";
     ObjectMapper mapper = new ObjectMapper();
     DaseUserProfile dto = mapper.readValue(json, DaseUserProfile.class);
@@ -19,7 +19,7 @@ public class DaseAccountServiceRawTest {
   }
 
   @Test
-  public void deserialize_account_transactions_stub() throws Exception {
+  void deserialize_account_transactions_stub() throws Exception {
     String json =
         "{\n"
             + "  \"transactions\": [\n"
@@ -48,7 +48,7 @@ public class DaseAccountServiceRawTest {
   }
 
   @Test
-  public void deserialize_account_transactions_with_optional_null_funding_id() throws Exception {
+  void deserialize_account_transactions_with_optional_null_funding_id() throws Exception {
     String json =
         "{\n"
             + "  \"transactions\": [\n"

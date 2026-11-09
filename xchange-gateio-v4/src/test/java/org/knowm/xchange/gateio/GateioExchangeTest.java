@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
-public class GateioExchangeTest extends GateioExchangeWiremock {
+class GateioExchangeTest extends GateioExchangeWiremock {
 
   @Test
   void metadata_present() {

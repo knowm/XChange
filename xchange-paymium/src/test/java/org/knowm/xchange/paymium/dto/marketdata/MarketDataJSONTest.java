@@ -1,20 +1,16 @@
 package org.knowm.xchange.paymium.dto.marketdata;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MarketDataJSONTest {
+class MarketDataJSONTest {
 
   @Test
-  public void testPaymiumTickerRequest()
-      throws JsonParseException, JsonMappingException, IOException {
+  void paymiumTickerRequest() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -25,18 +21,17 @@ public class MarketDataJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     PaymiumTicker PaymiumTicker = mapper.readValue(is, PaymiumTicker.class);
 
-    assertEquals(PaymiumTicker.getCurrency(), "EUR");
-    assertEquals(PaymiumTicker.getAsk(), new BigDecimal("20.4"));
-    assertEquals(PaymiumTicker.getBid(), new BigDecimal("20.1"));
-    assertEquals(PaymiumTicker.getHigh(), new BigDecimal("20.74"));
-    assertEquals(PaymiumTicker.getLow(), new BigDecimal("20.2"));
-    assertEquals(PaymiumTicker.getPrice(), new BigDecimal("20.2"));
-    assertEquals(PaymiumTicker.getVolume(), new BigDecimal("148.80193218"));
+    assertThat(PaymiumTicker.getCurrency()).isEqualTo("EUR");
+    assertThat(new BigDecimal("20.4")).isEqualTo(PaymiumTicker.getAsk());
+    assertThat(new BigDecimal("20.1")).isEqualTo(PaymiumTicker.getBid());
+    assertThat(new BigDecimal("20.74")).isEqualTo(PaymiumTicker.getHigh());
+    assertThat(new BigDecimal("20.2")).isEqualTo(PaymiumTicker.getLow());
+    assertThat(new BigDecimal("20.2")).isEqualTo(PaymiumTicker.getPrice());
+    assertThat(new BigDecimal("148.80193218")).isEqualTo(PaymiumTicker.getVolume());
   }
 
   @Test
-  public void testPaymiumDepthRequest()
-      throws JsonParseException, JsonMappingException, IOException {
+  void paymiumDepthRequest() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -47,15 +42,17 @@ public class MarketDataJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     PaymiumMarketDepth PaymiumMarketDepth = mapper.readValue(is, PaymiumMarketDepth.class);
 
-    assertEquals(PaymiumMarketDepth.getAsks().get(0).getAmount(), new BigDecimal("0.48762"));
-    assertEquals(PaymiumMarketDepth.getAsks().get(0).getPrice(), new BigDecimal("24.48996"));
-    assertEquals(PaymiumMarketDepth.getBids().get(0).getAmount(), new BigDecimal("0.77372456"));
-    assertEquals(PaymiumMarketDepth.getBids().get(0).getPrice(), new BigDecimal("24.05"));
+    assertThat(new BigDecimal("0.48762"))
+        .isEqualTo(PaymiumMarketDepth.getAsks().get(0).getAmount());
+    assertThat(new BigDecimal("24.48996"))
+        .isEqualTo(PaymiumMarketDepth.getAsks().get(0).getPrice());
+    assertThat(new BigDecimal("0.77372456"))
+        .isEqualTo(PaymiumMarketDepth.getBids().get(0).getAmount());
+    assertThat(new BigDecimal("24.05")).isEqualTo(PaymiumMarketDepth.getBids().get(0).getPrice());
   }
 
   @Test
-  public void testPaymiumTradesRequest()
-      throws JsonParseException, JsonMappingException, IOException {
+  void paymiumTradesRequest() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -66,8 +63,8 @@ public class MarketDataJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     PaymiumTrade[] PaymiumTrades = mapper.readValue(is, PaymiumTrade[].class);
 
-    assertEquals(PaymiumTrades[0].getPrice(), new BigDecimal("5.0"));
-    assertEquals(PaymiumTrades[0].getTraded_btc(), new BigDecimal("980.0"));
-    assertEquals(PaymiumTrades[0].getTraded_currency(), new BigDecimal("4940.0"));
+    assertThat(new BigDecimal("5.0")).isEqualTo(PaymiumTrades[0].getPrice());
+    assertThat(new BigDecimal("980.0")).isEqualTo(PaymiumTrades[0].getTraded_btc());
+    assertThat(new BigDecimal("4940.0")).isEqualTo(PaymiumTrades[0].getTraded_currency());
   }
 }

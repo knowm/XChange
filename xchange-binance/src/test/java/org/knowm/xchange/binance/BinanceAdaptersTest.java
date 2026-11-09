@@ -2,9 +2,8 @@ package org.knowm.xchange.binance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
@@ -12,10 +11,10 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class BinanceAdaptersTest {
+class BinanceAdaptersTest {
 
   @Test
-  public void testFilledMarketOrder() throws IOException {
+  void filledMarketOrder() throws Exception {
 
     BinanceOrder binanceOrder =
         ObjectMapperHelper.readValue(
@@ -38,7 +37,27 @@ public class BinanceAdaptersTest {
   }
 
   @Test
-  public void testAssetDividendList() throws Exception {
+  void filledFuturesMarketOrderWithoutCumulativeQuoteQty() throws Exception {
+
+    // USDT-M futures order responses carry "cumQuote" instead of "cummulativeQuoteQty"; adapting
+    // such an order must not throw (regression test for #5074)
+    BinanceOrder binanceOrder =
+        ObjectMapperHelper.readValue(
+            BinanceAdaptersTest.class.getResource(
+                "/org/knowm/xchange/binance/filled-futures-market-order.json"),
+            BinanceOrder.class);
+    assertThat(binanceOrder.cumulativeQuoteQty).isNull();
+
+    Order order = BinanceAdapters.adaptOrder(binanceOrder, true);
+    assertThat(order).isInstanceOf(MarketOrder.class);
+    assertThat(order.getStatus()).isEqualByComparingTo(Order.OrderStatus.FILLED);
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo("0.5");
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo("0.5");
+    assertThat(order.getAveragePrice()).isEqualByComparingTo("64250.1");
+  }
+
+  @Test
+  void assetDividendList() throws Exception {
 
     AssetDividendResponse assetDividendList =
         ObjectMapperHelper.readValue(
@@ -59,7 +78,7 @@ public class BinanceAdaptersTest {
   // Tests that the conversion from Date/time String to Date is done for time zone UTC
   // regardless of the time zone of the system
   @Test
-  public void testToDate() {
+  void toDate() {
     String applyTimeUTC = "2018-10-09 07:56:10";
     assertThat(BinanceAdapters.toDate(applyTimeUTC).getTime()).isEqualByComparingTo(1539071770000L);
   }

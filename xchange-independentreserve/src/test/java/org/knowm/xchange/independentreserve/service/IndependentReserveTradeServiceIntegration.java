@@ -1,9 +1,9 @@
 package org.knowm.xchange.independentreserve.service;
 
 import java.util.Collection;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.dto.Order;
@@ -13,13 +13,13 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.independentreserve.IndependentReserveExchange;
 import org.knowm.xchange.utils.AuthUtils;
 
-public class IndependentReserveTradeServiceIntegration {
+class IndependentReserveTradeServiceIntegration {
 
   static Exchange exchange;
   static IndependentReserveTradeService tradeService;
 
-  @BeforeClass
-  public static void beforeClass() {
+  @BeforeAll
+  static void beforeClass() {
     exchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification());
     exchange = ExchangeFactory.INSTANCE.createExchange(exchange.getExchangeSpecification());
@@ -27,16 +27,16 @@ public class IndependentReserveTradeServiceIntegration {
   }
 
   @Test
-  public void testGetOpenOrders() throws Exception {
+  void getOpenOrders() throws Exception {
 
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
 
     OpenOrders openOrders = tradeService.getOpenOrders();
   }
 
   @Test
-  public void testGetTradeHistory() throws Exception {
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+  void getTradeHistory() throws Exception {
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
 
     UserTrades userTrades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     if (userTrades.getUserTrades().size() > 0) {

@@ -83,8 +83,8 @@ public class BinanceStreamingAdapters {
         .side(BinanceAdapters.convert(limitOrder.getType()))
         .orderId(id)
         .origClientOrderId(limitOrder.getUserReference())
-        .price(limitOrder.getLimitPrice())
-        .quantity(limitOrder.getOriginalAmount())
+        .price(limitOrder.getLimitPrice().toPlainString())
+        .quantity(limitOrder.getOriginalAmount().toPlainString())
         .timestamp(System.currentTimeMillis())
         .build();
   }
@@ -109,8 +109,8 @@ public class BinanceStreamingAdapters {
               .symbol(BinanceAdapters.toSymbol(order.getInstrument()))
               .side(BinanceAdapters.convert(order.getType()))
               .reduceOnly(reduceOnly ? true : null) // dont send if false(for spot)
-              .quantity(order.getOriginalAmount())
-              .price(((LimitOrder) order).getLimitPrice())
+              .quantity(order.getOriginalAmount().toPlainString())
+              .price(((LimitOrder) order).getLimitPrice().toPlainString())
               .timestamp(System.currentTimeMillis())
               .timeInForce(tif)
               .newClientOrderId(order.getUserReference())
@@ -123,7 +123,7 @@ public class BinanceStreamingAdapters {
               .symbol(BinanceAdapters.toSymbol(order.getInstrument()))
               .side(BinanceAdapters.convert(order.getType()))
               .reduceOnly(reduceOnly ? true : null) // dont send if false(for spot)
-              .quantity(order.getOriginalAmount())
+              .quantity(order.getOriginalAmount().toPlainString())
               .timestamp(System.currentTimeMillis())
               .newClientOrderId(order.getUserReference())
               .build();

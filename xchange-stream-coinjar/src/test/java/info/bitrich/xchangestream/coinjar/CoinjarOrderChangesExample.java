@@ -4,14 +4,14 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.disposables.Disposable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.AuthUtils;
 
-public class CoinjarOrderChangesExample {
+class CoinjarOrderChangesExample {
 
   @Test
-  public void runTest() {
+  void runTest() {
     ExchangeSpecification defaultExchangeSpecification =
         new ExchangeSpecification(CoinjarStreamingExchange.class);
 

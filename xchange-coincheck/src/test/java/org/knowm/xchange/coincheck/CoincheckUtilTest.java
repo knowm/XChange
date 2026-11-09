@@ -3,11 +3,11 @@ package org.knowm.xchange.coincheck;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CoincheckUtilTest {
+class CoincheckUtilTest {
   @Test
-  public void testGetArgs() {
+  void getArgs() {
     Optional<String> found = CoincheckUtil.getArg(new Object[] {100, "var1", "var2"}, String.class);
     assertThat(found).isNotNull();
     assertThat(found.isPresent()).isTrue();
@@ -15,14 +15,14 @@ public class CoincheckUtilTest {
   }
 
   @Test
-  public void testGetArgsNotFound() {
+  void getArgsNotFound() {
     Optional<String> found = CoincheckUtil.getArg(new Object[] {100}, String.class);
     assertThat(found).isNotNull();
     assertThat(found.isPresent()).isFalse();
   }
 
   @Test
-  public void testGetArgsExtended() {
+  void getArgsExtended() {
     Optional<CharSequence> found =
         CoincheckUtil.getArg(new Object[] {100, "var1", "var2"}, CharSequence.class);
     assertThat(found).isNotNull();

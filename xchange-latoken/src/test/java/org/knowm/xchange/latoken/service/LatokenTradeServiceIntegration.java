@@ -3,10 +3,10 @@ package org.knowm.xchange.latoken.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,28 +19,28 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LatokenTradeServiceIntegration {
+class LatokenTradeServiceIntegration {
 
   static Logger LOG = LoggerFactory.getLogger(LatokenTradeServiceIntegration.class);
 
   static Exchange exchange;
   static LatokenTradeService tradeService;
 
-  @BeforeClass
-  public static void beforeClass() {
+  @BeforeAll
+  static void beforeClass() {
     exchange =
         ExchangeFactory.INSTANCE.createExchange(
             LatokenExchange.class, "api-v1-XXX", "api-v1-secret-YYY");
     tradeService = (LatokenTradeService) exchange.getTradeService();
   }
 
-  @Before
-  public void before() {
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+  @BeforeEach
+  void before() {
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
   }
 
   @Test
-  public void openOrders() throws Exception {
+  void openOrders() throws Exception {
 
     DefaultOpenOrdersParamCurrencyPair params =
         (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
@@ -50,7 +50,7 @@ public class LatokenTradeServiceIntegration {
   }
 
   @Test
-  public void newOrder() throws Exception {
+  void newOrder() throws Exception {
 
     CurrencyPair pair = CurrencyPair.ETH_BTC;
     OrderType type = OrderType.BID;

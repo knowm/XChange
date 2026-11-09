@@ -3,20 +3,18 @@ package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 
-public class CmcTickerTest {
+class CmcTickerTest {
 
   @Test
-  public void deserializeTickerTest() throws IOException, ParseException {
+  void deserializeTickerTest() throws Exception {
     // given
     InputStream is =
         CmcCurrencyInfo.class.getResourceAsStream(

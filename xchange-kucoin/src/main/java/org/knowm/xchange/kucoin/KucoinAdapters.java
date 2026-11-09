@@ -11,17 +11,17 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
 import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
 import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -156,13 +156,13 @@ public class KucoinAdapters {
     List<LimitOrder> asks =
         kc.getAsks().stream()
             .map(PriceAndSize::new)
-            .sorted(Ordering.natural().onResultOf(s -> s.price))
+            .sorted(Comparator.comparing((PriceAndSize s) -> s.price))
             .map(s -> adaptLimitOrder(instrument, ASK, s, timestamp))
             .collect(toCollection(LinkedList::new));
     List<LimitOrder> bids =
         kc.getBids().stream()
             .map(PriceAndSize::new)
-            .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
+            .sorted(Comparator.comparing((PriceAndSize s) -> s.price).reversed())
             .map(s -> adaptLimitOrder(instrument, BID, s, timestamp))
             .collect(toCollection(LinkedList::new));
     return new OrderBook(timestamp, asks, bids, true);
@@ -242,7 +242,7 @@ public class KucoinAdapters {
         builder
             .averagePrice(
                 order.getDealSize().compareTo(BigDecimal.ZERO) == 0
-                    ? MoreObjects.firstNonNull(order.getPrice(), order.getStopPrice())
+                    ? ObjectUtils.defaultIfNull(order.getPrice(), order.getStopPrice())
                     : order.getDealFunds().divide(order.getDealSize(), RoundingMode.HALF_UP))
             .cumulativeAmount(order.getDealSize())
             .fee(order.getFee())

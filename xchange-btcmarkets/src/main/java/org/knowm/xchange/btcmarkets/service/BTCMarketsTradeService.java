@@ -2,7 +2,6 @@ package org.knowm.xchange.btcmarkets.service;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
-import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -81,7 +80,10 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     boolean postOnly = false;
     if (flags.contains(BTCMarketsOrderFlags.POST_ONLY)) {
       postOnly = true;
-      flags = Sets.filter(flags, flag -> flag != BTCMarketsOrderFlags.POST_ONLY);
+      flags =
+          flags.stream()
+              .filter(flag -> flag != BTCMarketsOrderFlags.POST_ONLY)
+              .collect(Collectors.toSet());
     }
 
     BTCMarketsOrder.Side side =

@@ -10,41 +10,41 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 
-public class CryptoComErrorAdapterTest {
+class CryptoComErrorAdapterTest {
 
   @Test
-  public void testInsufficientAvailableBalance() {
+  void insufficientAvailableBalance() {
     ExchangeException adapted = adaptError(CryptoComErrorAdapter.INSUFFICIENT_AVAILABLE_BALANCE);
     assertThat(adapted).isInstanceOf(FundsExceededException.class);
   }
 
   @Test
-  public void testExceedMaxTradableAmount() {
+  void exceedMaxTradableAmount() {
     ExchangeException adapted = adaptError(CryptoComErrorAdapter.EXCEED_MAX_TRADABLE_AMOUNT);
     assertThat(adapted).isInstanceOf(FundsExceededException.class);
   }
 
   @Test
-  public void testTooManyRequests() {
+  void tooManyRequests() {
     ExchangeException adapted = adaptError(CryptoComErrorAdapter.TOO_MANY_REQUESTS);
     assertThat(adapted).isInstanceOf(RateLimitExceededException.class);
   }
 
   @Test
-  public void testInvalidNonce() {
+  void invalidNonce() {
     ExchangeException adapted = adaptError(CryptoComErrorAdapter.INVALID_NONCE);
     assertThat(adapted).isInstanceOf(NonceException.class);
   }
 
   @Test
-  public void testUnmappedCodeFallsBackToGenericException() {
+  void unmappedCodeFallsBackToGenericException() {
     ExchangeException adapted = adaptError(999999);
     assertThat(adapted).isExactlyInstanceOf(ExchangeException.class);
     assertThat(adapted.getMessage()).contains("999999").contains("boom");
   }
 
   @Test
-  public void testHttpStatusException_insufficientBalance_isAlsoMapped() {
+  void httpStatusExceptionInsufficientBalanceIsAlsoMapped() {
     ExchangeException adapted =
         CryptoComErrorAdapter.adaptError(
             new CryptoComException(CryptoComErrorAdapter.INSUFFICIENT_AVAILABLE_BALANCE, "boom"));
@@ -52,7 +52,7 @@ public class CryptoComErrorAdapterTest {
   }
 
   @Test
-  public void testHttpStatusException_unmappedCode_wrapsCauseWithoutDoublePrefixing() {
+  void httpStatusExceptionUnmappedCodeWrapsCauseWithoutDoublePrefixing() {
     CryptoComException exception = new CryptoComException(999999, "boom");
 
     ExchangeException adapted = CryptoComErrorAdapter.adaptError(exception);

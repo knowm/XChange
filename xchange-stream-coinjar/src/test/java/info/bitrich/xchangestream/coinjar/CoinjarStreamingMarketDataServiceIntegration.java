@@ -4,15 +4,15 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.rxjava3.disposables.Disposable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class CoinjarStreamingMarketDataServiceIntegration {
+class CoinjarStreamingMarketDataServiceIntegration {
 
   @Test
-  public void runTestBtcAud() {
+  void runTestBtcAud() {
     ExchangeSpecification defaultExchangeSpecification =
         new ExchangeSpecification(CoinjarStreamingExchange.class);
 
@@ -33,7 +33,7 @@ public class CoinjarStreamingMarketDataServiceIntegration {
   }
 
   @Test
-  public void runTestUsdcAud() {
+  void runTestUsdcAud() {
     ExchangeSpecification defaultExchangeSpecification =
         new ExchangeSpecification(CoinjarStreamingExchange.class);
 

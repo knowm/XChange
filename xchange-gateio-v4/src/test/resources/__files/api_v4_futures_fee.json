@@ -1,0 +1,10 @@
+{
+  "1INCH_USDT": {
+    "taker_fee": "0.00025",
+    "maker_fee": "-0.00010"
+  },
+  "AAVE_USDT": {
+    "taker_fee": "0.00025",
+    "maker_fee": "-0.00010"
+  }
+}

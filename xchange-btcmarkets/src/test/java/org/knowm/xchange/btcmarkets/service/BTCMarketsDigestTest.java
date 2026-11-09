@@ -2,8 +2,8 @@ package org.knowm.xchange.btcmarkets.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // import static org.powermock.api.mockito.PowerMockito.mock;
 // import org.mockito.Mockito;
@@ -15,17 +15,17 @@ import org.junit.Test;
 // @RunWith(PowerMockRunner.class)
 // @PrepareForTest(RestInvocation.class)
 // @PowerMockIgnore("javax.crypto.*")
-public class BTCMarketsDigestTest {
+class BTCMarketsDigestTest {
 
   private BTCMarketsDigest btcMarketsDigest;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     btcMarketsDigest = new BTCMarketsDigest("c2VjcmV0S2V5", true); // encoded 'secretKey'
   }
 
   @Test
-  public void shouldEncode() {
+  void shouldEncode() {
     // given
     String expected =
         "u+WtKtUXd4CkUlfYJvL7Li4kr5LyNluP/m1Xqk4CMmTnsSymWTTpxpnwWD+RTseXJVsXUgrw6fZusGTjfS9knQ==";
@@ -40,7 +40,7 @@ public class BTCMarketsDigestTest {
   }
 
   @Test
-  public void shouldEncodeWithoutBody() {
+  void shouldEncodeWithoutBody() {
     // given
     String expected =
         "/LEFVtbNw+pgTFK/thj4xWzKuNz16Tub2+Jm8Ooep4o3XH6tGalk6AQxFiUvnDmN+w3NQpu+qCyoO5ap6OseYQ==";
@@ -55,7 +55,7 @@ public class BTCMarketsDigestTest {
   }
 
   @Test
-  public void shouldEncodeQueryString() {
+  void shouldEncodeQueryString() {
     // given
     String expected =
         "bhjZf81rqrcSTrwVBZ1o34a2gALrO4yXT6u/zuN0PcfEJOehIDk1qnEID7UcRVttT3ePJkDMphixhBeusSqW8Q==";
@@ -80,7 +80,7 @@ public class BTCMarketsDigestTest {
   }
 
   @Test
-  public void shouldEncodeRestInvocation() throws Exception {
+  void shouldEncodeRestInvocation() throws Exception {
     //    // given
     //    String expected =
     //

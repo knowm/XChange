@@ -9,7 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-public class BitfinexStreamingMarketDataServiceIntegration extends BitfinexStreamingExchangeIT {
+class BitfinexStreamingMarketDataServiceIntegration extends BitfinexStreamingExchangeIT {
 
   @Test
   void order_book() {

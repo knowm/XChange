@@ -1,49 +1,45 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.hitbtc.v2.BaseServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCurrency;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class HitbtcMarketDataServiceRawIntegration extends BaseServiceTest {
+class HitbtcMarketDataServiceRawIntegration extends BaseServiceTest {
 
   private MarketDataService marketDataService = exchange().getMarketDataService();
   private HitbtcMarketDataServiceRaw marketDataServiceRaw =
       (HitbtcMarketDataServiceRaw) marketDataService;
 
   @Test
-  public void testGetHitbtcSymbols() throws IOException {
+  void getHitbtcSymbols() throws Exception {
 
     List<HitbtcSymbol> symbols = marketDataServiceRaw.getHitbtcSymbols();
 
-    assertNotNull(symbols);
-    assertFalse(symbols.isEmpty());
+    assertThat(symbols).isNotNull();
+    assertThat(symbols.isEmpty()).isFalse();
   }
 
   @Test
-  public void testGetHitbtcCurrencies() throws IOException {
+  void getHitbtcCurrencies() throws Exception {
 
     List<HitbtcCurrency> currencies = marketDataServiceRaw.getHitbtcCurrencies();
-    assertNotNull(currencies);
-    assertFalse(currencies.isEmpty());
+    assertThat(currencies).isNotNull();
+    assertThat(currencies.isEmpty()).isFalse();
 
     HitbtcCurrency currency = marketDataServiceRaw.getHitbtcCurrency("btc");
-    assertNotNull(currency);
-    assertEquals("BTC", currency.getId());
+    assertThat(currency).isNotNull();
+    assertThat(currency.getId()).isEqualTo("BTC");
   }
 
   @Test
-  public void testGetHitbtcTickers() throws IOException {
+  void getHitbtcTickers() throws Exception {
 
     Map<String, HitbtcTicker> tickers = marketDataServiceRaw.getHitbtcTickers();
 

@@ -3,7 +3,6 @@ package org.knowm.xchange.bitget.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.io.IOException;
 import java.util.List;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ import org.knowm.xchange.instrument.Instrument;
 class BitgetFuturesMarketDataServiceIntegration extends BitgetFuturesIntegrationTestParent {
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
@@ -29,7 +28,7 @@ class BitgetFuturesMarketDataServiceIntegration extends BitgetFuturesIntegration
   }
 
   @Test
-  void valid_instruments() throws IOException {
+  void valid_instruments() throws Exception {
     List<Instrument> instruments =
         ((BitgetFuturesMarketDataService) exchange.getMarketDataService()).getInstruments();
 
@@ -48,7 +47,7 @@ class BitgetFuturesMarketDataServiceIntegration extends BitgetFuturesIntegration
   }
 
   @Test
-  void valid_tickers() throws IOException {
+  void valid_tickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 

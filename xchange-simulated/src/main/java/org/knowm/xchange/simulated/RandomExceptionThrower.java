@@ -1,6 +1,5 @@
 package org.knowm.xchange.simulated;
 
-import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.security.SecureRandom;
@@ -31,7 +30,7 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
       "Rate limit exceeded. Are you gracefully backing off when this happens?";
 
   private final SecureRandom random;
-  private final RateLimiter rateLimiter;
+  private final TokenBucket rateLimiter;
 
   /** Uses a random seed derived from the system clock. */
   public RandomExceptionThrower() {
@@ -45,7 +44,7 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
    */
   public RandomExceptionThrower(long seed) {
     this.random = new SecureRandom();
-    this.rateLimiter = RateLimiter.create(5.2); // slightly higher than the published limit
+    this.rateLimiter = new TokenBucket(5.2); // slightly higher than the published limit
     LOGGER.info(
         "Simulated exchange will fire random transient exceptions, with random seed: {}", seed);
   }
@@ -68,6 +67,37 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
       } else {
         throw new FrequencyLimitExceededException(RATE_LIMIT_EXCEEDED);
       }
+    }
+  }
+
+  /**
+   * Minimal token-bucket rate limiter: refills continuously at {@code permitsPerSecond} and allows
+   * a burst of up to one second's worth of permits.
+   */
+  private static final class TokenBucket {
+
+    private final double permitsPerSecond;
+    private final double maxPermits;
+    private double storedPermits;
+    private long lastRefillNanos;
+
+    TokenBucket(double permitsPerSecond) {
+      this.permitsPerSecond = permitsPerSecond;
+      this.maxPermits = permitsPerSecond;
+      this.storedPermits = permitsPerSecond;
+      this.lastRefillNanos = System.nanoTime();
+    }
+
+    synchronized boolean tryAcquire() {
+      long now = System.nanoTime();
+      double elapsedSeconds = (now - lastRefillNanos) / 1_000_000_000d;
+      storedPermits = Math.min(maxPermits, storedPermits + elapsedSeconds * permitsPerSecond);
+      lastRefillNanos = now;
+      if (storedPermits >= 1d) {
+        storedPermits -= 1d;
+        return true;
+      }
+      return false;
     }
   }
 }

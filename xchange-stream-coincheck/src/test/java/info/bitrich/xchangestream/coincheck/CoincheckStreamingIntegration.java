@@ -6,22 +6,24 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BooleanSupplier;
 import lombok.SneakyThrows;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class CoincheckStreamingIntegration {
+class CoincheckStreamingIntegration {
   CompositeDisposable disposables;
   CoincheckStreamingExchange exchange;
   CoincheckStreamingMarketDataService marketDataService;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     this.disposables = new CompositeDisposable();
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
@@ -33,15 +35,19 @@ public class CoincheckStreamingIntegration {
     this.marketDataService = this.exchange.getStreamingMarketDataService();
   }
 
-  @After
-  public void teardown() {
+  @AfterEach
+  void teardown() {
     disposables.dispose();
     exchange.disconnect();
   }
 
-  @Test(timeout = 65000)
+  @Test
+  @Timeout(
+      value = 65000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
   @SneakyThrows
-  public void testStreamingTrades() {
+  void streamingTrades() {
     AtomicInteger count = new AtomicInteger();
     disposables.add(
         marketDataService.getTrades(CurrencyPair.BTC_JPY).subscribe(t -> count.incrementAndGet()));
@@ -49,9 +55,13 @@ public class CoincheckStreamingIntegration {
     assertThat(count.get()).isGreaterThan(1);
   }
 
-  @Test(timeout = 15000)
+  @Test
+  @Timeout(
+      value = 15000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
   @SneakyThrows
-  public void testStreamingOrderBooks() {
+  void streamingOrderBooks() {
     AtomicInteger count = new AtomicInteger();
     disposables.add(
         marketDataService
@@ -61,9 +71,13 @@ public class CoincheckStreamingIntegration {
     assertThat(count.get()).isGreaterThan(3);
   }
 
-  @Test(timeout = 15000)
+  @Test
+  @Timeout(
+      value = 15000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
   @SneakyThrows
-  public void testStreamingTickers() {
+  void streamingTickers() {
     AtomicInteger count = new AtomicInteger();
     disposables.add(
         marketDataService.getTicker(CurrencyPair.BTC_JPY).subscribe(t -> count.incrementAndGet()));

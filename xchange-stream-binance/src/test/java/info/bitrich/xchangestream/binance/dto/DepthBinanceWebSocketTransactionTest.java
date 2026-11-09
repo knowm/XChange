@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.binance.dto;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -10,28 +11,27 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 
-public class DepthBinanceWebSocketTransactionTest {
+class DepthBinanceWebSocketTransactionTest {
   private static ObjectMapper mapper;
 
-  @BeforeClass
-  public static void setupClass() {
+  @BeforeAll
+  static void setupClass() {
     JsonFactory jf = new JsonFactory();
     jf.enable(JsonParser.Feature.ALLOW_COMMENTS);
     mapper = new ObjectMapper(jf);
   }
 
   @Test
-  public void testMapping() throws Exception {
+  void mapping() throws Exception {
     InputStream stream = this.getClass().getResourceAsStream("testDepthEvent.json");
     DepthBinanceWebSocketTransaction transaction =
         mapper.readValue(stream, DepthBinanceWebSocketTransaction.class);
-    assertEquals(
-        BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.DEPTH_UPDATE,
-        transaction.getEventType());
+    assertThat(transaction.getEventType())
+        .isEqualTo(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.DEPTH_UPDATE);
 
     BinanceOrderbook orderBook = transaction.getOrderBook();
 
@@ -47,7 +47,7 @@ public class DepthBinanceWebSocketTransactionTest {
   private void assertOrderBookEntry(
       Iterator<Entry<BigDecimal, BigDecimal>> entryIterator, double price, double volume) {
     Entry<BigDecimal, BigDecimal> firstAskEntry = entryIterator.next();
-    assertEquals(price, firstAskEntry.getKey().doubleValue(), 0.0);
-    assertEquals(volume, firstAskEntry.getValue().doubleValue(), 0.0);
+    assertThat(firstAskEntry.getKey().doubleValue()).isCloseTo(price, within(0.0));
+    assertThat(firstAskEntry.getValue().doubleValue()).isCloseTo(volume, within(0.0));
   }
 }

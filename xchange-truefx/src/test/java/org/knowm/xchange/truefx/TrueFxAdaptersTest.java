@@ -2,12 +2,9 @@ package org.knowm.xchange.truefx;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,9 +12,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.truefx.dto.marketdata.TrueFxTicker;
 import org.knowm.xchange.truefx.service.TrueFxMarketDataServiceRaw;
 
-public class TrueFxAdaptersTest {
+class TrueFxAdaptersTest {
   @Test
-  public void adaptTickerTest() throws JsonParseException, JsonMappingException, IOException {
+  void adaptTickerTest() throws Exception {
     InputStream is = getClass().getResourceAsStream("/marketdata/example-ticker.csv");
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class);

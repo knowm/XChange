@@ -3,10 +3,9 @@ package org.knowm.xchange.upbit.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBookData;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTicker;
@@ -14,10 +13,10 @@ import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTrade;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
 
-public class UpbitAdaptersTest {
+class UpbitAdaptersTest {
 
   @Test
-  public void testTicker() throws IOException {
+  void ticker() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         UpbitAdaptersTest.class.getResourceAsStream(
@@ -33,7 +32,7 @@ public class UpbitAdaptersTest {
   }
 
   @Test
-  public void testOrderBook() throws IOException {
+  void orderBook() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         UpbitAdaptersTest.class.getResourceAsStream(
@@ -50,7 +49,7 @@ public class UpbitAdaptersTest {
   }
 
   @Test
-  public void testTrades() throws IOException {
+  void trades() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         UpbitAdaptersTest.class.getResourceAsStream(

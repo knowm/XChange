@@ -1,21 +1,19 @@
 package org.knowm.xchange.gemini.v1.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 
-public class GeminiMarketDataJSONTest {
+class GeminiMarketDataJSONTest {
 
   @Test
-  public void testLendbookMarketData() throws IOException {
+  void lendbookMarketData() throws Exception {
 
     InputStream resourceAsStream =
         GeminiMarketDataJSONTest.class.getResourceAsStream(
@@ -23,12 +21,12 @@ public class GeminiMarketDataJSONTest {
     GeminiLendDepth lendDepth =
         new ObjectMapper().readValue(resourceAsStream, GeminiLendDepth.class);
 
-    assertEquals(lendDepth.getAsks().length, 50);
-    assertEquals(lendDepth.getBids().length, 50);
+    assertThat(lendDepth.getAsks().length).isEqualTo(50);
+    assertThat(lendDepth.getBids().length).isEqualTo(50);
   }
 
   @Test
-  public void testMarketDepth() throws Exception {
+  void marketDepth() throws Exception {
 
     InputStream resourceAsStream =
         GeminiMarketDataJSONTest.class.getResourceAsStream(
@@ -39,10 +37,10 @@ public class GeminiMarketDataJSONTest {
     GeminiAdapters.OrdersContainer bidsOrdersContainer =
         GeminiAdapters.adaptOrders(depthRaw.getBids(), CurrencyPair.BTC_EUR, OrderType.BID);
 
-    assertEquals(
-        new BigDecimal("851.87"), asksOrdersContainer.getLimitOrders().get(0).getLimitPrice());
-    assertEquals(
-        new BigDecimal("849.59"), bidsOrdersContainer.getLimitOrders().get(0).getLimitPrice());
+    assertThat(asksOrdersContainer.getLimitOrders().get(0).getLimitPrice())
+        .isEqualTo(new BigDecimal("851.87"));
+    assertThat(bidsOrdersContainer.getLimitOrders().get(0).getLimitPrice())
+        .isEqualTo(new BigDecimal("849.59"));
 
     assertThat(asksOrdersContainer.getTimestamp()).isEqualTo(1387060950000L);
     assertThat(bidsOrdersContainer.getTimestamp()).isEqualTo(1387060435000L);

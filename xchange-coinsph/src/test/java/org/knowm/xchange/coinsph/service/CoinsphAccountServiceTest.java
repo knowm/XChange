@@ -2,10 +2,8 @@ package org.knowm.xchange.coinsph.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +12,6 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinsph.Coinsph;
 import org.knowm.xchange.coinsph.CoinsphAuthenticated;
 import org.knowm.xchange.coinsph.CoinsphExchange;
-import org.knowm.xchange.coinsph.dto.CoinsphException;
 import org.knowm.xchange.coinsph.dto.account.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -30,7 +27,7 @@ import org.mockito.ArgumentCaptor;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class CoinsphAccountServiceTest {
+class CoinsphAccountServiceTest {
 
   private CoinsphAccountService accountService;
   private CoinsphAuthenticated coinsphAuthenticated;
@@ -39,7 +36,7 @@ public class CoinsphAccountServiceTest {
   private ParamsDigest signatureCreator;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     exchange = mock(CoinsphExchange.class);
     Coinsph coinsph = mock(Coinsph.class);
     coinsphAuthenticated = mock(CoinsphAuthenticated.class);
@@ -67,7 +64,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGetAccountInfo() throws IOException {
+  void getAccountInfo() throws Exception {
     // given
     List<CoinsphBalance> balances = new ArrayList<>();
 
@@ -128,7 +125,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGetDepositAddress() throws IOException {
+  void getDepositAddress() throws Exception {
     // given
     Currency currency = Currency.BTC;
 
@@ -158,7 +155,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testWithdrawFunds() throws IOException {
+  void withdrawFunds() throws Exception {
     // given
     Currency currency = Currency.BTC;
     BigDecimal amount = new BigDecimal("0.5");
@@ -181,7 +178,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testFormatAddress_FullAddress() {
+  void formatAddressFullAddress() {
     // given
     Address mockAddress = mock(Address.class);
     when(mockAddress.getLine1()).thenReturn("123 Main Street");
@@ -201,7 +198,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testFormatAddress_PartialAddress() {
+  void formatAddressPartialAddress() {
     // given
     Address mockAddress = mock(Address.class);
     when(mockAddress.getLine1()).thenReturn("456 Oak Avenue");
@@ -219,7 +216,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGenerateInternalOrderId_WithUserReference() {
+  void generateInternalOrderIdWithUserReference() {
     // given
     FiatWithdrawFundsParams params =
         FiatWithdrawFundsParams.builder()
@@ -237,7 +234,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGenerateInternalOrderId_WithoutUserReference() {
+  void generateInternalOrderIdWithoutUserReference() {
     // given
     FiatWithdrawFundsParams params =
         FiatWithdrawFundsParams.builder()
@@ -286,7 +283,7 @@ public class CoinsphAccountServiceTest {
   // =======================================================================================
 
   @Test
-  public void testWithdrawFiat_Success() throws IOException, CoinsphException {
+  void withdrawFiatSuccess() throws Exception {
     // given
     Currency phpCurrency = Currency.getInstance("PHP");
     BigDecimal amount = new BigDecimal("1000.00");
@@ -379,7 +376,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testWithdrawFiat_NoAvailableChannels() throws IOException, CoinsphException {
+  void withdrawFiatNoAvailableChannels() throws Exception {
     // given
     Currency phpCurrency = Currency.getInstance("PHP");
     BigDecimal amount = new BigDecimal("1000.00");
@@ -407,7 +404,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testWithdrawFiat_WithCustomChannelParameters() throws IOException, CoinsphException {
+  void withdrawFiatWithCustomChannelParameters() throws Exception {
     // given
     Currency phpCurrency = Currency.getInstance("PHP");
     BigDecimal amount = new BigDecimal("1000.00");
@@ -468,7 +465,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testBuildExtendInfo_WithBeneficiaryAndCustomParams() {
+  void buildExtendInfoWithBeneficiaryAndCustomParams() {
     // given
     Address mockAddress = mock(Address.class);
     when(mockAddress.getLine1()).thenReturn("456 Main Ave");
@@ -511,7 +508,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testBuildExtendInfo_WithoutBeneficiary() {
+  void buildExtendInfoWithoutBeneficiary() {
     // given
     FiatWithdrawFundsParams params =
         FiatWithdrawFundsParams.builder()
@@ -532,7 +529,7 @@ public class CoinsphAccountServiceTest {
   // =======================================================================================
 
   @Test
-  public void testGetFundingHistory_IncludingFiatDeposits() throws IOException, CoinsphException {
+  void getFundingHistoryIncludingFiatDeposits() throws Exception {
     // given
     Currency phpCurrency = Currency.getInstance("PHP");
     CoinsphFundingHistoryParams params =
@@ -606,8 +603,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGetFundingHistory_IncludingFiatWithdrawals()
-      throws IOException, CoinsphException {
+  void getFundingHistoryIncludingFiatWithdrawals() throws Exception {
     // given
     CoinsphFundingHistoryParams params =
         CoinsphFundingHistoryParams.builder().type(FundingRecord.Type.WITHDRAWAL).build();
@@ -679,7 +675,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGetFundingHistory_WithFiatHistoryParams() throws IOException, CoinsphException {
+  void getFundingHistoryWithFiatHistoryParams() throws Exception {
     // given - Use HistoryParamsFundingType for withdrawal only
     HistoryParamsFundingType fundingTypeParams =
         new HistoryParamsFundingType() {
@@ -732,7 +728,7 @@ public class CoinsphAccountServiceTest {
   }
 
   @Test
-  public void testGetFundingHistory_ErrorHandling() throws IOException, CoinsphException {
+  void getFundingHistoryErrorHandling() throws Exception {
     // given
     HistoryParamsFundingType params =
         new HistoryParamsFundingType() {

@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CandlesJSONTest {
+class CandlesJSONTest {
 
   @Test
-  public void unmarshal() throws Exception {
+  void unmarshal() throws Exception {
     InputStream is =
         CandlesJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/dase/dto/marketdata/example-candles.json");

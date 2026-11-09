@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,14 +29,14 @@ import org.knowm.xchange.service.marketdata.params.Params;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class CoinsphMarketDataServiceTest {
+class CoinsphMarketDataServiceTest {
 
   private CoinsphMarketDataService marketDataService;
   private Coinsph coinsph;
   private CoinsphExchange exchange;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     exchange = mock(CoinsphExchange.class);
     coinsph = mock(Coinsph.class);
     CoinsphAuthenticated coinsphAuthenticated = mock(CoinsphAuthenticated.class);
@@ -64,7 +63,7 @@ public class CoinsphMarketDataServiceTest {
   }
 
   @Test
-  public void testGetTicker() throws IOException {
+  void getTicker() throws Exception {
     // given
     CurrencyPair currencyPair = CurrencyPair.BTC_PHP;
     CoinsphTicker mockTicker =
@@ -110,7 +109,7 @@ public class CoinsphMarketDataServiceTest {
   }
 
   @Test
-  public void testGetTickers() throws IOException {
+  void getTickers() throws Exception {
     // given
     List<CoinsphTicker> mockTickers = new ArrayList<>();
 
@@ -186,7 +185,7 @@ public class CoinsphMarketDataServiceTest {
   }
 
   @Test
-  public void testGetOrderBook() throws IOException {
+  void getOrderBook() throws Exception {
     // given
     CurrencyPair currencyPair = CurrencyPair.BTC_PHP;
 
@@ -230,7 +229,7 @@ public class CoinsphMarketDataServiceTest {
   }
 
   @Test
-  public void testGetTrades() throws IOException {
+  void getTrades() throws Exception {
     // given
     CurrencyPair currencyPair = CurrencyPair.BTC_PHP;
     List<CoinsphPublicTrade> mockTrades = new ArrayList<>();

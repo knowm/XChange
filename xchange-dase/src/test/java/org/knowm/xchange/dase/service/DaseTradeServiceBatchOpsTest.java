@@ -20,7 +20,7 @@ import org.knowm.xchange.dase.dto.trade.DaseOrder;
 import org.knowm.xchange.dto.Order;
 import org.mockito.Mockito;
 
-public class DaseTradeServiceBatchOpsTest {
+class DaseTradeServiceBatchOpsTest {
 
   private DaseTradeService createSpyService() {
     Exchange exchange = Mockito.mock(Exchange.class);
@@ -30,7 +30,7 @@ public class DaseTradeServiceBatchOpsTest {
   }
 
   @Test
-  public void batchGetOrders_adaptsOrders() throws Exception {
+  void batchGetOrders_adaptsOrders() throws Exception {
     DaseTradeService svc = createSpyService();
 
     DaseOrder o1 =
@@ -84,7 +84,7 @@ public class DaseTradeServiceBatchOpsTest {
   }
 
   @Test
-  public void batchCancelOrders_forwardsIds() throws Exception {
+  void batchCancelOrders_forwardsIds() throws Exception {
     DaseTradeService svc = createSpyService();
     doNothing().when(svc).batchCancelOrdersRaw(anyList());
 
@@ -94,7 +94,7 @@ public class DaseTradeServiceBatchOpsTest {
   }
 
   @Test
-  public void cancelAll_forwardsMarket() throws Exception {
+  void cancelAll_forwardsMarket() throws Exception {
     DaseTradeService svc = createSpyService();
     doNothing().when(svc).cancelAllOrdersRaw(eq("ADA-EUR"));
 

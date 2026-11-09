@@ -4,20 +4,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ascendex.dto.AscendexResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOpenOrdersResponse;
 import org.knowm.xchange.ascendex.dto.trade.AscendexOrderResponse;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-public class AscendexTradeDataJSONTest {
+class AscendexTradeDataJSONTest {
 
   @Test
-  public void ascendexPlaceOrderResponseTest() throws IOException {
+  void ascendexPlaceOrderResponseTest() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -36,7 +35,7 @@ public class AscendexTradeDataJSONTest {
   }
 
   @Test
-  public void ascendexOpenOrdersResponseTest() throws IOException {
+  void ascendexOpenOrdersResponseTest() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -57,7 +56,7 @@ public class AscendexTradeDataJSONTest {
   }
 
   @Test
-  public void ascendexOrderHistoryResponseTest() throws IOException {
+  void ascendexOrderHistoryResponseTest() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

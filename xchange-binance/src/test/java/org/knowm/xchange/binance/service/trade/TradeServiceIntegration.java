@@ -4,7 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.binance.dto.trade.OrderType.LIMIT;
 import static org.knowm.xchange.binance.dto.trade.OrderType.MARKET;
 import static org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS_LIMIT;
@@ -14,10 +14,10 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceExchangeIntegration;
 import org.knowm.xchange.binance.dto.trade.BinanceDustLog;
@@ -28,23 +28,23 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
-public class TradeServiceIntegration extends BinanceExchangeIntegration {
+class TradeServiceIntegration extends BinanceExchangeIntegration {
 
   static BinanceTradeService tradeService;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception {
+  @BeforeAll
+  static void beforeClass() throws Exception {
     createExchange();
     tradeService = (BinanceTradeService) exchange.getTradeService();
   }
 
-  @Before
-  public void before() {
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+  @BeforeEach
+  void before() {
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
   }
 
   @Test
-  public void testPlaceTestOrderLimitOrderShouldNotThrowAnyException() throws IOException {
+  void placeTestOrderLimitOrderShouldNotThrowAnyException() throws Exception {
     final LimitOrder limitOrder = sampleLimitOrder();
 
     tradeService.placeTestOrder(LIMIT, limitOrder, limitOrder.getLimitPrice(), null);
@@ -71,7 +71,7 @@ public class TradeServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testPlaceTestOrderMarketOrderShouldNotThrowAnyException() throws IOException {
+  void placeTestOrderMarketOrderShouldNotThrowAnyException() throws Exception {
     final MarketOrder marketOrder = sampleMarketOrder();
 
     tradeService.placeTestOrder(MARKET, marketOrder, null, null);
@@ -84,7 +84,7 @@ public class TradeServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testPlaceTestOrderStopLossLimitOrderShouldNotThrowAnyException() throws IOException {
+  void placeTestOrderStopLossLimitOrderShouldNotThrowAnyException() throws Exception {
     final StopOrder stopLimitOrder = sampleStopLimitOrder();
 
     tradeService.placeTestOrder(
@@ -110,8 +110,7 @@ public class TradeServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testPlaceTestOrderTakeProfitLimitOrderShouldNotThrowAnyException()
-      throws IOException {
+  void placeTestOrderTakeProfitLimitOrderShouldNotThrowAnyException() throws Exception {
     final StopOrder takeProfitLimitOrder = sampleTakeProfitLimitOrder();
 
     tradeService.placeTestOrder(
@@ -137,7 +136,7 @@ public class TradeServiceIntegration extends BinanceExchangeIntegration {
   }
 
   @Test
-  public void testDustLog() throws IOException {
+  void dustLog() throws Exception {
     BinanceExchange exchangeMocked = createExchangeMocked();
     tradeService = (BinanceTradeService) exchangeMocked.getTradeService();
     stubFor(
@@ -146,11 +145,10 @@ public class TradeServiceIntegration extends BinanceExchangeIntegration {
                 ok().withHeader("Content-Type", "application/json").withBodyFile("dustlog.json")));
 
     BinanceDustLog dustLog = tradeService.getDustLog(1639094400000L, 1639180800000L);
-    assertEquals(1, dustLog.getDribblets().size());
-    assertEquals(28, dustLog.getDribblets().get(0).getBinanceDribbletDetails().size());
-    assertEquals((Long) 1639129045000L, dustLog.getDribblets().get(0).getOperateTime());
-    assertEquals(
-        "90698471826",
-        dustLog.getDribblets().get(0).getBinanceDribbletDetails().get(0).getTransId());
+    assertThat(dustLog.getDribblets().size()).isEqualTo(1);
+    assertThat(dustLog.getDribblets().get(0).getBinanceDribbletDetails().size()).isEqualTo(28);
+    assertThat(dustLog.getDribblets().get(0).getOperateTime()).isEqualTo((Long) 1639129045000L);
+    assertThat(dustLog.getDribblets().get(0).getBinanceDribbletDetails().get(0).getTransId())
+        .isEqualTo("90698471826");
   }
 }

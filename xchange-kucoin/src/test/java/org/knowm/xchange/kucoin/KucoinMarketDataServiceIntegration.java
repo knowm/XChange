@@ -1,11 +1,8 @@
 package org.knowm.xchange.kucoin;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.knowm.xchange.kucoin.KucoinMarketDataService.PARAM_PARTIAL_SHALLOW_ORDERBOOK;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -25,10 +22,10 @@ import org.knowm.xchange.kucoin.dto.KlineIntervalType;
 import org.knowm.xchange.kucoin.dto.response.KucoinCurrencyResponseV3;
 import org.knowm.xchange.kucoin.dto.response.KucoinKline;
 
-public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestParent {
+class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestParent {
 
   @Test
-  public void valid_currency_infos() throws Exception {
+  void valid_currency_infos() throws Exception {
     KucoinMarketDataService kucoinMarketDataService = exchange.getMarketDataService();
     List<KucoinCurrencyResponseV3> currencyInfos = kucoinMarketDataService.getAllKucoinCurrencies();
     assertThat(
@@ -39,14 +36,14 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   }
 
   @Test
-  public void testGetPrices() throws Exception {
+  void getPrices() throws Exception {
     KucoinMarketDataServiceRaw kucoinMarketDataServiceRaw = exchange.getMarketDataService();
     Map<String, BigDecimal> prices = kucoinMarketDataServiceRaw.getKucoinPrices();
     assertThat(prices.get("BTC")).isNotNull();
   }
 
   @Test
-  public void testGetMarketData() throws Exception {
+  void getMarketData() throws Exception {
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     exchangeMetaData
         .getInstruments()
@@ -64,7 +61,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   }
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
@@ -76,7 +73,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   }
 
   @Test
-  void valid_tickers() throws IOException {
+  void valid_tickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
@@ -95,7 +92,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   }
 
   @Test
-  public void testOrderBookPartial() throws Exception {
+  void orderBookPartial() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC);
     checkOrderBookIntegrity(orderBook);
     assertThat(orderBook.getAsks().size()).isLessThanOrEqualTo(100);
@@ -103,7 +100,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   }
 
   @Test
-  public void testOrderBookPartialShallow() throws Exception {
+  void orderBookPartialShallow() throws Exception {
     OrderBook orderBook =
         exchange
             .getMarketDataService()
@@ -114,13 +111,13 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
   }
 
   @Test
-  public void testTrades() throws Exception {
+  void trades() throws Exception {
     Trades trades = exchange.getMarketDataService().getTrades(CurrencyPair.ETH_BTC);
-    assertFalse(trades.getTrades().isEmpty());
+    assertThat(trades.getTrades().isEmpty()).isFalse();
   }
 
   @Test
-  public void testKlines() throws Exception {
+  void klines() throws Exception {
     // Taken from the api docs page: GET
     // /api/v1/market/candles?type=1min&symbol=BTC-USDT&startAt=1566703297&endAt=1566789757
     List<KucoinKline> klines =
@@ -128,7 +125,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
             .getMarketDataService()
             .getKucoinKlines(
                 CurrencyPair.BTC_USDT, 1566703297L, 1566789757L, KlineIntervalType.min1);
-    assertFalse(klines.isEmpty());
+    assertThat(klines.isEmpty()).isFalse();
     assertThat(klines.size()).isEqualTo(1441);
 
     // Since this is a fixed range in time, we know length, first, and last of collection
@@ -168,7 +165,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
     for (LimitOrder o : orderBook.getBids()) {
       assertThat(o.getLimitPrice()).isLessThan(previousPrice);
       previousPrice = o.getLimitPrice();
-      assertNotEquals(0, o.getOriginalAmount().compareTo(BigDecimal.ZERO));
+      assertThat(o.getOriginalAmount().compareTo(BigDecimal.ZERO)).isNotEqualTo(0);
     }
     previousPrice =
         orderBook.getBids().isEmpty()
@@ -177,7 +174,7 @@ public class KucoinMarketDataServiceIntegration extends KucoinIntegrationTestPar
     for (LimitOrder o : orderBook.getAsks()) {
       assertThat(o.getLimitPrice()).isGreaterThan(previousPrice);
       previousPrice = o.getLimitPrice();
-      assertNotEquals(0, o.getOriginalAmount().compareTo(BigDecimal.ZERO));
+      assertThat(o.getOriginalAmount().compareTo(BigDecimal.ZERO)).isNotEqualTo(0);
     }
     checkTimestamp(orderBook.getTimeStamp());
   }

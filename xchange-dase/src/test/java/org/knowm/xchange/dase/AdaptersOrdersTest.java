@@ -4,17 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dase.dto.trade.DaseOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
-public class AdaptersOrdersTest {
+class AdaptersOrdersTest {
 
   @Test
-  public void adaptOrder_limit_buy_open() throws Exception {
+  void adaptOrder_limit_buy_open() throws Exception {
     InputStream is =
         getClass().getResourceAsStream("/org/knowm/xchange/dase/dto/trade/example-orders.json");
     DaseOrder dto =
@@ -34,7 +34,7 @@ public class AdaptersOrdersTest {
   }
 
   @Test
-  public void adaptOrder_market_sell_closed() {
+  void adaptOrder_market_sell_closed() {
     DaseOrder dto =
         new DaseOrder(
             "id",

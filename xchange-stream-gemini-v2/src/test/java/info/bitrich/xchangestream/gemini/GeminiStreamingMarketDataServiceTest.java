@@ -1,27 +1,28 @@
 package info.bitrich.xchangestream.gemini;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.knowm.xchange.currency.CurrencyPair.LTC_USD;
 import static org.mockito.Mockito.when;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import java.util.Arrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class GeminiStreamingMarketDataServiceTest {
+class GeminiStreamingMarketDataServiceTest {
 
   @InjectMocks GeminiStreamingMarketDataService geminiStreamingMarketDataService;
 
   @Mock GeminiStreamingService geminiStreamingService;
   @Mock ProductSubscription mockProductSubscription;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     MockitoAnnotations.openMocks(this);
   }
 
@@ -31,19 +32,23 @@ public class GeminiStreamingMarketDataServiceTest {
    * GeminiStreamingMarketDataService.connect(productSubscription) throws an
    * UnsupportedOperationException.
    */
-  @Test(expected = UnsupportedOperationException.class)
-  public void getOrderBook_InvalidPair() {
+  @Test
+  void getOrderBook_InvalidPair() {
     when(geminiStreamingService.getProduct()).thenReturn(mockProductSubscription);
     when(mockProductSubscription.getOrderBook()).thenReturn(Arrays.asList(CurrencyPair.BTC_USD));
-
-    try {
-      geminiStreamingMarketDataService.getOrderBook(LTC_USD).subscribe(orderBook -> {});
-    } catch (Exception e) {
-      //      System.out.println(e.getMessage());
-      assertEquals(
-          String.format("The currency pair %s is not subscribed for orderbook", LTC_USD),
-          e.getMessage());
-      throw e;
-    }
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+        .isThrownBy(
+            () -> {
+              try {
+                geminiStreamingMarketDataService.getOrderBook(LTC_USD).subscribe(orderBook -> {});
+              } catch (Exception e) {
+                //      System.out.println(e.getMessage());
+                assertThat(e.getMessage())
+                    .isEqualTo(
+                        String.format(
+                            "The currency pair %s is not subscribed for orderbook", LTC_USD));
+                throw e;
+              }
+            });
   }
 }

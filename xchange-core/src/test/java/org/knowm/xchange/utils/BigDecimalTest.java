@@ -3,13 +3,13 @@ package org.knowm.xchange.utils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests various BigDecimal and BigDecimal behavior */
-public class BigDecimalTest {
+class BigDecimalTest {
 
   @Test
-  public void test() {
+  void test() {
 
     int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
 

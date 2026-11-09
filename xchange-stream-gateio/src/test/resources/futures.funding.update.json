@@ -1,0 +1,27 @@
+{
+  "time": 1541659086,
+  "time_ms": 1541659086123,
+  "channel": "futures.tickers",
+  "event": "update",
+  "result": [
+    {
+      "contract": "BTC_USDT",
+      "last": "118.4",
+      "change_percentage": "0.77",
+      "funding_rate": "-0.000114",
+      "funding_rate_indicative": "0.01875",
+      "mark_price": "118.35",
+      "index_price": "118.36",
+      "total_size": "73648",
+      "volume_24h": "745487577",
+      "volume_24h_btc": "117",
+      "volume_24h_usd": "419950",
+      "quanto_base_rate": "",
+      "volume_24h_quote": "1665006",
+      "volume_24h_settle": "178",
+      "volume_24h_base": "5526",
+      "low_24h": "99.2",
+      "high_24h": "132.5"
+    }
+  ]
+}

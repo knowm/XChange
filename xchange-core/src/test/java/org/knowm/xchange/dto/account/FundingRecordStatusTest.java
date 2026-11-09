@@ -5,23 +5,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 
-public class FundingRecordStatusTest {
+class FundingRecordStatusTest {
 
   @Test
-  public void shouldProcessStatusDescriptionNormal() throws Exception {
+  void shouldProcessStatusDescriptionNormal() throws Exception {
     testStatusDesc("PROCESSING", "foo", FundingRecord.Status.PROCESSING, "foo");
   }
 
   @Test
-  public void shouldProcessStatusToUpercase() throws Exception {
+  void shouldProcessStatusToUpercase() throws Exception {
     testStatusDesc("Complete", "bar", FundingRecord.Status.COMPLETE, "bar");
   }
 
   @Test
-  public void shouldProcessNullDescription() throws Exception {
+  void shouldProcessNullDescription() throws Exception {
     testStatusDesc("COMPLETE", null, FundingRecord.Status.COMPLETE, null);
   }
 

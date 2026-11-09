@@ -2,8 +2,8 @@ package org.knowm.xchange.examples.bitcoinde.marketdata;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
-import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
+import org.knowm.xchange.bitcoinde.v4.service.BitcoindeMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.examples.bitcoinde.ExchangeUtils;
@@ -47,8 +47,8 @@ public class BitcoindeOrderBookDemo {
   public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
     /* get BitcoindeOrderBook data */
-    BitcoindeOrderbookWrapper bitcoindeOrderBook =
-        marketDataService.getBitcoindeOrderBook(CurrencyPair.BTC_EUR);
+    BitcoindeCompactOrderbookWrapper bitcoindeOrderBook =
+        marketDataService.getBitcoindeCompactOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(bitcoindeOrderBook.toString());
   }
 }

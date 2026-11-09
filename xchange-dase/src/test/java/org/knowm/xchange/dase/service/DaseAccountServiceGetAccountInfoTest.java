@@ -16,10 +16,10 @@ import org.knowm.xchange.dase.dto.user.DaseUserProfile;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.mockito.Mockito;
 
-public class DaseAccountServiceGetAccountInfoTest {
+class DaseAccountServiceGetAccountInfoTest {
 
   @Test
-  public void combinesProfileAndBalances() throws Exception {
+  void combinesProfileAndBalances() throws Exception {
     Exchange exchange = Mockito.mock(Exchange.class);
     ExchangeSpecification spec = new ExchangeSpecification(DaseExchange.class);
     Mockito.when(exchange.getExchangeSpecification()).thenReturn(spec);

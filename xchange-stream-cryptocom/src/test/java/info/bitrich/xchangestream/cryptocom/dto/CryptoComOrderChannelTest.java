@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cryptocom.CryptoComStreamingService;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -18,14 +17,14 @@ import org.knowm.xchange.cryptocom.dto.trade.CryptoComOrder;
  * {@link CryptoComAdapters#adaptOrder(CryptoComOrder)} directly instead of a separate WS-only DTO.
  * Adapter behavior itself is covered by {@code CryptoComAdaptersTest} in the REST module.
  */
-public class CryptoComOrderChannelTest {
+class CryptoComOrderChannelTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final CryptoComStreamingService service =
       new CryptoComStreamingService("wss://stream.crypto.com/exchange/v1/market");
 
   @Test
-  public void testUnmarshalOrderUpdate() throws IOException {
+  void unmarshalOrderUpdate() throws Exception {
     // given
     String resource = "/info/bitrich/xchangestream/cryptocom/dto/user-order-update.json";
 

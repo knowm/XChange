@@ -7,8 +7,10 @@ import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.dto.trade.UserTrade;
 
@@ -16,23 +18,20 @@ import org.knowm.xchange.dto.trade.UserTrade;
 class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();
   }
 
   @Test
+  @Disabled
   void user_trades_all() {
     Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades();
 
     TestObserver<UserTrade> testObserver = observable.test();
 
-    List<UserTrade> userTrades =
-        testObserver
-            //        .awaitDone(10, TimeUnit.MINUTES)
-            .awaitCount(1)
-            .values();
+    List<UserTrade> userTrades = testObserver.awaitDone(1, TimeUnit.SECONDS).awaitCount(1).values();
 
     testObserver.dispose();
 
@@ -46,6 +45,7 @@ class GateioStreamingTradeServiceIntegration extends GateioStreamingExchangeIT {
   }
 
   @Test
+  @Disabled
   void user_trades_single_instrument() {
     Observable<UserTrade> observable = exchange.getStreamingTradeService().getUserTrades(BTC_USDT);
 

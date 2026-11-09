@@ -3,7 +3,6 @@ package org.knowm.xchange.deribit.v2.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
@@ -16,10 +15,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.instrument.Instrument;
 
-public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestParent {
+class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestParent {
 
   @Test
-  void valid_currencies() throws IOException {
+  void valid_currencies() throws Exception {
     List<Currency> currencies =
         ((DeribitMarketDataService) exchange.getMarketDataService()).getCurrencies();
 
@@ -28,7 +27,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_instruments() throws IOException {
+  void valid_instruments() throws Exception {
     List<Instrument> instruments =
         ((DeribitMarketDataService) exchange.getMarketDataService()).getInstruments();
 
@@ -37,7 +36,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getBids()).isNotEmpty();
@@ -62,7 +61,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_orderbook_futures() throws IOException {
+  void valid_orderbook_futures() throws Exception {
     FuturesContract futuresContract = new FuturesContract(CurrencyPair.BTC_USD, "PERPETUAL");
 
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(futuresContract);
@@ -89,7 +88,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
@@ -101,7 +100,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_single_ticker_futures() throws IOException {
+  void valid_single_ticker_futures() throws Exception {
     Ticker ticker =
         exchange
             .getMarketDataService()
@@ -117,7 +116,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_trades() throws IOException {
+  void valid_trades() throws Exception {
     Trades trades = exchange.getMarketDataService().getTrades(CurrencyPair.BTC_USDT);
 
     assumeThat(trades.getTrades()).isNotEmpty();
@@ -133,7 +132,7 @@ public class DeribitMarketDataServiceIntegration extends DeribitIntegrationTestP
   }
 
   @Test
-  void valid_trades_futures() throws IOException {
+  void valid_trades_futures() throws Exception {
     FuturesContract futuresContract = new FuturesContract(CurrencyPair.BTC_USD, "PERPETUAL");
     Trades trades = exchange.getMarketDataService().getTrades(futuresContract);
 

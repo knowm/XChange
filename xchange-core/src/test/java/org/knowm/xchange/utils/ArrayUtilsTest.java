@@ -1,29 +1,33 @@
 package org.knowm.xchange.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-public class ArrayUtilsTest {
+class ArrayUtilsTest {
   private final Object[] array = {1, "Test", '4'};
 
   @Test
-  public void test() {
-    Assert.assertNull(ArrayUtils.getElement(-1, null, Integer.class));
-    Assert.assertNull(ArrayUtils.getElement(3, array, Integer.class));
-    Assert.assertEquals((Integer) 1, ArrayUtils.getElement(0, array, Integer.class));
-    Assert.assertEquals("Test", ArrayUtils.getElement(1, array, String.class));
-    Assert.assertEquals("default", ArrayUtils.getElement(3, array, String.class, "default"));
-    Assert.assertEquals((Character) '4', ArrayUtils.getElement(2, array, Character.class));
+  void test() {
+    assertThat(ArrayUtils.getElement(-1, null, Integer.class)).isNull();
+    assertThat(ArrayUtils.getElement(3, array, Integer.class)).isNull();
+    assertThat(ArrayUtils.getElement(0, array, Integer.class)).isEqualTo((Integer) 1);
+    assertThat(ArrayUtils.getElement(1, array, String.class)).isEqualTo("Test");
+    assertThat(ArrayUtils.getElement(3, array, String.class, "default")).isEqualTo("default");
+    assertThat(ArrayUtils.getElement(2, array, Character.class)).isEqualTo((Character) '4');
   }
 
-  @Test(expected = ExchangeException.class)
-  public void testFailedType() {
-    ArrayUtils.getElement(0, array, String.class);
+  @Test
+  void failedType() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(() -> ArrayUtils.getElement(0, array, String.class));
   }
 
-  @Test(expected = ExchangeException.class)
-  public void testFailedMandatory() {
-    ArrayUtils.getElement(3, array, String.class, true);
+  @Test
+  void failedMandatory() {
+    assertThatExceptionOfType(ExchangeException.class)
+        .isThrownBy(() -> ArrayUtils.getElement(3, array, String.class, true));
   }
 }

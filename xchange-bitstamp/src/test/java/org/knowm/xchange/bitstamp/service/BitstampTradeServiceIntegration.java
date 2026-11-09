@@ -1,10 +1,10 @@
 package org.knowm.xchange.bitstamp.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNotNull;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -12,7 +12,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-public class BitstampTradeServiceIntegration {
+class BitstampTradeServiceIntegration {
 
   private String apiKey = null;
   private String secretKey = null;
@@ -20,8 +20,8 @@ public class BitstampTradeServiceIntegration {
   private BitstampTradeService bitstampTradeService;
 
   @BeforeEach
-  public void setUp() {
-    assumeNotNull(apiKey, secretKey, username);
+  void setUp() {
+    Stream.of(apiKey, secretKey, username).forEach((o) -> Assumptions.assumeFalse(o == null));
     ExchangeSpecification specification =
         ExchangeFactory.INSTANCE
             .createExchange(BitstampExchange.class)
@@ -36,7 +36,7 @@ public class BitstampTradeServiceIntegration {
   }
 
   @Test
-  public void testGetTradeHistory() throws IOException {
+  void getTradeHistory() throws Exception {
     final BitstampTradeHistoryParams tradeHistoryParams =
         (BitstampTradeHistoryParams) bitstampTradeService.createTradeHistoryParams();
     final List<UserTrade> userTrades =

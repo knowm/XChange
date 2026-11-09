@@ -1,7 +1,8 @@
 package org.knowm.xchange.bybit.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
 import java.io.IOException;
@@ -9,8 +10,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.BybitExchange;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelAllOrdersParams;
@@ -26,19 +27,19 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 
-public class BybitTradeServiceTest extends BaseWiremockTest {
+class BybitTradeServiceTest extends BaseWiremockTest {
 
   BybitExchange bybitExchange;
   TradeService tradeService;
 
-  @Before
-  public void setUp() throws IOException {
+  @BeforeEach
+  void setUp() throws IOException {
     bybitExchange = createExchange();
     tradeService = new BybitTradeService(bybitExchange, bybitExchange.getResilienceRegistries());
   }
 
   @Test
-  public void testGetBybitOrderLinear() throws IOException {
+  void getBybitOrderLinear() throws Exception {
     initGetStub("/v5/order/realtime", "/getOrderLinear.json5");
 
     Collection<Order> orders = tradeService.getOrder("fd4300ae-7847-404e-b947-b46980a4d140");
@@ -53,7 +54,7 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetOrders() throws IOException {
+  void getOrders() throws Exception {
     initGetStub("/v5/order/realtime", "/getOrderLinear.json5");
     BybitOpenOrdersParam param =
         new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
@@ -68,16 +69,20 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
     assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("0.10"));
   }
 
-  @Test(expected = BybitException.class)
-  public void testGetOrdersError() throws IOException {
+  @Test
+  void getOrdersError() throws Exception {
     initGetStub("/v5/order/realtime", "/getOrderError.json5");
     BybitOpenOrdersParam param =
         new BybitOpenOrdersParam(new FuturesContract("ETH/USDT/PERP"), BybitCategory.LINEAR);
-    List<LimitOrder> limitOrder = tradeService.getOpenOrders(param).getOpenOrders();
+    assertThatExceptionOfType(BybitException.class)
+        .isThrownBy(
+            () -> {
+              List<LimitOrder> limitOrder = tradeService.getOpenOrders(param).getOpenOrders();
+            });
   }
 
   @Test
-  public void testPlaceBybitOrder() throws IOException {
+  void placeBybitOrder() throws Exception {
     initPostStub("/v5/order/create", "/placeMarketOrder.json5");
     MarketOrder marketOrder =
         new MarketOrder(OrderType.ASK, new BigDecimal("0.1"), new CurrencyPair("BTC", "USDT"));
@@ -97,7 +102,7 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testChangeBybitOrder() throws IOException {
+  void changeBybitOrder() throws Exception {
     initPostStub("/v5/order/amend", "/changeOrder.json5");
 
     LimitOrder limitOrder =
@@ -115,15 +120,12 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testCancelBybitOrder() throws IOException {
+  void cancelBybitOrder() throws Exception {
     initPostStub("/v5/order/cancel", "/cancelOrder.json5");
 
     Instrument BTC_USDT_PERP = new FuturesContract("BTC/USDT/PERP");
-    try {
-      tradeService.cancelOrder(new BybitCancelOrderParams(BTC_USDT, "", ""));
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException ignored) {
-    }
+    assertThatThrownBy(() -> tradeService.cancelOrder(new BybitCancelOrderParams(BTC_USDT, "", "")))
+        .isInstanceOf(UnsupportedOperationException.class);
     boolean resultSpot =
         tradeService.cancelOrder(
             new BybitCancelOrderParams(BTC_USDT, "c6f055d9-7f21-4079-913d-e6523a9cfffa", ""));
@@ -138,22 +140,18 @@ public class BybitTradeServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testCancelAllBybitOrder() throws IOException {
+  void cancelAllBybitOrder() throws Exception {
     initPostStub("/v5/order/cancel-all", "/cancelAllOrders.json5");
     Instrument BTC_USDT_PERP = new FuturesContract("BTC/USDT/PERP");
 
-    try {
-      tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(null, null));
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException ignored) {
-
-    }
-    try {
-      tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.LINEAR, null));
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException ignored) {
-
-    }
+    assertThatThrownBy(
+            () -> tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(null, null)))
+        .isInstanceOf(UnsupportedOperationException.class);
+    assertThatThrownBy(
+            () ->
+                tradeService.cancelAllOrders(
+                    new BybitCancelAllOrdersParams(BybitCategory.LINEAR, null)))
+        .isInstanceOf(UnsupportedOperationException.class);
     Collection<String> resultSpot =
         tradeService.cancelAllOrders(new BybitCancelAllOrdersParams(BybitCategory.SPOT, null));
 

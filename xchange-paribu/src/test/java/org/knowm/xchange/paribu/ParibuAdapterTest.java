@@ -3,10 +3,9 @@ package org.knowm.xchange.paribu;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.paribu.dto.marketdata.ParibuTicker;
@@ -14,10 +13,10 @@ import org.knowm.xchange.paribu.dto.marketdata.ParibuTicker;
 /**
  * @author semihunaldi
  */
-public class ParibuAdapterTest {
+class ParibuAdapterTest {
 
   @Test
-  public void testTickerAdapter() throws IOException {
+  void tickerAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         ParibuAdapterTest.class.getResourceAsStream(

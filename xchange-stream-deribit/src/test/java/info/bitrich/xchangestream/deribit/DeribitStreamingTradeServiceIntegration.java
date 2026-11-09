@@ -16,10 +16,10 @@ import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 @Slf4j
-public class DeribitStreamingTradeServiceIntegration extends DeribitStreamingExchangeIT {
+class DeribitStreamingTradeServiceIntegration extends DeribitStreamingExchangeIT {
 
   @BeforeAll
-  public static void credentialsPresent() {
+  static void credentialsPresent() {
     // skip if there are no credentials
     assumeThat(exchange.getExchangeSpecification().getApiKey()).isNotEmpty();
     assumeThat(exchange.getExchangeSpecification().getSecretKey()).isNotEmpty();

@@ -1,26 +1,28 @@
 package org.knowm.xchange.okex;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.okex.dto.OkexInstType.SPOT;
-import static org.knowm.xchange.okex.dto.OkexInstType.SWAP;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.okex.dto.OkexResponse;
+import org.knowm.xchange.okex.dto.account.OkexSetPositionModeRequest;
+import org.knowm.xchange.okex.dto.account.OkexSetPositionModeResponse;
 import org.knowm.xchange.okex.dto.account.OkexTradeFee;
 
-public class OkexAdapterTest {
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.okex.dto.OkexInstType.SPOT;
+import static org.knowm.xchange.okex.dto.OkexInstType.SWAP;
+
+class OkexAdapterTest {
   @Test
-  public void testAdaptTradingFee() throws IOException {
+  void adaptTradingFee() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     InputStream is = OkexAdapterTest.class.getResourceAsStream("/getFeeRatesSpot.json5");
@@ -60,5 +62,26 @@ public class OkexAdapterTest {
     //    assertThat(OkexAdapters.adaptTradingFee(okexSwapTradeFee,SWAP, new
     // FuturesContract("BTC/USD/SWAP")))
     //        .isEqualTo(new Fee(new BigDecimal("-0.0002"),new BigDecimal("-0.0005")));
+  }
+
+  @Test
+  void testSetPositionModeSerializationAndDeserialization() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    OkexSetPositionModeRequest request =
+        OkexSetPositionModeRequest.builder()
+            .posMode("long_short_mode")
+            .build();
+    String jsonRequest = mapper.writeValueAsString(request);
+    assertThat(jsonRequest).contains("\"posMode\":\"long_short_mode\"");
+
+    String jsonResponse = "{\"code\":\"0\",\"msg\":\"\",\"data\":[{\"posMode\":\"long_short_mode\"}]}";
+    OkexResponse<List<OkexSetPositionModeResponse>> response =
+        mapper.readValue(
+            jsonResponse, new TypeReference<OkexResponse<List<OkexSetPositionModeResponse>>>() {});
+    assertThat(response.isSuccess()).isTrue();
+    assertThat(response.getData()).hasSize(1);
+    assertThat(response.getData().get(0).getPosMode()).isEqualTo("long_short_mode");
   }
 }

@@ -7,7 +7,6 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.*;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Disabled("Integration tests are disabled by default. Enable for manual execution against sandbox.")
-public class CoinsphStreamingExchangeIntegration {
+class CoinsphStreamingExchangeIntegration {
 
   private static final Logger logger =
       LoggerFactory.getLogger(CoinsphStreamingExchangeIntegration.class);
@@ -49,7 +48,7 @@ public class CoinsphStreamingExchangeIntegration {
       new BigDecimal("0.00001"); // From CoinsphExchangeIntegration
 
   @BeforeAll
-  public void setUp() {
+  void setUp() {
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinsphStreamingExchange.class);
     exSpec.setSslUri(SANDBOX_API_URL_FOR_REST); // For REST calls like listenKey
     exSpec.setApiKey(API_KEY);
@@ -86,7 +85,7 @@ public class CoinsphStreamingExchangeIntegration {
   }
 
   @AfterAll
-  public void tearDown() {
+  void tearDown() {
     if (exchange != null && exchange.isAlive()) {
       logger.info("Disconnecting from streaming exchange...");
       exchange.disconnect().blockingAwait();
@@ -95,7 +94,7 @@ public class CoinsphStreamingExchangeIntegration {
   }
 
   @Test
-  void getOrderBook_BTCPHP_shouldReceiveUpdates() throws InterruptedException {
+  void getOrderBook_BTCPHP_shouldReceiveUpdates() throws Exception {
     logger.info("Testing getOrderBook for {}...", TEST_CURRENCY_PAIR);
     Disposable orderBookDisposable =
         streamingMarketDataService
@@ -133,7 +132,7 @@ public class CoinsphStreamingExchangeIntegration {
   }
 
   @Test
-  void getTicker_BTCPHP_shouldReceiveUpdates() throws InterruptedException {
+  void getTicker_BTCPHP_shouldReceiveUpdates() throws Exception {
     logger.info("Testing getTicker for {}...", TEST_CURRENCY_PAIR);
     Disposable tickerDisposable =
         streamingMarketDataService
@@ -158,7 +157,7 @@ public class CoinsphStreamingExchangeIntegration {
   }
 
   @Test
-  void getTrades_BTCPHP_shouldReceiveUpdates() throws InterruptedException {
+  void getTrades_BTCPHP_shouldReceiveUpdates() throws Exception {
     logger.info("Testing getTrades for {}...", TEST_CURRENCY_PAIR);
     Disposable tradesDisposable =
         streamingMarketDataService
@@ -183,7 +182,7 @@ public class CoinsphStreamingExchangeIntegration {
   }
 
   @Test
-  void getBalanceChanges_shouldReceiveUpdates() throws InterruptedException {
+  void getBalanceChanges_shouldReceiveUpdates() throws Exception {
     logger.info("Testing getBalanceChanges (all currencies)...");
     // Test for any balance change initially
     Disposable balanceDisposable =
@@ -209,8 +208,7 @@ public class CoinsphStreamingExchangeIntegration {
   }
 
   @Test
-  void getOrderChangesAndUserTrades_afterPlacingOrder_shouldReceiveUpdates()
-      throws InterruptedException, IOException {
+  void getOrderChangesAndUserTrades_afterPlacingOrder_shouldReceiveUpdates() throws Exception {
     logger.info("Testing getOrderChanges and getUserTrades for {}...", TEST_CURRENCY_PAIR);
 
     // Subscribe to order changes

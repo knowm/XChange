@@ -3,18 +3,17 @@ package org.knowm.xchange.cryptocom.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.cryptocom.dto.CryptoComResponse;
 
-public class CryptoComPublicTradeTest {
+class CryptoComPublicTradeTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshalTrades() throws IOException {
+  void unmarshalTrades() throws Exception {
     // given
     String resource = "/org/knowm/xchange/cryptocom/dto/marketdata/get-trades.json";
 

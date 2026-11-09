@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.cexio;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
 import java.math.BigDecimal;
@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class CexioAdaptersTest {
+class CexioAdaptersTest {
 
   @Test
-  public void testAdaptOrderBookIncremental() {
+  void adaptOrderBookIncremental() {
     OrderBook orderBookSoFar =
         new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
 
@@ -74,8 +74,8 @@ public class CexioAdaptersTest {
     OrderBook orderBookV1 = CexioAdapters.adaptOrderBookIncremental(orderBookSoFar, subResp1);
     OrderBook expectedOrderBookV1 =
         new OrderBook(new Date(1234567), expectedAsks, expectedBids, true /* sort */);
-    assertEquals(expectedOrderBookV1.getBids(), orderBookV1.getBids());
-    assertEquals(expectedOrderBookV1.getAsks(), orderBookV1.getAsks());
+    assertThat(orderBookV1.getBids()).isEqualTo(expectedOrderBookV1.getBids());
+    assertThat(orderBookV1.getAsks()).isEqualTo(expectedOrderBookV1.getAsks());
 
     List<List<BigDecimal>> askOrders2 = new ArrayList<List<BigDecimal>>();
     askOrders2.add(
@@ -209,7 +209,7 @@ public class CexioAdaptersTest {
     OrderBook orderBookV2 = CexioAdapters.adaptOrderBookIncremental(orderBookV1, subResp2);
     OrderBook expectedOrderBookV2 =
         new OrderBook(new Date(1235567), expectedAsks2, expectedBids2, true /* sort */);
-    assertEquals(expectedOrderBookV2.getBids(), orderBookV2.getBids());
-    assertEquals(expectedOrderBookV2.getAsks(), orderBookV2.getAsks());
+    assertThat(orderBookV2.getBids()).isEqualTo(expectedOrderBookV2.getBids());
+    assertThat(orderBookV2.getAsks()).isEqualTo(expectedOrderBookV2.getAsks());
   }
 }

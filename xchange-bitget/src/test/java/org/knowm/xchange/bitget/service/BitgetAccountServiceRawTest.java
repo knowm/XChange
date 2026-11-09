@@ -3,7 +3,6 @@ package org.knowm.xchange.bitget.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.Currency.USDT;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collections;
@@ -31,7 +30,7 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
       (BitgetAccountServiceRaw) exchange.getAccountService();
 
   @Test
-  void transfer_records() throws IOException {
+  void transfer_records() throws Exception {
     BitgetTransferRecordDto expected =
         BitgetTransferRecordDto.builder()
             .clientOid("1225489997897666560")
@@ -62,7 +61,7 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void main_sub_transfer_records() throws IOException {
+  void main_sub_transfer_records() throws Exception {
     BitgetMainSubTransferRecordDto expected =
         BitgetMainSubTransferRecordDto.builder()
             .clientOid("1225490042499895296")
@@ -96,7 +95,7 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void sub_account_deposit_records() throws IOException {
+  void sub_account_deposit_records() throws Exception {
     BitgetDepositWithdrawRecordDto expected =
         BitgetDepositWithdrawRecordDto.builder()
             .chain("TON(TON)")
@@ -128,7 +127,7 @@ class BitgetAccountServiceRawTest extends BitgetExchangeWiremock {
   }
 
   @Test
-  void sub_account_balances() throws IOException {
+  void sub_account_balances() throws Exception {
     BitgetSubBalanceDto expected =
         BitgetSubBalanceDto.builder()
             .userId("7831928986")

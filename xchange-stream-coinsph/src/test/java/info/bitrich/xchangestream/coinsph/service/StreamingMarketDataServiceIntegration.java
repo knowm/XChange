@@ -9,10 +9,10 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Disabled("Integration tests are disabled by default. Enable for manual execution against sandbox.")
-public class StreamingMarketDataServiceIntegration {
+class StreamingMarketDataServiceIntegration {
   private static final Logger LOG =
       LoggerFactory.getLogger(StreamingMarketDataServiceIntegration.class);
 
@@ -36,8 +36,8 @@ public class StreamingMarketDataServiceIntegration {
   private StreamingExchange streamingExchange;
   private StreamingMarketDataService streamingMarketDataService;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinsphStreamingExchange.class);
     exSpec.setSslUri(SANDBOX_API_URL);
     exSpec.setApiKey(API_KEY);
@@ -51,15 +51,15 @@ public class StreamingMarketDataServiceIntegration {
     streamingExchange.connect().blockingAwait();
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     if (streamingExchange != null) {
       streamingExchange.disconnect().blockingAwait();
     }
   }
 
   @Test
-  public void testGetOrderBook() throws InterruptedException {
+  void getOrderBook() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<OrderBook> receivedOrderBook = new AtomicReference<>();
 
@@ -76,9 +76,7 @@ public class StreamingMarketDataServiceIntegration {
                   receivedOrderBook.set(orderBook);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in order book subscription", throwable);
-                });
+                throwable -> LOG.error("Error in order book subscription", throwable));
 
     // Wait for the order book update
     boolean received = latch.await(30, TimeUnit.SECONDS);
@@ -95,7 +93,7 @@ public class StreamingMarketDataServiceIntegration {
   }
 
   @Test
-  public void testGetTicker() throws InterruptedException {
+  void getTicker() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<Ticker> receivedTicker = new AtomicReference<>();
 
@@ -109,9 +107,7 @@ public class StreamingMarketDataServiceIntegration {
                   receivedTicker.set(ticker);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in ticker subscription", throwable);
-                });
+                throwable -> LOG.error("Error in ticker subscription", throwable));
 
     // Wait for the ticker update
     boolean received = latch.await(30, TimeUnit.SECONDS);
@@ -123,7 +119,7 @@ public class StreamingMarketDataServiceIntegration {
   }
 
   @Test
-  public void testGetTrades() throws InterruptedException {
+  void getTrades() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicReference<Trade> receivedTrade = new AtomicReference<>();
 
@@ -137,9 +133,7 @@ public class StreamingMarketDataServiceIntegration {
                   receivedTrade.set(trade);
                   latch.countDown();
                 },
-                throwable -> {
-                  LOG.error("Error in trades subscription", throwable);
-                });
+                throwable -> LOG.error("Error in trades subscription", throwable));
 
     // Wait for the trade update
     boolean received = latch.await(30, TimeUnit.SECONDS);

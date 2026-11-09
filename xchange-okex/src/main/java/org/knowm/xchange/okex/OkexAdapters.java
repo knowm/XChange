@@ -1,5 +1,7 @@
 package org.knowm.xchange.okex;
 
+import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -193,9 +195,7 @@ public class OkexAdapters {
         .instIdCode(instrumentToInstrumentIdMap.get(order.getInstrument()).toString())
         .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
         .side(getSide(order))
-        .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
-        // support Futures/Swap capabilities of Okex, till then it should be null to
-        // perform "net" orders
+        .posSide(getPositionSide(order))
         .reducePosition(order.hasFlag(OkexOrderFlags.REDUCE_ONLY))
         .clientOrderId(order.getUserReference())
         .orderType(OkexOrderType.market.name())
@@ -247,9 +247,7 @@ public class OkexAdapters {
         .instIdCode(instrumentToInstrumentIdMap.get(order.getInstrument()).toString())
         .tradeMode(adaptTradeMode(order.getInstrument(), accountLevel))
         .side(getSide(order))
-        .posSide(null) // PosSide should come as a input from an extended LimitOrder class to
-        // support Futures/Swap capabilities of Okex, till then it should be null to
-        // perform "net" orders
+        .posSide(getPositionSide(order))
         .clientOrderId(order.getUserReference())
         .reducePosition(order.hasFlag(OkexOrderFlags.REDUCE_ONLY))
         .orderType(
@@ -861,5 +859,36 @@ public class OkexAdapters {
 
   public static String instrumentToInstrumentCode(Instrument instrument) {
     return instrumentToInstrumentIdMap.get(instrument).toString();
+  }
+
+  public static String getPositionSide(Order order) {
+    OrderHedgeMode hedgeMode =
+        getOrderFlag(order, OrderHedgeMode.class).orElse(OrderHedgeMode.ONEWAY);
+    String positionSide = null;
+    if (hedgeMode.equals(TWOWAY)) {
+      positionSide = "long";
+      switch (order.getType()) {
+        case ASK:
+        case EXIT_ASK:
+          {
+            positionSide = "short";
+            break;
+          }
+        case BID:
+        case EXIT_BID:
+          {
+            break;
+          }
+      }
+    }
+    return positionSide;
+  }
+
+  public static <T extends Order.IOrderFlags> Optional<T> getOrderFlag(
+      Order order, Class<T> clazz) {
+    return (Optional<T>)
+        order.getOrderFlags().stream()
+            .filter(flag -> clazz.isAssignableFrom(flag.getClass()))
+            .findFirst();
   }
 }

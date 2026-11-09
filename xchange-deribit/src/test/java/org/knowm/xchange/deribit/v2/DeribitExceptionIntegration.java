@@ -12,32 +12,32 @@ import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.instrument.Instrument;
 
-public class DeribitExceptionIntegration {
+class DeribitExceptionIntegration {
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     exchange = ExchangeFactory.INSTANCE.createExchange(DeribitExchange.class);
     exchange.applySpecification(((DeribitExchange) exchange).getSandboxExchangeSpecification());
     deribitMarketDataService = (DeribitMarketDataService) exchange.getMarketDataService();
   }
 
   @Test
-  public void getTickerThrowsExceptionTest() throws Exception {
+  void getTickerThrowsExceptionTest() throws Exception {
     Instrument pair = new CurrencyPair("?", "?");
     assertThatExceptionOfType(CurrencyPairNotValidException.class)
         .isThrownBy(() -> deribitMarketDataService.getTicker(pair));
   }
 
   @Test
-  public void getDeribitTickerThrowsExceptionTest() throws Exception {
+  void getDeribitTickerThrowsExceptionTest() throws Exception {
     assertThatExceptionOfType(DeribitException.class)
         .isThrownBy(() -> deribitMarketDataService.getDeribitTicker("?"));
   }
 
   @Test
-  public void getDeribitInstrumentsThrowsIllegalArgumentExceptionTest() throws Exception {
+  void getDeribitInstrumentsThrowsIllegalArgumentExceptionTest() throws Exception {
     assertThatExceptionOfType(DeribitException.class)
         .isThrownBy(
             () -> deribitMarketDataService.getDeribitInstruments("BTC-PERPETUAAAAL", null, null));

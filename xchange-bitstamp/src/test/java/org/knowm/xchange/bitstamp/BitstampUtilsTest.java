@@ -7,10 +7,10 @@ import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-public class BitstampUtilsTest {
+class BitstampUtilsTest {
 
   @Test
-  public void testParseDateWithMillis() {
+  void parseDateWithMillis() {
     final String strDateFromBitstamp = "2020-09-01 05:55:04.399000";
 
     // strDateFromBitstamp converted at https://www.epochconverter.com
@@ -23,7 +23,7 @@ public class BitstampUtilsTest {
   }
 
   @Test
-  public void testParseDateWithoutMillis() {
+  void parseDateWithoutMillis() {
     final String strDateFromBitstamp = "2020-09-01 05:55:04";
 
     // strDateFromBitstamp converted at https://www.epochconverter.com
@@ -36,7 +36,7 @@ public class BitstampUtilsTest {
   }
 
   @Test
-  public void testParseDateWithInvalidFormat() {
+  void parseDateWithInvalidFormat() {
     final String strDateWithInvalidFormat = "2020-09-01T05:55:04.399000";
 
     assertThatThrownBy(() -> BitstampUtils.parseDate(strDateWithInvalidFormat))
@@ -45,7 +45,7 @@ public class BitstampUtilsTest {
   }
 
   @Test
-  public void testParseDateWithIso8601Format() {
+  void parseDateWithIso8601Format() {
     final String strDateIso8601 = "2025-11-15T02:09:13+00:00";
 
     // strDateIso8601 converted at https://www.epochconverter.com
@@ -58,7 +58,7 @@ public class BitstampUtilsTest {
   }
 
   @Test
-  public void testParseDateNull() {
+  void parseDateNull() {
     final Date convertedDate = BitstampUtils.parseDate(null);
 
     assertThat(convertedDate).isNull();

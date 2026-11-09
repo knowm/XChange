@@ -1,10 +1,9 @@
 package org.knowm.xchange.dase.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,39 +16,39 @@ import org.knowm.xchange.dase.dto.marketdata.DaseMarketConfig;
  * symbols. Picked up by Failsafe using *Integration.java when run with: mvn clean verify
  * -DskipIntegrationTests=false
  */
-public class DaseMarketsAndCandlesIntegration {
+class DaseMarketsAndCandlesIntegration {
 
   private static final String DEFAULT_MARKET = "BTC-CZK";
 
   @Test
-  public void markets_live() throws Exception {
+  void markets_live() throws Exception {
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(DaseExchange.class);
     DaseMarketDataServiceRaw raw = (DaseMarketDataServiceRaw) ex.getMarketDataService();
 
     List<org.knowm.xchange.dase.dto.marketdata.DaseMarketConfig> markets = raw.getMarkets();
-    assertNotNull(markets);
+    assertThat(markets).isNotNull();
     if (!markets.isEmpty()) {
       DaseMarketConfig mc = markets.get(0);
-      assertNotNull(mc.market);
-      assertNotNull(mc.base);
-      assertNotNull(mc.quote);
+      assertThat(mc.market).isNotNull();
+      assertThat(mc.base).isNotNull();
+      assertThat(mc.quote).isNotNull();
     }
   }
 
   @Test
-  public void single_market_live() throws Exception {
+  void single_market_live() throws Exception {
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(DaseExchange.class);
     DaseMarketDataServiceRaw raw = (DaseMarketDataServiceRaw) ex.getMarketDataService();
 
     DaseMarketConfig mc = raw.getMarket(DEFAULT_MARKET);
-    assertNotNull(mc);
-    assertNotNull(mc.market);
-    assertNotNull(mc.pricePrecision);
-    assertNotNull(mc.sizePrecision);
+    assertThat(mc).isNotNull();
+    assertThat(mc.market).isNotNull();
+    assertThat(mc.pricePrecision).isNotNull();
+    assertThat(mc.sizePrecision).isNotNull();
   }
 
   @Test
-  public void candles_with_params_live() throws Exception {
+  void candles_with_params_live() throws Exception {
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(DaseExchange.class);
     DaseMarketDataServiceRaw raw = (DaseMarketDataServiceRaw) ex.getMarketDataService();
 
@@ -61,24 +60,24 @@ public class DaseMarketsAndCandlesIntegration {
     long from = to - candles * durationMs;
 
     DaseCandlesResponse candlesRes = raw.getCandles(DEFAULT_MARKET, granularity, from, to);
-    assertNotNull(candlesRes);
+    assertThat(candlesRes).isNotNull();
     if (candlesRes.getCandles() != null && !candlesRes.getCandles().isEmpty()) {
       List<java.math.BigDecimal> first = candlesRes.getCandles().get(0);
-      assertTrue(first.size() >= 6);
+      assertThat(first.size() >= 6).isTrue();
     }
   }
 
   @Test
-  public void exchange_symbols_live() throws Exception {
+  void exchange_symbols_live() throws Exception {
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(DaseExchange.class);
     DaseMarketDataServiceRaw raw = (DaseMarketDataServiceRaw) ex.getMarketDataService();
 
     List<CurrencyPair> symbols = raw.getExchangeSymbols();
-    assertNotNull(symbols);
+    assertThat(symbols).isNotNull();
     if (!symbols.isEmpty()) {
       CurrencyPair first = symbols.get(0);
-      assertNotNull(first.getBase());
-      assertNotNull(first.getCounter());
+      assertThat(first.getBase()).isNotNull();
+      assertThat(first.getCounter()).isNotNull();
     }
   }
 }

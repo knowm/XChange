@@ -27,9 +27,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.params.BlockchainWithdrawalParams;
 import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
@@ -45,68 +46,100 @@ import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-public class AccountServiceTest extends BlockchainBaseTest {
+class AccountServiceTest extends BlockchainBaseTest {
   private AccountService service;
 
-  @Before
-  public void init() {
+  @BeforeEach
+  void init() {
     BlockchainExchange exchange = createExchange();
     service = exchange.getAccountService();
   }
 
-  @Test(timeout = 2000)
-  public void getAccountInfoSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getAccountInfoSuccess() throws Exception {
     AccountInfo response = getAccountInfo();
     //        System.out.println(response);
-    Assert.assertNotNull(response);
+    assertThat(response).isNotNull();
   }
 
-  @Test(timeout = 2000)
-  public void withdrawSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void withdrawSuccess() throws Exception {
     String response = withdraw(WITHDRAWAL_SUCCESS_JSON, 200);
     assertThat(response).isEqualTo(WITHDRAWAL_ID);
   }
 
-  @Test(timeout = 2000)
-  public void withdrawFailure() {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void withdrawFailure() {
     Throwable exception = catchThrowable(() -> withdraw(WITHDRAWAL_FAILURE_JSON, 401));
     assertThat(exception).isInstanceOf(ExchangeSecurityException.class).hasMessage(STATUS_CODE_401);
   }
 
-  @Test(timeout = 2000)
-  public void requestDepositAddressSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void requestDepositAddressSuccess() throws Exception {
     String response = requestDeposit(DEPOSIT_SUCCESS_JSON, 200);
     assertThat(response).isEqualTo(ADDRESS_DEPOSIT);
   }
 
-  @Test(timeout = 2000)
-  public void requestDepositAddressFailure() {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void requestDepositAddressFailure() {
     Throwable exception = catchThrowable(() -> requestDeposit(DEPOSIT_FAILURE_JSON, 400));
     assertThat(exception).isInstanceOf(ExchangeException.class).hasMessage(STATUS_CODE_400);
   }
 
-  @Test(timeout = 2000)
-  public void getWithdrawFundingHistorySuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getWithdrawFundingHistorySuccess() throws Exception {
     List<FundingRecord> response = withdrawFundingHistory();
-    Assert.assertNotNull(response);
+    assertThat(response).isNotNull();
 
     response.forEach(
-        record -> Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0));
+        record -> assertThat(record.getAmount().compareTo(BigDecimal.ZERO) > 0).isTrue());
   }
 
-  @Test(timeout = 2000)
-  public void getDepositFundingHistorySuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getDepositFundingHistorySuccess() throws Exception {
     List<FundingRecord> response = depositFundingHistory();
-    Assert.assertNotNull(response);
+    assertThat(response).isNotNull();
 
     response.forEach(
-        record -> Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0));
+        record -> assertThat(record.getAmount().compareTo(BigDecimal.ZERO) > 0).isTrue());
   }
 
-  @Test(timeout = 2000)
-  public void getDynamicTradingFeesSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getDynamicTradingFeesSuccess() throws Exception {
     Map<Instrument, Fee> response = tradingFees();
-    Assert.assertNotNull(response);
+    assertThat(response).isNotNull();
   }
 
   private AccountInfo getAccountInfo() throws IOException {

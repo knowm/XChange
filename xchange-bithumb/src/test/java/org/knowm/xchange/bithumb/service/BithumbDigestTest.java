@@ -9,22 +9,22 @@ import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
-public class BithumbDigestTest {
+class BithumbDigestTest {
 
   private BithumbDigest bithumbDigest;
 
-  @Before
-  public void init() {
+  @BeforeEach
+  void init() {
     bithumbDigest = BithumbDigest.createInstance("secretKey");
   }
 
   @Test
-  public void testDigestParams() {
+  void digestParams() {
 
     // given
     final Map<String, String> map = new HashMap<>();

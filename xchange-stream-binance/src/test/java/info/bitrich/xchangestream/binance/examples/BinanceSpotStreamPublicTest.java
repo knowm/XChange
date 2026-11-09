@@ -20,9 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -32,8 +32,8 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class BinanceSpotStreamPublicTest {
+@Disabled
+class BinanceSpotStreamPublicTest {
   private static final Logger LOG = LoggerFactory.getLogger(BinanceSpotStreamPublicTest.class);
   private static StreamingExchange exchange;
   BinanceStreamingExchange binanceStreamingExchange;
@@ -41,8 +41,8 @@ public class BinanceSpotStreamPublicTest {
   private static final Instrument instrument2 = new CurrencyPair("SOL/USDT");
   private static final boolean logOutput = false;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     ExchangeSpecification spec = new ExchangeSpecification(BinanceStreamingExchange.class);
     // The most convenient way. Can store all keys in .ssh folder
     AuthUtils.setApiAndSecretKey(spec, "binance-demo");
@@ -53,7 +53,7 @@ public class BinanceSpotStreamPublicTest {
   }
 
   @Test
-  public void kLineSubscription() throws InterruptedException {
+  void kLineSubscription() throws Exception {
     Map<Instrument, Set<KlineInterval>> klineMap = new HashMap<>();
     Set<KlineInterval> klineSet = new HashSet<>();
     klineSet.add(m1);
@@ -78,7 +78,7 @@ public class BinanceSpotStreamPublicTest {
   }
 
   @Test
-  public void streamingMarketDataServiceTest() throws InterruptedException {
+  void streamingMarketDataServiceTest() throws Exception {
     List<Disposable> disposables = new ArrayList<>();
     ProductSubscription subscription =
         ProductSubscription.create()

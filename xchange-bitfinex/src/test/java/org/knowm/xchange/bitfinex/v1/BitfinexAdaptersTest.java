@@ -1,11 +1,8 @@
 package org.knowm.xchange.bitfinex.v1;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -37,20 +34,20 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.instrument.Instrument;
 
-public class BitfinexAdaptersTest {
+class BitfinexAdaptersTest {
 
   private static final String MARKET = "bitfinex";
   private static final String SYMBOL = "BTCUSD";
 
   @Test
-  public void shouldAdaptDynamicTradingFees() throws IOException {
+  void shouldAdaptDynamicTradingFees() throws Exception {
     InputStream is =
         BitfinexFeesJSONTest.class.getResourceAsStream(
             "/v1/account/example-account-info-fees.json");
     ObjectMapper mapper = new ObjectMapper();
     BitfinexTradingFeeResponse[] readValues =
         mapper.readValue(is, BitfinexTradingFeeResponse[].class);
-    assertEquals(2, readValues.length);
+    assertThat(readValues.length).isEqualTo(2);
     List<Instrument> currencyPairs =
         new ArrayList<>(
             Arrays.asList(
@@ -61,7 +58,7 @@ public class BitfinexAdaptersTest {
                 CurrencyPair.BTC_USD));
     Map<Instrument, Fee> feesPerPair =
         BitfinexAdapters.adaptDynamicTradingFees(readValues, currencyPairs);
-    assertEquals(currencyPairs.size(), feesPerPair.size());
+    assertThat(feesPerPair.size()).isEqualTo(currencyPairs.size());
 
     BigDecimal point001 = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(3));
     BigDecimal point002 = point001.multiply(new BigDecimal(2));
@@ -70,19 +67,19 @@ public class BitfinexAdaptersTest {
 
     Fee btcLTCFee = feesPerPair.get(CurrencyPair.BTC_LTC);
     Fee btcExpectedFee = new Fee(point001, point002);
-    assertEquals(btcExpectedFee, btcLTCFee);
+    assertThat(btcLTCFee).isEqualTo(btcExpectedFee);
     Fee btcUSDFee = feesPerPair.get(CurrencyPair.BTC_USD);
-    assertEquals(btcExpectedFee, btcUSDFee);
+    assertThat(btcUSDFee).isEqualTo(btcExpectedFee);
     Fee ltcFee = feesPerPair.get(CurrencyPair.LTC_AUD);
-    assertEquals(new Fee(point001, point002), ltcFee);
+    assertThat(ltcFee).isEqualTo(new Fee(point001, point002));
     Fee ethFee = feesPerPair.get(CurrencyPair.ETH_BTC);
-    assertEquals(new Fee(point001, point002), ethFee);
+    assertThat(ethFee).isEqualTo(new Fee(point001, point002));
     Fee dgcFee = feesPerPair.get(CurrencyPair.DGC_BTC);
-    assertEquals(new Fee(point00025, point0001), dgcFee);
+    assertThat(dgcFee).isEqualTo(new Fee(point00025, point0001));
   }
 
   @Test
-  public void shouldAdaptBalances() throws IOException {
+  void shouldAdaptBalances() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BitfinexWalletJSONTest.class.getResourceAsStream(
@@ -99,72 +96,71 @@ public class BitfinexAdaptersTest {
             .filter(wallet -> "exchange".equals(wallet.getId()))
             .findFirst()
             .orElse(null);
-    assertNotNull("Exchange wallet is missing", exchangeWallet);
+    assertThat(exchangeWallet).as("Exchange wallet is missing").isNotNull();
     Wallet tradingWallet =
         wallets.stream()
             .filter(wallet -> "trading".equals(wallet.getId()))
             .findFirst()
             .orElse(null);
-    assertNotNull("Trading wallet is missing", tradingWallet);
+    assertThat(tradingWallet).as("Trading wallet is missing").isNotNull();
     Wallet depositWallet =
         wallets.stream()
             .filter(wallet -> "deposit".equals(wallet.getId()))
             .findFirst()
             .orElse(null);
-    assertNotNull("Deposit wallet is missing", depositWallet);
+    assertThat(depositWallet).as("Deposit wallet is missing").isNotNull();
 
     Balance tradingUsdBalance = tradingWallet.getBalance(Currency.USD);
-    assertNotNull(tradingUsdBalance);
-    assertEquals(new BigDecimal("100"), tradingUsdBalance.getTotal());
-    assertEquals(new BigDecimal("50"), tradingUsdBalance.getAvailable());
+    assertThat(tradingUsdBalance).isNotNull();
+    assertThat(tradingUsdBalance.getTotal()).isEqualTo(new BigDecimal("100"));
+    assertThat(tradingUsdBalance.getAvailable()).isEqualTo(new BigDecimal("50"));
 
     Balance tradingBtcBalance = tradingWallet.getBalance(Currency.BTC);
-    assertNotNull(tradingBtcBalance);
-    assertEquals(BigDecimal.ZERO, tradingBtcBalance.getTotal());
-    assertEquals(BigDecimal.ZERO, tradingBtcBalance.getAvailable());
+    assertThat(tradingBtcBalance).isNotNull();
+    assertThat(tradingBtcBalance.getTotal()).isEqualTo(BigDecimal.ZERO);
+    assertThat(tradingBtcBalance.getAvailable()).isEqualTo(BigDecimal.ZERO);
 
     Balance exchangeUsdBalance = exchangeWallet.getBalance(Currency.USD);
-    assertNotNull(exchangeUsdBalance);
-    assertEquals(new BigDecimal("5.5"), exchangeUsdBalance.getTotal());
-    assertEquals(new BigDecimal("5.5"), exchangeUsdBalance.getAvailable());
+    assertThat(exchangeUsdBalance).isNotNull();
+    assertThat(exchangeUsdBalance.getTotal()).isEqualTo(new BigDecimal("5.5"));
+    assertThat(exchangeUsdBalance.getAvailable()).isEqualTo(new BigDecimal("5.5"));
 
     Balance exchangeBtcBalance = exchangeWallet.getBalance(Currency.BTC);
-    assertNotNull(exchangeBtcBalance);
-    assertEquals(BigDecimal.ZERO, exchangeBtcBalance.getTotal());
-    assertEquals(BigDecimal.ZERO, exchangeBtcBalance.getAvailable());
+    assertThat(exchangeBtcBalance).isNotNull();
+    assertThat(exchangeBtcBalance.getTotal()).isEqualTo(BigDecimal.ZERO);
+    assertThat(exchangeBtcBalance.getAvailable()).isEqualTo(BigDecimal.ZERO);
 
     Balance depositUsdBalance = depositWallet.getBalance(Currency.USD);
-    assertNotNull(depositUsdBalance);
-    assertEquals(new BigDecimal("69"), depositUsdBalance.getTotal());
-    assertEquals(new BigDecimal("42"), depositUsdBalance.getAvailable());
+    assertThat(depositUsdBalance).isNotNull();
+    assertThat(depositUsdBalance.getTotal()).isEqualTo(new BigDecimal("69"));
+    assertThat(depositUsdBalance.getAvailable()).isEqualTo(new BigDecimal("42"));
 
     Balance depositBtcBalance = depositWallet.getBalance(Currency.BTC);
-    assertNotNull(depositBtcBalance);
-    assertEquals(new BigDecimal("50"), depositBtcBalance.getTotal());
-    assertEquals(new BigDecimal("30"), depositBtcBalance.getAvailable());
+    assertThat(depositBtcBalance).isNotNull();
+    assertThat(depositBtcBalance.getTotal()).isEqualTo(new BigDecimal("50"));
+    assertThat(depositBtcBalance.getAvailable()).isEqualTo(new BigDecimal("30"));
   }
 
   @Test
-  public void testAdaptOrdersToOrdersContainer() {
+  void adaptOrdersToOrdersContainer() {
 
     BitfinexLevel[] levels = initLevels();
     BitfinexAdapters.OrdersContainer container =
         BitfinexAdapters.adaptOrders(levels, CurrencyPair.BTC_USD, OrderType.BID);
 
     BitfinexLevel lastLevel = levels[levels.length - 1];
-    assertEquals(
-        lastLevel.getTimestamp().multiply(new BigDecimal(1000L)).longValue(),
-        container.getTimestamp());
-    assertEquals(container.getLimitOrders().size(), levels.length);
+    assertThat(container.getTimestamp())
+        .isEqualTo(lastLevel.getTimestamp().multiply(new BigDecimal(1000L)).longValue());
+    assertThat(levels.length).isEqualTo(container.getLimitOrders().size());
 
     for (int i = 0; i < levels.length; i++) {
       LimitOrder order = container.getLimitOrders().get(i);
       long expectedTimestampMillis =
           levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
-      assertEquals(levels[i].getAmount(), order.getOriginalAmount());
-      assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
-      assertEquals(levels[i].getPrice(), order.getLimitPrice());
+      assertThat(order.getOriginalAmount()).isEqualTo(levels[i].getAmount());
+      assertThat(order.getTimestamp().getTime()).isEqualTo(expectedTimestampMillis);
+      assertThat(order.getLimitPrice()).isEqualTo(levels[i].getPrice());
     }
   }
 
@@ -192,11 +188,11 @@ public class BitfinexAdaptersTest {
   }
 
   @Test
-  public void testAdaptOrdersToOpenOrders() {
+  void adaptOrdersToOpenOrders() {
 
     BitfinexOrderStatusResponse[] responses = initOrderStatusResponses();
     OpenOrders orders = BitfinexAdapters.adaptOrders(responses);
-    assertEquals(orders.getOpenOrders().size(), responses.length);
+    assertThat(responses.length).isEqualTo(orders.getOpenOrders().size());
 
     for (int i = 0; i < responses.length; i++) {
       LimitOrder order = orders.getOpenOrders().get(i);
@@ -207,12 +203,12 @@ public class BitfinexAdaptersTest {
               ? Order.OrderType.BID
               : Order.OrderType.ASK;
 
-      assertEquals(String.valueOf(responses[i].getId()), order.getId());
-      assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
-      assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
-      assertEquals(expectedOrderType, order.getType());
-      assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
-      assertEquals(responses[i].getPrice(), order.getLimitPrice());
+      assertThat(order.getId()).isEqualTo(String.valueOf(responses[i].getId()));
+      assertThat(order.getOriginalAmount()).isEqualTo(responses[i].getOriginalAmount());
+      assertThat(order.getCurrencyPair()).isEqualTo(BitfinexAdapters.adaptCurrencyPair(SYMBOL));
+      assertThat(order.getType()).isEqualTo(expectedOrderType);
+      assertThat(order.getTimestamp().getTime()).isEqualTo(expectedTimestampMillis);
+      assertThat(order.getLimitPrice()).isEqualTo(responses[i].getPrice());
     }
   }
 
@@ -262,11 +258,11 @@ public class BitfinexAdaptersTest {
   }
 
   @Test
-  public void testAdaptTradeHistory() {
+  void adaptTradeHistory() {
 
     BitfinexTradeResponse[] responses = initTradeResponses();
     Trades trades = BitfinexAdapters.adaptTradeHistory(responses, SYMBOL);
-    assertEquals(trades.getTrades().size(), responses.length);
+    assertThat(responses.length).isEqualTo(trades.getTrades().size());
 
     for (int i = 0; i < responses.length; i++) {
       Trade trade = trades.getTrades().get(i);
@@ -275,12 +271,12 @@ public class BitfinexAdaptersTest {
       Order.OrderType expectedOrderType =
           responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-      assertEquals(responses[i].getPrice(), trade.getPrice());
-      assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
-      assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
-      assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
-      assertEquals(expectedOrderType, trade.getType());
-      assertEquals(responses[i].getTradeId(), trade.getId());
+      assertThat(trade.getPrice()).isEqualTo(responses[i].getPrice());
+      assertThat(trade.getOriginalAmount()).isEqualTo(responses[i].getAmount());
+      assertThat(trade.getCurrencyPair()).isEqualTo(BitfinexAdapters.adaptCurrencyPair(SYMBOL));
+      assertThat(trade.getTimestamp().getTime()).isEqualTo(expectedTimestampMillis);
+      assertThat(trade.getType()).isEqualTo(expectedOrderType);
+      assertThat(trade.getId()).isEqualTo(responses[i].getTradeId());
     }
   }
 
@@ -325,7 +321,7 @@ public class BitfinexAdaptersTest {
   }
 
   @Test
-  public void testAdaptFundingHistory() throws IOException {
+  void adaptFundingHistory() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -342,39 +338,39 @@ public class BitfinexAdaptersTest {
     for (FundingRecord record : fundingRecords) {
       if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())) {
         assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
-        assertEquals(new BigDecimal("0.01"), record.getAmount());
-        assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
-        assertEquals(null, record.getBlockchainTransactionHash());
-        assertEquals(Currency.BTC, record.getCurrency());
+        assertThat(record.getAmount()).isEqualTo(new BigDecimal("0.01"));
+        assertThat(record.getAddress()).isEqualTo("jlsd98087sdfkjldsflj432kjlsdf8");
+        assertThat(record.getBlockchainTransactionHash()).isNull();
+        assertThat(record.getCurrency()).isEqualTo(Currency.BTC);
       } else {
         assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
-        assertEquals(new BigDecimal("0.07"), record.getAmount());
-        assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
-        assertEquals(
-            "3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
-        assertEquals(null, record.getBlockchainTransactionHash());
-        assertEquals(
-            "3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
-        assertEquals(Currency.BTC, record.getCurrency());
+        assertThat(record.getAmount()).isEqualTo(new BigDecimal("0.07"));
+        assertThat(record.getAddress()).isEqualTo("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ");
+        assertThat(record.getDescription())
+            .isEqualTo("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer");
+        assertThat(record.getBlockchainTransactionHash()).isNull();
+        assertThat(record.getDescription())
+            .isEqualTo("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer");
+        assertThat(record.getCurrency()).isEqualTo(Currency.BTC);
       }
     }
   }
 
   @Test
-  public void adaptCurrencyPair() {
+  void adaptCurrencyPair() {
     final List<String> currencyPairStrings =
         Arrays.asList("btcusd", "ethusd", "ethbtc", "dusk:usd", "tknusd");
     final List<CurrencyPair> currencyPairs =
         currencyPairStrings.stream()
             .map(BitfinexAdapters::adaptCurrencyPair)
             .collect(Collectors.toList());
-    assertEquals(
-        Arrays.asList(
-            CurrencyPair.BTC_USD,
-            CurrencyPair.ETH_USD,
-            CurrencyPair.ETH_BTC,
-            new CurrencyPair("DUSK/USD"),
-            new CurrencyPair("TKN/USD")),
-        currencyPairs);
+    assertThat(currencyPairs)
+        .isEqualTo(
+            Arrays.asList(
+                CurrencyPair.BTC_USD,
+                CurrencyPair.ETH_USD,
+                CurrencyPair.ETH_BTC,
+                new CurrencyPair("DUSK/USD"),
+                new CurrencyPair("TKN/USD")));
   }
 }

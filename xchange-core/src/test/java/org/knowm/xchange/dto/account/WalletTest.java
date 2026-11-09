@@ -2,17 +2,16 @@ package org.knowm.xchange.dto.account;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 
-public class WalletTest {
+class WalletTest {
 
   @Test
-  public void walletJsonMarchallTest() throws JsonProcessingException {
+  void walletJsonMarchallTest() throws Exception {
 
     List<Balance> balances = new ArrayList<>();
     balances.add(new Balance(Currency.BTC, BigDecimal.ONE));

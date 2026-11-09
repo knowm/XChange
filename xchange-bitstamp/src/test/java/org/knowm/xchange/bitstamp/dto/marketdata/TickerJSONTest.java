@@ -3,16 +3,15 @@ package org.knowm.xchange.bitstamp.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
 /** Test BitstampTicker JSON parsing */
-public class TickerJSONTest {
+class TickerJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  void unmarshal() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =

@@ -13,10 +13,10 @@ import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.utils.DigestUtils;
 
-public class CryptoComDigestTest {
+class CryptoComDigestTest {
 
   @Test
-  public void nullParamValue_isRenderedAsLiteralNullInSignaturePayload() throws Exception {
+  void nullParamValue_isRenderedAsLiteralNullInSignaturePayload() throws Exception {
     Map<String, Object> params = new LinkedHashMap<>();
     params.put("client_oid", null);
 
@@ -31,7 +31,7 @@ public class CryptoComDigestTest {
   }
 
   @Test
-  public void noParams_matchesPlainConcatenation() throws Exception {
+  void noParams_matchesPlainConcatenation() throws Exception {
     String actual =
         CryptoComDigest.signature(
             "public/get-instruments", 1L, "key", 42L, Collections.emptyMap(), "secret");

@@ -7,10 +7,10 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-public class DeribitSummaryTest {
+class DeribitSummaryTest {
 
   @Test
-  public void deserializeSummaryTest() throws Exception {
+  void deserializeSummaryTest() throws Exception {
 
     // given
     InputStream is =

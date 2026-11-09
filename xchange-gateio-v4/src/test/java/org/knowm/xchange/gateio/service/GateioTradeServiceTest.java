@@ -1,24 +1,12 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gateio.GateioExchangeWiremock;
 import org.knowm.xchange.gateio.dto.trade.GateioUserTrade;
@@ -26,7 +14,16 @@ import org.knowm.xchange.gateio.dto.trade.Role;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Date;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class GateioTradeServiceTest extends GateioExchangeWiremock {
 
@@ -45,7 +42,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_market_buy_order() throws IOException {
+  void valid_market_buy_order() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .userReference("t-valid-market-buy-order")
@@ -57,7 +54,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_market_sell_order() throws IOException {
+  void valid_market_sell_order() throws Exception {
     MarketOrder marketOrder =
         new MarketOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
             .userReference("t-valid-market-sell-order")
@@ -69,7 +66,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_limit_sell_order() throws IOException {
+  void valid_limit_sell_order() throws Exception {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USDT)
             .userReference("t-valid-limit-sell-order")
@@ -82,7 +79,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_cancel_order() throws IOException {
+  void valid_cancel_order() throws Exception {
     boolean actual =
         gateioTradeService.cancelOrder(
             new DefaultCancelOrderByInstrumentAndIdParams(CurrencyPair.BTC_USDT, "376835979523"));
@@ -90,7 +87,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void valid_limit_buy_order() throws IOException {
+  void valid_limit_buy_order() throws Exception {
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .userReference("t-valid-limit-buy-order")
@@ -103,15 +100,15 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void buy_order_details() throws IOException {
+  void buy_order_details() throws Exception {
     MarketOrder expected =
         new MarketOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .id("342251629898")
             .userReference("t-valid-market-buy-order")
             .timestamp(Date.from(Instant.parse("2023-06-03T22:07:38.451Z")))
-            .originalAmount(BigDecimal.valueOf(20))
+            .originalAmount(null)
             .orderStatus(OrderStatus.FILLED)
-            .cumulativeAmount(new BigDecimal("18.92681"))
+            .cumulativeAmount(new BigDecimal("1"))
             .averagePrice(new BigDecimal("27038.3"))
             .fee(new BigDecimal("0.0000014"))
             .build();
@@ -124,7 +121,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void sell_order_details() throws IOException {
+  void sell_order_details() throws Exception {
     MarketOrder expected =
         new MarketOrder.Builder(OrderType.ASK, new CurrencyPair("VAI/USDT"))
             .id("425539509181")
@@ -145,7 +142,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void sell_order_partially_filled_details() throws IOException {
+  void sell_order_partially_filled_details() throws Exception {
     MarketOrder expected =
         new MarketOrder.Builder(OrderType.ASK, new CurrencyPair("FREE/USDT"))
             .id("874190804193")
@@ -153,7 +150,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             .timestamp(Date.from(Instant.parse("2025-07-13T09:11:47.335Z")))
             .originalAmount(new BigDecimal("589107410.1"))
             .orderStatus(OrderStatus.PARTIALLY_FILLED)
-            .cumulativeAmount(new BigDecimal("183488100"))
+            .cumulativeAmount(new BigDecimal("183494615.8"))
             .averagePrice(new BigDecimal("0.00000004614"))
             .fee(new BigDecimal("0.008466141815984"))
             .build();
@@ -170,13 +167,14 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void open_limit_order_details() throws IOException {
+  void open_limit_order_details() throws Exception {
     LimitOrder expected =
         new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .id("745504484392")
             .limitPrice(new BigDecimal("80000"))
             .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
             .originalAmount(new BigDecimal("0.00012"))
+            .cumulativeAmount(BigDecimal.ZERO)
             .orderStatus(OrderStatus.OPEN)
             .fee(BigDecimal.ZERO)
             .userReference("web")
@@ -184,19 +182,20 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
     Collection<Order> orders =
         gateioTradeService.getOrder(
-            new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "745504484392"));
+            new DefaultQueryOrderParam("745504484392"));
     assertThat(orders).hasSize(1);
     assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
   }
 
   @Test
-  void open_orders() throws IOException {
+  void open_orders() throws Exception {
     LimitOrder expected =
         new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USDT)
             .id("745504484392")
             .limitPrice(new BigDecimal("80000"))
             .timestamp(Date.from(Instant.parse("2024-12-05T23:46:54.447Z")))
             .originalAmount(new BigDecimal("0.00012"))
+            .cumulativeAmount(BigDecimal.ZERO)
             .orderStatus(OrderStatus.OPEN)
             .fee(BigDecimal.ZERO)
             .userReference("web")
@@ -210,7 +209,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
   }
 
   @Test
-  void trade_history() throws IOException {
+  void trade_history() throws Exception {
     UserTrades userTrades =
         gateioTradeService.getTradeHistory(
             GateioTradeHistoryParams.builder()

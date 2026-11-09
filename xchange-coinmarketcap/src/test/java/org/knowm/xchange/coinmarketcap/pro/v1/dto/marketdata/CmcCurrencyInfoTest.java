@@ -3,15 +3,14 @@ package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
 
-public class CmcCurrencyInfoTest {
+class CmcCurrencyInfoTest {
 
   @Test
-  public void testDeserializeCurrencyInfo() throws IOException {
+  void deserializeCurrencyInfo() throws Exception {
     // given
     InputStream is =
         CmcCurrencyInfo.class.getResourceAsStream(

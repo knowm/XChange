@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
@@ -22,16 +22,16 @@ import org.knowm.xchange.krakenfutures.KrakenFuturesExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class KrakenFuturesStreamingPrivateDataIntegration {
+@Disabled
+class KrakenFuturesStreamingPrivateDataIntegration {
 
   private static final Logger LOG =
       LoggerFactory.getLogger(KrakenFuturesStreamingPrivateDataIntegration.class);
   StreamingExchange exchange;
   Instrument instrument = new FuturesContract("BTC/USD/PERP");
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     Properties properties = new Properties();
 
     try {
@@ -66,7 +66,7 @@ public class KrakenFuturesStreamingPrivateDataIntegration {
   }
 
   @Test
-  public void checkUserTrades() throws InterruptedException, IOException {
+  void checkUserTrades() throws Exception {
     int counter = 0;
 
     Disposable dis =
@@ -121,7 +121,7 @@ public class KrakenFuturesStreamingPrivateDataIntegration {
   }
 
   @Test
-  public void checkAllUserTrades() throws InterruptedException, IOException {
+  void checkAllUserTrades() throws Exception {
     int counter = 0;
 
     Disposable dis =

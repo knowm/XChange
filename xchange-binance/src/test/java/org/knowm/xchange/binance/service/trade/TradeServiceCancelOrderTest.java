@@ -2,22 +2,21 @@ package org.knowm.xchange.binance.service.trade;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.delete;
-import static com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath;
+import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
-import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.AbstractResilienceTest;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 
-public class TradeServiceCancelOrderTest extends AbstractResilienceTest {
+class TradeServiceCancelOrderTest extends AbstractResilienceTest {
 
   private static final String CANCEL_ORDER_RESPONSE =
       "{"
@@ -36,7 +35,7 @@ public class TradeServiceCancelOrderTest extends AbstractResilienceTest {
           + "}";
 
   @Test
-  public void cancelOrderByInstrumentAndIdParamsSucceedsWithoutUserReference() throws Exception {
+  void cancelOrderByInstrumentAndIdParamsSucceedsWithoutUserReference() throws Exception {
     // given — caller supplies only Instrument + Id (no user reference). This previously
     // threw ClassCastException because the guard let it through but the body cast
     // to CancelOrderByUserReferenceParams unconditionally.

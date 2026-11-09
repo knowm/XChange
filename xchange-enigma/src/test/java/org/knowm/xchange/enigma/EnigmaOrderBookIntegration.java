@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,7 +16,7 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
 
-public class EnigmaOrderBookIntegration {
+class EnigmaOrderBookIntegration {
 
   private static final String TEST_SSL_URI = "https://api-test.enigma-securities.io/";
   private static final String TEST_HOST = "api-test.enigma-securities.io";
@@ -28,8 +28,8 @@ public class EnigmaOrderBookIntegration {
   private EnigmaAccountService accountService;
   private EnigmaMarketDataService marketDataService;
 
-  @Before
-  public void init() throws IOException {
+  @BeforeEach
+  void init() throws IOException {
     enigmaExchange = new EnigmaExchange();
     ExchangeSpecification exchangeSpec = enigmaExchange.getDefaultExchangeSpecification();
     exchangeSpec.setSslUri(TEST_SSL_URI);
@@ -43,23 +43,23 @@ public class EnigmaOrderBookIntegration {
     accountService.login();
   }
 
-  @Test()
-  public void getProducts() throws IOException {
+  @Test
+  void getProducts() throws Exception {
     List<EnigmaProduct> enigmaProducts = marketDataService.getProducts();
     assertThat(enigmaProducts).isNotEmpty();
     assertThat(enigmaProducts.get(0)).isNotNull();
     assertThat(enigmaProducts.get(0).getProductName()).isEqualTo("BTC-EUR");
   }
 
-  @Test()
-  public void getOrderBook() throws IOException {
+  @Test
+  void getOrderBook() throws Exception {
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     assertThat(orderBook.getAsks()).hasSizeGreaterThan(0);
   }
 
   // market data
-  @Test()
-  public void getMarketData() throws IOException {
+  @Test
+  void getMarketData() throws Exception {
     List<EnigmaProduct> enigmaProducts = marketDataService.getProducts();
 
     assertThat(enigmaProducts).isNotEmpty();
@@ -73,8 +73,8 @@ public class EnigmaOrderBookIntegration {
   }
 
   // check risk limits
-  @Test()
-  public void getRiskLimit() throws IOException {
+  @Test
+  void getRiskLimit() throws Exception {
     Map<String, BigDecimal> riskLimits = accountService.getRiskLimits();
     assertThat(riskLimits.get("BTC-EUR_max_qty_per_trade")).isGreaterThan(BigDecimal.ZERO);
   }

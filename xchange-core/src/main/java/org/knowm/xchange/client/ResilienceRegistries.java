@@ -1,6 +1,5 @@
 package org.knowm.xchange.client;
 
-import com.google.common.annotations.Beta;
 import io.github.resilience4j.core.IntervalFunction;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
@@ -14,7 +13,7 @@ import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.OperationTimeoutException;
 
-@Beta
+/** Note: this API is still evolving and may change in incompatible ways between releases. */
 public class ResilienceRegistries {
 
   public static final RetryConfig DEFAULT_RETRY_CONFIG =

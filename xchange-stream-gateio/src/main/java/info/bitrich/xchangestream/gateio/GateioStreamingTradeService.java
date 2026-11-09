@@ -1,24 +1,75 @@
 package info.bitrich.xchangestream.gateio;
 
+import static info.bitrich.xchangestream.gateio.config.Config.*;
+import static org.knowm.xchange.gateio.GateioResilience.CANCEL_ORDER;
+import static org.knowm.xchange.gateio.GateioResilience.PLACE_ORDER;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.config.IdGenerator;
+import info.bitrich.xchangestream.gateio.dto.GateioUserTradeWsResponse;
+import info.bitrich.xchangestream.gateio.dto.request.userTradePayload.GateioWsOrderPayload;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
+import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioErrorLabels;
+import info.bitrich.xchangestream.gateio.dto.response.wsPlaceOrder.GateioWsCancelOrder;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import io.github.resilience4j.rxjava3.ratelimiter.operator.RateLimiterOperator;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.gateio.GateioErrorAdapter;
+import org.knowm.xchange.gateio.dto.GateioException;
+import org.knowm.xchange.gateio.dto.trade.GateioCancelOrderParams;
+import org.knowm.xchange.gateio.dto.trade.GateioFuturesOrderRequest;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GateioStreamingTradeService implements StreamingTradeService {
-
+  private static final Logger LOG = LoggerFactory.getLogger(GateioStreamingTradeService.class);
   private final GateioStreamingService service;
+  private final ExchangeMetaData exchangeMetaData;
+  private final GateioUserTradeStreamingService userTradeStreamingService;
+  private final ResilienceRegistries resilienceRegistries;
+  private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  private final Duration WS_CONNECTION_TIMEOUT;
 
-  public GateioStreamingTradeService(GateioStreamingService service) {
+  public GateioStreamingTradeService(
+      GateioStreamingService service,
+      ExchangeMetaData exchangeMetaData,
+      GateioUserTradeStreamingService userTradeStreamingService,
+      ResilienceRegistries resilienceRegistries,
+      Duration ws_connection_timeout) {
     this.service = service;
+    this.exchangeMetaData = exchangeMetaData;
+    this.userTradeStreamingService = userTradeStreamingService;
+    this.resilienceRegistries = resilienceRegistries;
+    this.WS_CONNECTION_TIMEOUT = ws_connection_timeout;
   }
 
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return service
         .subscribeChannel(Config.SPOT_USER_TRADES_CHANNEL, currencyPair)
+        //        .filter(GateioSingleUserTradeNotification.class::isInstance)
         .map(GateioSingleUserTradeNotification.class::cast)
         .map(GateioStreamingAdapters::toUserTrade);
   }
@@ -26,5 +77,220 @@ public class GateioStreamingTradeService implements StreamingTradeService {
   @Override
   public Observable<UserTrade> getUserTrades() {
     return getUserTrades(null);
+  }
+
+  @Override
+  public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
+    if (instrument instanceof FuturesContract) {
+      return service
+          .subscribeChannel(Config.FUTURES_USER_ORDERS_CHANNEL, instrument)
+          .map(GateioSingleOrderFuturesNotification.class::cast)
+          .map(
+              m ->
+                  GateioStreamingAdapters.toOrder(
+                      m, exchangeMetaData.getInstruments().get(instrument).getContractValue()));
+    } else {
+      return service
+          .subscribeChannel(Config.SPOT_USER_ORDERS_CHANNEL, instrument)
+          .map(GateioSingleOrderSpotNotification.class::cast)
+          .map(m -> GateioStreamingAdapters.toOrder(m));
+    }
+  }
+
+  @Override
+  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+    return getOrderChanges((Instrument) currencyPair);
+  }
+
+  @Override
+  public Single<Integer> placeLimitOrder(LimitOrder limitOrder, Object... args) {
+    return placeOrder(limitOrder);
+  }
+
+  /**
+   * @param marketOrder !IMPORTANT FOR SPOT for amount field in marketOrder When type is market, the
+   *     meaning depends on the side: - side: buy refers to the quote currency, e.g. USDT in
+   *     BTC_USDT - side: sell refers to the base currency, e.g. BTC in BTC_USDT
+   * @param args
+   * @return
+   */
+  @Override
+  public Single<Integer> placeMarketOrder(MarketOrder marketOrder, Object... args) {
+    return placeOrder(marketOrder);
+  }
+
+  private Single<Integer> placeOrder(Order order) {
+    String reqId = IdGenerator.getInstance().requestIdTimeMicroseconds();
+    Observable<JsonNode> observable;
+    if (order.getInstrument() instanceof FuturesContract) {
+      BigDecimal contractValue =
+          exchangeMetaData.getInstruments().get(order.getInstrument()).getContractValue();
+      observable =
+          userTradeStreamingService.subscribeChannel(
+              FUTURES_ORDER_PLACE_CHANNEL, reqId, order, contractValue);
+    } else {
+      observable =
+          userTradeStreamingService.subscribeChannel(SPOT_ORDER_PLACE_CHANNEL, reqId, order);
+    }
+    return observable
+        .map(
+            node -> {
+              TypeReference<GateioUserTradeWsResponse<GateioWsOrderPayload<?>>> typeReference =
+                  new TypeReference<>() {};
+              return mapper.treeToValue(node, typeReference);
+            })
+        .publish(
+            shared ->
+                shared
+                    .take(1)
+                    .timeout(
+                        WS_CONNECTION_TIMEOUT.toMillis(),
+                        TimeUnit.MILLISECONDS,
+                        Observable.error(new TimeoutException("Socket timeout")))
+                    .flatMap(
+                        first -> {
+                          if (first != null
+                              && first.getHeader() != null
+                              && "200".equals(first.getHeader().getStatus())) {
+                            return shared
+                                .take(1)
+                                .timeout(
+                                    WS_CONNECTION_TIMEOUT.toMillis(),
+                                    TimeUnit.MILLISECONDS,
+                                    Observable.error(new TimeoutException("Socket timeout")))
+                                .map(
+                                    second -> {
+                                      if (second != null
+                                          && second.getHeader() != null
+                                          && "200".equals(second.getHeader().getStatus())) {
+                                        return 0;
+                                      } else {
+                                        assert second != null;
+                                        LOG.info(
+                                            "Error placing order: {}",
+                                            second.getData() != null
+                                                ? second.getData().getErrs()
+                                                : null);
+                                        String label =
+                                            (second.getData() != null
+                                                    && second.getData().getErrs() != null)
+                                                ? second.getData().getErrs().getLabel()
+                                                : null;
+                                        return label != null
+                                            ? GateioErrorLabels.convert(label)
+                                            : -1;
+                                      }
+                                    })
+                                .defaultIfEmpty(-1);
+                          } else {
+                            assert first != null;
+                            LOG.info(
+                                "Error placing order: {}",
+                                first.getData() != null ? first.getData().getErrs() : null);
+                            String label =
+                                (first.getData() != null && first.getData().getErrs() != null)
+                                    ? first.getData().getErrs().getLabel()
+                                    : null;
+                            return Observable.just(
+                                label != null ? GateioErrorLabels.convert(label) : -1);
+                          }
+                        }))
+        .compose(
+            RateLimiterOperator.of(resilienceRegistries.rateLimiters().rateLimiter(PLACE_ORDER)))
+        .firstElement()
+        .toSingle();
+  }
+
+  @Override
+  public Single<Integer> cancelOrder(CancelOrderParams orderParams, Object... args) {
+    String reqId = IdGenerator.getInstance().requestIdTimeMicroseconds();
+    try {
+      String id = "";
+      Instrument instrument = null;
+      if (orderParams instanceof DefaultCancelOrderByInstrumentAndIdParams params) {
+        id = params.getOrderId();
+        instrument = params.getInstrument();
+      } else {
+        if (orderParams instanceof GateioCancelOrderParams params) {
+          instrument = params.getInstrument();
+          if (params.getUserReference() != null) {
+            id = params.getUserReference();
+            if (!id.startsWith("t-"))
+              throw new IllegalArgumentException("user reference must begin at 't-'");
+          } else if (params.getOrderId() != null) {
+            id = params.getOrderId();
+          }
+        }
+      }
+      if (!id.isEmpty() && instrument != null) {
+        String channel;
+        if (instrument instanceof FuturesContract) channel = FUTURES_ORDER_CANCEL_CHANNEL;
+        else channel = SPOT_ORDER_CANCEL_CHANNEL;
+        Observable<Integer> observable =
+            userTradeStreamingService
+                .subscribeChannel(channel, reqId, instrument, id)
+                .flatMap(
+                    node -> {
+                      TypeReference<
+                              GateioUserTradeWsResponse<GateioWsOrderPayload<GateioWsCancelOrder>>>
+                          typeReference = new TypeReference<>() {};
+                      GateioUserTradeWsResponse<GateioWsOrderPayload<GateioWsCancelOrder>>
+                          response = mapper.treeToValue(node, typeReference);
+                      if (response != null && response.getHeader().getStatus().equals("200")) {
+                        return Observable.just(0);
+                      } else {
+                        assert response != null;
+                        LOG.info("Error cancel order: {}", response.getData().getErrs().getLabel());
+                        return Observable.just(
+                            GateioErrorLabels.convert(response.getData().getErrs().getLabel()));
+                      }
+                    });
+        return observable
+            .compose(
+                RateLimiterOperator.of(
+                    resilienceRegistries.rateLimiters().rateLimiter((CANCEL_ORDER))))
+            .firstElement()
+            .toSingle();
+      } else throw new IllegalArgumentException("id or instrument is empty");
+    } catch (GateioException e) {
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public Single<Integer> changeOrder(LimitOrder order, Object... args) {
+    String reqId = IdGenerator.getInstance().requestIdTimeMicroseconds();
+    if (order.getInstrument() instanceof FuturesContract) {
+      BigDecimal contractValue =
+          exchangeMetaData.getInstruments().get(order.getInstrument()).getContractValue();
+      Observable<Integer> observable =
+          userTradeStreamingService
+              .subscribeChannel(FUTURES_ORDER_AMEND_CHANNEL, reqId, order, contractValue)
+              .flatMap(
+                  node -> {
+                    TypeReference<
+                            GateioUserTradeWsResponse<
+                                GateioWsOrderPayload<GateioFuturesOrderRequest>>>
+                        typeReference = new TypeReference<>() {};
+                    GateioUserTradeWsResponse<GateioWsOrderPayload<GateioFuturesOrderRequest>>
+                        response = mapper.treeToValue(node, typeReference);
+                    if (response != null && response.getHeader().getStatus().equals("200")) {
+                      return Observable.just(0);
+                    } else {
+                      assert response != null;
+                      LOG.info("Error changing order: {}", response.getData().getErrs());
+                      return Observable.just(
+                          GateioErrorLabels.convert(response.getData().getErrs().getLabel()));
+                    }
+                  });
+      return observable
+          .compose(
+              RateLimiterOperator.of(
+                  resilienceRegistries.rateLimiters().rateLimiter((PLACE_ORDER))))
+          .firstElement()
+          .toSingle();
+    } else {
+      throw new UnsupportedOperationException("Only future market orders are supported");
+    }
   }
 }

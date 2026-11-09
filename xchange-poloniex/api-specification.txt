@@ -1,6 +1,0 @@
-Poloniex Exchange API specification
-================================
-
-Documentation
--------------
-https://poloniex.com/api

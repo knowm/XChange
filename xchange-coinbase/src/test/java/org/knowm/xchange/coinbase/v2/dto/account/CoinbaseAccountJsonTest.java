@@ -1,19 +1,19 @@
 package org.knowm.xchange.coinbase.v2.dto.account;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 
-public class CoinbaseAccountJsonTest {
+class CoinbaseAccountJsonTest {
 
   @Test
-  public void testDeserializeAccounts() throws IOException {
+  void deserializeAccounts() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -23,15 +23,15 @@ public class CoinbaseAccountJsonTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     List<CoinbaseAccount> accounts = mapper.readValue(is, CoinbaseAccountsData.class).getData();
-    Assert.assertEquals(4, accounts.size());
+    assertThat(accounts.size()).isEqualTo(4);
 
     CoinbaseAccount btcAccount =
         accounts.stream()
             .filter(t -> t.getName().equals("BTC Wallet"))
             .collect(Collectors.toList())
             .get(0);
-    Assert.assertEquals("xxx-xxx-xxx-xxx-xxx", btcAccount.getId());
-    Assert.assertEquals(new BigDecimal("0.12234387"), btcAccount.getBalance().getAmount());
-    Assert.assertEquals("BTC", btcAccount.getBalance().getCurrency());
+    assertThat(btcAccount.getId()).isEqualTo("xxx-xxx-xxx-xxx-xxx");
+    assertThat(btcAccount.getBalance().getAmount()).isEqualTo(new BigDecimal("0.12234387"));
+    assertThat(btcAccount.getBalance().getCurrency()).isEqualTo("BTC");
   }
 }

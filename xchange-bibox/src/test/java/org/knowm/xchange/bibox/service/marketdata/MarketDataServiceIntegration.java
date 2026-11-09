@@ -3,7 +3,7 @@ package org.knowm.xchange.bibox.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bibox.BiboxExchange;
@@ -13,14 +13,14 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class MarketDataServiceIntegration {
+class MarketDataServiceIntegration {
 
   private static final Exchange BIBOX =
       ExchangeFactory.INSTANCE.createExchange(BiboxExchange.class);
   private static final CurrencyPair BIX_BTC = new CurrencyPair("BIX", "BTC");
 
   @Test
-  public void testGetTicker() throws Exception {
+  void getTicker() throws Exception {
 
     MarketDataService marketDataService = BIBOX.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(BIX_BTC);
@@ -29,7 +29,7 @@ public class MarketDataServiceIntegration {
   }
 
   @Test
-  public void testGetAllOrderBooks() throws Exception {
+  void getAllOrderBooks() throws Exception {
 
     BiboxMarketDataService marketDataService =
         (BiboxMarketDataService) BIBOX.getMarketDataService();

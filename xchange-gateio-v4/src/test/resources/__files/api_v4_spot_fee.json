@@ -1,0 +1,18 @@
+{
+  "user_id": 10001,
+  "taker_fee": "0.002",
+  "maker_fee": "0.002",
+  "rpi_maker_fee": "-0.00175",
+  "futures_taker_fee": "-0.00025",
+  "futures_maker_fee": "0.00075",
+  "futures_rpi_maker_fee": "-0.00175",
+  "gt_discount": false,
+  "gt_taker_fee": "0",
+  "gt_maker_fee": "0",
+  "loan_fee": "0.18",
+  "point_type": "1",
+  "delivery_taker_fee": "0.00016",
+  "delivery_maker_fee": "-0.00015",
+  "debit_fee": 3,
+  "rpi_mm": 2
+}

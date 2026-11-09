@@ -10,7 +10,7 @@ import java.time.Instant;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 
 @Data
 @SuperBuilder
@@ -18,7 +18,7 @@ import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConver
 public class GateioWsRequest {
 
   @JsonProperty("time")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   @JsonSerialize(converter = InstantToTimestampSecondsConverter.class)
   private Instant time;
 

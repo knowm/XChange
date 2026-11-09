@@ -2,9 +2,8 @@ package org.knowm.xchange.oer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -13,10 +12,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.oer.OERExchange;
 import org.knowm.xchange.oer.dto.marketdata.OERRates;
 
-public class OERMarketDataServiceTest {
+class OERMarketDataServiceTest {
 
   @Test
-  public void testTakesCorrectValueFromOERRates() throws IOException {
+  void takesCorrectValueFromOERRates() throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OERExchange.class);
 
     OERMarketDataService marketDataService =

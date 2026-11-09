@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -26,23 +26,23 @@ import org.knowm.xchange.huobi.service.HuobiAccountService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 
-public class HuobiPrivateApiIntegration {
+class HuobiPrivateApiIntegration {
 
   private HuobiProperties properties;
   private Exchange exchange;
 
-  @Before
-  public void setup() throws IOException {
+  @BeforeEach
+  void setup() throws IOException {
     properties = new HuobiProperties();
-    Assume.assumeTrue("Ignore tests because credentials are missing", properties.isValid());
+    Assumptions.assumeTrue(properties.isValid(), "Ignore tests because credentials are missing");
 
     exchange =
         ExchangeFactory.INSTANCE.createExchange(
             HuobiExchange.class, properties.getApiKey(), properties.getSecretKey());
   }
 
-  @After
-  public void teardown() throws IOException {
+  @AfterEach
+  void teardown() throws IOException {
     if (exchange != null) {
       for (LimitOrder order : exchange.getTradeService().getOpenOrders().getOpenOrders()) {
         exchange.getTradeService().cancelOrder(order.getId());
@@ -51,14 +51,14 @@ public class HuobiPrivateApiIntegration {
   }
 
   @Test
-  public void getAccountTest() throws IOException {
+  void getAccountTest() throws Exception {
     HuobiAccountService accountService = (HuobiAccountService) exchange.getAccountService();
     HuobiAccount[] accounts = accountService.getAccounts();
     System.out.println(Arrays.toString(accounts));
   }
 
   @Test
-  public void getBalanceTest() throws IOException {
+  void getBalanceTest() throws Exception {
     AccountService accountService = exchange.getAccountService();
     Balance balance = accountService.getAccountInfo().getWallet().getBalance(Currency.USDT);
     System.out.println(balance.toString());
@@ -66,7 +66,7 @@ public class HuobiPrivateApiIntegration {
   }
 
   @Test
-  public void getOpenOrdersTest() throws IOException {
+  void getOpenOrdersTest() throws Exception {
     TradeService tradeService = exchange.getTradeService();
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());
@@ -74,7 +74,7 @@ public class HuobiPrivateApiIntegration {
   }
 
   @Test
-  public void getOrderTest() throws IOException {
+  void getOrderTest() throws Exception {
     TradeService tradeService = exchange.getTradeService();
     Collection<Order> orders = tradeService.getOrder("2132866355");
     System.out.println(orders.toString());
@@ -82,7 +82,7 @@ public class HuobiPrivateApiIntegration {
   }
 
   @Test
-  public void placeLimitOrderTest() throws IOException {
+  void placeLimitOrderTest() throws Exception {
     String orderId = placePendingOrder();
     System.out.println(orderId);
   }
@@ -103,7 +103,7 @@ public class HuobiPrivateApiIntegration {
   }
 
   @Test
-  public void placeMarketOrderTest() throws IOException {
+  void placeMarketOrderTest() throws Exception {
     TradeService tradeService = exchange.getTradeService();
     HuobiAccountService accountService = (HuobiAccountService) exchange.getAccountService();
     HuobiAccount[] accounts = accountService.getAccounts();
@@ -119,8 +119,8 @@ public class HuobiPrivateApiIntegration {
   }
 
   @Test
-  @Ignore("Use it for manual")
-  public void cancelOrderTest() throws IOException {
+  @Disabled("Use it for manual")
+  void cancelOrderTest() throws Exception {
     TradeService tradeService = exchange.getTradeService();
     boolean result = tradeService.cancelOrder("2134551697");
     System.out.println(result);

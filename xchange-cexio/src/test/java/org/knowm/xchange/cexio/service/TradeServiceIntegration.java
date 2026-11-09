@@ -1,12 +1,13 @@
 package org.knowm.xchange.cexio.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -18,16 +19,16 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 
-public class TradeServiceIntegration {
+class TradeServiceIntegration {
   private CexIOTradeService tradeService;
   private LimitOrder order;
 
-  @Before
-  public void setup() throws IOException {
+  @BeforeEach
+  void setup() throws IOException {
     CexioProperties properties = new CexioProperties();
 
     if (!properties.isValid()) {
-      Assume.assumeTrue("Ignore tests because credentials are missing", properties.isValid());
+      Assumptions.assumeTrue(properties.isValid(), "Ignore tests because credentials are missing");
       return;
     }
 
@@ -51,7 +52,7 @@ public class TradeServiceIntegration {
   }
 
   @Test
-  public void getOrderTransactionsTest() throws IOException, InterruptedException {
+  void getOrderTransactionsTest() throws Exception {
 
     String orderId = tradeService.placeLimitOrder(order);
 
@@ -61,37 +62,38 @@ public class TradeServiceIntegration {
 
     CexIOOrderWithTransactions orderWithTransactions = tradeService.getOrderTransactions(orderId);
 
-    Assert.assertEquals(
-        "Order id from transaction, must equals requested order id",
-        orderId,
-        orderWithTransactions.getId());
+    assertThat(orderWithTransactions.getId())
+        .as("Order id from transaction, must equals requested order id")
+        .isEqualTo(orderId);
 
-    Assert.assertEquals(
-        "Order amount from transaction, must equal sent order amount",
-        0,
-        order.getOriginalAmount().compareTo(orderWithTransactions.getAmount()));
+    assertThat(order.getOriginalAmount().compareTo(orderWithTransactions.getAmount()))
+        .as("Order amount from transaction, must equal sent order amount")
+        .isEqualTo(0);
 
-    Assert.assertTrue(
-        "Transaction list must not be empty", orderWithTransactions.getVtx().size() > 0);
+    assertThat(orderWithTransactions.getVtx().size() > 0)
+        .withFailMessage("Transaction list must not be empty")
+        .isTrue();
   }
 
   @Test
-  public void orderPlaceGetCancelTest() throws IOException, InterruptedException {
+  void orderPlaceGetCancelTest() throws Exception {
     String orderId = tradeService.placeLimitOrder(order);
 
     tradeService.cancelOrder(orderId);
 
     List<Order> orders = (List<Order>) tradeService.getOrder(orderId);
 
-    Assert.assertEquals("Order response must contain 1 order", 1, orders.size());
-    Assert.assertEquals(
-        "Returned order id must be the same as placed", orderId, orders.get(0).getId());
-    Assert.assertSame(
-        "Returned order must be canceled", orders.get(0).getStatus(), Order.OrderStatus.CANCELED);
+    assertThat(orders.size()).as("Order response must contain 1 order").isEqualTo(1);
+    assertThat(orders.get(0).getId())
+        .as("Returned order id must be the same as placed")
+        .isEqualTo(orderId);
+    assertThat(orders.get(0).getStatus())
+        .as("Returned order must be canceled")
+        .isSameAs(Order.OrderStatus.CANCELED);
   }
 
   @Test
-  public void CancelOrderByCurrencyPair() throws IOException, InterruptedException {
+  void CancelOrderByCurrencyPair() throws Exception {
     String orderId = tradeService.placeLimitOrder(order);
     String orderId2 = tradeService.placeLimitOrder(order);
 
@@ -99,19 +101,23 @@ public class TradeServiceIntegration {
 
     List<Order> orders = (List<Order>) tradeService.getOrder(orderId, orderId2);
 
-    Assert.assertEquals("Order response must contain 2 orders", 2, orders.size());
-    Assert.assertEquals(
-        "Returned order 1 id must be the same as placed", orderId, orders.get(0).getId());
-    Assert.assertEquals(
-        "Returned order 2 id must be the same as placed", orderId2, orders.get(1).getId());
-    Assert.assertSame(
-        "Order 1 must be canceled", orders.get(0).getStatus(), Order.OrderStatus.CANCELED);
-    Assert.assertSame(
-        "Order 2 must be canceled", orders.get(1).getStatus(), Order.OrderStatus.CANCELED);
+    assertThat(orders.size()).as("Order response must contain 2 orders").isEqualTo(2);
+    assertThat(orders.get(0).getId())
+        .as("Returned order 1 id must be the same as placed")
+        .isEqualTo(orderId);
+    assertThat(orders.get(1).getId())
+        .as("Returned order 2 id must be the same as placed")
+        .isEqualTo(orderId2);
+    assertThat(orders.get(0).getStatus())
+        .as("Order 1 must be canceled")
+        .isSameAs(Order.OrderStatus.CANCELED);
+    assertThat(orders.get(1).getStatus())
+        .as("Order 2 must be canceled")
+        .isSameAs(Order.OrderStatus.CANCELED);
   }
 
   @Test
-  public void changeOrder() throws IOException {
+  void changeOrder() throws Exception {
     BigDecimal modifyPrice = new BigDecimal(302);
     BigDecimal endPrice = new BigDecimal(304);
 
@@ -139,17 +145,19 @@ public class TradeServiceIntegration {
 
     List<Order> orders = (List<Order>) tradeService.getOrder(orderId, orderId2, orderId3);
 
-    Assert.assertEquals("Order response must contain 1 order", 3, orders.size());
-    Assert.assertSame(
-        "Order 1 must be canceled", orders.get(0).getStatus(), Order.OrderStatus.CANCELED);
-    Assert.assertSame(
-        "Order 2 must be canceled", orders.get(1).getStatus(), Order.OrderStatus.CANCELED);
-    Assert.assertSame(
-        "Order 3 must be placed", orders.get(2).getStatus(), Order.OrderStatus.PENDING_NEW);
-    Assert.assertEquals(
-        "Order 3 must have `endPrice` price",
-        0,
-        ((LimitOrder) orders.get(2)).getLimitPrice().compareTo(endPrice));
+    assertThat(orders.size()).as("Order response must contain 1 order").isEqualTo(3);
+    assertThat(orders.get(0).getStatus())
+        .as("Order 1 must be canceled")
+        .isSameAs(Order.OrderStatus.CANCELED);
+    assertThat(orders.get(1).getStatus())
+        .as("Order 2 must be canceled")
+        .isSameAs(Order.OrderStatus.CANCELED);
+    assertThat(orders.get(2).getStatus())
+        .as("Order 3 must be placed")
+        .isSameAs(Order.OrderStatus.PENDING_NEW);
+    assertThat(((LimitOrder) orders.get(2)).getLimitPrice().compareTo(endPrice))
+        .as("Order 3 must have `endPrice` price")
+        .isEqualTo(0);
 
     tradeService.cancelOrder((CancelOrderByCurrencyPair) () -> new CurrencyPair("BCH/USD"));
   }

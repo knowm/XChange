@@ -5,16 +5,16 @@ import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author mrmx
  */
-public class TrailingFlagTest {
+class TrailingFlagTest {
 
   /** Test of method, of class BinanceOrderTrailingFlag. */
   @Test
-  public void testOfValue() {
+  void ofValue() {
     System.out.println("testOfValue");
     List<Number> values = Arrays.asList(0.01, 0.1, 1, 10);
     for (Number value : values) {
@@ -24,15 +24,11 @@ public class TrailingFlagTest {
 
   /** Test of method, of class BinanceOrderTrailingFlag. */
   @Test
-  public void testOfValueWithInvalidNumbers() {
+  void ofValueWithInvalidNumbers() {
     System.out.println("testOfValueWithInvalidNumbers");
     List<Number> values = Arrays.asList(0.011, 0.11, 2, 11);
     for (Number value : values) {
-      assertThat(
-              catchIllegalArgumentException(
-                  () -> {
-                    TrailingFlag.of(value);
-                  }))
+      assertThat(catchIllegalArgumentException(() -> TrailingFlag.of(value)))
           .as("Invalid value " + value)
           .isNotNull();
     }

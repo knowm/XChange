@@ -3,7 +3,6 @@ package org.knowm.xchange.bitstamp;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -34,10 +33,10 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.instrument.Instrument;
 
 /** Tests the BitstampAdapter class */
-public class BitstampAdapterTest {
+class BitstampAdapterTest {
 
   @Test
-  public void testAccountInfoAdapter() throws IOException {
+  void accountInfoAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -68,7 +67,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testOrderBookAdapter() throws IOException {
+  void orderBookAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -95,7 +94,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testTradeAdapter() throws IOException {
+  void tradeAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -116,7 +115,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testTradesAdapter() throws IOException {
+  void tradesAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -140,7 +139,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testTickerAdapter() throws IOException {
+  void tickerAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -164,7 +163,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testUserTradeHistoryAdapter() throws IOException {
+  void userTradeHistoryAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -194,7 +193,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testOrderAdapter() throws IOException {
+  void orderAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     String order =
@@ -249,7 +248,7 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testTradingFeesAdapter() throws IOException {
+  void tradingFeesAdapter() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         BitstampAdapterTest.class.getResourceAsStream(

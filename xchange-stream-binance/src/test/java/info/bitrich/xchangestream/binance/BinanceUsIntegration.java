@@ -2,25 +2,25 @@ package info.bitrich.xchangestream.binance;
 
 import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_HIGHER_UPDATE_FREQUENCY;
 import static info.bitrich.xchangestream.binance.BinanceStreamingExchange.USE_REALTIME_BOOK_TICKER;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class BinanceUsIntegration {
+class BinanceUsIntegration {
 
   @Test
-  public void channelCreateUrlTest() {
+  void channelCreateUrlTest() {
     BinanceUsStreamingExchange exchange =
         (BinanceUsStreamingExchange)
             StreamingExchangeFactory.INSTANCE.createExchange(BinanceUsStreamingExchange.class);
     ProductSubscription.ProductSubscriptionBuilder builder = ProductSubscription.create();
     builder.addTicker(CurrencyPair.BTC_USD).addTicker(CurrencyPair.DASH_BTC);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
-    Assert.assertEquals("btcusd@ticker/dashbtc@ticker", buildSubscriptionStreams);
+    assertThat(buildSubscriptionStreams).isEqualTo("btcusd@ticker/dashbtc@ticker");
 
     ProductSubscription.ProductSubscriptionBuilder builder2 = ProductSubscription.create();
     builder2
@@ -28,11 +28,11 @@ public class BinanceUsIntegration {
         .addTicker(CurrencyPair.DASH_BTC)
         .addOrderbook(CurrencyPair.ETH_BTC);
     String buildSubscriptionStreams2 = exchange.buildSubscriptionStreams(builder2.build());
-    Assert.assertEquals("btcusd@ticker/dashbtc@ticker/ethbtc@depth", buildSubscriptionStreams2);
+    assertThat(buildSubscriptionStreams2).isEqualTo("btcusd@ticker/dashbtc@ticker/ethbtc@depth");
   }
 
   @Test
-  public void channelCreateUrlWithUpdateFrequencyTest() {
+  void channelCreateUrlWithUpdateFrequencyTest() {
     ProductSubscription.ProductSubscriptionBuilder builder = ProductSubscription.create();
     builder
         .addTicker(CurrencyPair.BTC_USD)
@@ -46,12 +46,12 @@ public class BinanceUsIntegration {
     BinanceUsStreamingExchange exchange =
         (BinanceUsStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
-    Assert.assertEquals(
-        "btcusd@ticker/dashbtc@ticker/ethbtc@depth@100ms", buildSubscriptionStreams);
+    assertThat(buildSubscriptionStreams)
+        .isEqualTo("btcusd@ticker/dashbtc@ticker/ethbtc@depth@100ms");
   }
 
   @Test
-  public void channelCreateUrlWithRealtimeBookTickerTest() {
+  void channelCreateUrlWithRealtimeBookTickerTest() {
     ProductSubscription.ProductSubscriptionBuilder builder = ProductSubscription.create();
     builder
         .addTicker(CurrencyPair.BTC_USD)
@@ -65,7 +65,7 @@ public class BinanceUsIntegration {
     BinanceUsStreamingExchange exchange =
         (BinanceUsStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
-    Assert.assertEquals(
-        "btcusd@bookTicker/dashbtc@bookTicker/ethbtc@depth", buildSubscriptionStreams);
+    assertThat(buildSubscriptionStreams)
+        .isEqualTo("btcusd@bookTicker/dashbtc@bookTicker/ethbtc@depth");
   }
 }

@@ -1,0 +1,15 @@
+{
+  "id": "f3a47141-86a1-432a-9e12-c2e365611234",
+  "name": "api_v4_futures_orders_12345678",
+  "request": {
+    "url": "/api/v4/futures/usdt/orders/15675394",
+    "method": "DELETE"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "api_v4_futures_orders-valid-cancel-order.json"
+  },
+  "uuid": "f3a47141-86a1-432a-9e12-c2e365611234",
+  "persistent": true,
+  "insertionIndex": 32
+}

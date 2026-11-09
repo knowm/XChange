@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TickerJSONTest {
+class TickerJSONTest {
 
   @Test
-  public void unmarshal() throws Exception {
+  void unmarshal() throws Exception {
     InputStream is =
         TickerJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/dase/dto/marketdata/example-ticker.json");

@@ -3,17 +3,17 @@ package org.knowm.xchange.bitso.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for BitsoNonceV2Utils
  *
  * @author Piotr Ładyżyński
  */
-public class BitsoNonceV2UtilsTest {
+class BitsoNonceV2UtilsTest {
 
   @Test
-  public void testGenerateNonceV2DefaultSalt() {
+  void generateNonceV2DefaultSalt() {
     long nonce = BitsoNonceV2Utils.generateNonceV2();
 
     // Should be 19 digits (13-digit timestamp + 6-digit salt)
@@ -25,7 +25,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testGenerateNonceV2WithSaltDigits() {
+  void generateNonceV2WithSaltDigits() {
     // Test with 1-digit salt
     long nonce1 = BitsoNonceV2Utils.generateNonceV2(1);
     String nonce1Str = String.valueOf(nonce1);
@@ -40,7 +40,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testGenerateNonceV2InvalidSaltDigits() {
+  void generateNonceV2InvalidSaltDigits() {
     assertThatThrownBy(() -> BitsoNonceV2Utils.generateNonceV2(0))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Salt digits must be between 1 and 6");
@@ -51,7 +51,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testGenerateNonceV2WithTimestamp() {
+  void generateNonceV2WithTimestamp() {
     long timestamp = 1731349200123L; // Fixed timestamp for testing
 
     long nonce = BitsoNonceV2Utils.generateNonceV2(timestamp);
@@ -68,7 +68,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testGenerateNonceV2WithTimestampAndSaltDigits() {
+  void generateNonceV2WithTimestampAndSaltDigits() {
     long timestamp = 1731349200123L;
 
     // Test with 3-digit salt
@@ -81,7 +81,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testIsValidNonceV2() {
+  void isValidNonceV2() {
     // Valid Nonce v2 formats (14-19 digits)
     assertThat(BitsoNonceV2Utils.isValidNonceV2(17313492001239L)).isTrue(); // 14 digits
     assertThat(BitsoNonceV2Utils.isValidNonceV2(173134920012399L)).isTrue(); // 15 digits
@@ -99,7 +99,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testExtractTimestamp() {
+  void extractTimestamp() {
     long timestamp = 1731349200123L;
     long nonce = BitsoNonceV2Utils.generateNonceV2(timestamp);
 
@@ -108,7 +108,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testExtractTimestampInvalidNonce() {
+  void extractTimestampInvalidNonce() {
     assertThatThrownBy(
             () -> BitsoNonceV2Utils.extractTimestamp(1234567890123L)) // 13 digits (too short)
         .isInstanceOf(IllegalArgumentException.class)
@@ -116,7 +116,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testExtractSalt() {
+  void extractSalt() {
     long timestamp = 1731349200123L;
 
     // Test with known salt digits
@@ -132,7 +132,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testExtractSaltMinimalNonce() {
+  void extractSaltMinimalNonce() {
     // Test with 14-digit nonce (13-digit timestamp + 1-digit salt)
     long nonce = 17313492001239L; // timestamp: 1731349200123, salt: 9
 
@@ -144,14 +144,14 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testExtractSaltInvalidNonce() {
+  void extractSaltInvalidNonce() {
     assertThatThrownBy(() -> BitsoNonceV2Utils.extractSalt(1234567890123L)) // 13 digits (too short)
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Invalid Nonce v2 format");
   }
 
   @Test
-  public void testNonceV2Examples() {
+  void nonceV2Examples() {
     // Test examples from Bitso documentation
     // Example: 1731349200123123456 (timestamp 1731349200123 + salt 123456)
     long nonce19 = 1731349200123123456L;
@@ -173,7 +173,7 @@ public class BitsoNonceV2UtilsTest {
   }
 
   @Test
-  public void testGeneratedNoncesAreUnique() {
+  void generatedNoncesAreUnique() {
     // Generate multiple nonces quickly and ensure they're different
     long nonce1 = BitsoNonceV2Utils.generateNonceV2();
     long nonce2 = BitsoNonceV2Utils.generateNonceV2();

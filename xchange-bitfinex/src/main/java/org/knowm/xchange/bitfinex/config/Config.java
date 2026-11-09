@@ -21,4 +21,12 @@ public final class Config {
   public static Config getInstance() {
     return instance;
   }
+
+  /** Falls back to a default Bitfinex mapper if no exchange has been created yet. */
+  public ObjectMapper getObjectMapper() {
+    if (objectMapper == null) {
+      objectMapper = new BitfinexJacksonObjectMapperFactory().createObjectMapper();
+    }
+    return objectMapper;
+  }
 }

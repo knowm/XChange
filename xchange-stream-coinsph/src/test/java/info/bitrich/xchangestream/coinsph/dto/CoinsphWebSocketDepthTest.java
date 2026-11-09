@@ -3,19 +3,18 @@ package info.bitrich.xchangestream.coinsph.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class CoinsphWebSocketDepthTest {
+class CoinsphWebSocketDepthTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshalDepth() throws IOException {
+  void unmarshalDepth() throws Exception {
     // given
     InputStream is =
         getClass()
@@ -59,7 +58,7 @@ public class CoinsphWebSocketDepthTest {
   }
 
   @Test
-  public void testMarshalDepth() throws IOException {
+  void marshalDepth() throws Exception {
     // given
     List<List<BigDecimal>> bids =
         Arrays.asList(

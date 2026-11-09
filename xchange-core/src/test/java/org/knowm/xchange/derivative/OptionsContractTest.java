@@ -2,14 +2,13 @@ package org.knowm.xchange.derivative;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class OptionsContractTest {
+class OptionsContractTest {
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     OptionsContract contractCall = new OptionsContract("ETH/USD/210719/34000/C");
     OptionsContract jsonCopy2 = ObjectMapperHelper.viaJSON(contractCall);
     assertThat(jsonCopy2).isEqualTo(contractCall);

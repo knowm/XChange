@@ -2,7 +2,6 @@ package org.knowm.xchange.kraken.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
@@ -12,10 +11,10 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.kraken.KrakenIntegrationTestParent;
 
-public class KrakenMarketDataServiceIntegration extends KrakenIntegrationTestParent {
+class KrakenMarketDataServiceIntegration extends KrakenIntegrationTestParent {
 
   @Test
-  void valid_currencies() throws IOException {
+  void valid_currencies() throws Exception {
     List<Currency> currencies =
         ((KrakenMarketDataService) exchange.getMarketDataService()).getCurrencies();
 
@@ -24,7 +23,7 @@ public class KrakenMarketDataServiceIntegration extends KrakenIntegrationTestPar
   }
 
   @Test
-  public void valid_tickers() throws IOException {
+  void valid_tickers() throws Exception {
     List<Ticker> tickers = exchange.getMarketDataService().getTickers(null);
     assertThat(tickers).isNotEmpty();
 
@@ -40,7 +39,7 @@ public class KrakenMarketDataServiceIntegration extends KrakenIntegrationTestPar
   }
 
   @Test
-  public void valid_single_ticker() throws IOException {
+  void valid_single_ticker() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.BTC_USDT);
 
     assertThat(ticker.getInstrument()).isEqualTo(CurrencyPair.BTC_USDT);
@@ -53,7 +52,7 @@ public class KrakenMarketDataServiceIntegration extends KrakenIntegrationTestPar
   }
 
   @Test
-  public void valid_orderbook() throws IOException {
+  void valid_orderbook() throws Exception {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.BTC_USDT);
 
     assertThat(orderBook.getBids()).isNotEmpty();

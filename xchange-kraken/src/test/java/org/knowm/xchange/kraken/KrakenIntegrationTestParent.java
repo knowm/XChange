@@ -12,14 +12,14 @@ public class KrakenIntegrationTestParent {
   protected static KrakenExchange exchange;
 
   @BeforeAll
-  public static void init() {
+  static void init() {
     if (exchange == null) {
       exchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class);
     }
   }
 
   @BeforeEach
-  public void exchange_online() {
+  void exchange_online() {
     // skip if offline
     assumeThat(exchange.getMarketDataService().getExchangeHealth())
         .isEqualTo(ExchangeHealth.ONLINE);

@@ -1,12 +1,9 @@
 package org.knowm.xchange.coinmate.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -48,33 +45,33 @@ public class QuickTradeFixRateMockIntegration {
   }
 
   @Test
-  public void testGetBuyQuickRate() throws Exception {
+  void getBuyQuickRate() throws Exception {
     Exchange exchange = createMockExchangeUnauthenticated();
     CoinmateMarketDataServiceRaw marketDataService =
         (CoinmateMarketDataServiceRaw) exchange.getMarketDataService();
     CoinmateQuickRate response =
         marketDataService.getCoinmateBuyQuickRate(
             new BigDecimal("1.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
-    assertNotNull(response.getData());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
+    assertThat(response.getData()).isNotNull();
   }
 
   @Test
-  public void testGetSellQuickRate() throws Exception {
+  void getSellQuickRate() throws Exception {
     Exchange exchange = createMockExchangeUnauthenticated();
     CoinmateMarketDataServiceRaw marketDataService =
         (CoinmateMarketDataServiceRaw) exchange.getMarketDataService();
     CoinmateQuickRate response =
         marketDataService.getCoinmateSellQuickRate(
             new BigDecimal("1.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
-    assertNotNull(response.getData());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
+    assertThat(response.getData()).isNotNull();
   }
 
   @Test
-  public void testBuyFixRateTotal() throws Exception {
+  void buyFixRateTotal() throws Exception {
     Exchange exchange = createMockExchange();
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
@@ -82,19 +79,19 @@ public class QuickTradeFixRateMockIntegration {
     CoinmateBuyFixRateResponse response =
         tradeServiceRaw.coinmateBuyQuickFixRate(
             new BigDecimal("1.0"), null, CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
     CoinmateBuyFixRateResponseData data = response.getData();
-    assertNotNull(data.getRateId());
-    assertNotNull(data.getExpiresAt());
-    assertNotNull(data.getCurrencyPair());
-    assertNotNull(data.getRate());
-    assertEquals(0, data.getTotal().compareTo(new BigDecimal("1.0")));
-    assertNotNull(data.getAmountReceived());
+    assertThat(data.getRateId()).isNotNull();
+    assertThat(data.getExpiresAt()).isNotNull();
+    assertThat(data.getCurrencyPair()).isNotNull();
+    assertThat(data.getRate()).isNotNull();
+    assertThat(data.getTotal().compareTo(new BigDecimal("1.0"))).isEqualTo(0);
+    assertThat(data.getAmountReceived()).isNotNull();
   }
 
   @Test
-  public void testBuyFixRateAmount() throws Exception {
+  void buyFixRateAmount() throws Exception {
     Exchange exchange = createMockExchange();
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
@@ -102,19 +99,19 @@ public class QuickTradeFixRateMockIntegration {
     CoinmateBuyFixRateResponse response =
         tradeServiceRaw.coinmateBuyQuickFixRate(
             null, new BigDecimal("100.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
     CoinmateBuyFixRateResponseData data = response.getData();
-    assertNotNull(data.getRateId());
-    assertNotNull(data.getExpiresAt());
-    assertNotNull(data.getCurrencyPair());
-    assertNotNull(data.getRate());
-    assertEquals(0, data.getAmountReceived().compareTo(new BigDecimal("100.0")));
-    assertNotNull(data.getTotal());
+    assertThat(data.getRateId()).isNotNull();
+    assertThat(data.getExpiresAt()).isNotNull();
+    assertThat(data.getCurrencyPair()).isNotNull();
+    assertThat(data.getRate()).isNotNull();
+    assertThat(data.getAmountReceived().compareTo(new BigDecimal("100.0"))).isEqualTo(0);
+    assertThat(data.getTotal()).isNotNull();
   }
 
   @Test
-  public void testSellFixRateTotal() throws Exception {
+  void sellFixRateTotal() throws Exception {
     Exchange exchange = createMockExchange();
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
@@ -122,19 +119,19 @@ public class QuickTradeFixRateMockIntegration {
     CoinmateSellFixRateResponse response =
         tradeServiceRaw.coinmateSellQuickFixRate(
             new BigDecimal("1.0"), null, CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
     CoinmateSellFixRateResponseData data = response.getData();
-    assertNotNull(data.getRateId());
-    assertNotNull(data.getExpiresAt());
-    assertNotNull(data.getCurrencyPair());
-    assertNotNull(data.getRate());
-    assertEquals(0, data.getAmount().compareTo(new BigDecimal("1.0")));
-    assertNotNull(data.getTotalReceived());
+    assertThat(data.getRateId()).isNotNull();
+    assertThat(data.getExpiresAt()).isNotNull();
+    assertThat(data.getCurrencyPair()).isNotNull();
+    assertThat(data.getRate()).isNotNull();
+    assertThat(data.getAmount().compareTo(new BigDecimal("1.0"))).isEqualTo(0);
+    assertThat(data.getTotalReceived()).isNotNull();
   }
 
   @Test
-  public void testSellFixRateAmount() throws Exception {
+  void sellFixRateAmount() throws Exception {
     Exchange exchange = createMockExchange();
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
@@ -142,19 +139,19 @@ public class QuickTradeFixRateMockIntegration {
     CoinmateSellFixRateResponse response =
         tradeServiceRaw.coinmateSellQuickFixRate(
             null, new BigDecimal("100.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
     CoinmateSellFixRateResponseData data = response.getData();
-    assertNotNull(data.getRateId());
-    assertNotNull(data.getExpiresAt());
-    assertNotNull(data.getCurrencyPair());
-    assertNotNull(data.getRate());
-    assertEquals(0, data.getTotalReceived().compareTo(new BigDecimal("100.0")));
-    assertNotNull(data.getAmount());
+    assertThat(data.getRateId()).isNotNull();
+    assertThat(data.getExpiresAt()).isNotNull();
+    assertThat(data.getCurrencyPair()).isNotNull();
+    assertThat(data.getRate()).isNotNull();
+    assertThat(data.getTotalReceived().compareTo(new BigDecimal("100.0"))).isEqualTo(0);
+    assertThat(data.getAmount()).isNotNull();
   }
 
   @Test
-  public void testBuyFixRateExecute() throws Exception {
+  void buyFixRateExecute() throws Exception {
     Exchange exchange = createMockExchange();
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
@@ -162,20 +159,20 @@ public class QuickTradeFixRateMockIntegration {
     CoinmateBuyFixRateResponse response =
         tradeServiceRaw.coinmateBuyQuickFixRate(
             null, new BigDecimal("100.0"), CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
     CoinmateBuyFixRateResponseData data = response.getData();
     String rateId = data.getRateId();
-    assertNotNull(rateId);
+    assertThat(rateId).isNotNull();
 
     CoinmateTradeResponse response2 = tradeServiceRaw.buyCoinmateQuickFix(rateId, null);
-    assertFalse(response2.isError());
-    assertNull(response2.getErrorMessage());
-    assertNotNull(response2.getData());
+    assertThat(response2.isError()).isFalse();
+    assertThat(response2.getErrorMessage()).isNull();
+    assertThat(response2.getData()).isNotNull();
   }
 
   @Test
-  public void testSellFixRateExecute() throws Exception {
+  void sellFixRateExecute() throws Exception {
     Exchange exchange = createMockExchange();
     TradeService tradeService = exchange.getTradeService();
     CoinmateTradeServiceRaw tradeServiceRaw = (CoinmateTradeServiceRaw) tradeService;
@@ -183,15 +180,15 @@ public class QuickTradeFixRateMockIntegration {
     CoinmateSellFixRateResponse response =
         tradeServiceRaw.coinmateSellQuickFixRate(
             new BigDecimal("1.0"), null, CoinmateUtils.getPair(CurrencyPair.BTC_EUR));
-    assertFalse(response.isError());
-    assertNull(response.getErrorMessage());
+    assertThat(response.isError()).isFalse();
+    assertThat(response.getErrorMessage()).isNull();
     CoinmateSellFixRateResponseData data = response.getData();
     String rateId = data.getRateId();
-    assertNotNull(rateId);
+    assertThat(rateId).isNotNull();
 
     CoinmateTradeResponse response2 = tradeServiceRaw.sellCoinmateQuickFix(rateId, null);
-    assertFalse(response2.isError());
-    assertNull(response2.getErrorMessage());
-    assertNotNull(response2.getData());
+    assertThat(response2.isError()).isFalse();
+    assertThat(response2.getErrorMessage()).isNull();
+    assertThat(response2.getData()).isNotNull();
   }
 }

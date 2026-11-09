@@ -1,27 +1,29 @@
 package org.knowm.xchange.zaif;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.zaif.service.ZaifMarketDataServiceRaw;
 
-public class ZaifExchangeIntegration {
+class ZaifExchangeIntegration {
 
   @Test
-  public void shouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
+  void shouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
     ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
   }
 
   @Test
-  public void shouldSupportBitCrystalOnlyByRemoteInit() {
+  void shouldSupportBitCrystalOnlyByRemoteInit() {
 
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
     // ex.remoteInit();
 
-    Assert.assertTrue(
-        ((ZaifMarketDataServiceRaw) ex.getMarketDataService())
-            .checkProductExists(new CurrencyPair("BITCRYSTALS/JPY")));
+    assertThat(
+            ((ZaifMarketDataServiceRaw) ex.getMarketDataService())
+                .checkProductExists(new CurrencyPair("BITCRYSTALS/JPY")))
+        .isTrue();
   }
 }

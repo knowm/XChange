@@ -11,10 +11,10 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 
-public class DaseAdaptersAccountInfoTest {
+class DaseAdaptersAccountInfoTest {
 
   @Test
-  public void adaptAccountInfo_maps_balances() {
+  void adaptAccountInfo_maps_balances() {
     DaseBalanceItem b =
         new DaseBalanceItem(
             "acc-1",

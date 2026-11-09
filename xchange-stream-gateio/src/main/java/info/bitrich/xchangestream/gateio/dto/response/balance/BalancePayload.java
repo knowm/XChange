@@ -6,13 +6,13 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.Data;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.gateio.config.converter.TimestampSecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 
 @Data
 public class BalancePayload {
 
   @JsonProperty("timestamp")
-  @JsonDeserialize(converter = TimestampSecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   private Instant time;
 
   @JsonProperty("timestamp_ms")

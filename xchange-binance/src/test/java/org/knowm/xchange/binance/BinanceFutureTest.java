@@ -7,15 +7,11 @@ import static org.knowm.xchange.binance.dto.ExchangeType.FUTURES;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -43,16 +39,16 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class BinanceFutureTest {
+@Disabled
+class BinanceFutureTest {
 
   private static final Instrument instrument = new FuturesContract("BTC/USDT/PERP");
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   private static Exchange binanceExchange;
 
-  @Before
-  public void setUp() throws IOException {
+  @BeforeEach
+  void setUp() throws IOException {
     Properties prop = new Properties();
     prop.load(this.getClass().getResourceAsStream("/secret.keys"));
 
@@ -60,7 +56,7 @@ public class BinanceFutureTest {
     spec.setApiKey(prop.getProperty("apikey"));
     spec.setSecretKey(prop.getProperty("secret"));
     // The most convenient way. Can store all keys in .ssh folder
-    AuthUtils.setApiAndSecretKey(spec, "binance-demo-futures");
+    AuthUtils.setApiAndSecretKey(spec, "binance-main");
     spec.setExchangeSpecificParametersItem(USE_SANDBOX, true);
     spec.setExchangeSpecificParametersItem(EXCHANGE_TYPE, FUTURES);
 
@@ -68,7 +64,7 @@ public class BinanceFutureTest {
   }
 
   @Test
-  public void binanceFutureMarketDataService() throws IOException {
+  void binanceFutureMarketDataService() throws Exception {
     // Get Ticker
     Ticker ticker = binanceExchange.getMarketDataService().getTicker(instrument);
     logger.info("Ticker: " + ticker);
@@ -100,7 +96,7 @@ public class BinanceFutureTest {
   }
 
   @Test
-  public void binanceFutureAccountService() throws IOException {
+  void binanceFutureAccountService() throws Exception {
     BinanceAccountService binanceAccountService =
         ((BinanceAccountService) binanceExchange.getAccountService());
     Fee fee = binanceAccountService.getCommissionRateByInstrument(instrument);
@@ -111,7 +107,7 @@ public class BinanceFutureTest {
   }
 
   @Test
-  public void binanceFutureTradeService() throws IOException {
+  void binanceFutureTradeService() throws Exception {
     Set<Order.IOrderFlags> orderFlags = new HashSet<>();
     //        orderFlags.add(BinanceOrderFlags.REDUCE_ONLY);
 

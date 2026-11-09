@@ -2,18 +2,17 @@ package org.knowm.xchange.dto.account;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class OpenPositionsTest {
+class OpenPositionsTest {
 
   @Test
-  public void openPositionJsonMarchallTest() throws JsonProcessingException {
+  void openPositionJsonMarchallTest() throws Exception {
 
     List<OpenPosition> openPositionList = new ArrayList<>();
     OpenPosition openPosition =

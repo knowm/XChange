@@ -2,7 +2,6 @@ package org.knowm.xchange.bitfinex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ class BitfinexMarketDataServiceTest extends BitfinexExchangeWiremock {
   MarketDataService marketDataService = exchange.getMarketDataService();
 
   @Test
-  void tickers() throws IOException {
+  void tickers() throws Exception {
     List<Ticker> actual = marketDataService.getTickers(null);
 
     Ticker expected =

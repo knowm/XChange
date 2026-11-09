@@ -3,12 +3,11 @@ package org.knowm.xchange.coinsph.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-public class CoinsphTradesTest {
+class CoinsphTradesTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -19,7 +18,7 @@ public class CoinsphTradesTest {
   }
 
   @Test
-  public void testUnmarshalTrades() throws IOException {
+  void unmarshalTrades() throws Exception {
     // given
     InputStream is =
         CoinsphTradesTest.class.getResourceAsStream(
@@ -50,7 +49,7 @@ public class CoinsphTradesTest {
   }
 
   @Test
-  public void testMarshalTrade() throws IOException {
+  void marshalTrade() throws Exception {
     // given
     CoinsphPublicTrade trade =
         new CoinsphPublicTrade(

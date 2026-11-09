@@ -24,20 +24,16 @@
 package org.knowm.xchange.coinmate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTickers;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOrder;
@@ -48,17 +44,17 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 /**
  * @author Martin Stachon
  */
-public class CoinmateAdapterTest {
+class CoinmateAdapterTest {
 
   @Test
-  public void testTickerAdapter() throws IOException {
+  void tickerAdapter() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
         CoinmateAdapterTest.class.getResourceAsStream(
             "/org/knowm/xchange/coinmate/dto/marketdata/example-ticker.json");
 
-    assertNotNull(is);
+    assertThat(is).isNotNull();
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -77,25 +73,25 @@ public class CoinmateAdapterTest {
   }
 
   @Test
-  public void testTickerAllAdapter_noTickers() {
+  void tickerAllAdapterNoTickers() {
     CoinmateTickers coinmateTickers = new CoinmateTickers(false, null, null);
     List<Ticker> tickers = CoinmateAdapters.adaptTickers(coinmateTickers);
-    assertTrue(tickers.isEmpty());
+    assertThat(tickers.isEmpty()).isTrue();
 
     coinmateTickers = new CoinmateTickers(false, null, Collections.emptyMap());
     tickers = CoinmateAdapters.adaptTickers(coinmateTickers);
-    assertTrue(tickers.isEmpty());
+    assertThat(tickers.isEmpty()).isTrue();
   }
 
   @Test
-  public void testTickerAllAdapter_oneTicker() throws IOException {
+  void tickerAllAdapterOneTicker() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
         CoinmateAdapterTest.class.getResourceAsStream(
             "/org/knowm/xchange/coinmate/dto/marketdata/example-ticker-all.json");
 
-    assertNotNull(is);
+    assertThat(is).isNotNull();
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -117,14 +113,14 @@ public class CoinmateAdapterTest {
   }
 
   @Test
-  public void testOrderAdapter_nullPrice() throws IOException {
+  void orderAdapterNullPrice() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
         CoinmateAdapterTest.class.getResourceAsStream(
             "/org/knowm/xchange/coinmate/dto/trade/example-order1.json");
 
-    assertNotNull(is);
+    assertThat(is).isNotNull();
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -137,20 +133,20 @@ public class CoinmateAdapterTest {
     assertThat(order.getId().equals("1"));
     assertThat(order.getAveragePrice().equals(new BigDecimal("996740")));
     assertThat(order.getTimestamp().equals(1631188240000L));
-    assertNull(order.getOriginalAmount());
-    assertNull(order.getCumulativeAmount());
+    assertThat(order.getOriginalAmount()).isNull();
+    assertThat(order.getCumulativeAmount()).isNull();
     assertThat(order.getStatus() == Order.OrderStatus.FILLED);
   }
 
   @Test
-  public void testOrderAdapter_notNullPrice() throws IOException {
+  void orderAdapterNotNullPrice() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
         CoinmateAdapterTest.class.getResourceAsStream(
             "/org/knowm/xchange/coinmate/dto/trade/example-order2.json");
 
-    assertNotNull(is);
+    assertThat(is).isNotNull();
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

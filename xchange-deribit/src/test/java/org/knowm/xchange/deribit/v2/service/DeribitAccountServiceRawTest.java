@@ -2,7 +2,6 @@ package org.knowm.xchange.deribit.v2.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class DeribitAccountServiceRawTest extends DeribitExchangeWiremock {
       (DeribitAccountServiceRaw) exchange.getAccountService();
 
   @Test
-  void valid_deposits() throws IOException {
+  void valid_deposits() throws Exception {
     var actual = deribitAccountServiceRaw.getDeposits("USDT", null, null);
 
     DeribitDeposit expected =
@@ -45,7 +44,7 @@ class DeribitAccountServiceRawTest extends DeribitExchangeWiremock {
   }
 
   @Test
-  void valid_transfers() throws IOException {
+  void valid_transfers() throws Exception {
     var actual = deribitAccountServiceRaw.getTransfers("USDT", null, null);
 
     DeribitTransfer expected =
@@ -67,7 +66,7 @@ class DeribitAccountServiceRawTest extends DeribitExchangeWiremock {
   }
 
   @Test
-  void valid_withdrawals() throws IOException {
+  void valid_withdrawals() throws Exception {
     var actual = deribitAccountServiceRaw.getWithdrawals("USDT", null, null);
 
     DeribitWithdrawal expected =

@@ -2,7 +2,6 @@ package org.knowm.xchange.cryptocom.service.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Disabled("Integration tests are disabled by default. Enable for manual execution against sandbox.")
-public class AccountServiceIntegration extends CryptoComExchangeIntegration {
+class AccountServiceIntegration extends CryptoComExchangeIntegration {
 
   private static final Logger logger = LoggerFactory.getLogger(AccountServiceIntegration.class);
 
@@ -31,14 +30,14 @@ public class AccountServiceIntegration extends CryptoComExchangeIntegration {
   }
 
   @Test
-  void requestDepositAddress_shouldReturnAddress() throws IOException {
+  void requestDepositAddress_shouldReturnAddress() throws Exception {
     String address = accountService.requestDepositAddress(Currency.USDT);
     assertThat(address).isNotNull().isNotEmpty();
     logger.info("Deposit address for USDT: {}", address);
   }
 
   @Test
-  void getFundingHistory_shouldReturnRecords() throws IOException {
+  void getFundingHistory_shouldReturnRecords() throws Exception {
     List<FundingRecord> records =
         accountService.getFundingHistory(accountService.createFundingHistoryParams());
     assertThat(records).isNotNull();

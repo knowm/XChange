@@ -1,20 +1,19 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenRateLimitsTest {
+class LatokenRateLimitsTest {
 
   LatokenRateLimits limits;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -26,24 +25,24 @@ public class LatokenRateLimitsTest {
   }
 
   @Test
-  public void testLatokenRateLimits() {
-    assertNotNull(limits);
+  void latokenRateLimits() {
+    assertThat(limits).isNotNull();
   }
 
   @Test
-  public void testGetPublicEndpoints() {
-    assertNotNull(limits.getPublicEndpoints());
-    assertEquals(1, limits.getPublicEndpoints().size());
+  void getPublicEndpoints() {
+    assertThat(limits.getPublicEndpoints()).isNotNull();
+    assertThat(limits.getPublicEndpoints().size()).isEqualTo(1);
   }
 
   @Test
-  public void testGetSignedEndpoints() {
-    assertNotNull(limits.getSignedEndpoints());
-    assertEquals(1, limits.getSignedEndpoints().size());
+  void getSignedEndpoints() {
+    assertThat(limits.getSignedEndpoints()).isNotNull();
+    assertThat(limits.getSignedEndpoints().size()).isEqualTo(1);
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(limits.toString());
+  void testToString() {
+    assertThat(limits.toString()).isNotNull();
   }
 }

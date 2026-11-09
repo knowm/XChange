@@ -1,19 +1,18 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenTradesTest {
+class LatokenTradesTest {
   LatokenTrades trades;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -25,33 +24,33 @@ public class LatokenTradesTest {
   }
 
   @Test
-  public void testLatokenTrades() {
-    assertNotNull(trades);
+  void latokenTrades() {
+    assertThat(trades).isNotNull();
   }
 
   @Test
-  public void testGetPairId() {
-    assertNotNull(trades.getPairId());
+  void getPairId() {
+    assertThat(trades.getPairId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(trades.getSymbol());
+  void getSymbol() {
+    assertThat(trades.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetTradeCount() {
-    assertNotNull(trades.getTradeCount());
+  void getTradeCount() {
+    assertThat(trades.getTradeCount()).isNotNull();
   }
 
   @Test
-  public void testGetTrades() {
-    assertNotNull(trades.getTrades());
-    assertEquals(1, trades.getTrades().size());
+  void getTrades() {
+    assertThat(trades.getTrades()).isNotNull();
+    assertThat(trades.getTrades().size()).isEqualTo(1);
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(trades.toString());
+  void testToString() {
+    assertThat(trades.toString()).isNotNull();
   }
 }

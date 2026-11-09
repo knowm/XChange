@@ -7,10 +7,10 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-public class DeribitCurrencyTest {
+class DeribitCurrencyTest {
 
   @Test
-  public void deserializeCurrencyTest() throws Exception {
+  void deserializeCurrencyTest() throws Exception {
 
     // given
     InputStream is =

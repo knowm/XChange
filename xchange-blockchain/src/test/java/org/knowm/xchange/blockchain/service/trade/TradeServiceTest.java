@@ -23,9 +23,10 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.blockchain.params.BlockchainTradeHistoryParams;
 import org.knowm.xchange.blockchain.service.BlockchainBaseTest;
@@ -42,17 +43,21 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
-public class TradeServiceTest extends BlockchainBaseTest {
+class TradeServiceTest extends BlockchainBaseTest {
   private TradeService service;
 
-  @Before
-  public void init() {
+  @BeforeEach
+  void init() {
     BlockchainExchange exchange = createExchange();
     service = exchange.getTradeService();
   }
 
-  @Test(timeout = 5000)
-  public void getOpenOrdersSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 5000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getOpenOrdersSuccess() throws Exception {
     stubGet(ORDERS_JSON, 200, URL_ORDERS);
     OpenOrders response = service.getOpenOrders();
     assertThat(response).isNotNull();
@@ -64,26 +69,42 @@ public class TradeServiceTest extends BlockchainBaseTest {
     assertThat(order.getId()).isEqualTo(ORDER_ID);
   }
 
-  @Test(timeout = 2000)
-  public void placeLimitOrderSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void placeLimitOrderSuccess() throws Exception {
     String response = placeLimitOrder();
     assertThat(response).isEqualTo(ORDER_ID);
   }
 
-  @Test(timeout = 2000)
-  public void placeMarketOrderSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void placeMarketOrderSuccess() throws Exception {
     String response = placeMarketOrder();
     assertThat(response).isEqualTo(MARKET_ORDER_ID);
   }
 
-  @Test(timeout = 2000)
-  public void placeStopOrderSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void placeStopOrderSuccess() throws Exception {
     String response = placeStopOrder();
     assertThat(response).isEqualTo(STOP_ORDER_ID);
   }
 
-  @Test(timeout = 2000)
-  public void cancelOrderSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void cancelOrderSuccess() throws Exception {
     Boolean response = cancelOrder(200);
     assertThat(response).isEqualTo(true);
   }
@@ -94,15 +115,23 @@ public class TradeServiceTest extends BlockchainBaseTest {
   //    assertThat(exception).isInstanceOf(HttpStatusIOException.class).hasMessage(HTTP_CODE_400);
   //  }
 
-  @Test(timeout = 2000)
-  public void cancelOrderByCurrency() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void cancelOrderByCurrency() throws Exception {
     CancelOrderByCurrencyPair cancelOrderByCurrencyPair = () -> new CurrencyPair("BTC/USD");
     Boolean response = cancelAllOrder(cancelOrderByCurrencyPair);
     assertThat(response).isEqualTo(true);
   }
 
-  @Test(timeout = 2000)
-  public void getTrades() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getTrades() throws Exception {
     BlockchainTradeHistoryParams params =
         (BlockchainTradeHistoryParams) service.createTradeHistoryParams();
     ((TradeHistoryParamsTimeSpan) params)
@@ -121,19 +150,27 @@ public class TradeServiceTest extends BlockchainBaseTest {
     assertThat(trade.getPrice()).isNotNull().isPositive();
   }
 
-  @Test(timeout = 2000)
-  public void getOrderSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getOrderSuccess() throws Exception {
     stubGet(NEW_ORDER_LIMIT_JSON, 200, URL_ORDERS_BY_ID_1);
     stubGet(NEW_ORDER_MARKET_JSON, 200, URL_ORDERS_BY_ID_2);
     Collection<Order> response = service.getOrder("11111111", "22222222");
     assertThat(response).isNotNull();
     assertThat(response).isNotEmpty();
     response.forEach(
-        record -> Assert.assertTrue(record.getOriginalAmount().compareTo(BigDecimal.ZERO) > 0));
+        record -> assertThat(record.getOriginalAmount().compareTo(BigDecimal.ZERO) > 0).isTrue());
   }
 
-  @Test(timeout = 2000)
-  public void getOrderFailure() {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void getOrderFailure() {
     stubGet(ORDER_NOT_FOUND_JSON, 404, URL_ORDERS_BY_ID);
     Throwable exception = catchThrowable(() -> service.getOrder("111111211"));
     assertThat(exception)

@@ -1,18 +1,9 @@
 package org.knowm.xchange.okex;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.knowm.xchange.okex.dto.trade.OkexOrderFlags.POST_ONLY;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -36,15 +27,25 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstr
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
-public class OkexPrivateDataIntegration {
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.knowm.xchange.okex.dto.trade.OkexOrderFlags.POST_ONLY;
+
+@Disabled
+class OkexPrivateDataIntegration {
 
   private final Logger LOG = LoggerFactory.getLogger(OkexPrivateDataIntegration.class);
   Instrument instrument = new FuturesContract("BTC/USDT/SWAP");
   Exchange exchange;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     Properties properties = new Properties();
 
     try {
@@ -65,7 +66,7 @@ public class OkexPrivateDataIntegration {
   }
 
   @Test
-  public void placeLimitOrderGetOpenOrderAndCancelOrder() throws IOException {
+  void placeLimitOrderGetOpenOrderAndCancelOrder() throws Exception {
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     InstrumentMetaData instrumentMetaData =
         exchange.getExchangeMetaData().getInstruments().get(instrument);
@@ -123,7 +124,7 @@ public class OkexPrivateDataIntegration {
   }
 
   @Test
-  public void placeOrderAndGetTradeHistory() throws IOException, InterruptedException {
+  void placeOrderAndGetTradeHistory() throws Exception {
     BigDecimal size = BigDecimal.valueOf(0.01);
     String bidOrderId =
         exchange
@@ -163,7 +164,7 @@ public class OkexPrivateDataIntegration {
   }
 
   @Test
-  public void checkOpenPositions() throws IOException {
+  void checkOpenPositions() throws Exception {
     List<OpenPosition> openPositions =
         exchange.getTradeService().getOpenPositions().getOpenPositions();
     LOG.info(openPositions.toString());
@@ -172,7 +173,7 @@ public class OkexPrivateDataIntegration {
   }
 
   @Test
-  public void checkWallet() throws IOException {
+  void checkWallet() throws Exception {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
     LOG.info(accountInfo.toString());
     assertThat(accountInfo.getWallet(Wallet.WalletFeature.TRADING)).isNotNull();
@@ -181,22 +182,27 @@ public class OkexPrivateDataIntegration {
   }
 
   @Test
-  public void feeRates() throws IOException {
+  void feeRates() throws Exception {
     OkexAccountService okexAccountService = ((OkexAccountService) exchange.getAccountService());
     Map<Instrument, Fee> feeMap = okexAccountService.getDynamicTradingFeesByInstrument("SWAP");
-    feeMap.forEach(
-        (key, value) -> {
-          System.out.println("Key : " + key + " Value : " + value);
-        });
+    feeMap.forEach((key, value) -> System.out.println("Key : " + key + " Value : " + value));
   }
 
   @Test
-  public void setLeverage() throws IOException {
+  void setLeverage() throws Exception {
     OkexAccountService okexAccountService = ((OkexAccountService) exchange.getAccountService());
     System.out.println(
         "Set leverage 1, for "
             + instrument
             + ", result: "
             + okexAccountService.setLeverage(instrument, 1));
+  }
+
+  @Test
+  void setPositionMode() throws Exception {
+    OkexAccountService okexAccountService = ((OkexAccountService) exchange.getAccountService());
+    System.out.println(
+        "Set position mode long_short_mode, result: "
+            + okexAccountService.setPositionDualModeRaw(true));
   }
 }

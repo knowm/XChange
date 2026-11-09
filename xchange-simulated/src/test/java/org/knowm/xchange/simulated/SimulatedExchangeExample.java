@@ -8,10 +8,12 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ACCOUNT_FACTORY_PARA
 import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM;
 import static org.knowm.xchange.simulated.SimulatedExchange.ON_OPERATION_PARAM;
 
-import com.google.common.util.concurrent.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
+import java.time.Duration;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,11 +27,11 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
 
-public class SimulatedExchangeExample {
+class SimulatedExchangeExample {
 
   /** Demonstrates the simplest case. */
   @Test
-  public void simple() throws IOException {
+  void simple() throws Exception {
 
     // If you don't provide an API key you get read-only access. No secret is needed.
     ExchangeSpecification exchangeSpecification =
@@ -62,7 +64,7 @@ public class SimulatedExchangeExample {
 
   /** Demonstrates cancelling an order. */
   @Test
-  public void cancel() throws IOException {
+  void cancel() throws Exception {
 
     // If you don't provide an API key you get read-only access. No secret is needed.
     ExchangeSpecification exchangeSpecification =
@@ -146,7 +148,7 @@ public class SimulatedExchangeExample {
 
   /** Demonstrates advanced features. */
   @Test
-  public void complex() throws IOException {
+  void complex() throws Exception {
 
     // By default, the matching engines are scoped to each instance of the Exchange. This ensures
     // that all instances share the same engine within the scope of each test.
@@ -178,7 +180,14 @@ public class SimulatedExchangeExample {
     // We can now go ahead and interact with the exchange, but now we are forced to obey best
     // practice; we need to obey the rate limit and if we encounter transient exceptions, we
     // need to keep trying.
-    RateLimiter rateLimiter = RateLimiter.create(5);
+    RateLimiter rateLimiter =
+        RateLimiter.of(
+            "example",
+            RateLimiterConfig.custom()
+                .limitForPeriod(1)
+                .limitRefreshPeriod(Duration.ofMillis(200)) // 5 calls per second
+                .timeoutDuration(Duration.ofSeconds(10))
+                .build());
 
     // Accounts
     retryTransientErrors(
@@ -213,7 +222,7 @@ public class SimulatedExchangeExample {
   private void retryTransientErrors(RateLimiter rateLimiter, IOExceptionThrowingRunnable runnable) {
     while (true) {
       try {
-        rateLimiter.acquire();
+        RateLimiter.waitForPermission(rateLimiter);
         runnable.run();
         break;
       } catch (NonceException | SystemOverloadException e) {

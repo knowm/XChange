@@ -3,10 +3,9 @@ package org.knowm.xchange.bibox.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bibox.BiboxTestUtils;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 
@@ -18,7 +17,7 @@ import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 public class BiboxAccountUnmarshalTest {
 
   @Test
-  public void testTickerUnmarshal() throws IOException {
+  void tickerUnmarshal() throws Exception {
 
     BiboxSingleResponse<List<BiboxCoin>> response =
         BiboxTestUtils.getResponse(

@@ -8,22 +8,22 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
-public class CexioStreamingServiceTest {
+class CexioStreamingServiceTest {
 
   private CexioStreamingExchange cexioStreamingExchange;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     cexioStreamingExchange = new CexioStreamingExchange();
   }
 
   @Test
-  public void testGetOrderExecution_orderPlace() throws Exception {
+  void getOrderExecutionOrderPlace() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -49,7 +49,7 @@ public class CexioStreamingServiceTest {
   }
 
   @Test
-  public void testGetOrderExecution_orderFill() throws Exception {
+  void getOrderExecutionOrderFill() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -68,7 +68,7 @@ public class CexioStreamingServiceTest {
   }
 
   @Test
-  public void testGetOrderExecution_orderPartialFill() throws Exception {
+  void getOrderExecutionOrderPartialFill() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -90,7 +90,7 @@ public class CexioStreamingServiceTest {
   }
 
   @Test
-  public void testGetOrderExecution_orderCancel() throws Exception {
+  void getOrderExecutionOrderCancel() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -112,7 +112,7 @@ public class CexioStreamingServiceTest {
   }
 
   @Test
-  public void testGetOrderExecution_invalidJson() throws Exception {
+  void getOrderExecutionInvalidJson() throws Exception {
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
     TestObserver<Order> test = service.getOrderData().test();
@@ -123,7 +123,7 @@ public class CexioStreamingServiceTest {
   }
 
   @Test
-  public void testGetTransaction_orderPlace() throws Exception {
+  void getTransactionOrderPlace() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
         objectMapper.readTree(
@@ -160,7 +160,7 @@ public class CexioStreamingServiceTest {
   }
 
   @Test
-  public void testGetTransaction_orderExecute() throws Exception {
+  void getTransactionOrderExecute() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode =
         objectMapper.readTree(

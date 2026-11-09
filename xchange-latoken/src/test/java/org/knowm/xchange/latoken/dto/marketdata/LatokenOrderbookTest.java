@@ -1,19 +1,18 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenOrderbookTest {
+class LatokenOrderbookTest {
   LatokenOrderbook orderbook;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -25,47 +24,47 @@ public class LatokenOrderbookTest {
   }
 
   @Test
-  public void testLatokenOrderbook() {
-    assertNotNull(orderbook);
+  void latokenOrderbook() {
+    assertThat(orderbook).isNotNull();
   }
 
   @Test
-  public void testGetPairId() {
-    assertNotNull(orderbook.getPairId());
+  void getPairId() {
+    assertThat(orderbook.getPairId()).isNotNull();
   }
 
   @Test
-  public void testGetSymbol() {
-    assertNotNull(orderbook.getSymbol());
+  void getSymbol() {
+    assertThat(orderbook.getSymbol()).isNotNull();
   }
 
   @Test
-  public void testGetSpread() {
-    assertNotNull(orderbook.getSpread());
+  void getSpread() {
+    assertThat(orderbook.getSpread()).isNotNull();
   }
 
   @Test
-  public void testGetAsks() {
-    assertNotNull(orderbook.getAsks());
-    assertEquals(1, orderbook.getAsks().size());
+  void getAsks() {
+    assertThat(orderbook.getAsks()).isNotNull();
+    assertThat(orderbook.getAsks().size()).isEqualTo(1);
 
     PriceLevel level = orderbook.getAsks().get(0);
-    assertNotNull(level.getPrice());
-    assertNotNull(level.getAmount());
+    assertThat(level.getPrice()).isNotNull();
+    assertThat(level.getAmount()).isNotNull();
   }
 
   @Test
-  public void testGetBids() {
-    assertNotNull(orderbook.getBids());
-    assertEquals(1, orderbook.getBids().size());
+  void getBids() {
+    assertThat(orderbook.getBids()).isNotNull();
+    assertThat(orderbook.getBids().size()).isEqualTo(1);
 
     PriceLevel level = orderbook.getAsks().get(0);
-    assertNotNull(level.getPrice());
-    assertNotNull(level.getAmount());
+    assertThat(level.getPrice()).isNotNull();
+    assertThat(level.getAmount()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(orderbook.toString());
+  void testToString() {
+    assertThat(orderbook.toString()).isNotNull();
   }
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.bitfinex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +19,7 @@ class BitfinexMarketDataServiceRawTest extends BitfinexExchangeWiremock {
       (BitfinexMarketDataServiceRaw) exchange.getMarketDataService();
 
   @Test
-  void allChains() throws IOException {
+  void allChains() throws Exception {
     List<BitfinexCurrencyChain> expected =
         Arrays.asList(
             BitfinexCurrencyChain.builder()
@@ -37,7 +36,7 @@ class BitfinexMarketDataServiceRawTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void allCurrencyPairInfos() throws IOException {
+  void allCurrencyPairInfos() throws Exception {
     List<BitfinexCurrencyPairInfo> expected =
         Arrays.asList(
             BitfinexCurrencyPairInfo.builder()
@@ -64,7 +63,7 @@ class BitfinexMarketDataServiceRawTest extends BitfinexExchangeWiremock {
   }
 
   @Test
-  void allCurrencyPairs() throws IOException {
+  void allCurrencyPairs() throws Exception {
     List<CurrencyPair> expected =
         Arrays.asList(new CurrencyPair("1INCH/USD"), CurrencyPair.BTC_USD);
     List<CurrencyPair> actual = bitfinexMarketDataServiceRaw.allCurrencyPairs();

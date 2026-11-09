@@ -3,17 +3,16 @@ package org.knowm.xchange.cryptocom.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.cryptocom.dto.CryptoComResponse;
 
-public class CryptoComInstrumentTest {
+class CryptoComInstrumentTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshalInstruments() throws IOException {
+  void unmarshalInstruments() throws Exception {
     // given
     String resource = "/org/knowm/xchange/cryptocom/dto/marketdata/get-instruments.json";
 

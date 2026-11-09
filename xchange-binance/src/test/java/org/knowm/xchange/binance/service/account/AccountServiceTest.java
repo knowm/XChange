@@ -4,18 +4,22 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Rule;
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -26,27 +30,91 @@ import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 
 public class AccountServiceTest {
 
-  @Rule public final WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
+  @RegisterExtension
+  public final WireMockExtension wireMockRule =
+      WireMockExtension.newInstance()
+          .options(wireMockConfig().dynamicPort())
+          .configureStaticDsl(true)
+          .build();
 
-  @Test(timeout = 2000)
-  public void withdrawSuccess() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void withdrawSuccess() throws Exception {
     String response = withdraw("withdraw-200.json", 200);
     assertThat(response).isEqualTo("9c7662xxxxxxxxxc8bd");
+    verify(
+        postRequestedFor(urlPathEqualTo("/sapi/v1/capital/withdraw/apply"))
+            .withQueryParam("coin", equalTo("BTC"))
+            .withQueryParam("address", equalTo("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"))
+            .withoutQueryParam("name"));
   }
 
-  @Test(timeout = 2000)
-  public void withdrawFailure() {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void withdrawWithParamsSuccess() throws Exception {
+    AccountService service = createExchange().getAccountService();
+    stubWithdraw("withdraw-200.json", 200);
+
+    String response =
+        service.withdrawFunds(
+            new DefaultWithdrawFundsParams(
+                "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", Currency.BTC, BigDecimal.TEN));
+
+    assertThat(response).isEqualTo("9c7662xxxxxxxxxc8bd");
+    verify(
+        postRequestedFor(urlPathEqualTo("/sapi/v1/capital/withdraw/apply"))
+            .withQueryParam("coin", equalTo("BTC"))
+            .withQueryParam("address", equalTo("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"))
+            .withoutQueryParam("name"));
+  }
+
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void withdrawWithShortAddressSuccess() throws Exception {
+    AccountService service = createExchange().getAccountService();
+    stubWithdraw("withdraw-200.json", 200);
+
+    String response = service.withdrawFunds(Currency.BTC, BigDecimal.TEN, "1A1zP1eP5Q");
+
+    assertThat(response).isEqualTo("9c7662xxxxxxxxxc8bd");
+    verify(
+        postRequestedFor(urlPathEqualTo("/sapi/v1/capital/withdraw/apply"))
+            .withQueryParam("coin", equalTo("BTC"))
+            .withQueryParam("address", equalTo("1A1zP1eP5Q"))
+            .withoutQueryParam("name"));
+  }
+
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void withdrawFailure() {
     Throwable exception = catchThrowable(() -> withdraw("withdraw-400.json", 400));
     assertThat(exception)
         .isInstanceOf(ExchangeSecurityException.class)
         .hasMessage("error message (HTTP status code: 400)");
   }
 
-  @Test(timeout = 2000)
-  public void testFiatDepositHistory() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void fiatDepositHistory() throws Exception {
     BinanceExchange exchange = createExchange();
     AccountService service = exchange.getAccountService();
     stubFiatOrders("0", "fiat-orders-deposit.json", 200);
@@ -98,8 +166,12 @@ public class AccountServiceTest {
     assertThat(secondRecord.getStatus()).isEqualTo(Status.PROCESSING);
   }
 
-  @Test(timeout = 2000)
-  public void testFiatWithdrawalHistory() throws Exception {
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void fiatWithdrawalHistory() throws Exception {
     BinanceExchange exchange = createExchange();
     AccountService service = exchange.getAccountService();
     stubFiatOrders("1", "fiat-orders-withdraw.json", 200);
@@ -216,8 +288,8 @@ public class AccountServiceTest {
         ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
-    specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
-    specification.setPort(wireMockRule.port());
+    specification.setSslUri("http://localhost:" + wireMockRule.getPort() + "/");
+    specification.setPort(wireMockRule.getPort());
     specification.setShouldLoadRemoteMetaData(false);
     specification.setHttpReadTimeout(1000);
     exchange.applySpecification(specification);

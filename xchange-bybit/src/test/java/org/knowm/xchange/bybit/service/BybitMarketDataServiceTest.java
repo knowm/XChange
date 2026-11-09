@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bybit.dto.marketdata.BybitFundingRateHistory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,18 +19,18 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.params.DefaultCandleStickParam;
 
-public class BybitMarketDataServiceTest extends BaseWiremockTest {
+class BybitMarketDataServiceTest extends BaseWiremockTest {
 
   private MarketDataService marketDataService;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     Exchange bybitExchange = createExchange();
     marketDataService = bybitExchange.getMarketDataService();
   }
 
   @Test
-  public void testGetTickerWithInverseArg() throws Exception {
+  void getTickerWithInverseArg() throws Exception {
     initGetStub("/v5/market/tickers", "/getTickerInverse.json5");
 
     Ticker ticker = marketDataService.getTicker(new FuturesContract(CurrencyPair.BTC_USD, "PERP"));
@@ -52,7 +52,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetTickerWithSpotArg() throws Exception {
+  void getTickerWithSpotArg() throws Exception {
     initGetStub("/v5/market/tickers", "/getTickerSpot.json5");
 
     Ticker ticker = marketDataService.getTicker((Instrument) CurrencyPair.BTC_USD);
@@ -74,7 +74,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetOrderBook() throws Exception {
+  void getOrderBook() throws Exception {
     initGetStub("/v5/market/orderbook", "/getOrderbookSpot.json5");
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
@@ -87,7 +87,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetFundingRateHistory() throws Exception {
+  void getFundingRateHistory() throws Exception {
     initGetStub("/v5/market/funding/history", "/getFundingRateHistory.json5");
 
     List<BybitFundingRateHistory> fundingRateHistory =
@@ -101,7 +101,7 @@ public class BybitMarketDataServiceTest extends BaseWiremockTest {
   }
 
   @Test
-  public void testGetCandleStickData() throws Exception {
+  void getCandleStickData() throws Exception {
     initGetStub("/v5/market/kline", "/getKlines.json5");
 
     CandleStickData candleStickData =

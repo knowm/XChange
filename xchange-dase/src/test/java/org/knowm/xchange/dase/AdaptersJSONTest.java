@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dase.dto.account.ApiAccountTxn;
 import org.knowm.xchange.dase.dto.marketdata.DaseOrderBookSnapshot;
@@ -21,12 +21,12 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 
-public class AdaptersJSONTest {
+class AdaptersJSONTest {
 
   private static final CurrencyPair PAIR = CurrencyPair.ADA_EUR;
 
   @Test
-  public void adaptTicker() throws Exception {
+  void adaptTicker() throws Exception {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/dase/dto/marketdata/example-ticker.json");
@@ -40,7 +40,7 @@ public class AdaptersJSONTest {
   }
 
   @Test
-  public void adaptOrderBook() throws Exception {
+  void adaptOrderBook() throws Exception {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/dase/dto/marketdata/example-snapshot.json");
@@ -53,7 +53,7 @@ public class AdaptersJSONTest {
   }
 
   @Test
-  public void adaptTrades() throws Exception {
+  void adaptTrades() throws Exception {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/dase/dto/marketdata/example-trades.json");
@@ -76,7 +76,7 @@ public class AdaptersJSONTest {
   }
 
   @Test
-  public void adaptFundingRecords_mapping() {
+  void adaptFundingRecords_mapping() {
     ApiAccountTxn deposit =
         new ApiAccountTxn(
             "6a0b7c40-1e16-4e1c-a4c5-1d9fdf7e9d21",

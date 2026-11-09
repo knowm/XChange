@@ -6,26 +6,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.market.TickerBinanceWebsocketTransaction;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class TickerBinanceWebsocketTransactionTest {
+class TickerBinanceWebsocketTransactionTest {
 
   private static ObjectMapper mapper;
 
-  @BeforeClass
-  public static void setupClass() {
+  @BeforeAll
+  static void setupClass() {
     mapper = new ObjectMapper();
   }
 
   @Test
-  public void test_deserialization_of_transaction_message() throws IOException {
+  void deserialization_of_transaction_message() throws Exception {
     BinanceAdapters.putSymbolMapping("ETHBTC", CurrencyPair.ETH_BTC);
     InputStream stream =
         TickerBinanceWebsocketTransactionTest.class.getResourceAsStream("testTickerEvent.json");

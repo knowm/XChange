@@ -3,12 +3,11 @@ package org.knowm.xchange.bitcoinde.v4;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeAccountLedgerType;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderFlagsOrderQuantities;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderFlagsOrderRequirements;
@@ -40,10 +39,10 @@ import org.knowm.xchange.dto.trade.UserTrades;
 /**
  * @author matthewdowney
  */
-public class BitcoindeAdaptersTest {
+class BitcoindeAdaptersTest {
 
   @Test
-  public void testCompactOrderBookAdapter() throws IOException {
+  void compactOrderBookAdapter() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
@@ -67,7 +66,7 @@ public class BitcoindeAdaptersTest {
   }
 
   @Test
-  public void testOrderBookAdapter() throws IOException {
+  void orderBookAdapter() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
@@ -126,10 +125,9 @@ public class BitcoindeAdaptersTest {
     order.getOrderFlags().stream()
         .filter(flag -> flag instanceof BitcoindeOrderFlagsOrderRequirements)
         .forEach(
-            flag -> {
-              assertThat(((BitcoindeOrderFlagsOrderRequirements) flag).getMinTrustLevel())
-                  .isEqualByComparingTo(or.getMinTrustLevel());
-            });
+            flag ->
+                assertThat(((BitcoindeOrderFlagsOrderRequirements) flag).getMinTrustLevel())
+                    .isEqualByComparingTo(or.getMinTrustLevel()));
   }
 
   private void testOrderQuantities(LimitOrder order, BitcoindeOrderFlagsOrderQuantities qty) {
@@ -149,7 +147,7 @@ public class BitcoindeAdaptersTest {
   }
 
   @Test
-  public void testTradesAdapter() throws IOException {
+  void tradesAdapter() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
@@ -179,7 +177,7 @@ public class BitcoindeAdaptersTest {
   }
 
   @Test
-  public void testAccountInfoAdapter() throws IOException {
+  void accountInfoAdapter() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
@@ -247,7 +245,7 @@ public class BitcoindeAdaptersTest {
   }
 
   @Test
-  public void testFundingHistoryAdapter() throws IOException {
+  void fundingHistoryAdapter() throws Exception {
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bitcoinde/v4/dto/account_ledger.json");
@@ -299,7 +297,7 @@ public class BitcoindeAdaptersTest {
   }
 
   @Test
-  public void testOpenOrdersAdapter() throws IOException {
+  void openOrdersAdapter() throws Exception {
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bitcoinde/v4/dto/my_orders.json");
@@ -346,7 +344,7 @@ public class BitcoindeAdaptersTest {
   }
 
   @Test
-  public void testTradeHistoryAdapter() throws IOException {
+  void tradeHistoryAdapter() throws Exception {
     final InputStream is =
         BitcoindeAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bitcoinde/v4/dto/my_trades.json");

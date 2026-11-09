@@ -1,19 +1,19 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.latoken.dto.account.LatokenBalanceTest;
 
-public class LatokenRateLimitTest {
+class LatokenRateLimitTest {
 
   LatokenRateLimit limit;
 
-  @Before
-  public void testSetup() throws Exception {
+  @BeforeEach
+  void testSetup() throws Exception {
     // Read in the JSON from the example resources
     InputStream is =
         LatokenBalanceTest.class.getResourceAsStream(
@@ -26,27 +26,27 @@ public class LatokenRateLimitTest {
   }
 
   @Test
-  public void testLatokenRateLimit() {
-    assertNotNull(limit);
+  void latokenRateLimit() {
+    assertThat(limit).isNotNull();
   }
 
   @Test
-  public void testGetEndpoint() {
-    assertNotNull(limit.getEndpoint());
+  void getEndpoint() {
+    assertThat(limit.getEndpoint()).isNotNull();
   }
 
   @Test
-  public void testGetTimePeriod() {
-    assertNotNull(limit.getTimePeriod());
+  void getTimePeriod() {
+    assertThat(limit.getTimePeriod()).isNotNull();
   }
 
   @Test
-  public void testGetRequestLimit() {
-    assertNotNull(limit.getRequestLimit());
+  void getRequestLimit() {
+    assertThat(limit.getRequestLimit()).isNotNull();
   }
 
   @Test
-  public void testToString() {
-    assertNotNull(limit.toString());
+  void testToString() {
+    assertThat(limit.toString()).isNotNull();
   }
 }

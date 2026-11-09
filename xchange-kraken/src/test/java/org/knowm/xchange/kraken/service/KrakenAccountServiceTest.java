@@ -5,7 +5,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -22,12 +21,12 @@ import org.knowm.xchange.kraken.KrakenExchangeWiremock;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.account.params.DefaultRequestDepositAddressParams;
 
-public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
+class KrakenAccountServiceTest extends KrakenExchangeWiremock {
 
   AccountService accountService = exchange.getAccountService();
 
   @Test
-  void funding_history() throws IOException {
+  void funding_history() throws Exception {
     var actual = accountService.getFundingHistory(null);
 
     assertThat(actual).hasSize(2);
@@ -51,7 +50,7 @@ public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  void valid_balances() throws IOException {
+  void valid_balances() throws Exception {
     AccountInfo accountInfo = accountService.getAccountInfo();
 
     var expectedBTC =
@@ -74,7 +73,7 @@ public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  public void testRequestDepositAddress() throws IOException {
+  void requestDepositAddress() throws Exception {
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.TRX).build();
 
@@ -84,7 +83,7 @@ public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  public void testRequestDepositAddressUnknownCurrencyMultipleMethods() {
+  void requestDepositAddressUnknownCurrencyMultipleMethods() {
     var params = DefaultRequestDepositAddressParams.builder().currency(Currency.USDT).build();
 
     assertThatExceptionOfType(DepositAddressAmbiguousException.class)
@@ -92,7 +91,7 @@ public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  public void testRequestDepositAddressCurrencyWithNetwork() throws IOException {
+  void requestDepositAddressCurrencyWithNetwork() throws Exception {
     DefaultRequestDepositAddressParams params =
         DefaultRequestDepositAddressParams.builder().currency(Currency.XRP).build();
 
@@ -103,7 +102,7 @@ public class KrakenAccountServiceTest extends KrakenExchangeWiremock {
   }
 
   @Test
-  public void testRequestDepositMethodCaching() throws IOException {
+  void requestDepositMethodCaching() throws Exception {
     // cache enabled
     exchange
         .getExchangeSpecification()

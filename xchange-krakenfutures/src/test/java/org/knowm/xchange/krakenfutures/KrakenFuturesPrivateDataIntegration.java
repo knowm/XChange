@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -24,14 +24,14 @@ import org.knowm.xchange.service.trade.params.DefaultCancelAllOrdersByInstrument
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 
-@Ignore
-public class KrakenFuturesPrivateDataIntegration {
+@Disabled
+class KrakenFuturesPrivateDataIntegration {
 
   Exchange exchange;
   Instrument instrument = new FuturesContract("BTC/USD/PERP");
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
 
     Properties properties = new Properties();
 
@@ -49,7 +49,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void checkAccount() throws IOException {
+  void checkAccount() throws Exception {
     AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
     System.out.println(accountInfo);
     assertThat(accountInfo.getWallet(Wallet.WalletFeature.FUTURES_TRADING)).isNotNull();
@@ -60,7 +60,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void placeOrderCheckOpenOrdersAndCancel() throws IOException {
+  void placeOrderCheckOpenOrdersAndCancel() throws Exception {
     String orderId =
         exchange
             .getTradeService()
@@ -77,7 +77,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void changeOrderAndGetOpenOrders() throws IOException {
+  void changeOrderAndGetOpenOrders() throws Exception {
     exchange.getTradeService().cancelAllOrders(new DefaultCancelAllOrdersByInstrument(instrument));
     String clientId = "12345";
     String orderId =
@@ -115,7 +115,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void placeStopOrderAndGetOpenOrders() throws IOException {
+  void placeStopOrderAndGetOpenOrders() throws Exception {
     String orderId =
         exchange
             .getTradeService()
@@ -136,7 +136,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void placeMarketOrderAndGetTradeHistory() throws IOException, InterruptedException {
+  void placeMarketOrderAndGetTradeHistory() throws Exception {
     String orderId =
         exchange
             .getTradeService()
@@ -156,7 +156,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void cancelAllOrdersByInstrument() throws IOException {
+  void cancelAllOrdersByInstrument() throws Exception {
     exchange
         .getTradeService()
         .placeLimitOrder(
@@ -183,7 +183,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void checkTradeHistory() throws IOException {
+  void checkTradeHistory() throws Exception {
     List<UserTrade> userTrades =
         exchange
             .getTradeService()
@@ -194,7 +194,7 @@ public class KrakenFuturesPrivateDataIntegration {
   }
 
   @Test
-  public void checkOpenPositions() throws IOException {
+  void checkOpenPositions() throws Exception {
     List<OpenPosition> openPositions =
         exchange.getTradeService().getOpenPositions().getOpenPositions();
     System.out.println(openPositions);

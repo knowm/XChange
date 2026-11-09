@@ -1,25 +1,25 @@
 package org.knowm.xchange.gemini.v1.dto.trade;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GeminiCancelAllOrdersResponseTest {
+class GeminiCancelAllOrdersResponseTest {
   @Test
-  public void testParseResponse() throws Exception {
+  void parseResponse() throws Exception {
     InputStream resourceAsStream =
         GeminiTradeDataJSONTest.class.getResourceAsStream(
             "/org/knowm/xchange/gemini/v1/trade/example-cancel-all-orders-data.json");
     GeminiCancelAllOrdersResponse response =
         new ObjectMapper().readValue(resourceAsStream, GeminiCancelAllOrdersResponse.class);
 
-    assertEquals("ok", response.getResult());
-    assertEquals(0, response.getDetails().getCancelRejects().length);
-    assertEquals(3, response.getDetails().getCancelledOrders().length);
-    assertEquals(330429106, response.getDetails().getCancelledOrders()[0]);
-    assertEquals(330429079, response.getDetails().getCancelledOrders()[1]);
-    assertEquals(330429082, response.getDetails().getCancelledOrders()[2]);
+    assertThat(response.getResult()).isEqualTo("ok");
+    assertThat(response.getDetails().getCancelRejects().length).isEqualTo(0);
+    assertThat(response.getDetails().getCancelledOrders().length).isEqualTo(3);
+    assertThat(response.getDetails().getCancelledOrders()[0]).isEqualTo(330429106);
+    assertThat(response.getDetails().getCancelledOrders()[1]).isEqualTo(330429079);
+    assertThat(response.getDetails().getCancelledOrders()[2]).isEqualTo(330429082);
   }
 }

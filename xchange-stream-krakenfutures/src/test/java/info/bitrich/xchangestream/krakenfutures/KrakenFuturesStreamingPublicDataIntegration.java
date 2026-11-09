@@ -8,23 +8,23 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.instrument.Instrument;
 
-@Ignore
-public class KrakenFuturesStreamingPublicDataIntegration {
+@Disabled
+class KrakenFuturesStreamingPublicDataIntegration {
 
   StreamingExchange exchange =
       StreamingExchangeFactory.INSTANCE.createExchange(KrakenFuturesStreamingExchange.class);
   Instrument instrument = new FuturesContract("BTC/USD/PERP");
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     InstrumentMetaData metaData = exchange.getExchangeMetaData().getInstruments().get(instrument);
     assertThat(metaData.getPriceScale()).isNotNull();
     assertThat(metaData.getVolumeScale()).isNotNull();
@@ -33,7 +33,7 @@ public class KrakenFuturesStreamingPublicDataIntegration {
   }
 
   @Test
-  public void checkStreamingOrderBook() {
+  void checkStreamingOrderBook() {
     OrderBook orderBook =
         exchange.getStreamingMarketDataService().getOrderBook(instrument).blockingFirst();
     assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(instrument);
@@ -44,7 +44,7 @@ public class KrakenFuturesStreamingPublicDataIntegration {
   }
 
   @Test
-  public void checkStreamingTicker() {
+  void checkStreamingTicker() {
     exchange
         .getStreamingMarketDataService()
         .getTicker(instrument)
@@ -61,7 +61,7 @@ public class KrakenFuturesStreamingPublicDataIntegration {
   }
 
   @Test
-  public void checkStreamingFundingRate() {
+  void checkStreamingFundingRate() {
     exchange
         .getStreamingMarketDataService()
         .getFundingRate(instrument)
@@ -81,7 +81,7 @@ public class KrakenFuturesStreamingPublicDataIntegration {
   }
 
   @Test
-  public void checkStreamingTrades() throws InterruptedException {
+  void checkStreamingTrades() throws Exception {
     Disposable dis =
         exchange
             .getStreamingMarketDataService()

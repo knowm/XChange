@@ -2,7 +2,7 @@ package org.knowm.xchange.coinbase.cdp.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinbase.CoinbaseAdapters;
+import org.knowm.xchange.coinbase.v2.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeHistoryParams;
 import org.knowm.xchange.dto.Order;

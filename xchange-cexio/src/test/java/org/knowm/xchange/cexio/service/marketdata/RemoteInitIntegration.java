@@ -2,8 +2,7 @@ package org.knowm.xchange.cexio.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
@@ -13,9 +12,9 @@ import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 /**
  * @author ujjwal on 14/02/18.
  */
-public class RemoteInitIntegration {
+class RemoteInitIntegration {
   @Test
-  public void integrationTest() throws IOException {
+  void integrationTest() throws Exception {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
 
     assertThat(exchange).isNotNull();

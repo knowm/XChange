@@ -3,12 +3,11 @@ package org.knowm.xchange.btcmarkets.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
@@ -24,10 +23,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
+class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
 
   @Test
-  public void shouldCreateAccountInfo() throws IOException {
+  void shouldCreateAccountInfo() throws Exception {
     // given
     BTCMarketsBalance balance = parse(BTCMarketsBalance.class);
 
@@ -49,7 +48,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void withdrawFundsShouldReturnNull() throws IOException {
+  void withdrawFundsShouldReturnNull() throws Exception {
 
     String status = "the-status"; // maybe the id would be more useful?
     BTCMarketsWithdrawCryptoResponse response =
@@ -71,7 +70,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void withdrawFundsShouldAppendRippleTag() throws IOException {
+  void withdrawFundsShouldAppendRippleTag() throws Exception {
 
     String status = "the-status"; // maybe the id would be more useful?
     BTCMarketsWithdrawCryptoResponse response =
@@ -96,7 +95,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void shouldRequestDepositAddress() throws IOException {
+  void shouldRequestDepositAddress() throws Exception {
     BTCMarketsAddressesResponse response = new BTCMarketsAddressesResponse("address");
 
     ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
@@ -116,7 +115,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
   }
 
   @Test
-  public void getFundingHistoryShouldReturnFundingRecors() throws IOException {
+  void getFundingHistoryShouldReturnFundingRecors() throws Exception {
     Date creationTime = new Date();
     Date lastUpdate = new Date();
     BTCMarketsFundtransfer fundtransfer =

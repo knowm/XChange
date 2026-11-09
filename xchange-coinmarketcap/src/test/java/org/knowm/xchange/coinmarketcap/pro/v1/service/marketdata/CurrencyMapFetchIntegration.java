@@ -4,30 +4,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinmarketcap.pro.v1.CmcExchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcCurrency;
 import org.knowm.xchange.coinmarketcap.pro.v1.service.CmcMarketDataService;
 
-public class CurrencyMapFetchIntegration {
+class CurrencyMapFetchIntegration {
   private static Exchange exchange;
   private static CmcMarketDataService cmcMarketDataService;
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(CmcExchange.class);
     exchange.applySpecification(((CmcExchange) exchange).getSandboxExchangeSpecification());
     cmcMarketDataService = (CmcMarketDataService) exchange.getMarketDataService();
 
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+    Assumptions.assumeFalse(exchange.getExchangeSpecification().getApiKey() == null);
   }
 
   @Test
-  public void getCmcCurrencyListTest() throws Exception {
+  void getCmcCurrencyListTest() throws Exception {
     List<CmcCurrency> currencyList = cmcMarketDataService.getCmcCurrencyList();
 
     assertThat(currencyList).isNotNull();

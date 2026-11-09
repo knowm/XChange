@@ -1,12 +1,11 @@
 package org.knowm.xchange.gateio;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.gateio.dto.GateioExchangeType;
 import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.gateio.service.GateioTradeService;
@@ -14,22 +13,31 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GateioExchange extends BaseExchange {
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import static org.knowm.xchange.gateio.dto.GateioExchangeType.SPOT;
+
+public class GateioExchange extends BaseExchange {
+  public static String EXCHANGE_TYPE = "Exchange_Type";
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
   private final SynchronizedValueFactory<Long> nonceFactory =
       new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
+
   @Override
   protected void initServices() {
-    marketDataService = new GateioMarketDataService(this);
-    accountService = new GateioAccountService(this);
-    tradeService = new GateioTradeService(this);
+    marketDataService = new GateioMarketDataService(this, getResilienceRegistries());
+    accountService = new GateioAccountService(this, getResilienceRegistries());
+    tradeService = new GateioTradeService(this, getResilienceRegistries());
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
+    specification.setExchangeSpecificParametersItem(EXCHANGE_TYPE, SPOT);
     specification.setSslUri("https://api.gateio.ws");
     specification.setHost("gate.io");
     specification.setExchangeName("Gateio");
@@ -44,6 +52,24 @@ public class GateioExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
+    updateExchangeMetaData();
+  }
+
+  public boolean isFuturesEnabled() {
+    return GateioExchangeType.FUTURES.equals(
+        exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE));
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = GateioResilience.createRegistries(isFuturesEnabled());
+    }
+    return RESILIENCE_REGISTRIES;
+  }
+
+  @Override
+  public void updateExchangeMetaData() throws IOException {
     Map<Instrument, InstrumentMetaData> instruments =
         ((GateioMarketDataService) marketDataService).getMetaDataByInstrument();
 

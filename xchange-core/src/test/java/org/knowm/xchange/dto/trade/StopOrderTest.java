@@ -1,19 +1,17 @@
 package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
-public class StopOrderTest {
+class StopOrderTest {
   @Test
-  public void testBuilder() {
+  void builder() {
     final Order.OrderType type = Order.OrderType.BID;
     final BigDecimal originalAmount = new BigDecimal("99.401");
     final BigDecimal averagePrice = new BigDecimal("255.00");
@@ -63,7 +61,7 @@ public class StopOrderTest {
   }
 
   @Test
-  public void testBuilderFrom() throws IOException {
+  void builderFrom() throws Exception {
     final Order.OrderType type = Order.OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -103,7 +101,7 @@ public class StopOrderTest {
   }
 
   @Test
-  public void testSerializeDeserialize() throws IOException {
+  void serializeDeserialize() throws Exception {
     final Order.OrderType type = Order.OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -140,7 +138,8 @@ public class StopOrderTest {
 
     StopOrder jsonCopy = ObjectMapperHelper.viaJSON(original);
     assertThat(jsonCopy).isEqualToIgnoringGivenFields(original, "cumulativeAmount");
-    assertTrue(jsonCopy.getCumulativeAmount().compareTo(original.getCumulativeAmount()) == 0);
+    assertThat(jsonCopy.getCumulativeAmount().compareTo(original.getCumulativeAmount()))
+        .isEqualTo(0);
   }
 
   private enum TestFlags implements Order.IOrderFlags {

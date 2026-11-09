@@ -25,7 +25,7 @@ package org.knowm.xchange.coinmate.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinmate.CoinmateExchange;
@@ -39,10 +39,10 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /**
  * @author Martin Stachon
  */
-public class CoinmateBaseServiceIntegration {
+class CoinmateBaseServiceIntegration {
 
   @Test
-  public void tickerFetchTestBTC_EUR() throws Exception {
+  void tickerFetchTestBTC_EUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -52,7 +52,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tickerFetchTestBTC_CZK() throws Exception {
+  void tickerFetchTestBTC_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -62,7 +62,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tickerFetchTestLTC_BTC() throws Exception {
+  void tickerFetchTestLTC_BTC() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -72,7 +72,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void orderBookFetchTestBTC_EUR() throws Exception {
+  void orderBookFetchTestBTC_EUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -82,7 +82,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void orderBookFetchTestBTC_CZK() throws Exception {
+  void orderBookFetchTestBTC_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -92,7 +92,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void orderBookFetchTestLTC_BTC() throws Exception {
+  void orderBookFetchTestLTC_BTC() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -102,7 +102,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tradesFetchTestBTC_EUR() throws Exception {
+  void tradesFetchTestBTC_EUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -112,7 +112,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tradesFetchTestBTC_CZK() throws Exception {
+  void tradesFetchTestBTC_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -122,7 +122,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tradesFetchTestLTC_BTC() throws Exception {
+  void tradesFetchTestLTC_BTC() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -132,7 +132,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tradesFetchTestXRP_CZK() throws Exception {
+  void tradesFetchTestXRP_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();

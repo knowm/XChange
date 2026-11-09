@@ -4,11 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 
@@ -17,7 +16,7 @@ public class BithumbAccountDataTest {
   private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshallBalance() throws IOException {
+  void unmarshallBalance() throws Exception {
 
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
@@ -30,7 +29,7 @@ public class BithumbAccountDataTest {
   }
 
   @Test
-  public void testUnmarshallOrder() throws IOException {
+  void unmarshallOrder() throws Exception {
 
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
@@ -52,7 +51,7 @@ public class BithumbAccountDataTest {
   }
 
   @Test
-  public void testUnmarshallOrderDetail() throws IOException {
+  void unmarshallOrderDetail() throws Exception {
 
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
@@ -83,7 +82,7 @@ public class BithumbAccountDataTest {
   }
 
   @Test
-  public void testUnmarshallAccount() throws IOException {
+  void unmarshallAccount() throws Exception {
 
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
@@ -97,7 +96,7 @@ public class BithumbAccountDataTest {
   }
 
   @Test
-  public void testUnmarshallWalletAddress() throws IOException {
+  void unmarshallWalletAddress() throws Exception {
 
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(

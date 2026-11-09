@@ -14,7 +14,7 @@ public class BitgetStreamingExchangeIT {
   public static StreamingExchange exchange;
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
             .createExchangeWithoutSpecification(BitgetStreamingExchange.class)
@@ -34,7 +34,7 @@ public class BitgetStreamingExchangeIT {
   }
 
   @AfterAll
-  public static void cleanup() {
+  static void cleanup() {
     if (exchange.isAlive()) {
       exchange.disconnect().blockingAwait();
     }

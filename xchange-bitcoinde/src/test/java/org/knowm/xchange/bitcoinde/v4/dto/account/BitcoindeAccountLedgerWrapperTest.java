@@ -3,17 +3,16 @@ package org.knowm.xchange.bitcoinde.v4.dto.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeAccountLedgerType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class BitcoindeAccountLedgerWrapperTest {
+class BitcoindeAccountLedgerWrapperTest {
 
   @Test
-  public void testBitcoindeAccountLedgerWrapper() throws IOException {
+  void bitcoindeAccountLedgerWrapper() throws Exception {
     // Read in the JSON from the example resources
     final InputStream is =
         BitcoindeAccountLedgerWrapperTest.class.getResourceAsStream(

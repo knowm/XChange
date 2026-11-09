@@ -23,12 +23,9 @@ Basic usage is very simple: Create an `Exchange` instance, get the appropriate s
 |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | bitfinex         | [![status](https://github.com/knowm/XChange/actions/workflows/bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitfinex.yml)                  |
 | bitget           | [![status](https://github.com/knowm/XChange/actions/workflows/bitget.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitget.yml)                      |
-| bitmex           | [![status](https://github.com/knowm/XChange/actions/workflows/bitmex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/bitmex.yaml)                     |
-| coinex           | [![status](https://github.com/knowm/XChange/actions/workflows/coinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/coinex.yaml)                     |
 | deribit          | [![status](https://github.com/knowm/XChange/actions/workflows/deribit.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/deribit.yaml)                   |
 | gate.io          | [![status](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/gateio-v4.yaml)               |
 | kraken           | [![status](https://github.com/knowm/XChange/actions/workflows/kraken.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/kraken.yaml)                     |
-| mexc             | [![status](https://github.com/knowm/XChange/actions/workflows/mexc.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/mexc.yaml)                         |
 | stream-bitfinex  | [![status](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-bitfinex.yml)    |
 | stream-deribit   | [![status](https://github.com/knowm/XChange/actions/workflows/stream-deribit.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-deribit.yml)      |
 | stream-kraken-v2 | [![status](https://github.com/knowm/XChange/actions/workflows/stream-kraken-v2.yaml/badge.svg)](https://github.com/knowm/XChange/actions/workflows/stream-kraken-v2.yaml) |
@@ -203,7 +200,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    6.0.0-SNAPSHOT
+    6.0.1-SNAPSHOT
 
 ## Building with Maven
 

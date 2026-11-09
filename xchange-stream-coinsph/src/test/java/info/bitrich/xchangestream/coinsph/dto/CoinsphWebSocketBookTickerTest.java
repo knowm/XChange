@@ -3,17 +3,16 @@ package info.bitrich.xchangestream.coinsph.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-public class CoinsphWebSocketBookTickerTest {
+class CoinsphWebSocketBookTickerTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  public void testUnmarshalBookTicker() throws IOException {
+  void unmarshalBookTicker() throws Exception {
     // given
     InputStream is =
         getClass()
@@ -37,7 +36,7 @@ public class CoinsphWebSocketBookTickerTest {
   }
 
   @Test
-  public void testMarshalBookTicker() throws IOException {
+  void marshalBookTicker() throws Exception {
     // given
     CoinsphWebSocketBookTicker bookTicker =
         new CoinsphWebSocketBookTicker(

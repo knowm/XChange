@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.gemini;
 
-import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.rxjava3.core.Observable;
 import java.math.BigDecimal;
@@ -33,7 +32,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
           String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
     }
 
-    int maxDepth = (int) MoreObjects.firstNonNull(args.length > 0 ? args[0] : null, 1);
+    int maxDepth = args.length > 0 && args[0] != null ? (Integer) args[0] : 1;
 
     return service
         .getRawWebSocketTransactions(currencyPair, false)

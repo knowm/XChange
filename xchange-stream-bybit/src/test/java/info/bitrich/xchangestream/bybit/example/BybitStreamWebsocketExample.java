@@ -1,16 +1,8 @@
 package info.bitrich.xchangestream.bybit.example;
 
-import static info.bitrich.xchangestream.bybit.Utils.getMinAmount;
-import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
-
 import info.bitrich.xchangestream.bybit.BybitStreamingExchange;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
@@ -22,10 +14,20 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static info.bitrich.xchangestream.bybit.Utils.getMinAmount;
+import static info.bitrich.xchangestream.bybit.example.BaseBybitExchange.connectMainApi;
 
 public class BybitStreamWebsocketExample {
 
@@ -39,12 +41,14 @@ public class BybitStreamWebsocketExample {
       while (!exchange.isAlive()) {
         TimeUnit.MILLISECONDS.sleep(100);
       }
-      websocketCandles();
-      websocketFundingRate();
-      // main(not demo) api only
-      websocketTradeExample();
-      Thread.sleep(1000);
-      websocketBatchTradeExample();
+//      websocketCandles();
+//      websocketFundingRate();
+//      // main(not demo) api only
+//      websocketTradeExample();
+//      Thread.sleep(1000);
+//      websocketBatchTradeExample();
+//      Thread.sleep(1000);
+      websocketTradeExampleHedgeMode();
       exchange.disconnect().blockingAwait();
     } catch (InterruptedException e) {
       e.printStackTrace();
@@ -161,8 +165,137 @@ public class BybitStreamWebsocketExample {
     compositeDisposable.dispose();
   }
 
-  private static void websocketTradeExample() throws IOException, InterruptedException {
+  private static void websocketTradeExampleHedgeMode() throws IOException, InterruptedException {
     // switch mode to two-way
+    ((BybitAccountService) exchange.getAccountService())
+        .switchPositionMode(BybitCategory.LINEAR, instrument, "USDT", 3);
+    BigDecimal minAmount =
+        exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
+    Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    minAmount =
+        getMinAmount(
+            new BigDecimal("6"),
+            minAmount,
+            ticker,
+            exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
+    String limitOrderAskUserId = RandomStringUtils.randomAlphanumeric(20);
+    LimitOrder limitOrderAsk =
+        new Builder(OrderType.ASK, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getHigh())
+            .userReference(limitOrderAskUserId)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable limitOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitOrderAsk)
+            .subscribe(
+                result -> {
+                  LOG.info("limitOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("limitOrderAsk is disposed: {}", limitOrderAskDisposable.isDisposed());
+    String limitOrderBidUserId = RandomStringUtils.randomAlphanumeric(20);
+    LimitOrder limitOrderBid =
+        new Builder(OrderType.BID, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getLow())
+            .userReference(limitOrderBidUserId)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable limitOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitOrderBid)
+            .subscribe(
+                result -> {
+                  LOG.info("limitOrderBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("limitOrderBid is disposed: {}", limitOrderBidDisposable.isDisposed());
+    Disposable cancelLimitOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(new BybitCancelOrderParams(instrument, "", limitOrderAskUserId))
+            .subscribe(
+                result -> {
+                  LOG.info("cancelLimitOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("cancelLimitOrderAsk is disposed: {}", cancelLimitOrderAskDisposable.isDisposed());
+    Disposable cancelLimitOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(new BybitCancelOrderParams(instrument, "", limitOrderBidUserId))
+            .subscribe(
+                result -> {
+                  LOG.info("cancelLimitOrderBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("cancelLimitOrderBid is disposed: {}", cancelLimitOrderBidDisposable.isDisposed());
+    MarketOrder marketOrderAsk = new MarketOrder.Builder(OrderType.ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    Disposable marketOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderAsk)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
+
+    MarketOrder marketOrderBid = new MarketOrder.Builder(OrderType.BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    Disposable marketOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderBid)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderBid is disposed: {}", marketOrderBidDisposable.isDisposed());
+
+    MarketOrder marketOrderCloseAsk = new MarketOrder.Builder(OrderType.EXIT_ASK, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    Disposable marketOrderCloseAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderCloseAsk)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderCloseAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
+
+    MarketOrder marketOrderCloseBid = new MarketOrder.Builder(OrderType.EXIT_BID, instrument).originalAmount(minAmount).flag(OrderHedgeMode.TWOWAY).build();
+    Disposable marketOrderCloseBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderCloseBid)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderCloseBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
+    // switch back to one-way
+    ((BybitAccountService) exchange.getAccountService())
+        .switchPositionMode(BybitCategory.LINEAR, instrument, "USDT", 0);
+  }
+
+  private static void websocketTradeExample() throws IOException, InterruptedException {
+    // switch mode to one-way
     ((BybitAccountService) exchange.getAccountService())
         .switchPositionMode(BybitCategory.LINEAR, instrument, "USDT", 0);
     BigDecimal minAmount =

@@ -1,15 +1,14 @@
 package org.knowm.xchange.oer.service;
 
-import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 // import org.mockito.Mockito;
 // import org.powermock.reflect.Whitebox;
 
-public class OERMarketDataServiceRawTest {
+class OERMarketDataServiceRawTest {
 
   @Test
-  public void testProxyIsCalledWithCorrectParameters() throws IOException {
+  void proxyIsCalledWithCorrectParameters() throws Exception {
     //    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OERExchange.class);
     //    OERMarketDataServiceRaw serviceRaw = new OERMarketDataServiceRaw(exchange);
     //    OER oerMock = Mockito.mock(OER.class);

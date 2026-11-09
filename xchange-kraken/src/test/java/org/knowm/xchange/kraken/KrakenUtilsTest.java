@@ -2,8 +2,6 @@ package org.knowm.xchange.kraken;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,10 +22,10 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
 
-public class KrakenUtilsTest {
+class KrakenUtilsTest {
 
   @Test
-  public void testFilterOpenOrdersByCurrencyPair() throws IOException {
+  void filterOpenOrdersByCurrencyPair() throws Exception {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -56,8 +54,7 @@ public class KrakenUtilsTest {
   }
 
   @Test
-  public void testAdaptTradeHistoryByCurrencyPair()
-      throws JsonParseException, JsonMappingException, IOException {
+  void adaptTradeHistoryByCurrencyPair() throws Exception {
     Map<String, KrakenTrade> krakenTradeMap =
         loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 

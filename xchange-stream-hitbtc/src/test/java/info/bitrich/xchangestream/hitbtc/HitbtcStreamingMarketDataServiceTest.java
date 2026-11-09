@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -24,23 +24,26 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HitbtcStreamingMarketDataServiceTest {
+@MockitoSettings(strictness = Strictness.WARN)
+@ExtendWith(MockitoExtension.class)
+class HitbtcStreamingMarketDataServiceTest {
 
   @Mock private HitbtcStreamingService streamingService;
   private HitbtcStreamingMarketDataService marketDataService;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     marketDataService = new HitbtcStreamingMarketDataService(streamingService);
   }
 
   @Test
-  public void testOrderbookCommon() throws Exception {
+  void orderbookCommon() throws Exception {
 
     // Read order book in JSON
     String orderBook =
@@ -110,7 +113,7 @@ public class HitbtcStreamingMarketDataServiceTest {
   }
 
   @Test
-  public void testGetTrades() throws Exception {
+  void getTrades() throws Exception {
     // Read trades in JSON
     String trades =
         new String(
@@ -175,7 +178,7 @@ public class HitbtcStreamingMarketDataServiceTest {
   }
 
   @Test
-  public void testGetTicker() throws Exception {
+  void getTicker() throws Exception {
     // Read ticker in JSON
     String tickerString =
         new String(

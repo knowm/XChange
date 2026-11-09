@@ -2,7 +2,6 @@ package org.knowm.xchange.bitget.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
@@ -18,7 +17,7 @@ import org.knowm.xchange.dto.account.FundingRecord.Type;
 class BitgetAccountServiceTest extends BitgetExchangeWiremock {
 
   @Test
-  void funding_history() throws IOException {
+  void funding_history() throws Exception {
     List<FundingRecord> actual =
         exchange
             .getAccountService()
