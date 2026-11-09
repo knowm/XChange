@@ -17,6 +17,7 @@ import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUser
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.UserTradePayload;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -280,7 +281,7 @@ public class GateioStreamingAdapters {
 
   public static OrderBookTicker toOrderBookTicker(GateioOrderBookTickerResponse response) {
     return OrderBookTicker.builder()
-        .timestamp(response.getTimestamp())
+        .timestamp(Instant.ofEpochSecond(response.getTimestamp()))
         .bidPrice(response.getBidPrice())
         .bidSize(response.getBidSize())
         .askPrice(response.getAskPrice())
