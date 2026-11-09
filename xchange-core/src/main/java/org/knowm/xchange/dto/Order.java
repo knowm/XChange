@@ -13,6 +13,7 @@ import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -30,8 +31,7 @@ public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
 
-  /** -- GETTER --
-   * The type (BID or ASK)
+  /** The type (BID or ASK)
    */
   @Getter
   private final OrderType type;
@@ -96,7 +96,7 @@ public abstract class Order implements Serializable {
   private BigDecimal fee;
 
   /** The instrument of the fees used for calculation */
-  private Instrument feeInstrument;
+  private Currency feeCurrency;
 
   /** The leverage to use for margin related to this order */
   @Setter
@@ -267,6 +267,8 @@ public abstract class Order implements Serializable {
         + print(averagePrice)
         + ", fee="
         + print(fee)
+        + ", feeCurrency="
+        + feeCurrency
         + ", instrument="
         + instrument
         + ", id="
@@ -444,7 +446,7 @@ public abstract class Order implements Serializable {
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
-    protected Instrument feeInstrument;
+    protected Currency feeCurrency;
     protected String leverage;
 
     protected Builder(OrderType orderType, Instrument instrument) {
@@ -485,9 +487,9 @@ public abstract class Order implements Serializable {
       return this;
     }
 
-    public Builder feeInstrument(Instrument feeInstrument) {
+    public Builder feeCurrency(Currency feeCurrency) {
 
-      this.feeInstrument = feeInstrument;
+      this.feeCurrency = feeCurrency;
       return this;
     }
 
