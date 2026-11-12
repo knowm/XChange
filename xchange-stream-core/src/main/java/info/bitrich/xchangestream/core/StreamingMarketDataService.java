@@ -123,7 +123,7 @@ public interface StreamingMarketDataService {
    *
    * @param instrument Instrument
    * @param args
-   * @return OrderBook ticker(1 lvl orderbook)
+   * @return OrderBook ticker(1 lvl order book)
    */
   default Observable<OrderBookTicker> getOrderBookTicker(Instrument instrument, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderBookTicker");
