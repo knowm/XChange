@@ -95,14 +95,15 @@ public abstract class Order implements Serializable {
   @Getter
   private BigDecimal fee;
 
-  /** The currency in which the fee was charged */
+  /** The currency in which the fee was charged
+   * @return if null, then it is implied USDT
+   */
   @Setter
   @Getter
   private Currency feeCurrency;
 
   /** The leverage to use for margin related to this order
-   *  @return null, then it is implied USDT
-   *  */
+   */
   @Setter
   @Getter
   private String leverage = null;
