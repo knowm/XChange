@@ -18,12 +18,15 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.OkexExchange;
 import org.knowm.xchange.okex.dto.trade.OkexTradeParams;
+import org.knowm.xchange.okex.service.OkexAccountService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,7 @@ class OkexWebsocketTradeTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(OkexWebsocketTradeTest.class);
   StreamingExchange exchange;
+  Instrument instrument = new FuturesContract("SOL/USDT/SWAP");
   private final boolean logOutput = false;
 
   @BeforeEach
@@ -82,12 +86,158 @@ class OkexWebsocketTradeTest {
 
   @Test
   void websocketFuturesTradeTest() throws Exception {
-    tradeTest(new FuturesContract("SOL/USDT/SWAP"));
+    tradeTest(instrument);
   }
 
   @Test
   void websocketSpotTradeTest() throws Exception {
     tradeTest(new CurrencyPair("SOL/USDT"));
+  }
+
+  @Test
+  void websocketHedgeModeTradeTest() throws Exception {
+    // switch mode to two-way
+    ((OkexAccountService) exchange.getAccountService()).setPositionDualModeRaw(true);
+    Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
+    BigDecimal minAmount =
+        exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
+    minAmount =
+        getMinAmount(
+            new BigDecimal("5"),
+            minAmount,
+            ticker,
+            exchange.getExchangeMetaData().getInstruments().get(instrument).getVolumeScale());
+    String limitOrderAskUserId = RandomStringUtils.randomAlphanumeric(20);
+    LimitOrder limitOrderAsk =
+        new LimitOrder.Builder(Order.OrderType.ASK, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getHigh())
+            .userReference(limitOrderAskUserId)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable limitOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitOrderAsk)
+            .subscribe(
+                result -> {
+                  LOG.info("limitOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("limitOrderAsk is disposed: {}", limitOrderAskDisposable.isDisposed());
+    String limitOrderBidUserId = RandomStringUtils.randomAlphanumeric(20);
+    LimitOrder limitOrderBid =
+        new LimitOrder.Builder(Order.OrderType.BID, instrument)
+            .originalAmount(minAmount)
+            .limitPrice(ticker.getLow())
+            .userReference(limitOrderBidUserId)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable limitOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeLimitOrder(limitOrderBid)
+            .subscribe(
+                result -> {
+                  LOG.info("limitOrderBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("limitOrderBid is disposed: {}", limitOrderBidDisposable.isDisposed());
+    Disposable cancelLimitOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(
+                new OkexTradeParams.OkexCancelOrderParams(instrument, null, limitOrderAskUserId))
+            .subscribe(
+                result -> {
+                  LOG.info("cancelLimitOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("cancelLimitOrderAsk is disposed: {}", cancelLimitOrderAskDisposable.isDisposed());
+    Disposable cancelLimitOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .cancelOrder(
+                new OkexTradeParams.OkexCancelOrderParams(instrument, null, limitOrderBidUserId))
+            .subscribe(
+                result -> {
+                  LOG.info("cancelLimitOrderBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("cancelLimitOrderBid is disposed: {}", cancelLimitOrderBidDisposable.isDisposed());
+    MarketOrder marketOrderAsk =
+        new MarketOrder.Builder(Order.OrderType.ASK, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable marketOrderAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderAsk)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderAsk is disposed: {}", marketOrderAskDisposable.isDisposed());
+
+    MarketOrder marketOrderBid =
+        new MarketOrder.Builder(Order.OrderType.BID, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable marketOrderBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderBid)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderBid is disposed: {}", marketOrderBidDisposable.isDisposed());
+
+    MarketOrder marketOrderCloseAsk =
+        new MarketOrder.Builder(Order.OrderType.EXIT_ASK, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable marketOrderCloseAskDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderCloseAsk)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderCloseAsk is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderCloseAsk is disposed: {}", marketOrderCloseAskDisposable.isDisposed());
+
+    MarketOrder marketOrderCloseBid =
+        new MarketOrder.Builder(Order.OrderType.EXIT_BID, instrument)
+            .originalAmount(minAmount)
+            .flag(OrderHedgeMode.TWOWAY)
+            .build();
+    Disposable marketOrderCloseBidDisposable =
+        exchange
+            .getStreamingTradeService()
+            .placeMarketOrder(marketOrderCloseBid)
+            .subscribe(
+                result -> {
+                  LOG.info("marketOrderCloseBid is send, retCode: {}", result);
+                },
+                throwable -> LOG.error("throwable", throwable));
+    Thread.sleep(1000);
+    LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
+    // switch back to one-way
+    ((OkexAccountService) exchange.getAccountService()).setPositionDualModeRaw(false);
   }
 
   private void tradeTest(Instrument instrument) throws IOException, InterruptedException {

@@ -2,13 +2,12 @@ package info.bitrich.xchangestream.gateio.dto.response.funding;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTickerAndFunding;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @SuperBuilder
@@ -32,5 +31,4 @@ public class GateioMultipleTickerAndFundingNotification extends GateioWsNotifica
                     .build())
         .collect(Collectors.toList());
   }
-
 }

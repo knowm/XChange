@@ -15,6 +15,25 @@
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-rxjava3</artifactId>
             <version>${version.resilience4j}</version>
+            <!-- Only RateLimiterOperator is used; drop the other operators' runtime deps, notably micrometer -->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.github.resilience4j</groupId>
+                    <artifactId>resilience4j-micrometer</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.github.resilience4j</groupId>
+                    <artifactId>resilience4j-circuitbreaker</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.github.resilience4j</groupId>
+                    <artifactId>resilience4j-timelimiter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.github.resilience4j</groupId>
+                    <artifactId>resilience4j-bulkhead</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

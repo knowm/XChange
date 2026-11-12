@@ -141,21 +141,19 @@
         <version.assertj>3.27.7</version.assertj>
         <version.bouncycastle>1.86</version.bouncycastle>
         <version.commons.lang3>3.21.0</version.commons.lang3>
-        <version.fasterxml>2.22.3</version.fasterxml>
+        <version.fasterxml>2.22.4</version.fasterxml>
         <version.fasterxml.annotations>2.22</version.fasterxml.annotations>
         <version.github.mmazi>3.1</version.github.mmazi>
 
         <version.java>17</version.java>
-        <version.java-jwt>4.6.1</version.java-jwt>
         <version.junit>6.1.3</version.junit>
         <version.knowm.xchart>4.0.4</version.knowm.xchart>
         <version.lombok>1.18.48</version.lombok>
-        <version.maven-enforcer-plugin>3.6.3</version.maven-enforcer-plugin>
+        <version.maven-enforcer-plugin>3.7.0</version.maven-enforcer-plugin>
         <version.maven-prerequisite>3.6.3</version.maven-prerequisite>
         <version.mockito>5.24.0</version.mockito>
         <version.nimbus-jose-jwt>10.10</version.nimbus-jose-jwt>
-        <version.qos.logback>1.6.5</version.qos.logback>
-        <version.reflections>0.10.2</version.reflections>
+        <version.qos.logback>1.6.6</version.qos.logback>
         <version.resilience4j>2.4.0</version.resilience4j>
         <version.slf4j>2.0.20</version.slf4j>
         <version.wiremock>3.4.2</version.wiremock>
@@ -171,12 +169,6 @@
                 <version>${version.qos.logback}</version>
             </dependency>
 
-            <!-- jwt for auth -->
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${version.java-jwt}</version>
-            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
@@ -236,11 +228,13 @@
                 <artifactId>resilience4j-retry</artifactId>
                 <version>${version.resilience4j}</version>
             </dependency>
-            <!-- Netty version compatible with service-wamp -->
+            <!-- Keeps all Netty artifacts aligned; modules declare only the Netty pieces they use -->
             <dependency>
                 <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>4.2.18.Final</version>
+                <artifactId>netty-bom</artifactId>
+                <version>4.2.20.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- for streaming-->
@@ -303,14 +297,6 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${version.mockito}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- Reflections - java runtime metadata analysis for integration testing -->
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${version.reflections}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -482,7 +468,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <configuration>
                     <skipTests>${skipIntegrationTests}</skipTests>
                     <includes>
@@ -542,12 +528,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.11.0</version>
+                <version>0.12.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>

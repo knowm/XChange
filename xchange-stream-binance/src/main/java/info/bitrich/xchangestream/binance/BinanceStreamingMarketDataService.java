@@ -79,7 +79,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private final Map<Instrument, Observable<DepthBinanceWebSocketTransaction>>
       orderBookRawUpdatesSubscriptions;
   private Observable<List<BinanceTicker24h>> allRollingWindowTickerSubscriptions;
-  private Map<Instrument, Integer> fundingRateInfoMap;
+  private volatile Map<String, Integer> fundingRateInfoMap;
   private Disposable fundingRateInfoUpdate;
   private final Map<Instrument, Observable<FundingRate>> fundingRateInfoSubscriptions;
 
@@ -140,9 +140,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     if (realtimeOrderBookTicker) {
-      return getRawBookTicker(currencyPair).map(raw -> raw.toTicker(false));
+      return getRawBookTicker(currencyPair).map(raw -> raw.toTicker(currencyPair));
     }
-    return getRawTicker(currencyPair).map(raw -> BinanceAdapters.toTicker(raw, false));
+    return getRawTicker(currencyPair).map(raw -> BinanceAdapters.toTicker(raw, currencyPair));
   }
 
   @Override
@@ -163,11 +163,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   @Override
   public Observable<Ticker> getTicker(Instrument instrument, Object... args) {
     if (realtimeOrderBookTicker) {
-      return getRawBookTicker(instrument)
-          .map(raw -> raw.toTicker(instrument instanceof FuturesContract));
+      return getRawBookTicker(instrument).map(raw -> raw.toTicker(instrument));
     }
-    return getRawTicker(instrument)
-        .map(raw -> BinanceAdapters.toTicker(raw, instrument instanceof FuturesContract));
+    return getRawTicker(instrument).map(raw -> BinanceAdapters.toTicker(raw, instrument));
   }
 
   @Override
@@ -187,7 +185,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
           marketDataService.getBinanceFundingRateInfo().stream()
               .collect(
                   Collectors.toMap(
-                      BinanceFundingRateInfo::getInstrument,
+                      BinanceFundingRateInfo::getSymbol,
                       BinanceFundingRateInfo::getFundingIntervalHours));
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -293,12 +291,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .map(
             it ->
                 this.<KlineBinanceWebSocketTransaction>readTransaction(it, KLINE_TYPE, "kline")
-                    .getData()
-                    .toBinanceKline(instrument instanceof FuturesContract))
+                    .getData())
         .filter(
-            binanceKline ->
-                binanceKline.getInstrument().equals(instrument)
-                    && binanceKline.getInterval().equals(interval));
+            data ->
+                matchesInstrument(data.getSymbol(), instrument)
+                    && data.getKlineInterval().equals(interval))
+        .map(data -> data.toBinanceKline(instrument));
   }
 
   /**
@@ -352,6 +350,20 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return (instrument instanceof FuturesContract)
         ? ((FuturesContract) instrument).getCurrencyPair().toString().replace("/", "").toLowerCase()
         : instrument.toString().replace("/", "").toLowerCase();
+  }
+
+  /**
+   * Compares raw symbols instead of mapping the symbol back to an instrument, so pairs missing from
+   * the symbol mapping (e.g., listed after the exchange was initialized) are still matched.
+   * Futures other than PERP are not matched, since their symbol and channel omit the prompt,
+   * so they would receive data of the perpetual contract (BTCUSDT instead of BTCUSDT_250328).
+   */
+  private static boolean matchesInstrument(String symbol, Instrument instrument) {
+    if (instrument instanceof FuturesContract
+        && !"PERP".equals(((FuturesContract) instrument).getPrompt())) {
+      return false;
+    }
+    return BinanceAdapters.toSymbol(instrument).equalsIgnoreCase(symbol);
   }
 
   /**
@@ -541,10 +553,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                   this.<FundingRateWebsocketTransaction>readTransaction(
                       it, FUNDING_RATE_TYPE, "funding rate"))
           .map(BinanceWebsocketTransaction::getData)
-          .filter(data -> BinanceAdapters.adaptSymbol(data.getSymbol(), true).equals(instrument))
+          .filter(data -> matchesInstrument(data.getSymbol(), instrument))
           .map(
               transaction ->
-                  transaction.toFundingRate(fundingRateInfoMap.getOrDefault(instrument, 8)));
+                  transaction.toFundingRate(
+                      fundingRateInfoMap.getOrDefault(BinanceAdapters.toSymbol(instrument), 8),
+                      instrument));
     } catch (Exception e) {
       return Observable.error(e);
     }
@@ -556,11 +570,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .map(
             it ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
-        .filter(
-            transaction ->
-                BinanceAdapters.adaptSymbol(
-                        transaction.getData().getSymbol(), instrument instanceof FuturesContract)
-                    .equals(instrument))
+        .filter(transaction -> matchesInstrument(transaction.getData().getSymbol(), instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -576,11 +586,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .map(
             (it) ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
-        .filter(
-            transaction ->
-                BinanceAdapters.adaptSymbol(
-                        transaction.getData().getSymbol(), instrument instanceof FuturesContract)
-                    .equals(instrument))
+        .filter(transaction -> matchesInstrument(transaction.getData().getSymbol(), instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -610,10 +616,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     it, BOOK_TICKER_TYPE, "book ticker"))
         .filter(
             transaction ->
-                BinanceAdapters.adaptSymbol(
-                        transaction.getData().getTicker().getSymbol(),
-                        instrument instanceof FuturesContract)
-                    .equals(instrument))
+                matchesInstrument(transaction.getData().getTicker().getSymbol(), instrument))
         .map(transaction -> transaction.getData().getTicker());
   }
 
@@ -661,10 +664,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 this.<DepthBinanceWebSocketTransaction>readTransaction(
                     it, DEPTH_TYPE, "order book"))
         .map(BinanceWebsocketTransaction::getData)
-        .filter(
-            data ->
-                BinanceAdapters.adaptSymbol(data.getSymbol(), instrument instanceof FuturesContract)
-                    .equals(instrument));
+        .filter(data -> matchesInstrument(data.getSymbol(), instrument));
   }
 
   private Observable<OrderBook> createOrderBookObservable(Instrument instrument) {
@@ -740,11 +740,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return service
         .subscribeChannel(channelFromCurrency(instrument, BinanceSubscriptionType.TRADE.getType()))
         .map(it -> this.<TradeBinanceWebsocketTransaction>readTransaction(it, TRADE_TYPE, "trade"))
-        .filter(
-            transaction ->
-                BinanceAdapters.adaptSymbol(
-                        transaction.getData().getSymbol(), instrument instanceof FuturesContract)
-                    .equals(instrument))
+        .filter(transaction -> matchesInstrument(transaction.getData().getSymbol(), instrument))
         .map(transaction -> transaction.getData().getRawTrade());
   }
 

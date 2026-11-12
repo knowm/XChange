@@ -12,24 +12,25 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okex.OkexExchange;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.time.Duration;
 
 public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
 
   // Production URIs
-  public static final String WS_PUBLIC_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/public";
-  public static final String WS_PRIVATE_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/private";
-  public static final String WS_BUSINESS_CHANNEL_URI = "wss://ws.okx.com:8443/ws/v5/business";
+  public static final String WS_PUBLIC_CHANNEL_URI = "wss://ws.okx.com:443/ws/v5/public";
+  public static final String WS_PRIVATE_CHANNEL_URI = "wss://ws.okx.com:443/ws/v5/private";
+  public static final String WS_BUSINESS_CHANNEL_URI = "wss://ws.okx.com:443/ws/v5/business";
 
   // Demo(Sandbox) URIs
   public static final String SANDBOX_WS_PUBLIC_CHANNEL_URI =
-      "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
+      "wss://wspap.okx.com:443/ws/v5/public?brokerId=9999";
   public static final String SANDBOX_WS_PRIVATE_CHANNEL_URI =
-      "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999";
+      "wss://wspap.okx.com:443/ws/v5/private?brokerId=9999";
   public static final String SANDBOX_WS_BUSINESS_CHANNEL_URI =
-      "wss://wspap.okx.com:8443/ws/v5/business?brokerId=9999";
+      "wss://wspap.okx.com:443/ws/v5/business?brokerId=9999";
 
   private OkexStreamingService streamingService;
 
@@ -40,8 +41,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
   private OkexPrivateStreamingService privateStreamingService;
   private OkexBusinessStreamingService businessStreamingService;
 
-  public OkexStreamingExchange() {
-  }
+  public OkexStreamingExchange() {}
 
   @Override
   public Completable connect(ProductSubscription... args) {

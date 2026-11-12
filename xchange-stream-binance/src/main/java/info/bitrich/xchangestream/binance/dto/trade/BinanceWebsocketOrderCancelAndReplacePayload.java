@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Getter;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -22,8 +21,8 @@ public class BinanceWebsocketOrderCancelAndReplacePayload {
   private OrderSide side;
   private OrderType type;
   private TimeInForce timeInForce;
-  private BigDecimal price;
-  private BigDecimal quantity;
+  private String price;
+  private String quantity;
   private String newClientOrderId;
   private Long recvWindow;
   private Long timestamp;

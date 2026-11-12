@@ -1,14 +1,5 @@
 package org.knowm.xchange.okex;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.knowm.xchange.okex.dto.trade.OkexOrderFlags.POST_ONLY;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -35,6 +26,16 @@ import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.knowm.xchange.okex.dto.trade.OkexOrderFlags.POST_ONLY;
 
 @Disabled
 class OkexPrivateDataIntegration {
@@ -195,5 +196,13 @@ class OkexPrivateDataIntegration {
             + instrument
             + ", result: "
             + okexAccountService.setLeverage(instrument, 1));
+  }
+
+  @Test
+  void setPositionMode() throws Exception {
+    OkexAccountService okexAccountService = ((OkexAccountService) exchange.getAccountService());
+    System.out.println(
+        "Set position mode long_short_mode, result: "
+            + okexAccountService.setPositionDualModeRaw(true));
   }
 }

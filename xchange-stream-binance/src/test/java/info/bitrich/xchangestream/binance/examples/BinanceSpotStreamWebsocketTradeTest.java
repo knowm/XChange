@@ -72,6 +72,18 @@ class BinanceSpotStreamWebsocketTradeTest {
             minAmount,
             ticker,
             exchange.getExchangeMetaData().getInstruments().get(instrument2).getVolumeScale());
+    Disposable orderChangesDisposable =
+        exchange
+            .getStreamingTradeService()
+            .getOrderChanges(instrument2)
+            .subscribe(
+                result -> {
+                  if (logOutput) {
+                    LOG.info("orderChanges result: {}", result.toString());
+                  }
+                },
+                throwable -> LOG.error("orderChanges error", throwable));
+    Thread.sleep(1000);
     String limitOrderUserId = RandomStringUtils.randomAlphanumeric(20);
     LimitOrder limitOrder =
         new LimitOrder.Builder(Order.OrderType.BID, instrument2)
