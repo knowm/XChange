@@ -52,3 +52,6 @@ GSYMS
 
 # Claude Code
 .claude/
+
+# Junie
+.junie
