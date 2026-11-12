@@ -78,7 +78,7 @@ public abstract class Order implements Serializable {
   private BigDecimal cumulativeAmount;
 
   /** The average price of the fills in the order.
-   *
+   * <p>
    * @return null if this information is not available on the order level on the given exchange in
    *     which case you will have to navigate trades which filled this order to calculate it
    */
@@ -87,7 +87,7 @@ public abstract class Order implements Serializable {
   private BigDecimal averagePrice;
 
   /** The total of the fees incurred for all transactions related to this order
-   *
+   * <p>
    * @return null if this information is not available on the order level on the given exchange in
    *     which case you will have to navigate trades which filled this order to calculate it
    */
@@ -95,10 +95,14 @@ public abstract class Order implements Serializable {
   @Getter
   private BigDecimal fee;
 
-  /** The instrument of the fees used for calculation */
+  /** The currency in which the fee was charged */
+  @Setter
+  @Getter
   private Currency feeCurrency;
 
-  /** The leverage to use for margin related to this order */
+  /** The leverage to use for margin related to this order
+   *  @return null, then it is implied USDT
+   *  */
   @Setter
   @Getter
   private String leverage = null;

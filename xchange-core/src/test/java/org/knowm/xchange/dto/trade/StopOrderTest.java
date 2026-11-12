@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.utils.ObjectMapperHelper;
@@ -20,6 +21,8 @@ class StopOrderTest {
     final BigDecimal limitPrice = new BigDecimal("251.64");
     final BigDecimal stopPrice = new BigDecimal("266.21");
     final BigDecimal fee = new BigDecimal("22.2");
+    final Currency feeCurrency = Currency.USD;
+    final String leverage = "5";
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
@@ -38,6 +41,8 @@ class StopOrderTest {
             .id(id)
             .flag(TestFlags.TEST1)
             .fee(fee)
+            .feeCurrency(feeCurrency)
+            .leverage(leverage)
             .userReference(reference)
             .intention(intention)
             .build();
@@ -56,6 +61,8 @@ class StopOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
+    assertThat(copy.getFeeCurrency()).isEqualTo(feeCurrency);
+    assertThat(copy.getLeverage()).isEqualTo(leverage);
     assertThat(copy.getUserReference()).isEqualTo(reference);
     assertThat(copy.getIntention()).isEqualTo(intention);
   }
@@ -87,6 +94,8 @@ class StopOrderTest {
             .averagePrice(averagePrice)
             .cumulativeAmount(cumulativeAmount)
             .fee(fee)
+            .feeCurrency(Currency.USD)
+            .leverage("10")
             .orderStatus(status)
             .userReference(reference)
             .intention(intention)
@@ -127,6 +136,8 @@ class StopOrderTest {
             .averagePrice(averagePrice)
             .cumulativeAmount(cumulativeAmount)
             .fee(fee)
+            .feeCurrency(Currency.USD)
+            .leverage("10")
             .orderStatus(status)
             .userReference(reference)
             .intention(intention)
