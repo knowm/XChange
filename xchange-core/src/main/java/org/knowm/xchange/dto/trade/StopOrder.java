@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.ObjectUtils;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
@@ -391,6 +392,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
               .fee(order.getFee())
+              .feeCurrency(order.getFeeCurrency())
+              .leverage(order.getLeverage())
               .averagePrice(order.getAveragePrice())
               .userReference(order.getUserReference());
       if (order instanceof StopOrder) {
@@ -425,6 +428,18 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     public Builder fee(BigDecimal fee) {
 
       return (Builder) super.fee(fee);
+    }
+
+    @Override
+    public Builder feeCurrency(Currency feeCurrency) {
+
+      return (Builder) super.feeCurrency(feeCurrency);
+    }
+
+    @Override
+    public Builder leverage(String leverage) {
+
+      return (Builder) super.leverage(leverage);
     }
 
     @Override
@@ -536,6 +551,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
       order.setOrderFlags(flags);
       order.setLeverage(leverage);
+      order.setFeeCurrency(feeCurrency);
       return order;
     }
   }

@@ -19,6 +19,7 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.OpenPosition;
@@ -260,7 +261,9 @@ public class BybitStreamAdapters {
               change.getLeavesQty().isEmpty() ? null : new BigDecimal(change.getLeavesQty()),
               change.getLeavesValue().isEmpty() ? null : new BigDecimal(change.getLeavesValue()),
               new BigDecimal(change.getCumExecValue()),
-              change.getFeeCurrency(),
+              change.getFeeCurrency() == null || change.getFeeCurrency().isEmpty()
+                  ? null
+                  : Currency.getInstance(change.getFeeCurrency()),
               BybitTimeInForce.valueOf(change.getTimeInForce().toUpperCase()),
               change.getOrderType(),
               change.getStopOrderType(),

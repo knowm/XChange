@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
@@ -248,6 +249,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
               .fee(order.getFee())
+              .feeCurrency(order.getFeeCurrency())
+              .leverage(order.getLeverage())
               .averagePrice(order.getAveragePrice())
               .userReference(order.getUserReference());
       if (order instanceof LimitOrder) {
@@ -341,6 +344,16 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return (Builder) super.fee(fee);
     }
 
+    @Override
+    public Builder feeCurrency(Currency feeCurrency) {
+      return (Builder) super.feeCurrency(feeCurrency);
+    }
+
+    @Override
+    public Builder leverage(String leverage) {
+      return (Builder) super.leverage(leverage);
+    }
+
     public Builder limitPrice(BigDecimal limitPrice) {
 
       this.limitPrice = limitPrice;
@@ -367,6 +380,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               userReference);
       order.setOrderFlags(flags);
       order.setLeverage(leverage);
+      order.setFeeCurrency(feeCurrency);
       return order;
     }
   }

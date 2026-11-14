@@ -203,7 +203,7 @@ class BybitStreamAdaptersTest {
     assertThat(order.getLeavesQty() == null).isTrue();
     assertThat(order.getLeavesValue() == null).isTrue();
     assertThat(order.getCumExecValue()).isEqualTo(new BigDecimal("75"));
-    assertThat(order.getFeeCurrency()).isEmpty();
+    assertThat(order.getFeeCurrency()).isNull();
     assertThat(order.getTimeInForce()).isEqualTo(IOC);
     assertThat(order.getOrderType()).isEqualTo(MARKET);
     assertThat(order.getStopOrderType()).isEmpty();
