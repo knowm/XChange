@@ -1,29 +1,32 @@
 package info.bitrich.xchangestream.gateio;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.gateio.config.Config;
-import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.ExchangeSpecification;
-
-import java.io.IOException;
-
 import static info.bitrich.xchangestream.core.StreamingExchange.*;
 import static info.bitrich.xchangestream.service.netty.NettyStreamingService.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.gateio.config.Config;
+import info.bitrich.xchangestream.gateio.dto.response.GateioWsNotification;
+import java.io.IOException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.ExchangeSpecification;
+
 class GateioStreamingServiceTest {
-  static ExchangeSpecification exchangeSpecification = new ExchangeSpecification(GateioStreamingExchange.class);
+  static ExchangeSpecification exchangeSpecification =
+      new ExchangeSpecification(GateioStreamingExchange.class);
   static GateioStreamingService gateioStreamingService;
   ObjectMapper objectMapper = Config.getInstance().getObjectMapper();
 
   @BeforeAll
   static void init() {
-    exchangeSpecification.setExchangeSpecificParametersItem(WS_CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
-    exchangeSpecification.setExchangeSpecificParametersItem(WS_RETRY_DURATION, DEFAULT_RETRY_DURATION);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        WS_CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        WS_RETRY_DURATION, DEFAULT_RETRY_DURATION);
     exchangeSpecification.setExchangeSpecificParametersItem(WS_IDLE_TIMEOUT, DEFAULT_IDLE_TIMEOUT);
-    gateioStreamingService = new GateioStreamingService("", null, null, exchangeSpecification, false);
+    gateioStreamingService =
+        new GateioStreamingService("", null, null, exchangeSpecification, false);
   }
 
   @Test

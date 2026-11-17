@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.gateio.dto.response;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.gateio.config.Config;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioMultipleSpotBalanceNotification;
@@ -9,14 +11,11 @@ import info.bitrich.xchangestream.gateio.dto.response.orderbook.GateioOrderBookV
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.trade.GateioTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioMultipleUserTradeNotification;
-import org.junit.jupiter.api.Test;
-import org.knowm.xchange.derivative.FuturesContract;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.knowm.xchange.derivative.FuturesContract;
 
 class GateioWsNotificationTest {
 
@@ -51,11 +50,26 @@ class GateioWsNotificationTest {
     GateioWsNotification notification = readNotification("futures.order_bookV2.update.json");
     assertThat(notification).isInstanceOf(GateioOrderBookV2FuturesNotification.class);
     assertThat(notification.getTimeMs()).isEqualTo(Instant.parse("2025-04-03T09:37:07.020Z"));
-    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getTimestamp()).isEqualTo(Instant.parse("2025-04-03T09:37:07.017Z"));
-    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getBids().size()).isEqualTo(5);
-    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getBids().get(0).getPrice()).isEqualTo("83702.2");
-    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getBids().get(0).getSize()).isEqualTo("62");
-    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getInstrument()).isEqualTo(new FuturesContract("BTC/USDT/PERP"));
+    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getTimestamp())
+        .isEqualTo(Instant.parse("2025-04-03T09:37:07.017Z"));
+    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getBids().size())
+        .isEqualTo(5);
+    assertThat(
+            ((GateioOrderBookV2FuturesNotification) notification)
+                .getResult()
+                .getBids()
+                .get(0)
+                .getPrice())
+        .isEqualTo("83702.2");
+    assertThat(
+            ((GateioOrderBookV2FuturesNotification) notification)
+                .getResult()
+                .getBids()
+                .get(0)
+                .getSize())
+        .isEqualTo("62");
+    assertThat(((GateioOrderBookV2FuturesNotification) notification).getResult().getInstrument())
+        .isEqualTo(new FuturesContract("BTC/USDT/PERP"));
   }
 
   @Test
@@ -72,8 +86,11 @@ class GateioWsNotificationTest {
     assertThat(notification).isInstanceOf(GateioMultipleSpotBalanceNotification.class);
     assertThat(notification.getTime()).isEqualTo(Instant.parse("2023-08-10T22:41:13Z"));
     assertThat(notification.getTimeMs()).isEqualTo(Instant.parse("2023-08-10T22:41:13.893Z"));
-    assertThat(((GateioMultipleSpotBalanceNotification) notification).getResult().get(0).getTime()).isEqualTo(Instant.parse("2023-08-10T22:41:13Z"));
-    assertThat(((GateioMultipleSpotBalanceNotification) notification).getResult().get(0).getTimeMs()).isEqualTo(Instant.parse("2023-08-10T22:41:13.890Z"));
+    assertThat(((GateioMultipleSpotBalanceNotification) notification).getResult().get(0).getTime())
+        .isEqualTo(Instant.parse("2023-08-10T22:41:13Z"));
+    assertThat(
+            ((GateioMultipleSpotBalanceNotification) notification).getResult().get(0).getTimeMs())
+        .isEqualTo(Instant.parse("2023-08-10T22:41:13.890Z"));
   }
 
   @Test
@@ -82,10 +99,14 @@ class GateioWsNotificationTest {
     assertThat(notification).isInstanceOf(GateioMultipleTickerAndFundingNotification.class);
     assertThat(notification.getTime()).isEqualTo(Instant.parse("2018-11-08T06:38:06Z"));
     assertThat(notification.getTimeMs()).isEqualTo(Instant.parse("2018-11-08T06:38:06.123Z"));
-    assertThat(((GateioMultipleTickerAndFundingNotification) notification).getResult().get(0).getFundingRate().equals(new BigDecimal("-0.000114"))).isTrue();
+    assertThat(
+            ((GateioMultipleTickerAndFundingNotification) notification)
+                .getResult()
+                .get(0)
+                .getFundingRate()
+                .equals(new BigDecimal("-0.000114")))
+        .isTrue();
   }
-
-
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {
     return objectMapper.readValue(

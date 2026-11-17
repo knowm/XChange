@@ -6,12 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import info.bitrich.xchangestream.gateio.config.converter.InstantToTimestampSecondsConverter;
 import info.bitrich.xchangestream.gateio.dto.Event;
+import java.time.Instant;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
-
-import java.time.Instant;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 
 @Data
 @SuperBuilder
@@ -19,7 +18,7 @@ import java.time.Instant;
 public class GateioWsRequest {
 
   @JsonProperty("time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   @JsonSerialize(converter = InstantToTimestampSecondsConverter.class)
   private Instant time;
 

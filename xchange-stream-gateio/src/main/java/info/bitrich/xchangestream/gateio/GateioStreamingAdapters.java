@@ -1,10 +1,12 @@
 package info.bitrich.xchangestream.gateio;
 
+import static org.knowm.xchange.gateio.GateioAdapters.convertContractSizeToVolume;
+
 import info.bitrich.xchangestream.gateio.dto.response.balance.BalancePayload;
 import info.bitrich.xchangestream.gateio.dto.response.balance.GateioSingleSpotBalanceNotification;
 import info.bitrich.xchangestream.gateio.dto.response.funding.GateioSingleTickerAndFundingNotification;
 import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderFuturesNotification;
-import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderNotification;
+import info.bitrich.xchangestream.gateio.dto.response.order.GateioSingleOrderSpotNotification;
 import info.bitrich.xchangestream.gateio.dto.response.orderbook.*;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.GateioTickerNotification;
 import info.bitrich.xchangestream.gateio.dto.response.ticker.TickerPayload;
@@ -13,6 +15,12 @@ import info.bitrich.xchangestream.gateio.dto.response.trade.TradeFuturesPayload;
 import info.bitrich.xchangestream.gateio.dto.response.trade.TradePayload;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUserTradeNotification;
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.UserTradePayload;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -24,15 +32,6 @@ import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFundingInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioFuturesTickerAndFunding;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static org.knowm.xchange.gateio.GateioAdapters.convertContractSizeToVolume;
 
 @UtilityClass
 public class GateioStreamingAdapters {
@@ -96,11 +95,12 @@ public class GateioStreamingAdapters {
         .build();
   }
 
-  public Order toOrder(GateioSingleOrderNotification notification) {
+  public Order toOrder(GateioSingleOrderSpotNotification notification) {
     return GateioAdapters.toOrder(notification.getResult());
   }
 
-  public Order toOrder(GateioSingleOrderFuturesNotification notification, BigDecimal contractValue) {
+  public Order toOrder(
+      GateioSingleOrderFuturesNotification notification, BigDecimal contractValue) {
     return GateioAdapters.toOrder(notification.getResult(), contractValue);
   }
 
@@ -146,8 +146,8 @@ public class GateioStreamingAdapters {
     return new OrderBook(Date.from(orderBookPayload.getTimestamp()), asks, bids);
   }
 
-  public OrderBook toOrderBookV2Futures(GateioOrderBookV2FuturesNotification notification,
-                                        BigDecimal contractValue) {
+  public OrderBook toOrderBookV2Futures(
+      GateioOrderBookV2FuturesNotification notification, BigDecimal contractValue) {
     OrderBookV2FuturesResponse orderBookPayload = notification.getResult();
     Date timestamp = Date.from(orderBookPayload.getTimestamp());
     Stream<LimitOrder> asks =
@@ -207,8 +207,8 @@ public class GateioStreamingAdapters {
     return new OrderBook(timestamp, asks, bids);
   }
 
-  public static List<OrderBookUpdate> adaptOrderBookFuturesUpdates(Instrument instrument, OrderBookV2FuturesResponse response,
-                                                                   BigDecimal contractValue) {
+  public static List<OrderBookUpdate> adaptOrderBookFuturesUpdates(
+      Instrument instrument, OrderBookV2FuturesResponse response, BigDecimal contractValue) {
     List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
     Date timestamp = Date.from(response.getTimestamp());
     for (OrderBookV2Response.PriceSizeEntry ask : response.getAsks()) {
@@ -226,31 +226,41 @@ public class GateioStreamingAdapters {
     return orderBookUpdates;
   }
 
-  public static List<OrderBookUpdate> adaptOrderBookUpdates(Instrument instrument, OrderBookV2Response response) {
+  public static List<OrderBookUpdate> adaptOrderBookUpdates(
+      Instrument instrument, OrderBookV2Response response) {
     List<OrderBookUpdate> orderBookUpdates = new ArrayList<>();
     Date timestamp = Date.from(response.getTimestamp());
     for (OrderBookV2Response.PriceSizeEntry ask : response.getAsks()) {
       OrderBookUpdate o =
-          new OrderBookUpdate(OrderType.ASK, ask.getSize(), instrument, ask.getPrice(), timestamp, ask.getSize());
+          new OrderBookUpdate(
+              OrderType.ASK, ask.getSize(), instrument, ask.getPrice(), timestamp, ask.getSize());
       orderBookUpdates.add(o);
     }
     for (OrderBookV2Response.PriceSizeEntry bid : response.getBids()) {
       OrderBookUpdate o =
-          new OrderBookUpdate(OrderType.BID, bid.getSize(), instrument, bid.getPrice(), timestamp, bid.getSize());
+          new OrderBookUpdate(
+              OrderType.BID, bid.getSize(), instrument, bid.getPrice(), timestamp, bid.getSize());
       orderBookUpdates.add(o);
     }
     return orderBookUpdates;
   }
 
-  public static FundingRate toFunding(GateioSingleTickerAndFundingNotification gateioSingleTickerAndFundingNotification, GateioFundingInfo gateioFundingInfo) {
+  public static FundingRate toFunding(
+      GateioSingleTickerAndFundingNotification gateioSingleTickerAndFundingNotification,
+      GateioFundingInfo gateioFundingInfo) {
     BigDecimal fundingRate = gateioSingleTickerAndFundingNotification.getResult().getFundingRate();
 
-    return new FundingRate.Builder().instrument(gateioSingleTickerAndFundingNotification.getResult().getContract())
-        .fundingRate1h(fundingRate.divide(
-            BigDecimal.valueOf(gateioFundingInfo.getFunding_interval().getHours()), fundingRate.scale(), RoundingMode.HALF_EVEN))
+    return new FundingRate.Builder()
+        .instrument(gateioSingleTickerAndFundingNotification.getResult().getContract())
+        .fundingRate1h(
+            fundingRate.divide(
+                BigDecimal.valueOf(gateioFundingInfo.getFunding_interval().getHours()),
+                fundingRate.scale(),
+                RoundingMode.HALF_EVEN))
         .fundingRate(fundingRate)
         .fundingRateDate(Date.from(gateioFundingInfo.getFunding_next_apply()))
-        .fundingRateInterval(gateioFundingInfo.getFunding_interval()).build();
+        .fundingRateInterval(gateioFundingInfo.getFunding_interval())
+        .build();
   }
 
   public static Ticker toTickerFutures(GateioSingleTickerAndFundingNotification notification) {

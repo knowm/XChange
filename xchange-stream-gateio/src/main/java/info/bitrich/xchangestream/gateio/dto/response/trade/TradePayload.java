@@ -3,13 +3,12 @@ package info.bitrich.xchangestream.gateio.dto.response.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gateio.config.converter.*;
-
-import java.math.BigDecimal;
-import java.time.Instant;
 
 @Data
 public class TradePayload {
@@ -18,7 +17,7 @@ public class TradePayload {
   Long id;
 
   @JsonProperty("create_time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   Instant time;
 
   @JsonProperty("create_time_ms")

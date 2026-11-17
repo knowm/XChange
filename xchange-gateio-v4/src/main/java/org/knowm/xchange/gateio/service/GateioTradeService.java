@@ -93,17 +93,21 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     // todo: implement getting of several orders
     Validate.validState(orderQueryParams.length == 1);
-    Validate.isInstanceOf(OrderQueryParamInstrument.class, orderQueryParams[0]);
-
-    OrderQueryParamInstrument params = (OrderQueryParamInstrument) orderQueryParams[0];
-
+    String orderId = "";
+    Instrument instrument = null;
+    if (orderQueryParams[0] instanceof OrderQueryParamInstrument) {
+      instrument = ((OrderQueryParamInstrument) orderQueryParams[0]).getInstrument();
+      orderId = orderQueryParams[0].getOrderId();
+    } else if (orderQueryParams[0] != null) {
+      orderId = orderQueryParams[0].getOrderId();
+    }
     try {
-      if (params.getInstrument() instanceof FuturesContract) {
-        GateioFuturesOrderResponse gateioOrder = getFuturesOrder(params.getOrderId(), params.getInstrument());
+      if (instrument instanceof FuturesContract) {
+        GateioFuturesOrderResponse gateioOrder = getFuturesOrder(orderId, instrument);
         return Collections.singletonList(GateioAdapters.toOrder(gateioOrder, exchange.getExchangeMetaData()
-            .getInstruments().get(params.getInstrument()).getContractValue()));
+            .getInstruments().get(instrument).getContractValue()));
       } else {
-        GateioSpotOrderResponse gateioOrder = getOrder(params.getOrderId(), params.getInstrument());
+        GateioSpotOrderResponse gateioOrder = getOrder(orderId, instrument);
         return Collections.singletonList(GateioAdapters.toOrder(gateioOrder));
       }
     } catch (GateioException e) {

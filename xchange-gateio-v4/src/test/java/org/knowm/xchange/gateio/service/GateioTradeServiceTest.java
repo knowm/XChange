@@ -14,6 +14,7 @@ import org.knowm.xchange.gateio.dto.trade.Role;
 import org.knowm.xchange.gateio.service.params.GateioTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderByInstrumentAndIdParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 import java.math.BigDecimal;
@@ -105,9 +106,9 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             .id("342251629898")
             .userReference("t-valid-market-buy-order")
             .timestamp(Date.from(Instant.parse("2023-06-03T22:07:38.451Z")))
-            .originalAmount(BigDecimal.valueOf(20))
+            .originalAmount(null)
             .orderStatus(OrderStatus.FILLED)
-            .cumulativeAmount(new BigDecimal("18.92681"))
+            .cumulativeAmount(new BigDecimal("1"))
             .averagePrice(new BigDecimal("27038.3"))
             .fee(new BigDecimal("0.0000014"))
             .build();
@@ -149,7 +150,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
             .timestamp(Date.from(Instant.parse("2025-07-13T09:11:47.335Z")))
             .originalAmount(new BigDecimal("589107410.1"))
             .orderStatus(OrderStatus.PARTIALLY_FILLED)
-            .cumulativeAmount(new BigDecimal("183488100"))
+            .cumulativeAmount(new BigDecimal("183494615.8"))
             .averagePrice(new BigDecimal("0.00000004614"))
             .fee(new BigDecimal("0.008466141815984"))
             .build();
@@ -181,7 +182,7 @@ class GateioTradeServiceTest extends GateioExchangeWiremock {
 
     Collection<Order> orders =
         gateioTradeService.getOrder(
-            new DefaultQueryOrderParamInstrument(CurrencyPair.BTC_USDT, "745504484392"));
+            new DefaultQueryOrderParam("745504484392"));
     assertThat(orders).hasSize(1);
     assertThat(orders).first().usingRecursiveComparison().isEqualTo(expected);
   }

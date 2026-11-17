@@ -1,14 +1,8 @@
 package org.knowm.xchange.gateio.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -21,6 +15,14 @@ import org.knowm.xchange.gateio.config.Config;
 import org.knowm.xchange.gateio.service.params.GateioFundingHistoryParams;
 import org.knowm.xchange.gateio.service.params.GateioWithdrawFundsParams;
 import si.mazi.rescu.CustomRestProxyFactoryImpl;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class GateioAccountServiceTest extends GateioExchangeWiremock {
 
@@ -143,5 +145,12 @@ class GateioAccountServiceTest extends GateioExchangeWiremock {
     org.knowm.xchange.dto.account.Fee fee = fees.values().iterator().next();
     assertThat(fee.getMakerFee()).isEqualTo(new java.math.BigDecimal("0.002"));
     assertThat(fee.getTakerFee()).isEqualTo(new java.math.BigDecimal("0.002"));
+  }
+
+  @Test
+  void set_leverage_spot_unsupported() {
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+        .isThrownBy(() -> gateioAccountService.setLeverage(CurrencyPair.BTC_USDT, 10))
+        .withMessage("Leverage is not supported for spot instruments");
   }
 }

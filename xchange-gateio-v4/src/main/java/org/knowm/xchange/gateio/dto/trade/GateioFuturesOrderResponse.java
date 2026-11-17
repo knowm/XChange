@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-import org.knowm.xchange.gateio.config.converter.DoubleMillisecondsToInstantConverter;
+import org.knowm.xchange.gateio.config.converter.DoubleSecondsToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.LongToInstantConverter;
 import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
 import org.knowm.xchange.instrument.Instrument;
@@ -30,7 +30,7 @@ public class GateioFuturesOrderResponse {
   Instant createTimeMs;
 
   @JsonProperty("finish_time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   Instant finishTime;
 
   @JsonProperty("finish_time_ms")
@@ -38,7 +38,7 @@ public class GateioFuturesOrderResponse {
   Instant finishTimeMs;
 
   @JsonProperty("update_time")
-  @JsonDeserialize(converter = DoubleMillisecondsToInstantConverter.class)
+  @JsonDeserialize(converter = DoubleSecondsToInstantConverter.class)
   Instant updatedTime;
 
   @JsonProperty("update_time_ms")

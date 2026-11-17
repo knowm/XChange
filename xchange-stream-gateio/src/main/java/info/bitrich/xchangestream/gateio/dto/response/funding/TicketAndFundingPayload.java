@@ -2,11 +2,10 @@ package info.bitrich.xchangestream.gateio.dto.response.funding;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
 import lombok.Data;
 import org.knowm.xchange.gateio.config.converter.StringToFutureContractConverter;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
 
 @Data
 public class TicketAndFundingPayload {

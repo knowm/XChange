@@ -1,25 +1,23 @@
 package info.bitrich.xchangestream.gateio;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.TestObserver;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 class GateioStreamingMarketDataServiceIntegration extends GateioStreamingExchangeIT {
 
   @Test
   void order_book() {
     Observable<OrderBook> observable =
-        ((GateioStreamingMarketDataService) exchange
-            .getStreamingMarketDataService())
+        ((GateioStreamingMarketDataService) exchange.getStreamingMarketDataService())
             .getOrderBookLegacy(CurrencyPair.BTC_USDT, 10, Duration.ofMillis(100));
 
     TestObserver<OrderBook> testObserver = observable.test();
@@ -49,12 +47,7 @@ class GateioStreamingMarketDataServiceIntegration extends GateioStreamingExchang
 
     TestObserver<Trade> testObserver = observable.test();
 
-    Trade trade =
-        testObserver
-            .awaitDone(3, TimeUnit.SECONDS)
-            .awaitCount(1)
-            .values()
-            .get(0);
+    Trade trade = testObserver.awaitDone(3, TimeUnit.SECONDS).awaitCount(1).values().get(0);
 
     testObserver.dispose();
 
@@ -69,12 +62,7 @@ class GateioStreamingMarketDataServiceIntegration extends GateioStreamingExchang
 
     TestObserver<Ticker> testObserver = observable.test();
 
-    Ticker ticker =
-        testObserver
-            .awaitCount(1)
-            .awaitDone(3, TimeUnit.SECONDS)
-            .values()
-            .get(0);
+    Ticker ticker = testObserver.awaitCount(1).awaitDone(3, TimeUnit.SECONDS).values().get(0);
 
     testObserver.dispose();
 

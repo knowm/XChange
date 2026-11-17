@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.knowm.xchange.gateio.GateioResilience.DYNAMIC_TRADING_FEE_RATE_LIMITER;
-import static org.knowm.xchange.gateio.GateioResilience.LEVERAGE_RATE_LIMITER;
+import static org.knowm.xchange.gateio.GateioResilience.*;
 
 public class GateioAccountServiceRaw extends GateioBaseService {
 
@@ -193,4 +192,27 @@ public class GateioAccountServiceRaw extends GateioBaseService {
       throw GateioErrorAdapter.adapt(e);
     }
   }
+
+  public boolean setDualModeRaw(String settle, boolean dualMode) throws IOException {
+    try {
+      var result = decorateApiCall(
+          () -> gateioV4Authenticated.setDualMode(
+              apiKey,
+              exchange.getNonceFactory(),
+              gateioV4ParamsDigest,
+              settle.toLowerCase(),
+              dualMode)).withRateLimiter(rateLimiter(POSITION_MODE_RATE_LIMITER))
+          .call();
+      boolean isDualModeSet = result.getPositionMode().equals("dual");
+      if (dualMode) {
+        return isDualModeSet;
+      } else return !isDualModeSet;
+    } catch (GateioException e) {
+      if ("NO_CHANGE".equals(e.getLabel())) {
+        return true;
+      }
+      throw GateioErrorAdapter.adapt(e);
+    }
+  }
+
 }
