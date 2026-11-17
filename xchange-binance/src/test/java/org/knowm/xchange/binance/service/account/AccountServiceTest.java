@@ -37,11 +37,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-
 public class AccountServiceTest {
 
   @RegisterExtension
@@ -142,11 +137,10 @@ public class AccountServiceTest {
     // Check first deposit record
     FundingRecord firstRecord =
         fundingHistory.stream()
-            .filter(
-                r ->
-                    r.getType() == Type.DEPOSIT
-                        && r.getInternalId() != null
-                        && r.getInternalId().equals("7d76d611-0568-4f43-afb6-24cac7767365"))
+            .filter(r ->
+                r.getType() == Type.DEPOSIT
+                    && r.getInternalId() != null
+                    && r.getInternalId().equals("7d76d611-0568-4f43-afb6-24cac7767365"))
             .findFirst()
             .orElse(null);
 
@@ -161,11 +155,10 @@ public class AccountServiceTest {
     // Check second deposit record (Processing status)
     FundingRecord secondRecord =
         fundingHistory.stream()
-            .filter(
-                r ->
-                    r.getType() == Type.DEPOSIT
-                        && r.getInternalId() != null
-                        && r.getInternalId().equals("8e87e722-1679-5g54-bgc7-35dbd8878476"))
+            .filter(r ->
+                r.getType() == Type.DEPOSIT
+                    && r.getInternalId() != null
+                    && r.getInternalId().equals("8e87e722-1679-5g54-bgc7-35dbd8878476"))
             .findFirst()
             .orElse(null);
 
@@ -199,11 +192,10 @@ public class AccountServiceTest {
     // Check first withdrawal record (Finished status)
     FundingRecord firstRecord =
         fundingHistory.stream()
-            .filter(
-                r ->
-                    r.getType() == Type.WITHDRAWAL
-                        && r.getInternalId() != null
-                        && r.getInternalId().equals("9f98f833-2780-6h65-chd8-46ece9989587"))
+            .filter(r ->
+                r.getType() == Type.WITHDRAWAL
+                    && r.getInternalId() != null
+                    && r.getInternalId().equals("9f98f833-2780-6h65-chd8-46ece9989587"))
             .findFirst()
             .orElse(null);
 
@@ -218,11 +210,10 @@ public class AccountServiceTest {
     // Check second withdrawal record (Failed status)
     FundingRecord secondRecord =
         fundingHistory.stream()
-            .filter(
-                r ->
-                    r.getType() == Type.WITHDRAWAL
-                        && r.getInternalId() != null
-                        && r.getInternalId().equals("0a09a944-3891-7i76-die9-57fdf0090698"))
+            .filter(r ->
+                r.getType() == Type.WITHDRAWAL
+                    && r.getInternalId() != null
+                    && r.getInternalId().equals("0a09a944-3891-7i76-die9-57fdf0090698"))
             .findFirst()
             .orElse(null);
 
