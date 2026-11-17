@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -15,8 +14,8 @@ import org.knowm.xchange.binance.dto.trade.OrderSide;
 public class BinanceWebsocketOrderAmendPayload {
   private final String symbol;
   private final OrderSide side;
-  private final BigDecimal quantity;
-  private final BigDecimal price;
+  private final String quantity;
+  private final String price;
   private long timestamp;
 
   // Optional

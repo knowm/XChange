@@ -99,8 +99,7 @@ class BinanceStreamingMarketDataServiceTest {
         marketDataService.getRawBookTicker(UNMAPPED_CONTRACT).blockingFirst();
 
     assertThat(bookTicker.toTicker(true).getInstrument()).isNotEqualTo(UNMAPPED_CONTRACT);
-    assertThat(bookTicker.toTicker(UNMAPPED_CONTRACT).getInstrument())
-        .isEqualTo(UNMAPPED_CONTRACT);
+    assertThat(bookTicker.toTicker(UNMAPPED_CONTRACT).getInstrument()).isEqualTo(UNMAPPED_CONTRACT);
   }
 
   @Test

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
@@ -150,6 +151,8 @@ public class MarketOrder extends Order {
           .flags(order.getOrderFlags())
           .averagePrice(order.getAveragePrice())
           .fee(order.getFee())
+          .feeCurrency(order.getFeeCurrency())
+          .leverage(order.getLeverage())
           .userReference(order.getUserReference())
           .orderStatus(order.getStatus());
     }
@@ -182,6 +185,18 @@ public class MarketOrder extends Order {
     public Builder fee(BigDecimal fee) {
 
       return (Builder) super.fee(fee);
+    }
+
+    @Override
+    public Builder feeCurrency(Currency feeCurrency) {
+
+      return (Builder) super.feeCurrency(feeCurrency);
+    }
+
+    @Override
+    public Builder leverage(String leverage) {
+
+      return (Builder) super.leverage(leverage);
     }
 
     @Override
@@ -250,6 +265,7 @@ public class MarketOrder extends Order {
               userReference);
       order.setOrderFlags(flags);
       order.setLeverage(leverage);
+      order.setFeeCurrency(feeCurrency);
       return order;
     }
   }

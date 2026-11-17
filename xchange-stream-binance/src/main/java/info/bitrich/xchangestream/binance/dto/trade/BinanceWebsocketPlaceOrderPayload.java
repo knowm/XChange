@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,14 +29,14 @@ public class BinanceWebsocketPlaceOrderPayload {
   // Optional / conditional
   private final String positionSide; // ENUM NO (BOTH/LONG/SHORT)
   private final TimeInForce timeInForce; // ENUM NO
-  private final BigDecimal quantity; // DECIMAL NO
+  private final String quantity; // DECIMAL NO
   private final Boolean reduceOnly; // STRING NO -> boolean-like
-  private final BigDecimal price; // DECIMAL NO
+  private final String price; // DECIMAL NO
   private final String newClientOrderId; // STRING NO
-  private final BigDecimal stopPrice; // DECIMAL NO
+  private final String stopPrice; // DECIMAL NO
   private final Boolean closePosition; // STRING NO -> boolean-like
-  private final BigDecimal activationPrice; // DECIMAL NO
-  private final BigDecimal callbackRate; // DECIMAL NO
+  private final String activationPrice; // DECIMAL NO
+  private final String callbackRate; // DECIMAL NO
   private final WorkingType workingType; // ENUM NO
   private final Boolean priceProtect; // STRING NO -> boolean-like
   private final BinanceNewOrder.NewOrderResponseType newOrderRespType; // ENUM NO
@@ -76,14 +75,14 @@ public class BinanceWebsocketPlaceOrderPayload {
       @JsonProperty("type") OrderType type,
       @JsonProperty("positionSide") String positionSide,
       @JsonProperty("timeInForce") TimeInForce timeInForce,
-      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("quantity") String quantity,
       @JsonProperty("reduceOnly") Boolean reduceOnly,
-      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("price") String price,
       @JsonProperty("newClientOrderId") String newClientOrderId,
-      @JsonProperty("stopPrice") BigDecimal stopPrice,
+      @JsonProperty("stopPrice") String stopPrice,
       @JsonProperty("closePosition") Boolean closePosition,
-      @JsonProperty("activationPrice") BigDecimal activationPrice,
-      @JsonProperty("callbackRate") BigDecimal callbackRate,
+      @JsonProperty("activationPrice") String activationPrice,
+      @JsonProperty("callbackRate") String callbackRate,
       @JsonProperty("workingType") WorkingType workingType,
       @JsonProperty("priceProtect") Boolean priceProtect,
       @JsonProperty("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,

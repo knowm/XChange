@@ -123,7 +123,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
             clientOrderId,
             lastExecutedPrice,
             orderQuantity,
-            lastExecutedQuantity,
+            cumulativeFilledQuantity,
             // not sure 100%, but according SPOT documentation api
             // https://developers.binance.com/docs/binance-spot-api-docs/user-data-stream#order-update
             cumulativeQuoteAssetTransactedQuantity,

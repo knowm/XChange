@@ -74,15 +74,17 @@ public class KrakenStreamingAdapters {
         .elements()
         .forEachRemaining(
             currentNode -> {
-              if (awaitingSnapshot) {
-                if (currentNode.has(BID_SNAPSHOT) && currentNode.has(ASK_SNAPSHOT)) {
-                  LOG.info("Received {} snapshot, clearing book", instrument);
-                  updateInBook(
-                      depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
-                  updateInBook(
-                      depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
-                }
-              } else {
+              if (currentNode.has(BID_SNAPSHOT) && currentNode.has(ASK_SNAPSHOT)) {
+                // A snapshot always replaces the local book. Kraken sends one whenever the channel
+                // is (re)subscribed, including for another subscriber sharing the channel.
+                LOG.info("Received {} snapshot, clearing book", instrument);
+                bids.clear();
+                asks.clear();
+                updateInBook(
+                    depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
+                updateInBook(
+                    depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
+              } else if (!awaitingSnapshot) {
                 if (currentNode.has(BID_UPDATE)) {
                   updateInBook(
                       depth, instrument, Order.OrderType.BID, currentNode, BID_UPDATE, bids);

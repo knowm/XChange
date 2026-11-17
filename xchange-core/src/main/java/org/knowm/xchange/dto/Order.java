@@ -10,7 +10,10 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import lombok.Getter;
 import lombok.Setter;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -28,40 +31,81 @@ public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
 
-  /** Order type i.e. bid or ask */
+  /** The type (BID or ASK)
+   */
+  @Getter
   private final OrderType type;
 
-  /** Amount to be ordered / amount that was ordered */
+  /** Amount to be ordered / amount that was ordered
+   */
+  @Getter
   @Setter private BigDecimal originalAmount;
 
-  /** The instrument could be a currency pair of derivative */
+  /** The instrument to be bought or sold
+   */
+  @Getter
   private final Instrument instrument;
 
-  /** An identifier set by the exchange that uniquely identifies the order */
+  /** A unique identifier (normally provided by the exchange)
+   */
+  @Getter
   private final String id;
 
-  /** An identifier provided by the user on placement that uniquely identifies the order */
+  /** An identifier provided by the user on placement that uniquely identifies the order
+   */
+  @Getter
   private final String userReference;
 
   /** The timestamp on the order according to the exchange's server, null if not provided */
+  @Getter
   private final Date timestamp;
 
   /** Any applicable order flags */
+  @Getter
   private final Set<IOrderFlags> orderFlags = new HashSet<>();
 
-  /** Status of order during it lifecycle */
+  /** Status of order during it lifecycle
+   * @return The type (PENDING_NEW, NEW, PARTIALLY_FILLED, FILLED, PENDING_CANCEL, CANCELED,
+   *     PENDING_REPLACE, REPLACED, STOPPED, REJECTED or EXPIRED)
+   */
+  @Getter
   private OrderStatus status;
 
-  /** Amount to be ordered / amount that has been matched against order on the order book/filled */
+  /** The amount that has been filled
+   */
+  @Setter
+  @Getter
   private BigDecimal cumulativeAmount;
 
-  /** Weighted Average price of the fills in the order */
+  /** The average price of the fills in the order.
+   * <p>
+   * @return null if this information is not available on the order level on the given exchange in
+   *     which case you will have to navigate trades which filled this order to calculate it
+   */
+  @Setter
+  @Getter
   private BigDecimal averagePrice;
 
-  /** The total of the fees incurred for all transactions related to this order */
+  /** The total of the fees incurred for all transactions related to this order
+   * <p>
+   * @return null if this information is not available on the order level on the given exchange in
+   *     which case you will have to navigate trades which filled this order to calculate it
+   */
+  @Setter
+  @Getter
   private BigDecimal fee;
 
-  /** The leverage to use for margin related to this order */
+  /** The currency in which the fee was charged
+   * @return if null, then it is implied USDT
+   */
+  @Setter
+  @Getter
+  private Currency feeCurrency;
+
+  /** The leverage to use for margin related to this order
+   */
+  @Setter
+  @Getter
   private String leverage = null;
 
   /**
@@ -154,54 +198,6 @@ public abstract class Order implements Serializable {
     return value == null ? null : value.toPlainString();
   }
 
-  /**
-   * The total of the fees incurred for all transactions related to this order
-   *
-   * @return null if this information is not available on the order level on the given exchange in
-   *     which case you will have to navigate trades which filled this order to calculate it
-   */
-  public BigDecimal getFee() {
-    return fee;
-  }
-
-  public void setFee(BigDecimal fee) {
-    this.fee = fee;
-  }
-
-  /**
-   * @return The type (BID or ASK)
-   */
-  public OrderType getType() {
-
-    return type;
-  }
-
-  /**
-   * @return The type (PENDING_NEW, NEW, PARTIALLY_FILLED, FILLED, PENDING_CANCEL, CANCELED,
-   *     PENDING_REPLACE, REPLACED, STOPPED, REJECTED or EXPIRED)
-   */
-  public OrderStatus getStatus() {
-
-    return status;
-  }
-
-  /** The amount to trade */
-  public BigDecimal getOriginalAmount() {
-
-    return originalAmount;
-  }
-
-  /** The amount that has been filled */
-  public BigDecimal getCumulativeAmount() {
-
-    return cumulativeAmount;
-  }
-
-  public void setCumulativeAmount(BigDecimal cumulativeAmount) {
-
-    this.cumulativeAmount = cumulativeAmount;
-  }
-
   @JsonIgnore
   public BigDecimal getCumulativeCounterAmount() {
     if (cumulativeAmount != null
@@ -223,22 +219,6 @@ public abstract class Order implements Serializable {
   }
 
   /**
-   * The average price of the fills in the order.
-   *
-   * @return null if this information is not available on the order level on the given exchange in
-   *     which case you will have to navigate trades which filled this order to calculate it
-   */
-  public BigDecimal getAveragePrice() {
-
-    return averagePrice;
-  }
-
-  public void setAveragePrice(BigDecimal averagePrice) {
-
-    this.averagePrice = averagePrice;
-  }
-
-  /**
    * @deprecated CurrencyPair is a subtype of Instrument - this method will throw an exception if
    *     the order was for a derivative
    *     <p>use {@link #getInstrument()} instead
@@ -254,39 +234,6 @@ public abstract class Order implements Serializable {
           "The instrument of this order is not a currency pair: " + instrument);
     }
     return (CurrencyPair) instrument;
-  }
-
-  /**
-   * @return The instrument to be bought or sold
-   */
-  public Instrument getInstrument() {
-    return instrument;
-  }
-
-  /**
-   * @return A unique identifier (normally provided by the exchange)
-   */
-  public String getId() {
-
-    return id;
-  }
-
-  /**
-   * @return A unique identifier provided by the user on placement
-   */
-  public String getUserReference() {
-
-    return userReference;
-  }
-
-  public Date getTimestamp() {
-
-    return timestamp;
-  }
-
-  public Set<IOrderFlags> getOrderFlags() {
-
-    return orderFlags;
   }
 
   public void setOrderFlags(Set<IOrderFlags> flags) {
@@ -312,14 +259,6 @@ public abstract class Order implements Serializable {
     this.status = status;
   }
 
-  public String getLeverage() {
-    return leverage;
-  }
-
-  public void setLeverage(String leverage) {
-    this.leverage = leverage;
-  }
-
   @Override
   public String toString() {
 
@@ -333,6 +272,8 @@ public abstract class Order implements Serializable {
         + print(averagePrice)
         + ", fee="
         + print(fee)
+        + ", feeCurrency="
+        + feeCurrency
         + ", instrument="
         + instrument
         + ", id="
@@ -510,6 +451,7 @@ public abstract class Order implements Serializable {
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
+    protected Currency feeCurrency;
     protected String leverage;
 
     protected Builder(OrderType orderType, Instrument instrument) {
@@ -547,6 +489,12 @@ public abstract class Order implements Serializable {
     public Builder fee(BigDecimal fee) {
 
       this.fee = fee;
+      return this;
+    }
+
+    public Builder feeCurrency(Currency feeCurrency) {
+
+      this.feeCurrency = feeCurrency;
       return this;
     }
 
