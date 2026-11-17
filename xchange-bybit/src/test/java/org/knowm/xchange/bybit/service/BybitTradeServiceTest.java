@@ -51,6 +51,7 @@ class BybitTradeServiceTest extends BaseWiremockTest {
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("0"));
     assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
     assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("0.10"));
+    assertThat(order.getFeeCurrency()).isNull();
   }
 
   @Test

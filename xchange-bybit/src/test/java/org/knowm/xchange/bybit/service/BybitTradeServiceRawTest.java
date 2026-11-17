@@ -89,6 +89,8 @@ class BybitTradeServiceRawTest extends BaseWiremockTest {
         .isEqualTo(expectedOrderDetail.get("cumExecValue").asDouble());
     assertThat(actualOrderDetail.getCumExecFee().doubleValue())
         .isEqualTo(expectedOrderDetail.get("cumExecFee").asDouble());
+    assertThat(actualOrderDetail.getFeeCurrency())
+        .isEqualTo(expectedOrderDetail.get("feeCurrency").textValue());
     assertThat(actualOrderDetail.getTimeInForce())
         .isEqualTo(expectedOrderDetail.get("timeInForce").textValue());
     assertThat(actualOrderDetail.getOrderType().name())
@@ -193,6 +195,8 @@ class BybitTradeServiceRawTest extends BaseWiremockTest {
         .isEqualTo(expectedOrderDetail.get("cumExecValue").asDouble());
     assertThat(actualOrderDetail.getCumExecFee().doubleValue())
         .isEqualTo(expectedOrderDetail.get("cumExecFee").asDouble());
+    assertThat(actualOrderDetail.getFeeCurrency())
+        .isEqualTo(expectedOrderDetail.get("feeCurrency").textValue());
     assertThat(actualOrderDetail.getTimeInForce())
         .isEqualTo(expectedOrderDetail.get("timeInForce").textValue());
     assertThat(actualOrderDetail.getOrderType().name())

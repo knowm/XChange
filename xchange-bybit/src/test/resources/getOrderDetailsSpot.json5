@@ -34,6 +34,7 @@
         "smpGroup": 0,
         "triggerPrice": "0.00",
         "cumExecFee": "0.000000772",
+        "feeCurrency": "USDT",
         "leavesQty": "0.000000",
         "slTriggerBy": "",
         "closeOnTrigger": false,

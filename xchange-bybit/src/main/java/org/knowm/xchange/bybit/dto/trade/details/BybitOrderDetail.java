@@ -28,6 +28,9 @@ public class BybitOrderDetail {
   @JsonProperty("cumExecQty")
   BigDecimal cumExecQty;
 
+  @JsonProperty("feeCurrency")
+  String feeCurrency;
+
   @JsonProperty("orderId")
   String orderId;
 

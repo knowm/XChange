@@ -1,5 +1,17 @@
 package org.knowm.xchange.bybit;
 
+import static org.knowm.xchange.bybit.dto.BybitCategory.*;
+import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
+import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -41,19 +53,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.*;
-
-import static org.knowm.xchange.bybit.dto.BybitCategory.*;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
 
 public class BybitAdapters {
 
@@ -305,6 +304,8 @@ public class BybitAdapters {
         throw new IllegalStateException("Unexpected value: " + bybitOrderResult.getOrderType());
     }
 
+    String feeCurrency = bybitOrderResult.getFeeCurrency();
+
     return builder
         .orderType(getOrderType(bybitOrderResult.getSide()))
         .originalAmount(bybitOrderResult.getQty())
@@ -313,6 +314,8 @@ public class BybitAdapters {
         .timestamp(bybitOrderResult.getCreatedTime())
         .averagePrice(bybitOrderResult.getAvgPrice())
         .orderStatus(adaptBybitOrderStatus(bybitOrderResult.getOrderStatus()))
+        .feeCurrency(
+            feeCurrency == null || feeCurrency.isEmpty() ? null : new Currency(feeCurrency))
         .build();
   }
 
@@ -505,8 +508,7 @@ public class BybitAdapters {
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
-    if(category.equals(SPOT))
-      payload.setMarketUnit("baseCoin");
+    if (category.equals(SPOT)) payload.setMarketUnit("baseCoin");
     payload.setTimeInForce(BybitTimeInForce.IOC.getValue());
     return payload;
   }
@@ -545,8 +547,7 @@ public class BybitAdapters {
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
-    if(category.equals(SPOT))
-      payload.setMarketUnit("baseCoin");
+    if (category.equals(SPOT)) payload.setMarketUnit("baseCoin");
     payload.setTimeInForce(timeInForce.getValue());
     return payload;
   }

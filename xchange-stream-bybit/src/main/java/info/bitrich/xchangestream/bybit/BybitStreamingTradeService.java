@@ -235,23 +235,6 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
     return getOrderChanges((Instrument) pair, args);
   }
 
-  public Observable<BybitComplexOrderChanges> getComplexOrderChanges(BybitCategory category) {
-    String channelUniqueId = "order";
-    if (category != null) {
-      channelUniqueId += "." + category.getValue();
-    }
-    return streamingService
-        .subscribeChannel(channelUniqueId)
-        .flatMap(
-            node -> {
-              BybitOrderChangesResponse bybitOrderChangesResponse =
-                  mapper.treeToValue(node, BybitOrderChangesResponse.class);
-              return Observable.fromIterable(
-                  BybitStreamAdapters.adaptComplexOrdersChanges(
-                      bybitOrderChangesResponse.getData()));
-            });
-  }
-
   public Observable<OpenPosition> getPositionChanges(BybitCategory category) {
     String channelUniqueId = "position";
     if (category != null) {

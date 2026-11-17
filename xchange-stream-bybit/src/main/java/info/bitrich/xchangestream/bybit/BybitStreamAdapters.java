@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
-import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -116,6 +115,11 @@ public class BybitStreamAdapters {
       }
       builder
           .fee(new BigDecimal(bybitOrderChange.getCumExecFee()))
+          .feeCurrency(
+              bybitOrderChange.getFeeCurrency() == null
+                      || bybitOrderChange.getFeeCurrency().isEmpty()
+                  ? null
+                  : Currency.getInstance(bybitOrderChange.getFeeCurrency()))
           .id(bybitOrderChange.getOrderId())
           .orderStatus(adaptBybitOrderStatus(bybitOrderChange.getOrderStatus()))
           .timestamp(date)
@@ -219,77 +223,6 @@ public class BybitStreamAdapters {
               .seq(position.getSeq())
               .build();
       result.add(positionChanges);
-    }
-    return result;
-  }
-
-  public static List<BybitComplexOrderChanges> adaptComplexOrdersChanges(
-      List<BybitOrderChanges> data) {
-    List<BybitComplexOrderChanges> result = new ArrayList<>();
-    for (BybitOrderChanges change : data) {
-      Order.OrderType type = getOrderType(change.getSide());
-      BigDecimal avgPrice =
-          change.getAvgPrice().isEmpty() ? null : new BigDecimal(change.getAvgPrice());
-      BigDecimal triggerPrice =
-          change.getTriggerPrice().isEmpty() ? null : new BigDecimal(change.getTriggerPrice());
-      BigDecimal takeProfit =
-          change.getTakeProfit().isEmpty() ? null : new BigDecimal(change.getTakeProfit());
-      BigDecimal stopLoss =
-          change.getStopLoss().isEmpty() ? null : new BigDecimal(change.getStopLoss());
-      BybitComplexOrderChanges orderChanges =
-          new BybitComplexOrderChanges(
-              type,
-              new BigDecimal(change.getQty()),
-              convertBybitSymbolToInstrument(change.getSymbol(), change.getCategory()),
-              change.getOrderLinkId(),
-              new Date(Long.parseLong(change.getCreatedTime())),
-              avgPrice,
-              new BigDecimal(change.getCumExecQty()),
-              new BigDecimal(change.getCumExecFee()),
-              adaptBybitOrderStatus(change.getOrderStatus()),
-              change.getCategory(),
-              change.getOrderId(),
-              change.getIsLeverage(),
-              change.getBlockTradeId(),
-              new BigDecimal(change.getPrice()),
-              new BigDecimal(change.getQty()),
-              change.getSide(),
-              change.getPositionIdx(),
-              change.getCreateType(),
-              change.getCancelType(),
-              change.getRejectReason(),
-              change.getLeavesQty().isEmpty() ? null : new BigDecimal(change.getLeavesQty()),
-              change.getLeavesValue().isEmpty() ? null : new BigDecimal(change.getLeavesValue()),
-              new BigDecimal(change.getCumExecValue()),
-              change.getFeeCurrency() == null || change.getFeeCurrency().isEmpty()
-                  ? null
-                  : Currency.getInstance(change.getFeeCurrency()),
-              BybitTimeInForce.valueOf(change.getTimeInForce().toUpperCase()),
-              change.getOrderType(),
-              change.getStopOrderType(),
-              change.getOcoTriggerBy(),
-              change.getOrderIv(),
-              change.getMarketUnit(),
-              triggerPrice,
-              takeProfit,
-              stopLoss,
-              change.getTpslMode(),
-              change.getTpLimitPrice().isEmpty() ? null : new BigDecimal(change.getTpLimitPrice()),
-              change.getSlLimitPrice().isEmpty() ? null : new BigDecimal(change.getSlLimitPrice()),
-              change.getTpTriggerBy(),
-              change.getSlTriggerBy(),
-              change.getTriggerDirection(),
-              change.getTriggerBy(),
-              change.getLastPriceOnCreated(),
-              change.isReduceOnly(),
-              change.isCloseOnTrigger(),
-              change.getPlaceType(),
-              change.getSmpType(),
-              change.getSmpGroup(),
-              change.getSmpOrderId(),
-              new Date(Long.parseLong(change.getUpdatedTime())));
-
-      result.add(orderChanges);
     }
     return result;
   }
