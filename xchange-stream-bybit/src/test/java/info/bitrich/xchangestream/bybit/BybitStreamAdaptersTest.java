@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Locale;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
@@ -97,6 +99,53 @@ class BybitStreamAdaptersTest {
     assertThat(order.getFeeCurrency()).isNull();
     assertThat(order.getStatus()).isEqualTo(FILLED);
     assertThat(order.getLeverage()).isEqualTo(null);
+  }
+
+  @Test
+  void adaptSpotOrdersChangesFeeDeductionTest() throws Exception {
+    JsonNode jsonNode =
+        mapper.readTree(
+            ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("spotOrderChangeFilledResponse.json5"));
+    BybitOrderChangesResponse bybitOrderChangesResponse =
+        mapper.treeToValue(jsonNode, BybitOrderChangesResponse.class);
+    List<Order> orders = adaptOrdersChanges(bybitOrderChangesResponse.getData());
+    assertThat(orders.size()).isEqualTo(5);
+
+    Order feeInBaseCurrency = orders.get(0);
+    assertThat(feeInBaseCurrency.getInstrument()).isEqualTo(new CurrencyPair("BTC", "USDT"));
+    assertThat(feeInBaseCurrency.getOriginalAmount()).isEqualTo(new BigDecimal("0.001"));
+    // cumFeeDetail is authoritative: its BTC entry is deducted from the cumulative amount
+    assertThat(feeInBaseCurrency.getCumulativeAmount()).isEqualByComparingTo("0.00099");
+    assertThat(feeInBaseCurrency.getFee()).isEqualTo(new BigDecimal("0.00001"));
+    assertThat(feeInBaseCurrency.getFeeCurrency()).isEqualTo(new Currency("BTC"));
+
+    Order feeInQuoteCurrency = orders.get(1);
+    assertThat(feeInQuoteCurrency.getOriginalAmount()).isEqualTo(new BigDecimal("0.002"));
+    // no cumFeeDetail, so the deprecated cumExecFee/feeCurrency are used as a fallback:
+    // the fee is charged in the quote currency, so cumulativeAmount stays as cumExecQty
+    assertThat(feeInQuoteCurrency.getCumulativeAmount()).isEqualByComparingTo("0.002");
+    assertThat(feeInQuoteCurrency.getFee()).isEqualTo(new BigDecimal("0.00002"));
+    assertThat(feeInQuoteCurrency.getFeeCurrency()).isEqualTo(new Currency("USDT"));
+
+    // marketUnit=quoteCoin with fills: qty (20 USDT) is converted by the average fill price
+    Order filledMarketBuy = orders.get(2);
+    assertThat(filledMarketBuy.getOriginalAmount()).isEqualByComparingTo("0.0008");
+    assertThat(filledMarketBuy.getCumulativeAmount()).isEqualByComparingTo("0.0008");
+
+    // marketUnit=quoteCoin without fills: no fill price to convert by, raw qty is kept
+    Order unexecutedMarketBuy = orders.get(3);
+    assertThat(unexecutedMarketBuy.getOriginalAmount()).isEqualByComparingTo("30");
+    // an empty cumExecFee string does not break parsing
+    assertThat(unexecutedMarketBuy.getFee()).isNull();
+    assertThat(unexecutedMarketBuy.getFeeCurrency()).isNull();
+
+    // cumFeeDetail has no base-currency entry (the fee is paid in BIT),
+    // so nothing is deducted even though the deprecated cumExecFee/feeCurrency say otherwise
+    Order feeInThirdCurrency = orders.get(4);
+    assertThat(feeInThirdCurrency.getCumulativeAmount()).isEqualByComparingTo("0.004");
+    assertThat(feeInThirdCurrency.getFee()).isEqualByComparingTo("2.5");
+    assertThat(feeInThirdCurrency.getFeeCurrency()).isEqualTo(new Currency("BIT"));
   }
 
   @Test

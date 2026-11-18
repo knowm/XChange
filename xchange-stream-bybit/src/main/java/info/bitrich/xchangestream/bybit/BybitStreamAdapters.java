@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
@@ -92,39 +93,61 @@ public class BybitStreamAdapters {
     for (BybitOrderChanges bybitOrderChange : bybitOrderChanges) {
       date.setTime(Long.parseLong(bybitOrderChange.getUpdatedTime()));
       Order.OrderType orderType = getOrderType(bybitOrderChange.getSide());
+      Instrument instrument =
+          convertBybitSymbolToInstrument(
+              bybitOrderChange.getSymbol(), bybitOrderChange.getCategory());
       Order.Builder builder = null;
       switch (bybitOrderChange.getOrderType()) {
         case LIMIT:
           builder =
-              new LimitOrder.Builder(
-                      orderType,
-                      convertBybitSymbolToInstrument(
-                          bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
+              new LimitOrder.Builder(orderType, instrument)
                   .limitPrice(new BigDecimal(bybitOrderChange.getPrice()));
           break;
         case MARKET:
-          builder =
-              new MarketOrder.Builder(
-                  orderType,
-                  convertBybitSymbolToInstrument(
-                      bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()));
+          builder = new MarketOrder.Builder(orderType, instrument);
           break;
       }
       if (!bybitOrderChange.getAvgPrice().isEmpty()) {
         builder.averagePrice(new BigDecimal(bybitOrderChange.getAvgPrice()));
       }
+      String cumExecFee = bybitOrderChange.getCumExecFee();
+      String feeCurrency = bybitOrderChange.getFeeCurrency();
+      // cumFeeDetail is the authoritative fee source for linear/spot; Order supports only a single
+      // fee amount, so the first map entry is used for fee/feeCurrency
+      Map.Entry<String, String> feeDetail = firstFeeDetail(bybitOrderChange.getCumFeeDetail());
+      String effectiveFeeCurrency = feeDetail != null ? feeDetail.getKey() : feeCurrency;
       builder
-          .fee(new BigDecimal(bybitOrderChange.getCumExecFee()))
+          .fee(
+              feeDetail != null
+                  ? parseBigDecimalOrNull(feeDetail.getValue())
+                  : parseBigDecimalOrNull(cumExecFee))
           .feeCurrency(
-              bybitOrderChange.getFeeCurrency() == null
-                      || bybitOrderChange.getFeeCurrency().isEmpty()
+              effectiveFeeCurrency == null || effectiveFeeCurrency.isEmpty()
                   ? null
-                  : Currency.getInstance(bybitOrderChange.getFeeCurrency()))
+                  : Currency.getInstance(effectiveFeeCurrency))
           .id(bybitOrderChange.getOrderId())
           .orderStatus(adaptBybitOrderStatus(bybitOrderChange.getOrderStatus()))
           .timestamp(date)
-          .cumulativeAmount(new BigDecimal(bybitOrderChange.getCumExecQty()))
-          .originalAmount(new BigDecimal(bybitOrderChange.getQty()))
+          .cumulativeAmount(
+              adaptCumulativeAmount(
+                  bybitOrderChange.getCategory(),
+                  bybitOrderChange.getSide(),
+                  instrument,
+                  new BigDecimal(bybitOrderChange.getCumExecQty()),
+                  parseBigDecimalOrNull(cumExecFee),
+                  bybitOrderChange.getCumFeeDetail(),
+                  feeCurrency))
+          .originalAmount(
+              adaptOriginalAmount(
+                  bybitOrderChange.getCategory(),
+                  bybitOrderChange.getOrderType(),
+                  bybitOrderChange.getSide(),
+                  bybitOrderChange.getMarketUnit(),
+                  new BigDecimal(bybitOrderChange.getQty()),
+                  bybitOrderChange.getAvgPrice() == null
+                          || bybitOrderChange.getAvgPrice().isEmpty()
+                      ? null
+                      : new BigDecimal(bybitOrderChange.getAvgPrice())))
           .id(bybitOrderChange.getOrderId())
           .userReference(bybitOrderChange.getOrderLinkId());
       if (!bybitOrderChange.getRejectReason().isEmpty())

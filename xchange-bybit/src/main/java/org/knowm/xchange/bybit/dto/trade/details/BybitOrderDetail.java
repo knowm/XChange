@@ -3,6 +3,7 @@ package org.knowm.xchange.bybit.dto.trade.details;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
@@ -31,6 +32,9 @@ public class BybitOrderDetail {
   @JsonProperty("feeCurrency")
   String feeCurrency;
 
+  @JsonProperty("cumExecFee")
+  BigDecimal cumExecFee;
+
   @JsonProperty("orderId")
   String orderId;
 
@@ -45,4 +49,10 @@ public class BybitOrderDetail {
 
   @JsonProperty("orderStatus")
   BybitOrderStatus orderStatus;
+
+  @JsonProperty("marketUnit")
+  String marketUnit;
+
+  @JsonProperty("cumFeeDetail")
+  Map<String, String> cumFeeDetail;
 }

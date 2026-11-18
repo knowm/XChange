@@ -211,12 +211,12 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
 
   @Override
   /*
-   * instrument param is not used
-   * arg[0] BybitCategory, if null then subscribe to all category
+   * instrument param is optional, if not null only changes for that instrument are emitted
+   * args[0] BybitCategory (optional), if absent or null then subscribe to all category
    */
   public Observable<Order> getOrderChanges(Instrument instrument, Object... args) {
     String channelUniqueId = "order";
-    if (args[0] != null && args[0] instanceof BybitCategory) {
+    if (args.length > 0 && args[0] instanceof BybitCategory) {
       channelUniqueId += "." + ((BybitCategory) args[0]).getValue();
     }
     return streamingService
@@ -227,7 +227,8 @@ public class BybitStreamingTradeService extends BybitBaseService implements Stre
                   mapper.treeToValue(node, BybitOrderChangesResponse.class);
               return Observable.fromIterable(
                   BybitStreamAdapters.adaptOrdersChanges(bybitOrderChangesResponse.getData()));
-            });
+            })
+        .filter(order -> instrument == null || instrument.equals(order.getInstrument()));
   }
 
   @Override
