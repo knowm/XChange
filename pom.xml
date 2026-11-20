@@ -170,7 +170,7 @@
         <version.mockito>5.24.0</version.mockito>
         <version.netty>4.2.20.Final</version.netty>
         <version.nimbus-jose-jwt>10.10</version.nimbus-jose-jwt>
-        <version.qos.logback>1.6.6</version.qos.logback>
+        <version.qos.logback>1.6.7</version.qos.logback>
         <version.resilience4j>2.4.0</version.resilience4j>
         <version.rxjava>3.1.12</version.rxjava>
         <version.slf4j>2.0.20</version.slf4j>
