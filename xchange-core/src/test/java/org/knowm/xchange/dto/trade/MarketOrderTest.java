@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.utils.ObjectMapperHelper;
@@ -18,6 +19,8 @@ class MarketOrderTest {
     final BigDecimal averagePrice = new BigDecimal("255.00");
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal fee = new BigDecimal("22.2");
+    final Currency feeCurrency = Currency.USD;
+    final String leverage = "5";
     final String userReference = "123";
     final Date timestamp = new Date();
     final String id = "id";
@@ -33,6 +36,8 @@ class MarketOrderTest {
             .id(id)
             .flag(TestFlags.TEST1)
             .fee(fee)
+            .feeCurrency(feeCurrency)
+            .leverage(leverage)
             .userReference(userReference)
             .build();
 
@@ -48,6 +53,8 @@ class MarketOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
+    assertThat(copy.getFeeCurrency()).isEqualTo(feeCurrency);
+    assertThat(copy.getLeverage()).isEqualTo(leverage);
     assertThat(copy.getUserReference()).isEqualTo(userReference);
   }
 
@@ -76,6 +83,8 @@ class MarketOrderTest {
             status);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
+    original.setFeeCurrency(Currency.USD);
+    original.setLeverage("10");
     final MarketOrder copy = MarketOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
@@ -106,6 +115,8 @@ class MarketOrderTest {
             status);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
+    original.setFeeCurrency(Currency.USD);
+    original.setLeverage("10");
 
     MarketOrder jsonCopy = ObjectMapperHelper.viaJSON(original);
     assertThat(jsonCopy).isEqualToComparingFieldByField(original);
