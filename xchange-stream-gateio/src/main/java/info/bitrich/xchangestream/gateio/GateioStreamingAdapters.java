@@ -281,7 +281,7 @@ public class GateioStreamingAdapters {
 
   public static OrderBookTicker toOrderBookTicker(GateioOrderBookTickerResponse response) {
     return OrderBookTicker.builder()
-        .timestamp(Instant.ofEpochSecond(response.getTimestamp()))
+        .timestamp(response.getTimestamp())
         .bidPrice(response.getBidPrice())
         .bidSize(response.getBidSize())
         .askPrice(response.getAskPrice())

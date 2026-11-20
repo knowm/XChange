@@ -24,6 +24,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookTicker;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -212,6 +213,30 @@ class GateioStreamingMarketDataServiceTest {
     assertThat(actual.getBids().get(1).getLimitPrice()).isEqualByComparingTo("83702.2");
     assertThat(actual.getBids().get(1).getOriginalAmount()).isEqualByComparingTo("0.0062");
     assertThat(actual.getBids().get(3).getLimitPrice()).isEqualByComparingTo("83685");
+  }
+
+  @Test
+  void spotOrderBookTicker() throws Exception {
+    GateioWsNotification notification = readNotification("spot.book_ticker.update.json");
+    when(gateioStreamingService.subscribeChannel(
+            eq("spot.book_ticker"), eq(CurrencyPair.BTC_USDT)))
+        .thenReturn(Observable.just(notification));
+
+    Observable<OrderBookTicker> observable =
+        gateioStreamingMarketDataService.getOrderBookTicker(CurrencyPair.BTC_USDT);
+
+    TestObserver<OrderBookTicker> testObserver = observable.test();
+
+    OrderBookTicker actual = testObserver.awaitCount(1).values().get(0);
+
+    testObserver.dispose();
+
+    // the "t" field of spot.book_ticker is a timestamp in milliseconds
+    assertThat(actual.getTimestamp()).isEqualTo(Instant.ofEpochMilli(1606293275123L));
+    assertThat(actual.getBidPrice()).isEqualByComparingTo("26971.69");
+    assertThat(actual.getBidSize()).isEqualByComparingTo("0.94");
+    assertThat(actual.getAskPrice()).isEqualByComparingTo("26971.7");
+    assertThat(actual.getAskSize()).isEqualByComparingTo("3.05");
   }
 
   private GateioWsNotification readNotification(String resourceName) throws IOException {
