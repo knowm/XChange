@@ -8,6 +8,7 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderType;
 import org.knowm.xchange.bybit.dto.trade.BybitSide;
 import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
 
@@ -28,7 +29,6 @@ public class BybitComplexOrderChanges extends Order {
   private final BigDecimal leavesQty;
   private final BigDecimal leavesValue;
   private final BigDecimal cumExecValue;
-  private final String feeCurrency;
   private final BybitTimeInForce timeInForce;
   private final BybitOrderType orderType;
   private final String stopOrderType;
@@ -78,7 +78,7 @@ public class BybitComplexOrderChanges extends Order {
       BigDecimal leavesQty,
       BigDecimal leavesValue,
       BigDecimal cumExecValue,
-      String feeCurrency,
+      Currency feeCurrency,
       BybitTimeInForce timeInForce,
       BybitOrderType orderType,
       String stopOrderType,
@@ -127,7 +127,7 @@ public class BybitComplexOrderChanges extends Order {
     this.leavesQty = leavesQty;
     this.leavesValue = leavesValue;
     this.cumExecValue = cumExecValue;
-    this.feeCurrency = feeCurrency;
+    setFeeCurrency(feeCurrency);
     this.timeInForce = timeInForce;
     this.orderType = orderType;
     this.stopOrderType = stopOrderType;

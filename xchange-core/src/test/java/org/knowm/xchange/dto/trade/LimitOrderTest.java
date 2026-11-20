@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
@@ -21,6 +22,8 @@ class LimitOrderTest {
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal limitPrice = new BigDecimal("251.64");
     final BigDecimal fee = new BigDecimal("22.2");
+    final Currency feeCurrency = Currency.USD;
+    final String leverage = "5";
     final String userReference = "123";
     final Date timestamp = new Date();
     final String id = "id";
@@ -37,6 +40,8 @@ class LimitOrderTest {
             .id(id)
             .flag(TestFlags.TEST1)
             .fee(fee)
+            .feeCurrency(feeCurrency)
+            .leverage(leverage)
             .userReference(userReference)
             .build();
     assertThat(copy.getType()).isEqualTo(type);
@@ -52,6 +57,8 @@ class LimitOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
+    assertThat(copy.getFeeCurrency()).isEqualTo(feeCurrency);
+    assertThat(copy.getLeverage()).isEqualTo(leverage);
     assertThat(copy.getUserReference()).isEqualTo(userReference);
   }
 
@@ -82,6 +89,8 @@ class LimitOrderTest {
             status);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
+    original.setFeeCurrency(Currency.USD);
+    original.setLeverage("10");
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
@@ -114,6 +123,8 @@ class LimitOrderTest {
             status);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
+    original.setFeeCurrency(Currency.USD);
+    original.setLeverage("10");
 
     LimitOrder jsonCopy = ObjectMapperHelper.viaJSON(original);
     assertThat(jsonCopy).isEqualToIgnoringGivenFields(original, "cumulativeAmount");
