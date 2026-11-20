@@ -168,7 +168,7 @@
         <version.maven-source-plugin>3.4.0</version.maven-source-plugin>
         <version.maven-surefire-plugin>3.6.1</version.maven-surefire-plugin>
         <version.mockito>5.24.0</version.mockito>
-        <version.netty>4.2.20.Final</version.netty>
+        <version.netty>4.2.21.Final</version.netty>
         <version.nimbus-jose-jwt>10.10</version.nimbus-jose-jwt>
         <version.qos.logback>1.6.7</version.qos.logback>
         <version.resilience4j>2.4.0</version.resilience4j>
