@@ -96,7 +96,7 @@ public abstract class Order implements Serializable {
   private BigDecimal fee;
 
   /** The currency in which the fee was charged
-   * @return if null, then it is implied USDT
+   * @return null if the exchange does not report the fee currency
    */
   @Setter
   @Getter
