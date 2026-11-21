@@ -1,5 +1,10 @@
 package org.knowm.xchange.bybit.examples;
 
+import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_ACCOUNT_TYPE;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,12 +22,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import static org.knowm.xchange.bybit.BybitExchange.SPECIFIC_PARAM_ACCOUNT_TYPE;
 
 public class BybitPlaceOrderExample {
 

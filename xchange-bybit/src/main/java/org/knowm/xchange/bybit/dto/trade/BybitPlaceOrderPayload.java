@@ -1,7 +1,6 @@
 package org.knowm.xchange.bybit.dto.trade;
 
 import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

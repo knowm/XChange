@@ -114,7 +114,8 @@ class BybitTradeServiceTest extends BaseWiremockTest {
 
     Order order = (Order) orders.toArray()[0];
     assertThat(order.getInstrument()).isEqualTo(new CurrencyPair("ETH", "USDT"));
-    // marketUnit=quoteCoin: qty (20 USDT) is converted to the base currency by the average fill price
+    // marketUnit=quoteCoin: qty (20 USDT) is converted to the base currency by the average fill
+    // price
     assertThat(order.getOriginalAmount())
         .isCloseTo(new BigDecimal("0.00077202"), within(new BigDecimal("0.00000001")));
     assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.00077202"));
