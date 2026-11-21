@@ -173,7 +173,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       String positionSide,
       TimeInForce timeInForce,
       BigDecimal quantity,
-      boolean reduceOnly,
+      Boolean reduceOnly,
       BigDecimal price,
       String newClientOrderId,
       BinanceNewOrder.NewOrderResponseType newOrderRespType)
@@ -209,7 +209,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       String positionSide,
       TimeInForce timeInForce,
       BigDecimal quantity,
-      boolean reduceOnly,
+      Boolean reduceOnly,
       BigDecimal price,
       String newClientOrderId,
       BinanceNewOrder.NewOrderResponseType newOrderRespType)
@@ -288,7 +288,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       String positionSide,
       TimeInForce timeInForce,
       BigDecimal quantity,
-      boolean reduceOnly,
+      Boolean reduceOnly,
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,

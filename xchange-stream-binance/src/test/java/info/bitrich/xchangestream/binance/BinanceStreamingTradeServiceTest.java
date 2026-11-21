@@ -82,7 +82,7 @@ class BinanceStreamingTradeServiceTest {
     assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("0.005614"));
     assertThat(order.getTimestamp()).isEqualTo(new Date(1793652977111L));
     assertThat(order.hasFlag(BinanceOrderFlags.withClientId("nNpwwu8V2B5UwBlKIVrQ"))).isTrue();
-    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("0.00006052"));
+    assertThat(order.getFee()).isNull();
     assertThat(order.getFeeCurrency()).isEqualTo(Currency.getInstance("BNB"));
   }
 
@@ -113,7 +113,7 @@ class BinanceStreamingTradeServiceTest {
     assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("0.005614364"));
     assertThat(order.getTimestamp()).isEqualTo(new Date(1793652977111L));
     assertThat(order.hasFlag(BinanceOrderFlags.withClientId("nNpwwu8V2B5UwBlKIVrQ"))).isTrue();
-    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("0.00000605"));
+    assertThat(order.getFee()).isNull();
     assertThat(order.getFeeCurrency()).isEqualTo(Currency.getInstance("BNB"));
   }
 
@@ -137,6 +137,8 @@ class BinanceStreamingTradeServiceTest {
 
   @Test
   void testGetFuturesOrderChangesFilled() throws Exception {
+    org.knowm.xchange.binance.BinanceAdapters.putSymbolMapping(
+        "BTCUSDT", new CurrencyPair("BTC/USDT"));
     BinanceUserDataFutureStreamingService futureStreamingService =
         mock(BinanceUserDataFutureStreamingService.class);
     PublishSubject<JsonNode> orderTradeUpdateSubject = PublishSubject.create();
@@ -205,7 +207,7 @@ class BinanceStreamingTradeServiceTest {
     Order order = testObserver.values().get(0);
     assertThat(order.getId()).isEqualTo("12345678");
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
-    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("2.500000"));
+    assertThat(order.getFee()).isNull();
     assertThat(order.getFeeCurrency()).isEqualTo(Currency.getInstance("USDT"));
   }
 }

@@ -135,15 +135,24 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       String orderId;
       String positionSide = BinanceAdapters.getPositionSide(order);
       Order.OrderType orderType = order.getType();
-      if (order.getInstrument() instanceof FuturesContract && positionSide == null) {
-        switch (orderType) {
-          case EXIT_ASK:
-          case EXIT_BID:
-            order
-                .getOrderFlags()
-                .add(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY);
-            break;
+      if (order.getInstrument() instanceof FuturesContract) {
+        if (positionSide == null) {
+          switch (orderType) {
+            case EXIT_ASK:
+            case EXIT_BID:
+              order
+                  .getOrderFlags()
+                  .add(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY);
+              break;
+          }
         }
+        // Binance rejects the reduceOnly parameter when positionSide is set (hedge mode),
+        // so it must not be sent at all in that case
+        Boolean reduceOnly =
+            positionSide == null
+                ? order.hasFlag(
+                    org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY)
+                : null;
         if (exchange.isPortfolioMarginEnabled()) {
           if (BinanceAdapters.isInverse(order.getInstrument())) {
             orderId =
@@ -154,8 +163,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         null)
@@ -169,8 +177,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         null)
@@ -186,8 +193,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         stopPrice,
@@ -206,8 +212,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         stopPrice,

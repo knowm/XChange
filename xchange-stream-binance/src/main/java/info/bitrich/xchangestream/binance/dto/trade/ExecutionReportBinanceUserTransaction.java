@@ -139,9 +139,9 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
                 BigDecimal.ZERO,
                 timestamp),
             isFuture);
-    if (commissionAmount != null) {
-      order.setFee(commissionAmount);
-    }
+    // Note: the commission (n) reported in an executionReport is the commission of the last
+    // fill only, while Order.fee is defined as the total of all fees for the order, so it is
+    // deliberately not set here; the per-fill fee is available on the UserTrade stream.
     if (commissionAsset != null && !commissionAsset.isEmpty()) {
       order.setFeeCurrency(Currency.getInstance(commissionAsset));
     }

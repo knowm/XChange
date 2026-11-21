@@ -157,9 +157,10 @@ public class OrderTradeUpdateBinanceWebSocketTransaction extends BaseBinanceWebS
                   side,
                   tradeTime),
               isFuture);
-      if (commission != null && !commission.isEmpty()) {
-        order.setFee(new BigDecimal(commission));
-      }
+      // Note: the commission (n) reported in an ORDER_TRADE_UPDATE is the commission of the
+      // last fill only, while Order.fee is defined as the total of all fees for the order, so
+      // it is deliberately not set here (the futures TRADE_LITE user-data stream used for
+      // UserTrade does not carry a commission).
       if (commissionAsset != null && !commissionAsset.isEmpty()) {
         order.setFeeCurrency(Currency.getInstance(commissionAsset));
       }
