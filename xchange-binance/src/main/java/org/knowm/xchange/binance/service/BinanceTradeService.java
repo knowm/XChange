@@ -14,11 +14,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.BinanceTradeHistoryParams;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
-import org.knowm.xchange.binance.dto.trade.TrailingFlag;
+import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.binance.dto.trade.futures.BinanceChangeStatus;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,33 +22,13 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.account.OpenPositions;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelAllOrders;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
-import org.knowm.xchange.service.trade.params.CancelOrderByUserReferenceParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.*;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
@@ -156,16 +132,25 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       throws IOException {
     try {
       String orderId;
+      String positionSide = BinanceAdapters.getPositionSide(order);
       Order.OrderType orderType = order.getType();
       if (order.getInstrument() instanceof FuturesContract) {
-        switch (orderType) {
-          case EXIT_ASK:
-          case EXIT_BID:
-            order
-                .getOrderFlags()
-                .add(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY);
-            break;
+        if (positionSide == null) {
+          switch (orderType) {
+            case EXIT_ASK:
+            case EXIT_BID:
+              order
+                  .getOrderFlags()
+                  .add(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY);
+              break;
+          }
         }
+        // Binance rejects the reduceOnly parameter when positionSide is set (hedge mode),
+        // so it must not be sent at all in that case
+        Boolean reduceOnly =
+            positionSide == null
+                ? order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY)
+                : null;
         if (exchange.isPortfolioMarginEnabled()) {
           if (BinanceAdapters.isInverse(order.getInstrument())) {
             orderId =
@@ -173,10 +158,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         order.getInstrument(),
                         BinanceAdapters.convert(orderType),
                         type,
+                        positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         null)
@@ -187,10 +172,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         order.getInstrument(),
                         BinanceAdapters.convert(orderType),
                         type,
+                        positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         null)
@@ -203,10 +188,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         order.getInstrument(),
                         BinanceAdapters.convert(orderType),
                         type,
+                        positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         stopPrice,
@@ -222,10 +207,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         order.getInstrument(),
                         BinanceAdapters.convert(orderType),
                         type,
+                        positionSide,
                         tif,
                         order.getOriginalAmount(),
-                        order.hasFlag(
-                            org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY),
+                        reduceOnly,
                         limitPrice,
                         order.getUserReference(),
                         stopPrice,

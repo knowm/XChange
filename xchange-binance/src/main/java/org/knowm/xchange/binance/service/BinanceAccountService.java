@@ -557,4 +557,17 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       throw BinanceErrorAdapter.adapt(e);
     }
   }
+
+  public boolean setDualSidePositionMode(boolean dualSidePosition) throws IOException {
+    try {
+      return super.setDualSidePosition(dualSidePosition).isSuccess();
+    } catch (BinanceException e) {
+      if (e.getCode() == -4059) {
+        // {"code":-4059,"msg":"No need to change position side."}: the requested mode is already
+        // set
+        return true;
+      }
+      throw BinanceErrorAdapter.adapt(e);
+    }
+  }
 }

@@ -1,14 +1,6 @@
 package org.knowm.xchange.binance;
 
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -17,14 +9,7 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureAccountInformation;
 import org.knowm.xchange.binance.dto.account.futures.BinanceFutureCommissionRate;
 import org.knowm.xchange.binance.dto.account.futures.BinancePosition;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.MarginType;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.binance.dto.trade.futures.BinanceChangeStatus;
 import org.knowm.xchange.binance.dto.trade.futures.BinanceFutureNewOrder;
 import org.knowm.xchange.binance.dto.trade.futures.BinanceSetLeverage;
@@ -102,6 +87,7 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
       @FormParam("type") OrderType type,
+      @FormParam("positionSide") String positionSide,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
       @FormParam("reduceOnly") Boolean reduceOnly,
@@ -146,9 +132,10 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
       @FormParam("type") OrderType type,
+      @FormParam("positionSide") String positionSide,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
-      @FormParam("reduceOnly") boolean reduceOnly,
+      @FormParam("reduceOnly") Boolean reduceOnly,
       @FormParam("price") BigDecimal price,
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("stopPrice") BigDecimal stopPrice,
@@ -189,9 +176,10 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
       @FormParam("type") OrderType type,
+      @FormParam("positionSide") String positionSide,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
-      @FormParam("reduceOnly") boolean reduceOnly,
+      @FormParam("reduceOnly") Boolean reduceOnly,
       @FormParam("price") BigDecimal price,
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,
@@ -228,9 +216,10 @@ public interface BinanceFuturesAuthenticated extends BinanceFutures {
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
       @FormParam("type") OrderType type,
+      @FormParam("positionSide") String positionSide,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
-      @FormParam("reduceOnly") boolean reduceOnly,
+      @FormParam("reduceOnly") Boolean reduceOnly,
       @FormParam("price") BigDecimal price,
       @FormParam("newClientOrderId") String newClientOrderId,
       @FormParam("newOrderRespType") BinanceNewOrder.NewOrderResponseType newOrderRespType,

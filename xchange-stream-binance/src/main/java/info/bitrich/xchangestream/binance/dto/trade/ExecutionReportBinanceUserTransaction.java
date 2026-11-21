@@ -111,30 +111,41 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
         .id(Long.toString(tradeId))
         .orderId(Long.toString(orderId))
         .feeAmount(commissionAmount)
-        .feeCurrency(Currency.getInstance(commissionAsset))
+        .feeCurrency(
+            commissionAsset != null && !commissionAsset.isEmpty()
+                ? Currency.getInstance(commissionAsset)
+                : null)
         .build();
   }
 
   public Order toOrder(boolean isFuture) {
-    return BinanceAdapters.adaptOrder(
-        new BinanceOrder(
-            getSymbol(),
-            orderId,
-            clientOrderId,
-            lastExecutedPrice,
-            orderQuantity,
-            cumulativeFilledQuantity,
-            // not sure 100%, but according SPOT documentation api
-            // https://developers.binance.com/docs/binance-spot-api-docs/user-data-stream#order-update
-            cumulativeQuoteAssetTransactedQuantity,
-            currentOrderStatus,
-            timeInForce,
-            orderType,
-            side,
-            stopPrice,
-            BigDecimal.ZERO,
-            timestamp),
-        isFuture);
+    Order order =
+        BinanceAdapters.adaptOrder(
+            new BinanceOrder(
+                getSymbol(),
+                orderId,
+                clientOrderId,
+                lastExecutedPrice,
+                orderQuantity,
+                cumulativeFilledQuantity,
+                // not sure 100%, but according SPOT documentation api
+                // https://developers.binance.com/docs/binance-spot-api-docs/user-data-stream#order-update
+                cumulativeQuoteAssetTransactedQuantity,
+                currentOrderStatus,
+                timeInForce,
+                orderType,
+                side,
+                stopPrice,
+                BigDecimal.ZERO,
+                timestamp),
+            isFuture);
+    // Note: the commission (n) reported in an executionReport is the commission of the last
+    // fill only, while Order.fee is defined as the total of all fees for the order, so it is
+    // deliberately not set here; the per-fill fee is available on the UserTrade stream.
+    if (commissionAsset != null && !commissionAsset.isEmpty()) {
+      order.setFeeCurrency(Currency.getInstance(commissionAsset));
+    }
+    return order;
   }
 
   @Override

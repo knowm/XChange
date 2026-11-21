@@ -23,11 +23,15 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
+import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -281,6 +285,85 @@ public class AccountServiceTest {
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
                     .withBody("{\"rows\":[],\"total\":0}")));
+  }
+
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void setDualSidePositionSuccess() throws Exception {
+    BinanceExchange exchange = createFuturesExchange();
+    BinanceAccountService service = (BinanceAccountService) exchange.getAccountService();
+    stubDualSidePosition("{\"code\":200,\"msg\":\"success\"}", 200);
+
+    boolean result = service.setDualSidePositionMode(true);
+    assertThat(result).isTrue();
+  }
+
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void setDualSidePositionNoNeedToChange() throws Exception {
+    BinanceExchange exchange = createFuturesExchange();
+    BinanceAccountService service = (BinanceAccountService) exchange.getAccountService();
+    stubDualSidePosition("{\"code\":-4059,\"msg\":\"No need to change position side.\"}", 400);
+
+    boolean result = service.setDualSidePositionMode(true);
+    assertThat(result).isTrue();
+
+    // the raw service surfaces whatever the exchange returned
+    Throwable rawException = catchThrowable(() -> service.setDualSidePosition(true));
+    assertThat(rawException).isInstanceOf(BinanceException.class);
+    assertThat(((BinanceException) rawException).getCode()).isEqualTo(-4059);
+  }
+
+  @Test
+  @Timeout(
+      value = 2000,
+      unit = TimeUnit.MILLISECONDS,
+      threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+  void setDualSidePositionOtherError() {
+    BinanceExchange exchange = createFuturesExchange();
+    BinanceAccountService service = (BinanceAccountService) exchange.getAccountService();
+    stubDualSidePosition("{\"code\":-4050,\"msg\":\"Position side does not match.\"}", 400);
+
+    Throwable exception = catchThrowable(() -> service.setDualSidePositionMode(true));
+    assertThat(exception).isInstanceOf(ExchangeException.class);
+  }
+
+  private void stubDualSidePosition(String responseBody, int statusCode) {
+    stubFor(
+        post(urlPathEqualTo("/fapi/v1/positionSide/dual"))
+            .willReturn(
+                aResponse()
+                    .withStatus(statusCode)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(responseBody)));
+  }
+
+  private BinanceExchange createFuturesExchange() {
+    BinanceExchange exchange =
+        new BinanceExchange() {
+          @Override
+          protected void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+            // keep wiremock url
+          }
+        };
+    ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
+    specification.setHost("localhost");
+    specification.setSslUri("http://localhost:" + wireMockRule.getPort() + "/");
+    specification.setPort(wireMockRule.getPort());
+    specification.setShouldLoadRemoteMetaData(false);
+    specification.setHttpReadTimeout(1000);
+    specification.setExchangeSpecificParametersItem(
+        BinanceExchange.EXCHANGE_TYPE, ExchangeType.FUTURES);
+    specification.setApiKey("apiKey");
+    specification.setSecretKey("secretKey");
+    exchange.applySpecification(specification);
+    return exchange;
   }
 
   private BinanceExchange createExchange() {

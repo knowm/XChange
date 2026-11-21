@@ -11,6 +11,7 @@ import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 
 @Getter
@@ -140,21 +141,30 @@ public class OrderTradeUpdateBinanceWebSocketTransaction extends BaseBinanceWebS
     }
 
     public Order toOrder(boolean isFuture) {
-      return BinanceAdapters.adaptOrder(
-          new BinanceOrder(
-              getSymbol(),
-              orderId,
-              clientOrderId,
-              lastFilledPrice.compareTo(BigDecimal.ZERO) == 0 ? originalPrice : lastFilledPrice,
-              originalQuantity,
-              filledAccumulatedQuantity,
-              averagePrice,
-              orderStatus,
-              timeInForce,
-              orderType,
-              side,
-              tradeTime),
-          isFuture);
+      Order order =
+          BinanceAdapters.adaptOrder(
+              new BinanceOrder(
+                  getSymbol(),
+                  orderId,
+                  clientOrderId,
+                  lastFilledPrice.compareTo(BigDecimal.ZERO) == 0 ? originalPrice : lastFilledPrice,
+                  originalQuantity,
+                  filledAccumulatedQuantity,
+                  averagePrice,
+                  orderStatus,
+                  timeInForce,
+                  orderType,
+                  side,
+                  tradeTime),
+              isFuture);
+      // Note: the commission (n) reported in an ORDER_TRADE_UPDATE is the commission of the
+      // last fill only, while Order.fee is defined as the total of all fees for the order, so
+      // it is deliberately not set here (the futures TRADE_LITE user-data stream used for
+      // UserTrade does not carry a commission).
+      if (commissionAsset != null && !commissionAsset.isEmpty()) {
+        order.setFeeCurrency(Currency.getInstance(commissionAsset));
+      }
+      return order;
     }
   }
 }

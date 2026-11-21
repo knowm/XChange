@@ -91,12 +91,15 @@ public class BinanceStreamingAdapters {
 
   public static BinanceWebsocketPlaceOrderPayload adaptPlaceOrder(Order order) {
     boolean reduceOnly = false;
+    String positionSide = BinanceAdapters.getPositionSide(order);
     if (order.getInstrument() instanceof FuturesContract) {
-      switch (order.getType()) {
-        case EXIT_ASK:
-        case EXIT_BID:
-          reduceOnly = true;
-          break;
+      if (positionSide == null) {
+        switch (order.getType()) {
+          case EXIT_ASK:
+          case EXIT_BID:
+            reduceOnly = true;
+            break;
+        }
       }
     }
     BinanceWebsocketPlaceOrderPayload payload = null;
@@ -114,6 +117,7 @@ public class BinanceStreamingAdapters {
               .timestamp(System.currentTimeMillis())
               .timeInForce(tif)
               .newClientOrderId(order.getUserReference())
+              .positionSide(positionSide)
               .build();
       return payload;
     } else if (order instanceof MarketOrder) {
@@ -126,6 +130,7 @@ public class BinanceStreamingAdapters {
               .quantity(order.getOriginalAmount().toPlainString())
               .timestamp(System.currentTimeMillis())
               .newClientOrderId(order.getUserReference())
+              .positionSide(positionSide)
               .build();
     }
     return payload;

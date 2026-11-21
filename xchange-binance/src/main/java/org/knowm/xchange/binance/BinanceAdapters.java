@@ -429,7 +429,10 @@ public class BinanceAdapters {
                         .id(Long.toString(t.id))
                         .orderId(Long.toString(t.orderId))
                         .feeAmount(t.commission)
-                        .feeCurrency(Currency.getInstance(t.commissionAsset))
+                        .feeCurrency(
+                            t.commissionAsset != null && !t.commissionAsset.isEmpty()
+                                ? Currency.getInstance(t.commissionAsset)
+                                : null)
                         .build())
             .collect(Collectors.toList());
     long lastId = binanceTrades.stream().map(t -> t.id).max(Long::compareTo).orElse(0L);
@@ -699,6 +702,29 @@ public class BinanceAdapters {
                 binanceFundingRate.getNextFundingTime().getTime()
                     - binanceFundingRate.getTime().getTime()))
         .build();
+  }
+
+  public static String getPositionSide(Order order) {
+    OrderHedgeMode hedgeMode =
+        getOrderFlag(order, OrderHedgeMode.class).orElse(OrderHedgeMode.ONEWAY);
+    String positionSide = null;
+    if (hedgeMode.equals(OrderHedgeMode.TWOWAY)) {
+      positionSide = "LONG";
+      switch (order.getType()) {
+        case ASK:
+        case EXIT_ASK:
+          {
+            positionSide = "SHORT";
+            break;
+          }
+        case BID:
+        case EXIT_BID:
+          {
+            break;
+          }
+      }
+    }
+    return positionSide;
   }
 
   public static <T extends IOrderFlags> Optional<T> getOrderFlag(Order order, Class<T> clazz) {
