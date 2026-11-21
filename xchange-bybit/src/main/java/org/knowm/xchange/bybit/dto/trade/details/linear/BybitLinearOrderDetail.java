@@ -41,9 +41,6 @@ public class BybitLinearOrderDetail extends BybitOrderDetail {
   @JsonProperty("cumExecValue")
   BigDecimal cumExecValue;
 
-  @JsonProperty("cumExecFee")
-  BigDecimal cumExecFee;
-
   @JsonProperty("timeInForce")
   String timeInForce;
 

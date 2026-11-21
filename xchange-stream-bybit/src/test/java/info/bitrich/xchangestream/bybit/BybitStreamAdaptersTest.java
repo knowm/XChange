@@ -2,9 +2,6 @@ package info.bitrich.xchangestream.bybit;
 
 import static info.bitrich.xchangestream.bybit.BybitStreamAdapters.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
-import static org.knowm.xchange.bybit.dto.trade.BybitOrderType.MARKET;
-import static org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce.IOC;
 import static org.knowm.xchange.dto.Order.OrderStatus.FILLED;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,6 +18,8 @@ import java.util.List;
 import java.util.Locale;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
@@ -97,8 +96,56 @@ class BybitStreamAdaptersTest {
     assertThat(order.getTimestamp().getTime()).isEqualTo(1672364262457L);
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("1"));
     assertThat(order.getFee()).isEqualTo(new BigDecimal("0.358635"));
+    assertThat(order.getFeeCurrency()).isNull();
     assertThat(order.getStatus()).isEqualTo(FILLED);
     assertThat(order.getLeverage()).isEqualTo(null);
+  }
+
+  @Test
+  void adaptSpotOrdersChangesFeeDeductionTest() throws Exception {
+    JsonNode jsonNode =
+        mapper.readTree(
+            ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("spotOrderChangeFilledResponse.json5"));
+    BybitOrderChangesResponse bybitOrderChangesResponse =
+        mapper.treeToValue(jsonNode, BybitOrderChangesResponse.class);
+    List<Order> orders = adaptOrdersChanges(bybitOrderChangesResponse.getData());
+    assertThat(orders.size()).isEqualTo(5);
+
+    Order feeInBaseCurrency = orders.get(0);
+    assertThat(feeInBaseCurrency.getInstrument()).isEqualTo(new CurrencyPair("BTC", "USDT"));
+    assertThat(feeInBaseCurrency.getOriginalAmount()).isEqualTo(new BigDecimal("0.001"));
+    // cumFeeDetail is authoritative: its BTC entry is deducted from the cumulative amount
+    assertThat(feeInBaseCurrency.getCumulativeAmount()).isEqualByComparingTo("0.00099");
+    assertThat(feeInBaseCurrency.getFee()).isEqualTo(new BigDecimal("0.00001"));
+    assertThat(feeInBaseCurrency.getFeeCurrency()).isEqualTo(new Currency("BTC"));
+
+    Order feeInQuoteCurrency = orders.get(1);
+    assertThat(feeInQuoteCurrency.getOriginalAmount()).isEqualTo(new BigDecimal("0.002"));
+    // no cumFeeDetail, so the deprecated cumExecFee/feeCurrency are used as a fallback:
+    // the fee is charged in the quote currency, so cumulativeAmount stays as cumExecQty
+    assertThat(feeInQuoteCurrency.getCumulativeAmount()).isEqualByComparingTo("0.002");
+    assertThat(feeInQuoteCurrency.getFee()).isEqualTo(new BigDecimal("0.00002"));
+    assertThat(feeInQuoteCurrency.getFeeCurrency()).isEqualTo(new Currency("USDT"));
+
+    // marketUnit=quoteCoin with fills: qty (20 USDT) is converted by the average fill price
+    Order filledMarketBuy = orders.get(2);
+    assertThat(filledMarketBuy.getOriginalAmount()).isEqualByComparingTo("0.0008");
+    assertThat(filledMarketBuy.getCumulativeAmount()).isEqualByComparingTo("0.0008");
+
+    // marketUnit=quoteCoin without fills: no fill price to convert by, raw qty is kept
+    Order unexecutedMarketBuy = orders.get(3);
+    assertThat(unexecutedMarketBuy.getOriginalAmount()).isEqualByComparingTo("30");
+    // an empty cumExecFee string does not break parsing
+    assertThat(unexecutedMarketBuy.getFee()).isNull();
+    assertThat(unexecutedMarketBuy.getFeeCurrency()).isNull();
+
+    // cumFeeDetail has no base-currency entry (the fee is paid in BIT),
+    // so nothing is deducted even though the deprecated cumExecFee/feeCurrency say otherwise
+    Order feeInThirdCurrency = orders.get(4);
+    assertThat(feeInThirdCurrency.getCumulativeAmount()).isEqualByComparingTo("0.004");
+    assertThat(feeInThirdCurrency.getFee()).isEqualByComparingTo("2.5");
+    assertThat(feeInThirdCurrency.getFeeCurrency()).isEqualTo(new Currency("BIT"));
   }
 
   @Test
@@ -166,68 +213,6 @@ class BybitStreamAdaptersTest {
     assertThat(bybitPositionChanges.get(0).getMmrSysUpdatedTime()).isEmpty();
     assertThat(bybitPositionChanges.get(0).getSeq()).isEqualTo(8327597863L);
     assertThat(bybitPositionChanges.get(0).isReduceOnly()).isEqualTo(false);
-  }
-
-  @Test
-  void adaptComplexOrdersChangesTest() throws Exception {
-    JsonNode jsonNode =
-        mapper.readTree(
-            ClassLoader.getSystemClassLoader().getResourceAsStream("orderChangeResponse.json5"));
-    BybitOrderChangesResponse bybitOrderChangesResponse =
-        mapper.treeToValue(jsonNode, BybitOrderChangesResponse.class);
-    DateTimeFormatter dateParser =
-        new DateTimeFormatterBuilder()
-            .parseCaseInsensitive()
-            .appendPattern("ddLLLyy")
-            .toFormatter(Locale.US);
-    BybitComplexOrderChanges order =
-        adaptComplexOrdersChanges(bybitOrderChangesResponse.getData()).get(0);
-    assertThat(order.getInstrument()).isEqualTo(new OptionsContract("ETH/USDC/221230/1400/C"));
-    assertThat(order.getId()).isEqualTo("5cf98598-39a7-459e-97bf-76ca765ee020");
-    assertThat(order.getType()).isEqualTo(OrderType.ASK);
-
-    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("75"));
-    assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("1"));
-    // here it's create time
-    assertThat(order.getTimestamp().getTime()).isEqualTo(1672364262444L);
-    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("1"));
-    assertThat(order.getFee()).isEqualTo(new BigDecimal("0.358635"));
-    assertThat(order.getStatus()).isEqualTo(FILLED);
-    assertThat(order.getLeverage()).isEqualTo(null);
-    assertThat(order.getCategory()).isEqualTo(OPTION);
-    assertThat(order.getBlockTradeId()).isEmpty();
-    assertThat(order.getPositionIdx()).isEqualTo(0);
-    assertThat(order.getCreateType()).isEqualTo(null);
-    assertThat(order.getCancelType()).isEqualTo("UNKNOWN");
-    assertThat(order.getRejectReason()).isEqualTo("EC_NoError");
-    assertThat(order.getLeavesQty() == null).isTrue();
-    assertThat(order.getLeavesValue() == null).isTrue();
-    assertThat(order.getCumExecValue()).isEqualTo(new BigDecimal("75"));
-    assertThat(order.getFeeCurrency()).isNull();
-    assertThat(order.getTimeInForce()).isEqualTo(IOC);
-    assertThat(order.getOrderType()).isEqualTo(MARKET);
-    assertThat(order.getStopOrderType()).isEmpty();
-    assertThat(order.getOcoTriggerBy()).isEqualTo(null);
-    assertThat(order.getOrderIv()).isEmpty();
-    assertThat(order.getMarketUnit()).isEmpty();
-    assertThat(order.getTriggerPrice() == null).isTrue();
-    assertThat(order.getTakeProfit() == null).isTrue();
-    assertThat(order.getStopLoss() == null).isTrue();
-    assertThat(order.getTpslMode()).isEmpty();
-    assertThat(order.getTpLimitPrice() == null).isTrue();
-    assertThat(order.getSlLimitPrice() == null).isTrue();
-    assertThat(order.getTpTriggerBy()).isEmpty();
-    assertThat(order.getSlTriggerBy()).isEmpty();
-    assertThat(order.getTriggerDirection()).isEqualTo(0);
-    assertThat(order.getTriggerBy()).isEmpty();
-    assertThat(order.getLastPriceOnCreated()).isEmpty();
-    assertThat(order.isReduceOnly()).isEqualTo(false);
-    assertThat(order.isCloseOnTrigger()).isEqualTo(false);
-    assertThat(order.getPlaceType()).isEqualTo("price");
-    assertThat(order.getSmpType()).isEqualTo("None");
-    assertThat(order.getSmpGroup()).isEqualTo(0);
-    assertThat(order.getSmpOrderId()).isEmpty();
-    assertThat(order.getUpdatedTime().getTime()).isEqualTo(1672364262457L);
   }
 
   @Test

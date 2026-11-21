@@ -3,6 +3,7 @@ package org.knowm.xchange.bybit.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.within;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelAllOrdersParams;
 import org.knowm.xchange.bybit.dto.trade.BybitCancelOrderParams;
 import org.knowm.xchange.bybit.dto.trade.BybitOpenOrdersParam;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
@@ -51,6 +53,93 @@ class BybitTradeServiceTest extends BaseWiremockTest {
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("0"));
     assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
     assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("0.10"));
+    assertThat(order.getFeeCurrency()).isNull();
+  }
+
+  @Test
+  void getBybitOrderSpotBuyFeeInBaseCurrency() throws Exception {
+    initGetStub("/v5/order/realtime", "/getOrderSpotBuyFeeInBaseCurrency.json5");
+
+    Collection<Order> orders = tradeService.getOrder("c1f7ba8b-2f1e-4c1e-9c1a-64d0e5c8b2f1");
+    assertThat(orders.size()).isEqualTo(1);
+
+    Order order = (Order) orders.toArray()[0];
+    assertThat(order.getType()).isEqualTo(OrderType.BID);
+    assertThat(order.getInstrument()).isEqualTo(new CurrencyPair("BTC", "USDT"));
+    assertThat(order.getStatus()).isEqualTo(OrderStatus.FILLED);
+    assertThat(order.getOriginalAmount()).isEqualTo(new BigDecimal("0.00100000"));
+    // Bybit spot buy fee is charged in the base currency,
+    // so cumulativeAmount is cumExecQty (0.00100000) reduced by cumExecFee (0.00001000)
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.00099000"));
+    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("0.00001000"));
+    assertThat(order.getFeeCurrency()).isEqualTo(new Currency("BTC"));
+  }
+
+  @Test
+  void getBybitOrderSpotBuyFeeDetail() throws Exception {
+    initGetStub("/v5/order/realtime", "/getOrderSpotBuyFeeDetail.json5");
+
+    Collection<Order> orders = tradeService.getOrder("a2e8c7d4-3b6f-49a8-8e2d-75f1b0c9a4e6");
+    assertThat(orders.size()).isEqualTo(1);
+
+    Order order = (Order) orders.toArray()[0];
+    // cumFeeDetail is authoritative: the BTC entry is deducted even though
+    // the deprecated cumExecFee is "0" and feeCurrency is empty
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.00099000"));
+    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("0.00001000"));
+    assertThat(order.getFeeCurrency()).isEqualTo(new Currency("BTC"));
+  }
+
+  @Test
+  void getBybitOrderSpotBuyFeeInThirdCurrency() throws Exception {
+    initGetStub("/v5/order/realtime", "/getOrderSpotBuyFeeInThirdCurrency.json5");
+
+    Collection<Order> orders = tradeService.getOrder("b3d9f1e2-8c7a-4b5d-9f0e-26a7c3d8e5f1");
+    assertThat(orders.size()).isEqualTo(1);
+
+    Order order = (Order) orders.toArray()[0];
+    // cumFeeDetail has no base-currency entry (the fee is paid in BIT),
+    // so nothing is deducted even though the deprecated cumExecFee/feeCurrency say otherwise
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.00100000"));
+    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("1.5"));
+    assertThat(order.getFeeCurrency()).isEqualTo(new Currency("BIT"));
+  }
+
+  @Test
+  void getBybitOrderSpotMarketBuyQuoteUnit() throws Exception {
+    initGetStub("/v5/order/realtime", "/getOrderSpotMarketBuyQuoteUnit.json5");
+
+    Collection<Order> orders = tradeService.getOrder("0f7c98b1-9a5e-4f2e-b6c4-31c2a8e1d9f3");
+    assertThat(orders.size()).isEqualTo(1);
+
+    Order order = (Order) orders.toArray()[0];
+    assertThat(order.getInstrument()).isEqualTo(new CurrencyPair("ETH", "USDT"));
+    // marketUnit=quoteCoin: qty (20 USDT) is converted to the base currency by the average fill
+    // price
+    assertThat(order.getOriginalAmount())
+        .isCloseTo(new BigDecimal("0.00077202"), within(new BigDecimal("0.00000001")));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.00077202"));
+  }
+
+  @Test
+  void getBybitOrderSpotFeeInQuoteCurrency() throws Exception {
+    initGetStub("/v5/order/realtime", "/getOrderDetailsSpot.json5");
+
+    Collection<Order> orders = tradeService.getOrder("fd4300ae-7847-404e-b947-b46980a4d140");
+    assertThat(orders.size()).isEqualTo(1);
+
+    Order order = (Order) orders.toArray()[0];
+    assertThat(order.getType()).isEqualTo(OrderType.BID);
+    assertThat(order.getInstrument()).isEqualTo(new CurrencyPair("ETH", "USDT"));
+    // empty marketUnit + Buy + Market means Bybit's default "by value" market buy,
+    // so the partially filled order has its qty (20 USDT) converted to the base currency
+    assertThat(order.getOriginalAmount())
+        .isCloseTo(new BigDecimal("0.00077202"), within(new BigDecimal("0.00000001")));
+    // the fee is charged in the quote currency (USDT), so cumulativeAmount stays as cumExecQty
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.000772"));
+    // cumFeeDetail is absent, so the deprecated cumExecFee/feeCurrency are used as a fallback
+    assertThat(order.getFee()).isEqualByComparingTo(new BigDecimal("0.000000772"));
+    assertThat(order.getFeeCurrency()).isEqualTo(new Currency("USDT"));
   }
 
   @Test

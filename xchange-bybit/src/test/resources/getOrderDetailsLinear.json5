@@ -22,6 +22,7 @@
         "cumExecQty": "0.00",
         "cumExecValue": "0",
         "cumExecFee": "0",
+        "feeCurrency": "",
         "timeInForce": "GTC",
         "orderType": "Limit",
         "stopOrderType": "UNKNOWN",

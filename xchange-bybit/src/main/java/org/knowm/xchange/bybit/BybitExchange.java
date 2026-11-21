@@ -1,5 +1,6 @@
 package org.knowm.xchange.bybit;
 
+import java.io.IOException;
 import lombok.Getter;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
@@ -17,8 +18,6 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
 
 public class BybitExchange extends BaseExchange implements Exchange {
 

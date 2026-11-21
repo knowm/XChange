@@ -1,6 +1,8 @@
 package org.knowm.xchange.bybit.dto.trade;
 
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
@@ -8,6 +10,8 @@ import org.knowm.xchange.bybit.dto.trade.BybitOrder.SlTriggerBy;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class BybitPlaceOrderPayload {
 
   private final String category;
@@ -15,6 +19,7 @@ public class BybitPlaceOrderPayload {
   private final String side;
   private final String orderType;
   private String qty;
+  private String marketUnit;
   private String orderLinkId;
   private String price;
   private String stopLoss;

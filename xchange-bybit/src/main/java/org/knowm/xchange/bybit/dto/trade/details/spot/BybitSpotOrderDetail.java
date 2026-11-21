@@ -70,9 +70,6 @@ public class BybitSpotOrderDetail extends BybitOrderDetail {
   @JsonProperty("triggerPrice")
   BigDecimal triggerPrice;
 
-  @JsonProperty("cumExecFee")
-  BigDecimal cumExecFee;
-
   @JsonProperty("leavesQty")
   BigDecimal leavesQty;
 

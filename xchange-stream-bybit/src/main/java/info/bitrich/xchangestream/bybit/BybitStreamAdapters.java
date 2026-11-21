@@ -14,11 +14,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.marketdata.candles.BybitCandleStick;
 import org.knowm.xchange.bybit.dto.marketdata.tickers.linear.BybitLinearInverseTicker;
-import org.knowm.xchange.bybit.dto.trade.details.BybitTimeInForce;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -93,34 +93,61 @@ public class BybitStreamAdapters {
     for (BybitOrderChanges bybitOrderChange : bybitOrderChanges) {
       date.setTime(Long.parseLong(bybitOrderChange.getUpdatedTime()));
       Order.OrderType orderType = getOrderType(bybitOrderChange.getSide());
+      Instrument instrument =
+          convertBybitSymbolToInstrument(
+              bybitOrderChange.getSymbol(), bybitOrderChange.getCategory());
       Order.Builder builder = null;
       switch (bybitOrderChange.getOrderType()) {
         case LIMIT:
           builder =
-              new LimitOrder.Builder(
-                      orderType,
-                      convertBybitSymbolToInstrument(
-                          bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()))
+              new LimitOrder.Builder(orderType, instrument)
                   .limitPrice(new BigDecimal(bybitOrderChange.getPrice()));
           break;
         case MARKET:
-          builder =
-              new MarketOrder.Builder(
-                  orderType,
-                  convertBybitSymbolToInstrument(
-                      bybitOrderChange.getSymbol(), bybitOrderChange.getCategory()));
+          builder = new MarketOrder.Builder(orderType, instrument);
           break;
       }
       if (!bybitOrderChange.getAvgPrice().isEmpty()) {
         builder.averagePrice(new BigDecimal(bybitOrderChange.getAvgPrice()));
       }
+      String cumExecFee = bybitOrderChange.getCumExecFee();
+      String feeCurrency = bybitOrderChange.getFeeCurrency();
+      // cumFeeDetail is the authoritative fee source for linear/spot; Order supports only a single
+      // fee amount, so the first map entry is used for fee/feeCurrency
+      Map.Entry<String, String> feeDetail = firstFeeDetail(bybitOrderChange.getCumFeeDetail());
+      String effectiveFeeCurrency = feeDetail != null ? feeDetail.getKey() : feeCurrency;
       builder
-          .fee(new BigDecimal(bybitOrderChange.getCumExecFee()))
+          .fee(
+              feeDetail != null
+                  ? parseBigDecimalOrNull(feeDetail.getValue())
+                  : parseBigDecimalOrNull(cumExecFee))
+          .feeCurrency(
+              effectiveFeeCurrency == null || effectiveFeeCurrency.isEmpty()
+                  ? null
+                  : Currency.getInstance(effectiveFeeCurrency))
           .id(bybitOrderChange.getOrderId())
           .orderStatus(adaptBybitOrderStatus(bybitOrderChange.getOrderStatus()))
           .timestamp(date)
-          .cumulativeAmount(new BigDecimal(bybitOrderChange.getCumExecQty()))
-          .originalAmount(new BigDecimal(bybitOrderChange.getQty()))
+          .cumulativeAmount(
+              adaptCumulativeAmount(
+                  bybitOrderChange.getCategory(),
+                  bybitOrderChange.getSide(),
+                  instrument,
+                  new BigDecimal(bybitOrderChange.getCumExecQty()),
+                  parseBigDecimalOrNull(cumExecFee),
+                  bybitOrderChange.getCumFeeDetail(),
+                  feeCurrency))
+          .originalAmount(
+              adaptOriginalAmount(
+                  bybitOrderChange.getCategory(),
+                  bybitOrderChange.getOrderType(),
+                  bybitOrderChange.getSide(),
+                  bybitOrderChange.getMarketUnit(),
+                  new BigDecimal(bybitOrderChange.getQty()),
+                  bybitOrderChange.getAvgPrice() == null
+                          || bybitOrderChange.getAvgPrice().isEmpty()
+                      ? null
+                      : new BigDecimal(bybitOrderChange.getAvgPrice())))
           .id(bybitOrderChange.getOrderId())
           .userReference(bybitOrderChange.getOrderLinkId());
       if (!bybitOrderChange.getRejectReason().isEmpty())
@@ -219,77 +246,6 @@ public class BybitStreamAdapters {
               .seq(position.getSeq())
               .build();
       result.add(positionChanges);
-    }
-    return result;
-  }
-
-  public static List<BybitComplexOrderChanges> adaptComplexOrdersChanges(
-      List<BybitOrderChanges> data) {
-    List<BybitComplexOrderChanges> result = new ArrayList<>();
-    for (BybitOrderChanges change : data) {
-      Order.OrderType type = getOrderType(change.getSide());
-      BigDecimal avgPrice =
-          change.getAvgPrice().isEmpty() ? null : new BigDecimal(change.getAvgPrice());
-      BigDecimal triggerPrice =
-          change.getTriggerPrice().isEmpty() ? null : new BigDecimal(change.getTriggerPrice());
-      BigDecimal takeProfit =
-          change.getTakeProfit().isEmpty() ? null : new BigDecimal(change.getTakeProfit());
-      BigDecimal stopLoss =
-          change.getStopLoss().isEmpty() ? null : new BigDecimal(change.getStopLoss());
-      BybitComplexOrderChanges orderChanges =
-          new BybitComplexOrderChanges(
-              type,
-              new BigDecimal(change.getQty()),
-              convertBybitSymbolToInstrument(change.getSymbol(), change.getCategory()),
-              change.getOrderLinkId(),
-              new Date(Long.parseLong(change.getCreatedTime())),
-              avgPrice,
-              new BigDecimal(change.getCumExecQty()),
-              new BigDecimal(change.getCumExecFee()),
-              adaptBybitOrderStatus(change.getOrderStatus()),
-              change.getCategory(),
-              change.getOrderId(),
-              change.getIsLeverage(),
-              change.getBlockTradeId(),
-              new BigDecimal(change.getPrice()),
-              new BigDecimal(change.getQty()),
-              change.getSide(),
-              change.getPositionIdx(),
-              change.getCreateType(),
-              change.getCancelType(),
-              change.getRejectReason(),
-              change.getLeavesQty().isEmpty() ? null : new BigDecimal(change.getLeavesQty()),
-              change.getLeavesValue().isEmpty() ? null : new BigDecimal(change.getLeavesValue()),
-              new BigDecimal(change.getCumExecValue()),
-              change.getFeeCurrency() == null || change.getFeeCurrency().isEmpty()
-                  ? null
-                  : Currency.getInstance(change.getFeeCurrency()),
-              BybitTimeInForce.valueOf(change.getTimeInForce().toUpperCase()),
-              change.getOrderType(),
-              change.getStopOrderType(),
-              change.getOcoTriggerBy(),
-              change.getOrderIv(),
-              change.getMarketUnit(),
-              triggerPrice,
-              takeProfit,
-              stopLoss,
-              change.getTpslMode(),
-              change.getTpLimitPrice().isEmpty() ? null : new BigDecimal(change.getTpLimitPrice()),
-              change.getSlLimitPrice().isEmpty() ? null : new BigDecimal(change.getSlLimitPrice()),
-              change.getTpTriggerBy(),
-              change.getSlTriggerBy(),
-              change.getTriggerDirection(),
-              change.getTriggerBy(),
-              change.getLastPriceOnCreated(),
-              change.isReduceOnly(),
-              change.isCloseOnTrigger(),
-              change.getPlaceType(),
-              change.getSmpType(),
-              change.getSmpGroup(),
-              change.getSmpOrderId(),
-              new Date(Long.parseLong(change.getUpdatedTime())));
-
-      result.add(orderChanges);
     }
     return result;
   }

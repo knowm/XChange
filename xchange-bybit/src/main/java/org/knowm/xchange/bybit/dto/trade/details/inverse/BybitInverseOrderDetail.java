@@ -41,9 +41,6 @@ public class BybitInverseOrderDetail extends BybitOrderDetail {
   @JsonProperty("cumExecValue")
   BigDecimal cumExecValue;
 
-  @JsonProperty("cumExecFee")
-  BigDecimal cumExecFee;
-
   @JsonProperty("timeInForce")
   String timeInForce;
 
@@ -112,7 +109,4 @@ public class BybitInverseOrderDetail extends BybitOrderDetail {
 
   @JsonProperty("createType")
   String createType;
-
-  @JsonProperty("marketUnit")
-  String marketUnit;
 }

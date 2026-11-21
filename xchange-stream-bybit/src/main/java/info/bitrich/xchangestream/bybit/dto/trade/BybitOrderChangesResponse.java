@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.bybit.dto.trade;
 
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.trade.BybitOrderStatus;
@@ -62,6 +63,7 @@ public class BybitOrderChangesResponse {
     private String smpType;
     private int smpGroup;
     private String smpOrderId = "";
+    private Map<String, String> cumFeeDetail;
     private String createdTime;
     private String updatedTime;
   }

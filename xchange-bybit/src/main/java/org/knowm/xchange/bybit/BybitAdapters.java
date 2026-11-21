@@ -1,5 +1,18 @@
 package org.knowm.xchange.bybit;
 
+import static org.knowm.xchange.bybit.dto.BybitCategory.*;
+import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
+import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
 import org.knowm.xchange.bybit.dto.BybitCategory;
 import org.knowm.xchange.bybit.dto.BybitResult;
 import org.knowm.xchange.bybit.dto.account.allcoins.BybitAllCoinBalance;
@@ -41,20 +54,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OrderHedgeMode;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.*;
-
-import static org.knowm.xchange.bybit.dto.BybitCategory.INVERSE;
-import static org.knowm.xchange.bybit.dto.BybitCategory.OPTION;
-import static org.knowm.xchange.bybit.dto.marketdata.instruments.option.BybitOptionInstrumentInfo.OptionType.CALL;
-import static org.knowm.xchange.dto.trade.OrderHedgeMode.TWOWAY;
 
 public class BybitAdapters {
 
@@ -286,35 +285,139 @@ public class BybitAdapters {
 
   public static Order adaptBybitOrderDetails(
       BybitOrderDetail bybitOrderResult, BybitCategory category) {
+    Instrument instrument = convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(), category);
     Order.Builder builder;
 
     switch (bybitOrderResult.getOrderType()) {
       case MARKET:
-        builder =
-            new MarketOrder.Builder(
-                adaptOrderType(bybitOrderResult),
-                convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(), category));
+        builder = new MarketOrder.Builder(adaptOrderType(bybitOrderResult), instrument);
         break;
       case LIMIT:
         builder =
-            new LimitOrder.Builder(
-                    adaptOrderType(bybitOrderResult),
-                    convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(), category))
+            new LimitOrder.Builder(adaptOrderType(bybitOrderResult), instrument)
                 .limitPrice(bybitOrderResult.getPrice());
         break;
       default:
         throw new IllegalStateException("Unexpected value: " + bybitOrderResult.getOrderType());
     }
 
+    String feeCurrency = bybitOrderResult.getFeeCurrency();
+    // cumFeeDetail is the authoritative fee source for linear/spot; Order supports only a single
+    // fee amount, so the first map entry is used for fee/feeCurrency
+    Map.Entry<String, String> feeDetail = firstFeeDetail(bybitOrderResult.getCumFeeDetail());
+    BigDecimal fee =
+        feeDetail != null
+            ? parseBigDecimalOrNull(feeDetail.getValue())
+            : bybitOrderResult.getCumExecFee();
+    String effectiveFeeCurrency = feeDetail != null ? feeDetail.getKey() : feeCurrency;
+
     return builder
         .orderType(getOrderType(bybitOrderResult.getSide()))
-        .originalAmount(bybitOrderResult.getQty())
-        .cumulativeAmount(bybitOrderResult.getCumExecQty())
+        .originalAmount(
+            adaptOriginalAmount(
+                category,
+                bybitOrderResult.getOrderType(),
+                bybitOrderResult.getSide(),
+                bybitOrderResult.getMarketUnit(),
+                bybitOrderResult.getQty(),
+                bybitOrderResult.getAvgPrice()))
+        .cumulativeAmount(
+            adaptCumulativeAmount(
+                category,
+                bybitOrderResult.getSide(),
+                instrument,
+                bybitOrderResult.getCumExecQty(),
+                bybitOrderResult.getCumExecFee(),
+                bybitOrderResult.getCumFeeDetail(),
+                feeCurrency))
+        .fee(fee)
         .id(bybitOrderResult.getOrderId())
         .timestamp(bybitOrderResult.getCreatedTime())
         .averagePrice(bybitOrderResult.getAvgPrice())
         .orderStatus(adaptBybitOrderStatus(bybitOrderResult.getOrderStatus()))
+        .feeCurrency(
+            effectiveFeeCurrency == null || effectiveFeeCurrency.isEmpty()
+                ? null
+                : new Currency(effectiveFeeCurrency))
         .build();
+  }
+
+  /**
+   * For spot buy orders Bybit charges the trading fee in the received (base) currency, so the
+   * amount actually credited is the filled quantity reduced by the fee. {@code cumExecQty} is the
+   * gross filled quantity, therefore the fee is subtracted from it only when it is charged in the
+   * base currency of the instrument.
+   *
+   * <p>{@code cumFeeDetail} (a "currency -> fee" map) is the authoritative fee source for
+   * linear/spot: when it is present, only its base-currency entry is deducted. {@code cumExecFee}
+   * and {@code feeCurrency} are deprecated for linear/spot and are used as a fallback only when
+   * {@code cumFeeDetail} is absent (older responses).
+   */
+  public static BigDecimal adaptCumulativeAmount(
+      BybitCategory category,
+      BybitSide side,
+      Instrument instrument,
+      BigDecimal cumExecQty,
+      BigDecimal cumExecFee,
+      Map<String, String> cumFeeDetail,
+      String feeCurrency) {
+    if (cumExecQty == null) {
+      return null;
+    }
+    if (category == SPOT && side == BybitSide.BUY && instrument instanceof CurrencyPair) {
+      String baseCurrency = ((CurrencyPair) instrument).getBase().getCurrencyCode();
+      if (cumFeeDetail != null && !cumFeeDetail.isEmpty()) {
+        BigDecimal feeInBaseCurrency = parseBigDecimalOrNull(cumFeeDetail.get(baseCurrency));
+        // no entry for the base currency means the fee was charged in other coins
+        return feeInBaseCurrency == null ? cumExecQty : cumExecQty.subtract(feeInBaseCurrency);
+      }
+      if (cumExecFee != null
+          && feeCurrency != null
+          && !feeCurrency.isEmpty()
+          && feeCurrency.equals(baseCurrency)) {
+        return cumExecQty.subtract(cumExecFee);
+      }
+    }
+    return cumExecQty;
+  }
+
+  /** Returns the first entry of Bybit's {@code cumFeeDetail} map, or null when it is empty. */
+  public static Map.Entry<String, String> firstFeeDetail(Map<String, String> cumFeeDetail) {
+    if (cumFeeDetail == null || cumFeeDetail.isEmpty()) {
+      return null;
+    }
+    return cumFeeDetail.entrySet().iterator().next();
+  }
+
+  public static BigDecimal parseBigDecimalOrNull(String value) {
+    return value == null || value.isEmpty() ? null : new BigDecimal(value);
+  }
+
+  /**
+   * Bybit spot market buy orders are created "by value" by default: their {@code qty} is
+   * denominated in the quote currency (see the {@code marketUnit} field, {@code quoteCoin} is the
+   * default for market buys, {@code baseCoin} for market sells). XChange expects order amounts in
+   * the base currency, so the quote amount is converted using the average fill price, but only once
+   * the order has fills (fully or partially filled). An unexecuted market buy keeps its raw {@code
+   * qty}, because there is no fill price to convert it by.
+   */
+  public static BigDecimal adaptOriginalAmount(
+      BybitCategory category,
+      BybitOrderType orderType,
+      BybitSide side,
+      String marketUnit,
+      BigDecimal qty,
+      BigDecimal avgPrice) {
+    if (category == SPOT
+        && orderType == BybitOrderType.MARKET
+        && qty != null
+        && avgPrice != null
+        && avgPrice.compareTo(BigDecimal.ZERO) > 0
+        && ("quoteCoin".equals(marketUnit)
+            || (marketUnit == null || marketUnit.isEmpty()) && side == BybitSide.BUY)) {
+      return qty.divide(avgPrice, MathContext.DECIMAL128);
+    }
+    return qty;
   }
 
   private static OrderType adaptOrderType(BybitOrderDetail bybitOrderResult) {
@@ -506,6 +609,7 @@ public class BybitAdapters {
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
+    if (category.equals(SPOT)) payload.setMarketUnit("baseCoin");
     payload.setTimeInForce(BybitTimeInForce.IOC.getValue());
     return payload;
   }
