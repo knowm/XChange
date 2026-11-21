@@ -10,6 +10,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.AbstractResilienceTest;
@@ -21,15 +22,14 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OrderHedgeMode;
 
-import java.math.BigDecimal;
-
 /**
  * Regression tests for order placement in Binance hedge (dual-side) mode. Binance rejects requests
  * that send {@code reduceOnly} together with {@code positionSide} ("Cannot send this parameter in
  * Hedge Mode"), so in hedge mode the request must carry {@code positionSide} only, while one-way
  * mode must keep translating exit orders into {@code reduceOnly}.
  *
- * @see <a href="https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api">New
+ * @see <a
+ *     href="https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api">New
  *     Order (Trade - Futures USDⓈ-M REST API)</a>
  */
 class TradeServiceHedgeModeOrderTest extends AbstractResilienceTest {

@@ -4,6 +4,10 @@ import info.bitrich.xchangestream.binance.dto.market.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.market.DepthBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.trade.BinanceWebsocketOrderAmendPayload;
 import info.bitrich.xchangestream.binance.dto.trade.BinanceWebsocketPlaceOrderPayload;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
@@ -14,11 +18,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.instrument.Instrument;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class BinanceStreamingAdapters {
 

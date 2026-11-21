@@ -1,5 +1,14 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceAdapters.getOrderFlag;
+import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Value;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
@@ -21,16 +30,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.*;
 import org.knowm.xchange.utils.Assert;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.knowm.xchange.binance.BinanceAdapters.getOrderFlag;
-import static org.knowm.xchange.binance.BinanceExchange.EXCHANGE_TYPE;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
@@ -150,8 +149,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         // so it must not be sent at all in that case
         Boolean reduceOnly =
             positionSide == null
-                ? order.hasFlag(
-                    org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY)
+                ? order.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.REDUCE_ONLY)
                 : null;
         if (exchange.isPortfolioMarginEnabled()) {
           if (BinanceAdapters.isInverse(order.getInstrument())) {

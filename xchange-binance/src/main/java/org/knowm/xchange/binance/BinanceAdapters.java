@@ -713,15 +713,15 @@ public class BinanceAdapters {
       switch (order.getType()) {
         case ASK:
         case EXIT_ASK:
-        {
-          positionSide = "SHORT";
-          break;
-        }
+          {
+            positionSide = "SHORT";
+            break;
+          }
         case BID:
         case EXIT_BID:
-        {
-          break;
-        }
+          {
+            break;
+          }
       }
     }
     return positionSide;
