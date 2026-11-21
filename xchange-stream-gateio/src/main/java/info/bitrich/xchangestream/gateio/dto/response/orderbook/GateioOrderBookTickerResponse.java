@@ -2,13 +2,14 @@ package info.bitrich.xchangestream.gateio.dto.response.orderbook;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.Getter;
 
 @Getter
 public class GateioOrderBookTickerResponse {
 
   @JsonProperty("t")
-  private Long timestamp;
+  private Instant timestamp;
 
   @JsonProperty("u")
   private String updateId;

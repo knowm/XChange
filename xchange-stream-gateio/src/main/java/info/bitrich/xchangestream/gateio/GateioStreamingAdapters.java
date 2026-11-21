@@ -17,6 +17,7 @@ import info.bitrich.xchangestream.gateio.dto.response.usertrade.GateioSingleUser
 import info.bitrich.xchangestream.gateio.dto.response.usertrade.UserTradePayload;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
