@@ -324,26 +324,18 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .call();
   }
 
-  public BinanceChangeStatus setDualSidePositionRaw(boolean dualSidePosition) throws IOException {
-    try {
-      return decorateApiCall(
-              () ->
-                  binanceFutures.setDualSidePosition(
-                      dualSidePosition,
-                      getRecvWindow(),
-                      getTimestampFactory(),
-                      apiKey,
-                      signatureCreator))
-          .withRetry(retry("setDualSidePosition"))
-          .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-          .call();
-    } catch (BinanceException e) {
-      if (e.getCode() == -4059) {
-        //{"code":-4059,"msg":"No need to change position side."}
-        return new BinanceChangeStatus(-4059, e.getMessage());
-      }
-      throw e;
-    }
+  public BinanceChangeStatus setDualSidePosition(boolean dualSidePosition) throws IOException {
+    return decorateApiCall(
+            () ->
+                binanceFutures.setDualSidePosition(
+                    dualSidePosition,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("setDualSidePosition"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
   }
 
   public BinanceSetLeverage setLeverageRaw(Instrument instrument, int leverage) throws IOException {

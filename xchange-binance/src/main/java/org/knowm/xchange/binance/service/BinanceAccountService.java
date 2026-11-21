@@ -558,11 +558,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
   }
 
-  public boolean setDualSidePosition(boolean dualSidePosition) throws IOException {
+  public boolean setDualSidePositionMode(boolean dualSidePosition) throws IOException {
     try {
-      var result = super.setDualSidePositionRaw(dualSidePosition);
-      return result.isSuccess() || result.getCode() == -4059;
+      return super.setDualSidePosition(dualSidePosition).isSuccess();
     } catch (BinanceException e) {
+      if (e.getCode() == -4059) {
+        //{"code":-4059,"msg":"No need to change position side."}: the requested mode is already set
+        return true;
+      }
       throw BinanceErrorAdapter.adapt(e);
     }
   }

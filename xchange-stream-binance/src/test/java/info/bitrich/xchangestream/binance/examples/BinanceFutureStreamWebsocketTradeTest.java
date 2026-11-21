@@ -67,7 +67,7 @@ class BinanceFutureStreamWebsocketTradeTest {
       Thread.sleep(100L);
     }
     // switch mode to two-way
-    ((BinanceAccountService) exchange.getAccountService()).setDualSidePosition(true);
+    ((BinanceAccountService) exchange.getAccountService()).setDualSidePositionMode(true);
     Ticker ticker = exchange.getMarketDataService().getTicker(instrument);
     BigDecimal minAmount =
         exchange.getExchangeMetaData().getInstruments().get(instrument).getMinimumAmount();
@@ -190,7 +190,7 @@ class BinanceFutureStreamWebsocketTradeTest {
     Thread.sleep(1000);
     LOG.info("marketOrderCloseBid is disposed: {}", marketOrderCloseBidDisposable.isDisposed());
     // switch mode back to one-way
-    ((BinanceAccountService) exchange.getAccountService()).setDualSidePosition(false);
+    ((BinanceAccountService) exchange.getAccountService()).setDualSidePositionMode(false);
   }
 
   @Test

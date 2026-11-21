@@ -19,9 +19,9 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.ExchangeType;
 import org.knowm.xchange.binance.dto.account.BinanceFundingHistoryParams;
-import org.knowm.xchange.binance.dto.trade.futures.BinanceChangeStatus;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -294,7 +294,7 @@ public class AccountServiceTest {
     BinanceAccountService service = (BinanceAccountService) exchange.getAccountService();
     stubDualSidePosition("{\"code\":200,\"msg\":\"success\"}", 200);
 
-    boolean result = service.setDualSidePosition(true);
+    boolean result = service.setDualSidePositionMode(true);
     assertThat(result).isTrue();
   }
 
@@ -308,12 +308,13 @@ public class AccountServiceTest {
     BinanceAccountService service = (BinanceAccountService) exchange.getAccountService();
     stubDualSidePosition("{\"code\":-4059,\"msg\":\"No need to change position side.\"}", 400);
 
-    boolean result = service.setDualSidePosition(true);
+    boolean result = service.setDualSidePositionMode(true);
     assertThat(result).isTrue();
 
-    BinanceChangeStatus rawResult = service.setDualSidePositionRaw(true);
-    assertThat(rawResult.getCode()).isEqualTo(-4059);
-    assertThat(rawResult.getMsg()).contains("No need to change position side.");
+    // the raw service surfaces whatever the exchange returned
+    Throwable rawException = catchThrowable(() -> service.setDualSidePosition(true));
+    assertThat(rawException).isInstanceOf(BinanceException.class);
+    assertThat(((BinanceException) rawException).getCode()).isEqualTo(-4059);
   }
 
   @Test
@@ -326,7 +327,7 @@ public class AccountServiceTest {
     BinanceAccountService service = (BinanceAccountService) exchange.getAccountService();
     stubDualSidePosition("{\"code\":-4050,\"msg\":\"Position side does not match.\"}", 400);
 
-    Throwable exception = catchThrowable(() -> service.setDualSidePosition(true));
+    Throwable exception = catchThrowable(() -> service.setDualSidePositionMode(true));
     assertThat(exception).isInstanceOf(ExchangeException.class);
   }
 
