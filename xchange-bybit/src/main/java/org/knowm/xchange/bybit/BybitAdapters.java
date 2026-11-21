@@ -285,8 +285,7 @@ public class BybitAdapters {
 
   public static Order adaptBybitOrderDetails(
       BybitOrderDetail bybitOrderResult, BybitCategory category) {
-    Instrument instrument =
-        convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(), category);
+    Instrument instrument = convertBybitSymbolToInstrument(bybitOrderResult.getSymbol(), category);
     Order.Builder builder;
 
     switch (bybitOrderResult.getOrderType()) {
@@ -365,9 +364,7 @@ public class BybitAdapters {
     if (cumExecQty == null) {
       return null;
     }
-    if (category == SPOT
-        && side == BybitSide.BUY
-        && instrument instanceof CurrencyPair) {
+    if (category == SPOT && side == BybitSide.BUY && instrument instanceof CurrencyPair) {
       String baseCurrency = ((CurrencyPair) instrument).getBase().getCurrencyCode();
       if (cumFeeDetail != null && !cumFeeDetail.isEmpty()) {
         BigDecimal feeInBaseCurrency = parseBigDecimalOrNull(cumFeeDetail.get(baseCurrency));
@@ -397,12 +394,12 @@ public class BybitAdapters {
   }
 
   /**
-   * Bybit spot market buy orders are created "by value" by default: their {@code qty} is denominated
-   * in the quote currency (see the {@code marketUnit} field, {@code quoteCoin} is the default for
-   * market buys, {@code baseCoin} for market sells). XChange expects order amounts in the base
-   * currency, so the quote amount is converted using the average fill price, but only once the order
-   * has fills (fully or partially filled). An unexecuted market buy keeps its raw {@code qty},
-   * because there is no fill price to convert it by.
+   * Bybit spot market buy orders are created "by value" by default: their {@code qty} is
+   * denominated in the quote currency (see the {@code marketUnit} field, {@code quoteCoin} is the
+   * default for market buys, {@code baseCoin} for market sells). XChange expects order amounts in
+   * the base currency, so the quote amount is converted using the average fill price, but only once
+   * the order has fills (fully or partially filled). An unexecuted market buy keeps its raw {@code
+   * qty}, because there is no fill price to convert it by.
    */
   public static BigDecimal adaptOriginalAmount(
       BybitCategory category,
@@ -651,7 +648,6 @@ public class BybitAdapters {
     if (reduceOnly) {
       payload.setReduceOnly("true");
     }
-    if (category.equals(SPOT)) payload.setMarketUnit("baseCoin");
     payload.setTimeInForce(timeInForce.getValue());
     return payload;
   }
